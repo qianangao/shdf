@@ -1,0 +1,98 @@
+@import '~antd/es/style/themes/default.less';
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+.icon {
+  width: 1em;
+  height: 1em;
+  overflow: hidden;
+  vertical-align: -0.15em;
+  fill: currentColor;
+}
+
+&::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  background: transparent;
+}
+
+&::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 3px;
+}
+
+&:hover::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.12);
+  box-shadow: inset 0 0 5px rgba(0, 21, 41, 0.05);
+}
+
+&:hover::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.06);
+  box-shadow: inset 0 0 5px rgba(0, 21, 41, 0.05);
+}
+
+.colorWeak {
+  filter: invert(80%);
+}
+
+.ant-layout {
+  min-height: 100vh;
+}
+
+canvas {
+  display: block;
+}
+
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+@media (max-width: @screen-xs) {
+  .ant-table {
+    width: 100%;
+    overflow-x: auto;
+    &-thead > tr,
+    &-tbody > tr {
+      > th,
+      > td {
+        white-space: pre;
+        > span {
+          display: block;
+        }
+      }
+    }
+  }
+}
+
+// 兼容IE11
+@media screen and(-ms-high-contrast: active), (-ms-high-contrast: none) {
+  body .ant-design-pro > .ant-layout {
+    min-height: 100vh;
+  }
+}
+
+.ant-pro-table .ant-pro-table-alert {
+  padding: 0 20px;
+}
+
+.ant-menu-item.ant-menu-item-only-child > a > span:not(.ant-pro-menu-item) {
+  padding-left: 8px;
+}
+.tangram-suggestion-main {
+  z-index: 9999999999;
+}
+.ant-pro-top-nav-header-logo h1 {
+  margin-right: 20px;
+  font-size: 20px;
+}
