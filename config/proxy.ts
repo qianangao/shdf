@@ -7,10 +7,10 @@
  */
 export default {
   dev: {
-    '/api/': {
-      target: 'https://preview.pro.ant.design',
+    '/shdf-server': {
+      target: 'http://10.92.120.127:8877',
       changeOrigin: true,
-      pathRewrite: { '^': '' },
+      pathRewrite: { '^/shdf-server': '' },
     },
   },
   test: {

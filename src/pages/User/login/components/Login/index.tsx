@@ -91,7 +91,7 @@ const Login: LoginType = props => {
                 destroyInactiveTabPane
                 animated={false}
                 className={styles.tabs}
-                activeKey={type}
+                activeKey={activeKey}
                 onChange={activeKey => {
                   setType(activeKey);
                 }}

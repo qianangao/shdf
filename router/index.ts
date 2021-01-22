@@ -1,4 +1,11 @@
 // umi routes: https://umijs.org/zh/guide/router.html
+import SynergyOffice from './synergy-office';
+import ThreadMgt from './thread-mgt';
+import CaseMgt from './case-mgt';
+import SensitiveEventMgt from './sensitive-event-mgt';
+import EngineeringMgt from './engineering-mgt';
+import BanpublishMgt from './banpublish-mgt';
+import Analysis from './analysis';
 import SystemMgt from './system-mgt';
 
 const router = [
@@ -40,6 +47,13 @@ const router = [
                 component: './home',
                 remark: '首页',
               },
+              SynergyOffice,
+              ThreadMgt,
+              CaseMgt,
+              SensitiveEventMgt,
+              EngineeringMgt,
+              BanpublishMgt,
+              Analysis,
               SystemMgt,
               {
                 component: './404',

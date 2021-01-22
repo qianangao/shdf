@@ -18,7 +18,7 @@ export default {
 
     if (password === md.md5('123456') && username === encrypt('admin')) {
       res.send({
-        code: 0,
+        code: 1,
         msg: 'success',
         data: {
           username: 'admin',
@@ -67,7 +67,7 @@ export default {
 
     if (password === md.md5('123456') && username === encrypt('user')) {
       res.send({
-        code: 0,
+        code: 1,
         msg: 'success',
         data: {
           username: 'user',

@@ -17,9 +17,10 @@ class NoticeIconView extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
     if (dispatch) {
-      dispatch({
-        type: 'global/refreshDownloadFiles',
-      });
+      // TODO 待确认消息通知方案
+      // dispatch({
+      //   type: 'global/refreshDownloadFiles',
+      // });
     }
   }
 
