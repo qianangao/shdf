@@ -1,6 +1,7 @@
 /lambda/
 /scripts
 /config
+/.umi
 .history
 **/iconfont/*
 **/iconfont.js
