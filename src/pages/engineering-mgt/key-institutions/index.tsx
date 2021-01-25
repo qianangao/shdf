@@ -28,6 +28,4 @@ const KeyInstitutions = ({ dispatch }) => {
   );
 };
 
-export default connect(({ orgTree }) => ({
-  orgTree,
-}))(KeyInstitutions);
+export default connect(() => ({}))(KeyInstitutions);
