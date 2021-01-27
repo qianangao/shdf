@@ -16,7 +16,7 @@ export async function getDictionary(params) {
  * @param {*} params 登陆信息
  */
 export async function uploadFile(params) {
-  return request('/ceph', {
+  return request('/api/addressBook/import', {
     method: 'POST',
     data: params,
   });

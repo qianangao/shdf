@@ -2,30 +2,37 @@ import React from 'react';
 import { Button, Popconfirm } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
+import UploadInput from '@/components/UploadInput';
 
 const Table = ({ emAddressBook, openModifyModal, dispatch }) => {
   const { tableRef } = emAddressBook;
 
+  const deleteAddressBook = orgId => {
+    dispatch({
+      type: 'emAddressBook/deleteAddressBook',
+      payload: { orgId },
+    });
+  };
+
   const columns = [
-    { title: '姓名', align: 'center', dataIndex: 'orgName' },
-    { title: '性别', align: 'center', dataIndex: 'orgNameEn', hideInSearch: true },
+    { title: '姓名', align: 'center', dataIndex: 'userName' },
+    { title: '性别', align: 'center', dataIndex: 'gender', hideInSearch: true },
     {
       title: '所属部门',
       align: 'center',
-      dataIndex: 'orgCode',
-      valueEnum: {
-        付小小: { text: '付小小' },
-        曲丽丽: { text: '曲丽丽' },
-        林东东: { text: '林东东' },
-        陈帅帅: { text: '陈帅帅' },
-        兼某某: { text: '兼某某' },
-      },
+      dataIndex: 'userDept',
+      // valueEnum: {
+      //   付小小: { text: '付小小' },
+      //   曲丽丽: { text: '曲丽丽' },
+      //   林东东: { text: '林东东' },
+      //   陈帅帅: { text: '陈帅帅' },
+      //   兼某某: { text: '兼某某' },
+      // },
     },
-    { title: '当前职务', align: 'center', dataIndex: 'category', hideInSearch: true },
-    { title: '手机号', align: 'center', dataIndex: 'area', hideInSearch: true },
-    { title: '办公电话', align: 'center', dataIndex: 'description', hideInSearch: true },
-    { title: '邮箱', align: 'center', dataIndex: 'address', hideInSearch: true },
-    { title: '英文地址', align: 'center', dataIndex: 'addressEn', hideInSearch: true },
+    { title: '当前职务', align: 'center', dataIndex: 'job', hideInSearch: true },
+    { title: '手机号', align: 'center', dataIndex: 'phoneNumber', hideInSearch: true },
+    { title: '办公电话', align: 'center', dataIndex: 'officeTelephone', hideInSearch: true },
+    { title: '邮箱', align: 'center', dataIndex: 'mailbox', hideInSearch: true },
     {
       title: '操作',
       valueType: 'option',
@@ -34,11 +41,11 @@ const Table = ({ emAddressBook, openModifyModal, dispatch }) => {
       width: 180,
       fixed: 'right',
       render: (dom, data) => [
-        <a key={`${data.orgId}up`} onClick={() => openModifyModal(data)}>
+        <a key={`${data.bookId}up`} onClick={() => openModifyModal(data)}>
           修改
         </a>,
         <Popconfirm
-          key={`${data.orgId}del`}
+          key={`${data.bookId}del`}
           title="确认删除该重点机构吗？"
           placement="topRight"
           onConfirm={() => deleteAddressBook(data.orgId)}
@@ -57,13 +64,6 @@ const Table = ({ emAddressBook, openModifyModal, dispatch }) => {
         resolve,
       });
     });
-
-  const deleteAddressBook = orgId => {
-    dispatch({
-      type: 'emAddressBook/deleteAddressBook',
-      payload: { orgId },
-    });
-  };
 
   const templateDownload = () => {
     dispatch({
@@ -90,7 +90,7 @@ const Table = ({ emAddressBook, openModifyModal, dispatch }) => {
           新增
         </Button>,
         <Button onClick={() => templateDownload()}>模板下载</Button>,
-        <Button type="primary">导入</Button>,
+        <UploadInput type="excel" />,
         selectedRowKeys && selectedRowKeys.length && (
           <Button type="primary" onClick={() => exportAddressBook(selectedRowKeys)}>
             导出

@@ -63,7 +63,6 @@ const Model = {
       if (!response.error) {
         resolve && resolve(response);
         message.success('重点机构新增成功！');
-
         yield put({
           type: 'tableReload',
         });
@@ -74,7 +73,6 @@ const Model = {
       if (!response.error) {
         resolve && resolve(response);
         message.success('重点机构信息修改成功！');
-
         yield put({
           type: 'tableReload',
         });

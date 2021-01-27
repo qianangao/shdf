@@ -5,7 +5,7 @@ import request from '@/utils/request';
  * @param params
  */
 export async function getAddressBook(params: any) {
-  return request(`/central/org`, {
+  return request(`/api/addressBook/find`, {
     method: 'GET',
     params,
   });
@@ -36,6 +36,16 @@ export async function templateDownload() {
  */
 export async function exportAddressBook(params) {
   return request(`/central/org`, {
+    method: 'GET',
+    params,
+  });
+}
+/**
+ * 导入文件
+ * @param params
+ */
+export async function importAddressBook(params) {
+  return request(`/api/addressBook/import`, {
     method: 'POST',
     data: params,
   });
@@ -45,7 +55,7 @@ export async function exportAddressBook(params) {
  * @param params
  */
 export async function addAddressBook(params: any) {
-  return request(`/central/org`, {
+  return request(`/api/addressBook/add`, {
     method: 'POST',
     data: params,
   });
@@ -56,7 +66,7 @@ export async function addAddressBook(params: any) {
  * @param params
  */
 export async function updateAddressBook(params: any) {
-  return request(`/central/org`, {
+  return request(`/api/addressBook/update`, {
     method: 'PUT',
     data: params,
   });
@@ -67,7 +77,7 @@ export async function updateAddressBook(params: any) {
  * @param params
  */
 export async function deleteAddressBook(params: any) {
-  return request(`/central/org`, {
+  return request(`/api/addressBook/delete`, {
     method: 'DELETE',
     data: params,
   });
