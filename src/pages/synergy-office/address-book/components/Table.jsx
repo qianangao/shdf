@@ -3,6 +3,7 @@ import { Button, Popconfirm } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import UploadInput from '@/components/UploadInput';
+import DepartmentTree from './departmentTree';
 
 const Table = ({ emAddressBook, openModifyModal, dispatch }) => {
   const { tableRef } = emAddressBook;
@@ -78,27 +79,31 @@ const Table = ({ emAddressBook, openModifyModal, dispatch }) => {
     });
   };
   return (
-    <ProTable
-      rowKey="orgId"
-      headerTitle="人员列表"
-      actionRef={tableRef}
-      rowSelection={[]}
-      scroll={{ x: 'max-content' }}
-      request={async params => getAddressBook(params)}
-      toolBarRender={(_, { selectedRowKeys }) => [
-        <Button type="primary" onClick={() => openModifyModal()}>
-          新增
-        </Button>,
-        <Button onClick={() => templateDownload()}>模板下载</Button>,
-        <UploadInput type="excel" />,
-        selectedRowKeys && selectedRowKeys.length && (
-          <Button type="primary" onClick={() => exportAddressBook(selectedRowKeys)}>
-            导出
-          </Button>
-        ),
-      ]}
-      columns={columns}
-    />
+    <div style={{ display: 'flex' }}>
+      <DepartmentTree style={{ width: '350px', height: '100%', border: '1px solid #000' }} />
+      <ProTable
+        style={{ flex: 1 }}
+        rowKey="orgId"
+        headerTitle="人员列表"
+        actionRef={tableRef}
+        rowSelection={[]}
+        scroll={{ x: 'max-content' }}
+        request={async params => getAddressBook(params)}
+        toolBarRender={(_, { selectedRowKeys }) => [
+          <Button type="primary" onClick={() => openModifyModal()}>
+            新增
+          </Button>,
+          <Button onClick={() => templateDownload()}>模板下载</Button>,
+          <UploadInput type="excel" />,
+          selectedRowKeys && selectedRowKeys.length && (
+            <Button type="primary" onClick={() => exportAddressBook(selectedRowKeys)}>
+              导出
+            </Button>
+          ),
+        ]}
+        columns={columns}
+      />
+    </div>
   );
 };
 

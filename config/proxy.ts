@@ -7,24 +7,12 @@
  */
 export default {
   dev: {
-    '/shdf-server': {
-      target: 'http://10.92.119.56:8877',
-      changeOrigin: true,
-      pathRewrite: { '^/shdf-server': '' },
-    },
-  },
-  test: {
-    '/api/': {
-      target: 'https://preview.pro.ant.design',
+    '/shdf/': {
+      target: 'http://10.92.119.56:8877/',
       changeOrigin: true,
       pathRewrite: { '^': '' },
     },
   },
-  pre: {
-    '/api/': {
-      target: 'your pre url',
-      changeOrigin: true,
-      pathRewrite: { '^': '' },
-    },
-  },
+  test: {},
+  pre: {},
 };

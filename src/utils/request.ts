@@ -25,6 +25,14 @@ const codeMessage = {
   504: '网关超时。',
 };
 
+// 10000	成功
+// 20001	用户未登录
+// 20002	账号不存在或密码错误
+// 20003	账号已被禁用
+// 20004	用户不存在
+// 20005	用户已存在
+// 30001	无访问权限
+
 /**
  * 异常处理程序
  */
@@ -34,7 +42,7 @@ const errorHandler = error => {
 
   if (response && response.status) {
     const errorText = msg || codeMessage[response.status];
-    if (response.status === 403 || data.code === 10050 || data.code === 10021) {
+    if (response.status === 403 || data.code === 20001 || data.code === 20003) {
       // token过期
       removeCookie(TOKEN_KEY);
       requestConfig.extendOptions({
@@ -71,15 +79,15 @@ const errorHandler = error => {
   return { data, error: true };
 };
 
-export const BASE_URL = process.env.USE_MOCK ? '' : '/shdf-server';
+export const BASE_URL = process.env.USE_MOCK ? '' : '/shdf';
 
 /**
  * 配置request请求时的默认参数
  */
 export const requestConfig = extend({
   // ’prefix‘ 前缀，统一设置 url 前缀
-  // ( e.g. request('/user/save', { prefix: '/api/v1' }) => request('/api/v1/user/save') )
-  prefix: process.env.USE_MOCK ? '' : `${BASE_URL}`,
+  // prefix: process.env.USE_MOCK ? '' : `${BASE_URL}`,
+  prefix: '/shdf',
   headers: {
     token: getCookie(TOKEN_KEY) || '',
     appMark: 'PC',
@@ -90,7 +98,7 @@ export const requestConfig = extend({
 
 const request = (url: string, config: any) =>
   requestConfig(url, config).then((res: any) => {
-    if (res.code === 1) {
+    if (res.code === 10000) {
       return res.data || {};
     }
     return res;
@@ -101,7 +109,7 @@ export const noErrorRequest = (url: string, config: any) =>
     errorHandler: null,
     ...config,
   }).then((res: any) => {
-    if (res.code === 1) {
+    if (res.code === 10000) {
       return res.data || {};
     }
     return res;
@@ -121,7 +129,7 @@ requestConfig.interceptors.response.use(async (response, options) => {
   const data = await response.clone().json();
 
   // 业务异常，抛出请求体，进入异常处理程序
-  if (data.code !== 1) {
+  if (data.code !== 10000) {
     const error = {
       response,
       data,
