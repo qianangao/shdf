@@ -1,6 +1,6 @@
 import React from 'react';
 import AdvancedForm from '@/components/AdvancedForm';
-import { Col, Input, Radio, Row } from 'antd';
+import { Radio } from 'antd';
 import Button from 'antd/es/button';
 
 const InstitutionForm = ({ form }) => {
@@ -20,22 +20,14 @@ const InstitutionForm = ({ form }) => {
       name: 'publishDept',
       span: 3,
       rules: [{ required: true, message: '请输入发布部门!' }],
-      render: (
-        <Row>
-          <Col span={12}>
-            <Input disabled value="全国SHDF办公室" />
-          </Col>
-          <Col span={6}>
-            <span style={{ marginLeft: 15 }}>备注：默认不可进行修改</span>
-          </Col>
-        </Row>
-      ),
+      initialValue: '全国SHDF办公室',
+      disabled: true,
     },
     {
       label: '可见范围',
-      name: 'orgCode',
+      name: 'visibleRange',
       span: 3,
-      rules: [{ required: true, message: '请选择可见范围!' }],
+      // rules: [{ required: true, message: '请选择可见范围!' }],
       render: <Button>设置公告可见范围</Button>,
     },
     {
@@ -61,7 +53,7 @@ const InstitutionForm = ({ form }) => {
     },
     {
       label: '上传附件',
-      name: 'upload',
+      name: 'File',
       type: 'upload',
       span: 3,
     },

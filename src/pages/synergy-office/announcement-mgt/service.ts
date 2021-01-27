@@ -16,7 +16,7 @@ export async function getAnnouncementList(params: any) {
  * @param params
  */
 export async function getAnnouncementDetail(params: any) {
-  return request(`/notice/${params.id}`, {
+  return request(`/notice`, {
     method: 'GET',
     params,
   });
@@ -27,7 +27,7 @@ export async function getAnnouncementDetail(params: any) {
  * @param params
  */
 export async function addAnnouncement(params: any) {
-  return request(`/central/org`, {
+  return request(`/notice`, {
     method: 'POST',
     data: params,
   });
@@ -38,7 +38,27 @@ export async function addAnnouncement(params: any) {
  * @param params
  */
 export async function updateAnnouncement(params: any) {
-  return request(`/central/org`, {
+  return request(`/notice`, {
+    method: 'PUT',
+    data: params,
+  });
+}
+/**
+ * 删除公告信息
+ * @param params
+ */
+export async function deleteAnnouncement(params: any) {
+  return request(`/notice`, {
+    method: 'DELETE',
+    data: params,
+  });
+}
+/**
+ * 发布公告信息
+ * @param params
+ */
+export async function publishAnnouncement(params: any) {
+  return request(`/notice/publish`, {
     method: 'PUT',
     data: params,
   });

@@ -4,6 +4,8 @@ import {
   getAnnouncementDetail,
   addAnnouncement,
   updateAnnouncement,
+  deleteAnnouncement,
+  publishAnnouncement,
 } from './service';
 
 const Model = {
@@ -24,9 +26,9 @@ const Model = {
       const response = yield call(getAnnouncementList, params);
 
       if (!response.error) {
-        const { data, page, total } = response;
+        const { records, page, total } = response;
         const result = {
-          data: data.records,
+          data: records,
           page,
           pageSize: payload.pageSize,
           success: true,
@@ -68,12 +70,33 @@ const Model = {
         });
       }
     },
-
     *updateAnnouncement({ payload, resolve }, { call, put }) {
       const response = yield call(updateAnnouncement, payload);
       if (!response.error) {
         resolve && resolve(response);
         message.success('公告信息修改成功！');
+
+        yield put({
+          type: 'tableReload',
+        });
+      }
+    },
+    *deleteAnnouncement({ payload, resolve }, { call, put }) {
+      const response = yield call(deleteAnnouncement, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('公告信息删除成功！');
+
+        yield put({
+          type: 'tableReload',
+        });
+      }
+    },
+    *publishAnnouncement({ payload, resolve }, { call, put }) {
+      const response = yield call(publishAnnouncement, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('公告信息发布成功！');
 
         yield put({
           type: 'tableReload',

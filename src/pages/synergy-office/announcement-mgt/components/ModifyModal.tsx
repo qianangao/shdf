@@ -10,16 +10,16 @@ const ModifyModal = ({ dispatch, actionRef, loading, soAnnouncementMgt }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const showModal = (items: any) => {
+    form.resetFields();
     setDetailData(items || null);
     // if (items) form.setFieldsValue({ ...items });
-
     setModalVisible(true);
   };
 
   const getAnnouncemenDetails = (params: any) =>
     dispatch({
       type: 'soAnnouncementMgt/getAnnouncementDetail',
-      payload: { id: params },
+      payload: { noticeId: params },
     });
 
   useEffect((): void => {
@@ -50,9 +50,10 @@ const ModifyModal = ({ dispatch, actionRef, loading, soAnnouncementMgt }) => {
       .then(values => {
         return new Promise(resolve => {
           dispatch({
-            type: `emKeyInstitutions/${detailData ? 'updateKeyInstiton' : 'addKeyInstiton'}`,
+            type: `soAnnouncementMgt/${detailData ? 'updateAnnouncement' : 'addAnnouncement'}`,
             payload: {
               ...values,
+              includeFile: 0,
             },
             resolve,
           });

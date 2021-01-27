@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Modal } from 'antd';
+import { Button, Modal, Popconfirm } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 
@@ -44,21 +44,25 @@ const Table = ({ soAnnouncementMgt, openModifyModal, dispatch }) => {
       align: 'center',
       dataIndex: 'noticeStatus',
       valueEnum: {
-        ANNOUNCEMENT1: { text: '草稿' },
-        ANNOUNCEMENT2: { text: '审核中' },
-        ANNOUNCEMENT3: { text: '已通过' },
-        ANNOUNCEMENT4: { text: '已驳回' },
-        ANNOUNCEMENT5: { text: '已发布' },
-        ANNOUNCEMENT6: { text: '已撤回' },
-        ANNOUNCEMENT7: { text: '已关闭' },
-        ANNOUNCEMENT8: { text: '已接收' },
+        DRAFT: { text: '草稿' },
+        AUDIT: { text: '审核中' },
+        PASS: { text: '已通过' },
+        REJECT: { text: '已驳回' },
+        PUBLISH: { text: '已发布' },
+        WITHDRAWS: { text: '已撤回' },
+        CLOSE: { text: '已关闭' },
+        RECEIVE: { text: '已接收' },
       },
       render: (dom, data) => (
         <>
-          {data.noticeStatus === 2 ? <span>待发布</span> : ''}
-          {data.noticeStatus === 3 ? <span>待审核</span> : ''}
-          {data.noticeStatus === 5 ? <span>审核通过</span> : ''}
-          {data.noticeStatus === 6 ? <span>审核未通过</span> : ''}
+          {data.noticeStatus === 0 ? <span>草稿</span> : ''}
+          {data.noticeStatus === -1 ? <span>已驳回</span> : ''}
+          {data.noticeStatus === -3 ? <span>已撤回</span> : ''}
+          {data.noticeStatus === 1 ? <span>审核中</span> : ''}
+          {data.noticeStatus === 3 ? <span>已通过</span> : ''}
+          {data.noticeStatus === 5 ? <span>已发布</span> : ''}
+          {data.noticeStatus === 7 ? <span>已关闭</span> : ''}
+          {data.noticeStatus === 9 ? <span>已接收</span> : ''}
         </>
       ),
     },
@@ -77,17 +81,39 @@ const Table = ({ soAnnouncementMgt, openModifyModal, dispatch }) => {
           编辑
         </a>,
 
-        // <Popconfirm
-        //   key={`${data.orgId}del`}
-        //   title="确认删除该重点机构吗？"
-        //   placement="topRight"
-        //   onConfirm={() => deleteKeyInstiton(data.orgId)}
-        // >
-        //   <a>删除</a>
-        // </Popconfirm>,
+        <Popconfirm
+          key={`${data.orgId}del`}
+          title="确认发布该公告信息吗？"
+          placement="topRight"
+          onConfirm={() => publishAnnouncement(data.noticeId)}
+        >
+          <a>发布</a>
+        </Popconfirm>,
+        <Popconfirm
+          key={`${data.orgId}del`}
+          title="确认删除该公告信息吗？"
+          placement="topRight"
+          onConfirm={() => deleteAnnouncement(data.noticeId)}
+        >
+          <a>删除</a>
+        </Popconfirm>,
       ],
     },
   ];
+
+  const publishAnnouncement = noticeId => {
+    dispatch({
+      type: 'soAnnouncementMgt/publishAnnouncement',
+      payload: { noticeId, visibleRange: [] },
+    });
+  };
+
+  const deleteAnnouncement = noticeId => {
+    dispatch({
+      type: 'soAnnouncementMgt/deleteAnnouncement',
+      payload: { noticeId },
+    });
+  };
 
   const getAnnouncementList = params =>
     new Promise(resolve => {
