@@ -8,7 +8,7 @@
 export default {
   dev: {
     '/shdf-server': {
-      target: 'http://10.92.120.127:8877',
+      target: 'http://10.92.120.127:8877/shdf/',
       changeOrigin: true,
       pathRewrite: { '^/shdf-server': '' },
     },
