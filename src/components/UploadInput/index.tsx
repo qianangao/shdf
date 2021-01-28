@@ -55,11 +55,11 @@ const UploadInput = ({
 
     return isImage && isLt10M;
   };
-  const verifyVedioFile = file => {
-    const isVedio =
+  const verifyVideoFile = file => {
+    const isVideo =
       file.type === 'video/mp4' || file.type === 'video/flv' || file.type === 'video/avi';
 
-    if (!isVedio) {
+    if (!isVideo) {
       message.error('仅支持上传视频，请选择视频进行上传！');
     }
 
@@ -69,7 +69,7 @@ const UploadInput = ({
       message.error('视频大小不能超过 500MB!');
     }
 
-    return isVedio && isLt500M;
+    return isVideo && isLt500M;
   };
 
   const verifyFile = file => {
@@ -136,8 +136,8 @@ const UploadInput = ({
       shouldUpdate = verifyImgFile(file);
     } else if (type === 'excel') {
       shouldUpdate = verifyExcelFile(file);
-    } else if (type === 'vedio') {
-      shouldUpdate = verifyVedioFile(file);
+    } else if (type === 'video') {
+      shouldUpdate = verifyVideoFile(file);
     } else {
       shouldUpdate = verifyFile(file);
     }
