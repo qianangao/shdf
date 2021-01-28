@@ -39,9 +39,9 @@ const Model = {
       if (!response.error) {
         selectData.loading = false;
         selectData.children = yield response.map(item => ({
-          label: item.organizationName,
-          value: item.id,
-          isLeaf: !item.isSubunit,
+          label: item.areaName,
+          value: item.areaId,
+          isLeaf: idArr.length === 3,
         }));
 
         if (!selectData.value) {

@@ -17,6 +17,7 @@ const proSettings: DefaultSettings = {
   menu: {
     locale: true,
   },
+  splitMenus: true,
 };
 
 export type { DefaultSettings };
