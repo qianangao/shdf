@@ -1,11 +1,11 @@
 import request from '@/utils/request';
 
 /**
- * 根据id获取组织树信息
+ * 根据id获取组织树信息（单级）
  * @param {*} params
  */
 export async function getOrgTreeById(params) {
-  return request(`/organization/directly-child/${params.id}`, {
+  return request(`/organization/directly-child`, {
     method: 'GET',
     params,
   });
@@ -27,11 +27,24 @@ export async function searchOrgTree(params) {
  * @param {*} params
  */
 export async function getAllOrgTree(params) {
-  return request(`/organization/child/${params.id}`, {
+  return request(`/organization/child`, {
     method: 'GET',
     params,
   });
 }
+
+/**
+ * 获取员工列表
+ * @param {*} params
+ */
+export async function getStaffList(params) {
+  return request('/users', {
+    method: 'GET',
+    params,
+  });
+}
+
+/* ================ other ========================== */
 
 /**
  * 新增组织
@@ -49,7 +62,7 @@ export async function addOrg(params) {
  * @param {*} params
  */
 export async function updateOrg(params) {
-  return request(`/organization/${params.id}`, {
+  return request(`/organization`, {
     method: 'PUT',
     data: params,
   });
@@ -82,7 +95,7 @@ export async function getOrgList(params) {
  * @param {*} params
  */
 export async function getOrgItem(params) {
-  return request(`/organization/${params.id}`, {
+  return request(`/organizationItem`, {
     method: 'GET',
     params,
   });

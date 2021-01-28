@@ -1,125 +1,156 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { Tree, Input } from 'antd';
-import { connect } from 'umi';
+import React, { useEffect, useState } from 'react';
+import { Tree } from 'antd';
+import { getOrgTreeById } from '@/services/orgTree';
 import styles from './index.less';
 
-const OrgTree = ({ value, onChange, orgTree, userInfo, allInValue, dispatch }) => {
-  const [hasSearch, setHasSearch] = useState(false);
-  const symbol = useRef(Symbol('OrgTree'));
-  const orgSymbol = symbol.current;
+const transformOrgTreeData = tree => {
+  const parentIds: any[] = [];
+  tree.map(node => {
+    if (node.children) {
+      parentIds.push(node.id);
+      parentIds.push(...transformOrgTreeData(node.children));
+    }
+    node.key = node.id || node.key;
+    node.title = node.organizationName || node.title;
+    node.isSubunit !== undefined && (node.isLeaf = !node.isSubunit);
+    return node;
+  });
 
-  const { searchOrgTreeData, orgTreeData, orgLoadedLoadedKeys, orgSelectedKeys, orgExpandedKeys } =
-    orgTree[orgSymbol] || {};
+  return parentIds;
+};
+
+const updateTreeData = (list, key, children) => {
+  return list.map((node: { key: any; children: any; [extra: string]: any }) => {
+    if (node.key === key) {
+      return {
+        ...node,
+        children,
+      };
+    }
+    if (node.children) {
+      return {
+        ...node,
+        children: updateTreeData(node.children, key, children),
+      };
+    }
+    return node;
+  });
+};
+
+const OrgTree = ({ value = '', onChange = null, allInValue = false }) => {
+  const [orgTreeData, setOrgTreeData] = useState<any>([]);
+  const [expandedKeys, setExpandedKeys] = useState<any>([]);
+  const [selectedKeys, setSelectedKeys] = useState<any>([]);
+  const [loadedKeys, setLoadedKeys] = useState<any>([]);
+
+  const getTreeData = (id = '') => {
+    return getOrgTreeById({ id }).then(data => {
+      const tempId = id || 'demoid';
+      if (!id) {
+        orgTreeData.push({
+          // TEMP 获取用户所在组织id title
+          key: tempId,
+          title: 'demo全扫',
+        });
+
+        setTimeout(() => {
+          setExpandedKeys([tempId]);
+          setSelectedKeys([tempId]);
+        }, 200);
+      }
+
+      setLoadedKeys([...loadedKeys, tempId]);
+      transformOrgTreeData(data);
+      const treeData = updateTreeData(orgTreeData, tempId, data);
+      setOrgTreeData(treeData);
+    });
+  };
 
   useEffect(() => {
-    dispatch({ type: 'orgTree/initTreeData', payload: { value }, orgSymbol });
-    dispatch({ type: 'orgTree/getOrgTreeById', orgSymbol });
-
-    const { organizationId, organizationName } = userInfo;
+    getTreeData();
 
     // 初始化组织树选择
     onChange &&
       onChange(
         allInValue
           ? {
-              key: organizationId,
-              title: organizationName,
+              // TEMP 获取用户所在组织id title
+              key: 'demoid',
+              title: 'demo全扫',
             }
-          : organizationId,
+          : 'demoid',
       );
-
-    return () => {
-      dispatch({ type: 'orgTree/destroyTree', orgSymbol });
-    };
   }, []);
 
-  const orgSearchHander = value0 => {
-    if (!value0) return;
-
-    setHasSearch(true);
-
-    dispatch({
-      type: 'orgTree/searchOrgTree',
-      orgSymbol,
-      payload: {
-        organizationName: value0,
-      },
-    });
-  };
-
-  const orgChangeHander = event => {
-    if (hasSearch && !event.target.value) {
-      dispatch({
-        type: 'orgTree/clearSearchData',
-        orgSymbol,
-      });
-
-      setHasSearch(false);
-    }
-  };
+  useEffect(() => {
+    setSelectedKeys([value]);
+  }, [value]);
 
   const orgExpandHandler = node => {
-    dispatch({
-      type: 'orgTree/saveOrgTree',
-      orgSymbol,
-      payload: {
-        orgExpandedKeys: node,
-      },
-    });
+    setExpandedKeys(node);
   };
-  const orgSelectHandler = (selectedKeys, { node }) => {
-    if (!selectedKeys[0]) return;
+  const orgSelectHandler = (keys, { node }) => {
+    if (!keys[0]) return;
 
-    dispatch({
-      type: 'orgTree/saveOrgTree',
-      orgSymbol,
-      payload: {
-        orgSelectedKeys: selectedKeys,
-      },
-    });
+    setSelectedKeys(keys);
 
-    onChange && onChange(allInValue ? node : selectedKeys[0]);
+    onChange && onChange(allInValue ? node : keys[0]);
   };
 
   const orgLoadDataHandler = treeNode => {
-    return new Promise(resolve => {
+    return new Promise<any>(resolve => {
       if (treeNode.children) {
-        resolve();
+        resolve(null);
         return;
       }
 
-      dispatch({
-        type: 'orgTree/getOrgTreeById',
-        orgSymbol,
-        payload: {
-          id: treeNode.id,
-        },
-        resolve,
-      });
+      getTreeData(treeNode.id).then(data => resolve(data));
     });
   };
   return (
     <div className={styles.treeContent}>
-      <Input.Search
+      {/*  TEMP 搜索逻辑预留  */}
+      {/* <Input.Search
         style={{ marginBottom: 8 }}
         placeholder="查询"
         onSearch={orgSearchHander}
         onChange={orgChangeHander}
-      />
+      /> */}
       <Tree
-        treeData={searchOrgTreeData || orgTreeData}
+        treeData={orgTreeData}
         loadData={orgLoadDataHandler}
-        loadedKeys={orgLoadedLoadedKeys}
+        loadedKeys={loadedKeys}
         onSelect={orgSelectHandler}
-        selectedKeys={orgSelectedKeys}
+        selectedKeys={selectedKeys}
         onExpand={orgExpandHandler}
-        expandedKeys={orgExpandedKeys}
+        expandedKeys={expandedKeys}
       />
     </div>
   );
 };
 
-export default connect(({ orgTree, user }) => ({
-  orgTree,
-  userInfo: user.userInfo,
-}))(OrgTree);
+export default OrgTree;
+
+/* TEMP 搜索逻辑预留 */
+// const [hasSearch, setHasSearch] = useState(false);
+
+// const orgSearchHander = value0 => {
+//   if (!value0) return;
+
+//   setHasSearch(true);
+
+//   // searchOrgTree({
+//   //   organizationName: value0,
+//   // }).then(data => setOrgTreeData(data));
+// };
+
+// const orgChangeHander = event => {
+//   if (hasSearch && !event.target.value) {
+//     dispatch({
+//       type: 'orgTree/clearSearchData',
+//       orgSymbol,
+//     });
+
+//     setHasSearch(false);
+//   }
+// };

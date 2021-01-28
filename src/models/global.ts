@@ -2,7 +2,6 @@ import { message } from 'antd';
 import {
   getDictionary,
   uploadFile,
-  uploadLocalFile,
   getDownloadFiles,
   deleteDownloadFiles,
 } from '@/services/global';
@@ -25,40 +24,41 @@ const GlobalModel = {
     *getEnums({ payload }, { put }) {
       const { names } = payload;
 
-      for (const name of names) {
+      for (const codeTypeNm of names) {
         yield put({
           type: 'getEnum',
-          payload: { name },
+          payload: { codeTypeNm },
         });
       }
     },
     *getEnum({ payload }, { call, put, select }) {
-      const { name } = payload;
+      const { codeTypeNm } = payload;
       const enums = yield select(state => state.global.enums);
       const enumsTimestamp = yield select(state => state.global.enumsTimestamp);
 
       // 缺少参数
-      if (!name) return;
+      if (!codeTypeNm) return;
 
       // 存在对应枚举，且为常量
-      if (enums[name] && enumsTimestamp[name] === 0) return;
+      if (enums[codeTypeNm] && enumsTimestamp[codeTypeNm] === 0) return;
 
       // 存在对应枚举，且时效为5分钟内
-      if (enums[name] && new Date().getTime() - enumsTimestamp[name] < 60 * 1000 * 5) return;
+      if (enums[codeTypeNm] && new Date().getTime() - enumsTimestamp[codeTypeNm] < 60 * 1000 * 5)
+        return;
 
       const response = yield call(getDictionary, payload);
 
       if (!response.error && response[0]) {
-        const isCommon = response[0].isCommonlyUsed;
+        const isCommon = response[0].dicType === 0; // dicType 0、系统运行性类 1、业务类
         const items = {};
         response.forEach(item => {
-          items[item.code] = item.remarks || '';
+          items[item.codeValue] = item.codeDesc || '';
         });
 
         yield put({
           type: 'saveEnum',
           payload: {
-            key: name,
+            key: codeTypeNm,
             timestamp: isCommon ? 0 : new Date().getTime(),
             items,
           },
@@ -66,7 +66,7 @@ const GlobalModel = {
       }
     },
     *uploadFile({ payload, resolve }, { call }) {
-      const { file, type, isLocal = false } = payload;
+      const { file, type } = payload;
 
       if (type === 'image' && !/\.(gif|jpg|jpeg|png|GIF|JPG|PNG)$/.test(file.name)) {
         message.warning('仅支持上传图片，请重新上传！（图片类型：gif,jpeg,jpg,png）');
@@ -81,7 +81,7 @@ const GlobalModel = {
       const formData = new FormData();
       formData.append('file', payload.file);
 
-      const response = yield call(isLocal ? uploadLocalFile : uploadFile, formData);
+      const response = yield call(uploadFile, formData);
 
       if (!response.error) {
         resolve && resolve(response);

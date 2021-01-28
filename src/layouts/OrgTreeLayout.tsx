@@ -17,15 +17,15 @@ const OrgTreeLayout = ({ children, onOrgSelect }) => {
             background: '#fff',
             minHeight: 'calc(100vh - 186px)',
             maxHeight: '100vh',
-            padding: 10,
-            flex: '0 0 300px',
+            padding: '30px 10px',
+            flex: '0 0 260px',
             boxSizing: 'border-box',
             overflow: 'hidden',
           }}
         >
           <OrgTree onChange={onOrgSelect} />
         </aside>
-        <section style={{ marginLeft: 10, width: '100%', overflow: 'auto' }}>
+        <section style={{ marginLeft: 15, width: '100%', overflow: 'auto' }}>
           <main style={{ overflow: 'initial' }}>{children}</main>
         </section>
       </section>

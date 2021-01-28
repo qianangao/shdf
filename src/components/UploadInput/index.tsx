@@ -55,11 +55,11 @@ const UploadInput = ({
 
     return isImage && isLt10M;
   };
-  const verifyVedioFile = file => {
-    const isVedio =
+  const verifyVideoFile = file => {
+    const isVideo =
       file.type === 'video/mp4' || file.type === 'video/flv' || file.type === 'video/avi';
 
-    if (!isVedio) {
+    if (!isVideo) {
       message.error('仅支持上传视频，请选择视频进行上传！');
     }
 
@@ -69,7 +69,7 @@ const UploadInput = ({
       message.error('视频大小不能超过 500MB!');
     }
 
-    return isVedio && isLt500M;
+    return isVideo && isLt500M;
   };
 
   const verifyFile = file => {
@@ -84,14 +84,14 @@ const UploadInput = ({
     return isLt50M;
   };
 
-  const uploadFile = files => {
+  const uploadFile = file => {
     if (upFileList.length >= maxNum) {
       message.warn(`附件不能超过${maxNum}个！`);
     } else {
       const preFile = {
         url: '',
-        uid: files.uid,
-        name: `11${files.name}`,
+        uid: file.uid,
+        name: file.name,
         status: 'uploading',
       };
       setUpFileList([...upFileList, preFile]);
@@ -102,7 +102,7 @@ const UploadInput = ({
         dispatch({
           type: 'global/uploadFile',
           payload: {
-            files,
+            file,
           },
           resolve,
         });
@@ -113,7 +113,7 @@ const UploadInput = ({
             const tempFile = {
               url: data[0].url,
               uid: data[0].id,
-              name: data[0].name,
+              name: data[0].fileName,
               status: 'done',
             };
             setUpFileList([...upFileList, tempFile]);
@@ -136,8 +136,8 @@ const UploadInput = ({
       shouldUpdate = verifyImgFile(file);
     } else if (type === 'excel') {
       shouldUpdate = verifyExcelFile(file);
-    } else if (type === 'vedio') {
-      shouldUpdate = verifyVedioFile(file);
+    } else if (type === 'video') {
+      shouldUpdate = verifyVideoFile(file);
     } else {
       shouldUpdate = verifyFile(file);
     }

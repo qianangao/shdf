@@ -186,3 +186,20 @@ export function downloadFileByUrl(url, filename) {
       throw err;
     });
 }
+
+/**
+ * 格式化分页的后台数据
+ * @param {*} url 文件地址
+ * @param {*} filename 文件名
+ */
+export function formatPageData(data) {
+  const { records, current, total, size } = data;
+
+  return {
+    data: records,
+    page: current,
+    pageSize: size,
+    success: true,
+    total,
+  };
+}
