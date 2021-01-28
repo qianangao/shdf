@@ -5,11 +5,9 @@ import React, { useEffect, useState } from 'react';
 const ProvinceCascaderInput = ({ provinceData, value, onChange, disabled, dispatch }) => {
   const [selectData, setSelectData] = useState({});
   useEffect(() => {
+    // 初始状态无areaPid
     dispatch({
       type: 'globalProvince/getData',
-      payload: {
-        id: '1000', // 初始id
-      },
     });
   }, []);
 
@@ -27,7 +25,7 @@ const ProvinceCascaderInput = ({ provinceData, value, onChange, disabled, dispat
     dispatch({
       type: 'globalProvince/getData',
       payload: {
-        id: targetOption.value,
+        areaPid: targetOption.value,
       },
     });
   };

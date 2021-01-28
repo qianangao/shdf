@@ -5,7 +5,7 @@ import request from '@/utils/request';
  * @param {*} params
  */
 export async function getProvinceData(params) {
-  return request(`/communityAddress/directly_child/${params.id}`, {
+  return request(`/area`, {
     method: 'GET',
     params,
   });
