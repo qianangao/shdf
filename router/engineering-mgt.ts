@@ -7,28 +7,24 @@ const routes = {
       path: '/engineering-mgt/key-person',
       name: 'engineering-mgt-key-person',
       component: './engineering-mgt/key-institutions',
-      icon: 'setting',
       remark: '重点人物',
     },
     {
       path: '/engineering-mgt/key-institutions',
       name: 'engineering-mgt-key-institutions',
       component: './engineering-mgt/key-institutions',
-      icon: 'setting',
       remark: '重点机构',
     },
     {
       path: '/engineering-mgt/dictionary-mgt',
       name: 'engineering-mgt-dictionary-mgt',
       component: './engineering-mgt/key-institutions',
-      icon: 'setting',
       remark: '专项工程',
     },
     {
       path: '/engineering-mgt/dictionary-mgt',
       name: 'engineering-mgt-dictionary-mgt',
       component: './engineering-mgt/key-institutions',
-      icon: 'setting',
       remark: '联防工程',
     },
     {
