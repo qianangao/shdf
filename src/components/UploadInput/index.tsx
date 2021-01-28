@@ -84,14 +84,14 @@ const UploadInput = ({
     return isLt50M;
   };
 
-  const uploadFile = files => {
+  const uploadFile = file => {
     if (upFileList.length >= maxNum) {
       message.warn(`附件不能超过${maxNum}个！`);
     } else {
       const preFile = {
         url: '',
-        uid: files.uid,
-        name: `11${files.name}`,
+        uid: file.uid,
+        name: file.name,
         status: 'uploading',
       };
       setUpFileList([...upFileList, preFile]);
@@ -102,7 +102,7 @@ const UploadInput = ({
         dispatch({
           type: 'global/uploadFile',
           payload: {
-            files,
+            file,
           },
           resolve,
         });
@@ -113,7 +113,7 @@ const UploadInput = ({
             const tempFile = {
               url: data[0].url,
               uid: data[0].id,
-              name: data[0].name,
+              name: data[0].fileName,
               status: 'done',
             };
             setUpFileList([...upFileList, tempFile]);
