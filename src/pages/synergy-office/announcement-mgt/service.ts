@@ -23,6 +23,17 @@ export async function getAnnouncementDetail(params: any) {
 }
 
 /**
+ * 查询 公告阅读情况
+ * @param params
+ */
+export async function getReadInfo(params: any) {
+  return request(`/notice/reading/record`, {
+    method: 'GET',
+    params,
+  });
+}
+
+/**
  * 新增公告信息
  * @param params
  */

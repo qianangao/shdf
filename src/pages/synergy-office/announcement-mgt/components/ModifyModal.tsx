@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
-import { Modal } from 'antd';
+import { Modal, Spin } from 'antd';
 import InstitutionForm from './InstitutionForm';
 
 const ModifyModal = ({ dispatch, actionRef, loading, soAnnouncementMgt }) => {
@@ -20,7 +20,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, soAnnouncementMgt }) => {
       payload: { noticeId: params },
     });
 
-  useEffect((): void => {
+  useEffect(() => {
     if (actionRef && typeof actionRef === 'function') {
       actionRef({ showModal });
     }
@@ -83,7 +83,9 @@ const ModifyModal = ({ dispatch, actionRef, loading, soAnnouncementMgt }) => {
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <InstitutionForm form={form} />
+      <Spin spinning={loading}>
+        <InstitutionForm form={form} />
+      </Spin>
     </Modal>
   );
 };

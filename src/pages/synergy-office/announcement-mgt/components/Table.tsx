@@ -3,8 +3,97 @@ import { Button, Modal, Popconfirm } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 
-const Table = ({ soAnnouncementMgt, openModifyModal, dispatch }) => {
+const Table = ({ soAnnouncementMgt, openModifyModal, openReadModal, dispatch }) => {
   const { tableRef } = soAnnouncementMgt;
+
+  const createButton = (data: { noticeId: any; noticeStatus: any }) => {
+    const CHECK = (
+      <a key={`${data.noticeId}detail`} onClick={() => openReadModal(data)}>
+        查看
+      </a>
+    );
+    const EDIT = (
+      <a key={`${data.noticeId}up`} onClick={() => openModifyModal(data)}>
+        编辑
+      </a>
+    );
+    const PUBLISH = (
+      <Popconfirm
+        key={`${data.noticeId}del`}
+        title="确认发布该公告信息吗？"
+        placement="topRight"
+        onConfirm={() => publishAnnouncement(data.noticeId)}
+      >
+        <a>发布</a>
+      </Popconfirm>
+    );
+    const DELETE = (
+      <Popconfirm
+        key={`${data.noticeId}del`}
+        title="确认删除该公告信息吗？"
+        placement="topRight"
+        onConfirm={() => deleteAnnouncement(data.noticeId)}
+      >
+        <a>删除</a>
+      </Popconfirm>
+    );
+    const COMMIT_EXAMINE = (
+      <Popconfirm
+        key={`${data.noticeId}del`}
+        title="确认对该公告信息提交审核吗？"
+        placement="topRight"
+        onConfirm={() => {}}
+      >
+        <a>提交审核</a>
+      </Popconfirm>
+    );
+    const EXAMINE = (
+      <a key={`${data.noticeId}del`} onClick={() => {}}>
+        审核
+      </a>
+    );
+    const TREATMENT = (
+      <a key={`${data.noticeId}treatment`} onClick={() => {}}>
+        处理情况
+      </a>
+    );
+    const ROLLBACK = (
+      <Popconfirm
+        key={`${data.noticeId}rollback`}
+        title="确认撤回该公告信息吗？"
+        placement="topRight"
+        onConfirm={() => {}}
+      >
+        <a>撤回</a>
+      </Popconfirm>
+    );
+    const CLOSE = (
+      <Popconfirm
+        key={`${data.noticeId}close`}
+        title="确认关闭该公告信息吗？"
+        placement="topRight"
+        onConfirm={() => {}}
+      >
+        <a>关闭</a>
+      </Popconfirm>
+    );
+    const REPLY = (
+      <a key={`${data.noticeId}reply`} onClick={() => {}}>
+        回复
+      </a>
+    );
+
+    switch (data.noticeStatus) {
+      case -3:
+        return [CHECK, EDIT, PUBLISH, DELETE];
+      case -1:
+        return [COMMIT_EXAMINE, PUBLISH, ROLLBACK];
+      case 1:
+        return [EXAMINE, ROLLBACK, CLOSE];
+      default:
+        return [COMMIT_EXAMINE, TREATMENT, PUBLISH, ROLLBACK, REPLY];
+    }
+  };
 
   const columns = [
     {
@@ -19,7 +108,7 @@ const Table = ({ soAnnouncementMgt, openModifyModal, dispatch }) => {
       title: '公告ID',
       dataIndex: 'noticeId',
       align: 'center',
-      width: 120,
+      width: 140,
       hideInSearch: true,
     },
 
@@ -52,33 +141,9 @@ const Table = ({ soAnnouncementMgt, openModifyModal, dispatch }) => {
       valueType: 'option',
       align: 'center',
       dataIndex: 'id',
-      width: 180,
+      width: 280,
       fixed: 'right',
-      render: (dom: any, data: { orgId: any; noticeId: any }) => [
-        <a key={`${data.orgId}detail`} onClick={() => {}}>
-          查看
-        </a>,
-        <a key={`${data.orgId}up`} onClick={() => openModifyModal(data)}>
-          编辑
-        </a>,
-
-        <Popconfirm
-          key={`${data.orgId}del`}
-          title="确认发布该公告信息吗？"
-          placement="topRight"
-          onConfirm={() => publishAnnouncement(data.noticeId)}
-        >
-          <a>发布</a>
-        </Popconfirm>,
-        <Popconfirm
-          key={`${data.orgId}del`}
-          title="确认删除该公告信息吗？"
-          placement="topRight"
-          onConfirm={() => deleteAnnouncement(data.noticeId)}
-        >
-          <a>删除</a>
-        </Popconfirm>,
-      ],
+      render: (dom: any, data: any) => createButton(data),
     },
   ];
 

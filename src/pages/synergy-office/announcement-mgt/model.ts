@@ -6,6 +6,7 @@ import {
   updateAnnouncement,
   deleteAnnouncement,
   publishAnnouncement,
+  getReadInfo,
 } from './service';
 
 const Model = {
@@ -13,6 +14,7 @@ const Model = {
   state: {
     announcementListData: {},
     announcementData: {},
+    readSituationData: {},
     tableRef: {},
     fieldTableRef: {},
   },
@@ -41,6 +43,34 @@ const Model = {
           type: 'save',
           payload: {
             announcementListData: result,
+          },
+        });
+      }
+    },
+    *getReadInfo({ payload, resolve }, { call, put }) {
+      const params = {
+        ...payload,
+        pageNum: payload.current,
+        pageSize: payload.pageSize,
+      };
+      const response = yield call(getReadInfo, params);
+
+      if (!response.error) {
+        const { records, page, total } = response;
+        const result = {
+          data: records,
+          page,
+          pageSize: payload.pageSize,
+          success: true,
+          total,
+        };
+
+        resolve && resolve(result);
+
+        yield put({
+          type: 'save',
+          payload: {
+            readSituationData: result,
           },
         });
       }
