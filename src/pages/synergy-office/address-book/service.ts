@@ -1,26 +1,26 @@
-import request from '@/utils/request';
+import request,{noErrorRequest} from '@/utils/request';
 
 /**
  * 获取通讯录列表
  * @param params
  */
 export async function getAddressBook(params: any) {
-  return request(`/api/addressBook/find`, {
+  return request(`/addressBook/find`, {
     method: 'GET',
     params,
   });
 }
 
-// /**
-//  * 获取重点机构详情
-//  * @param params
-//  */
-// export async function getKeyInstitonDetail(params: any) {
-//   return request(`/central/org/${params.id}`, {
-//     method: 'GET',
-//     params,
-//   });
-// }
+/**
+ * 获取通讯录人员详情
+ * @param params
+ */
+export async function getAddressBookDetail(params: any) {
+  return request(`/addressBook/${params}`, {
+    method: 'GET',
+    // params,
+  });
+}
 /**
  * 模板下载
  * @param params
@@ -35,27 +35,30 @@ export async function templateDownload() {
  * @param params
  */
 export async function exportAddressBook(params) {
-  return request(`/central/org`, {
+  return noErrorRequest(`/addressBook/export`, {
     method: 'GET',
+    responseType: 'blob',
     params,
   });
 }
+
 /**
  * 导入文件
  * @param params
  */
 export async function importAddressBook(params) {
-  return request(`/api/addressBook/import`, {
+  return request(`/addressBook/import`, {
     method: 'POST',
     data: params,
   });
 }
+
 /**
  * 新增通讯录
  * @param params
  */
 export async function addAddressBook(params: any) {
-  return request(`/api/addressBook/add`, {
+  return request(`/addressBook/add`, {
     method: 'POST',
     data: params,
   });
@@ -66,7 +69,7 @@ export async function addAddressBook(params: any) {
  * @param params
  */
 export async function updateAddressBook(params: any) {
-  return request(`/api/addressBook/update`, {
+  return request(`/addressBook/update`, {
     method: 'PUT',
     data: params,
   });
@@ -77,7 +80,7 @@ export async function updateAddressBook(params: any) {
  * @param params
  */
 export async function deleteAddressBook(params: any) {
-  return request(`/api/addressBook/delete`, {
+  return request(`/addressBook/delete?bookIds=${params}`, {
     method: 'DELETE',
     data: params,
   });

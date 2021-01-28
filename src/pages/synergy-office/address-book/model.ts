@@ -1,4 +1,6 @@
 import { message } from 'antd';
+import { downloadXlsFile } from '@/utils';
+import moment from 'moment';
 import {
   getAddressBook,
   deleteAddressBook,
@@ -6,6 +8,7 @@ import {
   updateAddressBook,
   templateDownload,
   exportAddressBook,
+  getAddressBookDetail
 } from './service';
 
 const Model = {
@@ -18,20 +21,20 @@ const Model = {
     *getAddressBook({ payload, resolve }, { call, put }) {
       const params = {
         ...payload,
-        currentPage: payload.current,
+        pageNum: payload.current,
         pageSize: payload.pageSize,
       };
+      delete params.current;
       const response = yield call(getAddressBook, params);
-
       if (!response.error) {
         // const { items, currentPage, totalNum } = response;
 
         const result = {
-          data: response,
-          // page: currentPage,
-          // pageSize: payload.pageSize,
+          data: response.records,
+          page: response.pages,
+          pageSize: payload.pageSize,
           success: true,
-          // total: totalNum,
+          total: response.total,
         };
 
         resolve && resolve(result);
@@ -52,17 +55,38 @@ const Model = {
       }
     },
 
-    *exportAddressBook({ payload, resolve }, { call }) {
-      const response = yield call(exportAddressBook, payload);
+    *exportAddressBook({ payload }, { call }) {
+      const response = yield call(exportAddressBook, payload); 
+      // if (!response.error) {
+        yield downloadXlsFile(response, `通讯录列表${moment().format('MM-DD HH:mm:ss')}.xls`);
+      // }
+    // else {
+      // const fileName = `人员列表${moment().format('MM-DD HH:mm:ss')}.xls`;
+      // params.name = fileName;
+      // const response = yield call(exportLgbsAsync, params);
+
+      // message.info('文件导出中，请在用户信息栏通知中查看');
+
+      // if (!response.error) {
+      //   yield put({
+      //     type: 'global/refreshDownloadFiles',
+      //   });
+      // }
+    // }
+    },
+    *getAddressBookDetail({ payload, resolve }, { call }) {
+      const response = yield call(getAddressBookDetail, payload);
+
       if (!response.error) {
         resolve && resolve(response);
       }
     },
+
     *addAddressBook({ payload, resolve }, { call, put }) {
       const response = yield call(addAddressBook, payload);
       if (!response.error) {
         resolve && resolve(response);
-        message.success('重点机构新增成功！');
+        message.success('新增成功！');
         yield put({
           type: 'tableReload',
         });
@@ -72,7 +96,7 @@ const Model = {
       const response = yield call(updateAddressBook, payload);
       if (!response.error) {
         resolve && resolve(response);
-        message.success('重点机构信息修改成功！');
+        message.success('修改成功！');
         yield put({
           type: 'tableReload',
         });
@@ -80,10 +104,11 @@ const Model = {
     },
 
     *deleteAddressBook({ payload, resolve }, { call, put }) {
-      const response = yield call(deleteAddressBook, payload);
+      const bookIds = payload.toString()
+      const response = yield call(deleteAddressBook, bookIds);
       if (!response.error) {
         resolve && resolve(response);
-        message.success('重点机构删除成功！');
+        message.success('删除成功！');
 
         yield put({
           type: 'tableReload',

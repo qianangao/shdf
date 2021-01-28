@@ -8,11 +8,28 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
   const [detailData, setDetailData] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
 
-  const showModal = items => {
-    setDetailData(items || null);
-    if (items) form.setFieldsValue({ ...items });
+  const showModal = bookId => { 
+    setDetailData(bookId || null);
+    updateData(bookId)
+    // if (items) form.setFieldsValue({ ...items });
     setModalVisible(true);
   };
+
+  const updateData = bookId => {
+    if(bookId){
+      new Promise(resolve =>{
+        dispatch({
+          type:'emAddressBook/getAddressBookDetail',
+          payload:bookId.toString(),
+          resolve
+        })
+      }).then(res=>{
+        if(res)  form.setFieldsValue({ ...res });
+        
+      })  
+    }
+    
+  }
 
   useEffect(() => {
     if (actionRef && typeof actionRef === 'function') {
@@ -38,6 +55,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
             type: `emAddressBook/${detailData ? 'updateAddressBook' : 'addAddressBook'}`,
             payload: {
               ...values,
+              bookId:detailData && detailData.toString()
             },
             resolve,
           });
@@ -56,8 +74,6 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       title={detailData ? '编辑通讯录' : '新增通讯录'}
       centered
       width="40vw"
-      okText="提交"
-      cancelText="重置"
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',

@@ -243,3 +243,20 @@ export const checkPost = (rule, value, callback) => {
     callback();
   }
 };
+
+/**
+ * 邮箱校验
+ * @param {*} rule
+ * @param {*} value 需校验的值
+ * @param {*} callback form回调函数
+ */
+
+export const checkEmail = (rule, value, callback) => {
+    const reg = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/;
+    if (value && !reg.test(value)) {
+      callback('电子邮箱格式不合法');
+    } else {
+      callback();
+    }
+  };
+

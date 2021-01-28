@@ -1,23 +1,39 @@
-import React from 'react';
+import React, {useRef}from 'react';
 import { Button, Popconfirm } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import UploadInput from '@/components/UploadInput';
-import DepartmentTree from './departmentTree';
+// import DepartmentTree from './departmentTree';
 
 const Table = ({ emAddressBook, openModifyModal, dispatch }) => {
   const { tableRef } = emAddressBook;
+  const formRef = useRef();
+  const uploadLgbListRef = useRef();
 
-  const deleteAddressBook = orgId => {
+  const deleteAddressBook = bookId => {
     dispatch({
       type: 'emAddressBook/deleteAddressBook',
-      payload: { orgId },
+      payload: bookId ,
     });
   };
 
   const columns = [
     { title: '姓名', align: 'center', dataIndex: 'userName' },
-    { title: '性别', align: 'center', dataIndex: 'gender', hideInSearch: true },
+    { title: '性别', align: 'center', dataIndex: 'gender', hideInSearch: true,
+  render:(dom, data) =>(
+    <>
+    {
+      data.gender === 0 && (<span>女</span>)
+    }
+    {
+      data.gender === 1 && (<span>男</span>)
+    }
+    {
+      data.gender ===2 && (<span>保密</span>)
+    }
+    </>
+  )
+   },
     {
       title: '所属部门',
       align: 'center',
@@ -42,14 +58,14 @@ const Table = ({ emAddressBook, openModifyModal, dispatch }) => {
       width: 180,
       fixed: 'right',
       render: (dom, data) => [
-        <a key={`${data.bookId}up`} onClick={() => openModifyModal(data)}>
+        <a key={`${data.bookId}up`} onClick={() => openModifyModal(data.bookId)}>
           修改
         </a>,
         <Popconfirm
           key={`${data.bookId}del`}
-          title="确认删除该重点机构吗？"
+          title="确认删除该人员信息吗？"
           placement="topRight"
-          onConfirm={() => deleteAddressBook(data.orgId)}
+          onConfirm={() => deleteAddressBook(data.bookId)}
         >
           <a>删除</a>
         </Popconfirm>,
@@ -72,20 +88,84 @@ const Table = ({ emAddressBook, openModifyModal, dispatch }) => {
     });
   };
 
-  const exportAddressBook = ids => {
+  const importLgbs = e => {
+    const file = e.target.files[0];
+
+    message.loading({ content: '文件上传中，请稍后……', key: 'importsLgbKey', duration: 0 });
+
+    new Promise(resolve => {
+      dispatch({
+        type: 'global/uploadFile',
+        payload: {
+          file,
+          type: 'excel',
+          isLocal: true,
+        },
+        resolve,
+      });
+    })
+      // .then(data => {
+      //   return new Promise(resolve => {
+      //     dispatch({
+      //       type: 'emAddressBook/templateDownload',
+      //       payload: data,
+      //       resolve,
+      //     });
+      //   });
+      // })
+      .then(res => {
+        if (res && res.length > 0) {
+          Modal.warning({
+            title: '导入数据格式有误，请确认并更正数据后重新导入！',
+            width: 640,
+            content: (
+              <div
+                style={{
+                  maxHeight: 400,
+                  overflow: 'auto',
+                }}
+              >
+                {res.map(item => (
+                  <div key={item.reason}>{item.reason}</div>
+                ))}
+              </div>
+            ),
+          });
+        }
+      })
+      .finally(() => {
+        message.destroy('importsLgbKey');
+      });
+
+    e.target.value = '';
+  };
+  const exportDetailData = selectedRowKeys => {
+    let bookIds = selectedRowKeys.join(',')
+    // if (selectedRowKeys && selectedRowKeys.length) {
+      dispatch({
+        type: 'emAddressBook/exportAddressBook',
+        payload: bookIds,
+      });
+      return;
+    // }
+
+    tableRef.current.reload();
+
     dispatch({
       type: 'emAddressBook/exportAddressBook',
-      payload: ids,
+      payload: {
+        ...formRef.current.getFieldsValue(),
+      },
     });
   };
+
   return (
-    <div style={{ display: 'flex' }}>
-      <DepartmentTree style={{ width: '350px', height: '100%', border: '1px solid #000' }} />
+    <div>
       <ProTable
-        style={{ flex: 1 }}
-        rowKey="orgId"
+        rowKey="bookId"
         headerTitle="人员列表"
         actionRef={tableRef}
+        formRef={formRef}
         rowSelection={[]}
         scroll={{ x: 'max-content' }}
         request={async params => getAddressBook(params)}
@@ -93,13 +173,46 @@ const Table = ({ emAddressBook, openModifyModal, dispatch }) => {
           <Button type="primary" onClick={() => openModifyModal()}>
             新增
           </Button>,
-          <Button onClick={() => templateDownload()}>模板下载</Button>,
-          <UploadInput type="excel" />,
-          selectedRowKeys && selectedRowKeys.length && (
-            <Button type="primary" onClick={() => exportAddressBook(selectedRowKeys)}>
-              导出
-            </Button>
-          ),
+           <Button
+           onClick={() => {
+             const url = '/通讯录人员信息导入模板.xlsx';
+             window.open(url);
+           }}
+         >
+           模板下载
+         </Button>,
+        <>
+          <input
+            type="file"
+            name="file"
+            onChange={importLgbs}
+            style={{ display: 'none' }}
+            ref={uploadLgbListRef}
+          />
+          <Button
+            type="primary"
+            onClick={() => {
+              uploadLgbListRef.current.click();
+            }}
+          >
+            导入
+          </Button>
+        </>,
+        <Button
+          type="primary"
+          onClick={() => {
+            exportDetailData(selectedRowKeys);
+          }}
+        >
+          导出
+        </Button>,
+          // <Button onClick={() => templateDownload()}>模板下载</Button>,
+          // <UploadInput type="excel" />,
+          // selectedRowKeys && selectedRowKeys.length && (
+          //   <Button type="primary" onClick={() => exportAddressBook(selectedRowKeys)}>
+          //     导出
+          //   </Button>
+          // ),
         ]}
         columns={columns}
       />
