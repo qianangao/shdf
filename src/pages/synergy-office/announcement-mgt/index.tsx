@@ -15,22 +15,8 @@ const AnnouncementMgt = ({ dispatch }) => {
       },
     });
   }, []);
-  // const tabs = [
-  //   {
-  //     id: 'drafts',
-  //     label: '草稿箱',
-  //   },
-  //   {
-  //     id: 'publish',
-  //     label: '已发布',
-  //   },
-  //   {
-  //     id: 'received',
-  //     label: '已接收',
-  //   },
-  // ];
 
-  const openModifyModal = item => {
+  const openModifyModal = (item: any) => {
     modifyRef.current.showModal(item);
   };
   return (

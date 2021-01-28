@@ -4,19 +4,17 @@ import { Modal } from 'antd';
 import InstitutionForm from './InstitutionForm';
 
 const ModifyModal = ({ dispatch, actionRef, loading, soAnnouncementMgt }) => {
-  const { tableRef, announcementData } = soAnnouncementMgt;
+  const { announcementData } = soAnnouncementMgt;
   const [form]: any = InstitutionForm.useForm();
   const [detailData, setDetailData] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
 
   const showModal = (items: any) => {
-    form.resetFields();
     setDetailData(items || null);
-    // if (items) form.setFieldsValue({ ...items });
     setModalVisible(true);
   };
 
-  const getAnnouncemenDetails = (params: any) =>
+  const getAnnouncementDetail = (params: any) =>
     dispatch({
       type: 'soAnnouncementMgt/getAnnouncementDetail',
       payload: { noticeId: params },
@@ -35,19 +33,21 @@ const ModifyModal = ({ dispatch, actionRef, loading, soAnnouncementMgt }) => {
   useEffect(() => {
     if (announcementData) form.setFieldsValue({ ...announcementData });
   }, [announcementData]);
+
   useEffect(() => {
-    if (detailData) getAnnouncemenDetails(detailData.noticeId);
+    if (detailData) getAnnouncementDetail(detailData.noticeId);
   }, [detailData]);
 
   const hideModal = (): void => {
     setModalVisible(false);
-    // form.resetFields();
+    form.resetFields();
+    setDetailData(null);
   };
 
   const handleOk = (): void => {
     form
       .validateFields()
-      .then(values => {
+      .then((values: any) => {
         return new Promise(resolve => {
           dispatch({
             type: `soAnnouncementMgt/${detailData ? 'updateAnnouncement' : 'addAnnouncement'}`,
@@ -62,7 +62,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, soAnnouncementMgt }) => {
       .then(() => {
         hideModal();
       })
-      .catch(info => {
+      .catch((info: any) => {
         console.error('Validate Failed:', info);
       });
   };
@@ -71,7 +71,6 @@ const ModifyModal = ({ dispatch, actionRef, loading, soAnnouncementMgt }) => {
     <Modal
       title={detailData ? '编辑公告' : '新建公告'}
       centered
-      actionRef={tableRef}
       width="90vw"
       style={{ paddingBottom: 0 }}
       bodyStyle={{

@@ -6,13 +6,6 @@ import { connect } from 'umi';
 const Table = ({ soAnnouncementMgt, openModifyModal, dispatch }) => {
   const { tableRef } = soAnnouncementMgt;
 
-  // useEffect(() => {
-  //   // getAnnouncementList(tableType)
-  //   dispatch({
-  //     type: 'soAnnouncementMgt/tableReload',
-  //   });
-  // }, []);
-
   const columns = [
     {
       title: '序号',
@@ -44,27 +37,15 @@ const Table = ({ soAnnouncementMgt, openModifyModal, dispatch }) => {
       align: 'center',
       dataIndex: 'noticeStatus',
       valueEnum: {
-        DRAFT: { text: '草稿' },
-        AUDIT: { text: '审核中' },
-        PASS: { text: '已通过' },
-        REJECT: { text: '已驳回' },
-        PUBLISH: { text: '已发布' },
-        WITHDRAWS: { text: '已撤回' },
-        CLOSE: { text: '已关闭' },
-        RECEIVE: { text: '已接收' },
+        '0': { text: '草稿' },
+        '1': { text: '审核中' },
+        '3': { text: '已通过' },
+        '-1': { text: '已驳回' },
+        '5': { text: '已发布' },
+        '-3': { text: '已撤回' },
+        '7': { text: '已关闭' },
+        '9': { text: '已接收' },
       },
-      render: (dom, data) => (
-        <>
-          {data.noticeStatus === 0 ? <span>草稿</span> : ''}
-          {data.noticeStatus === -1 ? <span>已驳回</span> : ''}
-          {data.noticeStatus === -3 ? <span>已撤回</span> : ''}
-          {data.noticeStatus === 1 ? <span>审核中</span> : ''}
-          {data.noticeStatus === 3 ? <span>已通过</span> : ''}
-          {data.noticeStatus === 5 ? <span>已发布</span> : ''}
-          {data.noticeStatus === 7 ? <span>已关闭</span> : ''}
-          {data.noticeStatus === 9 ? <span>已接收</span> : ''}
-        </>
-      ),
     },
     {
       title: '操作',
@@ -73,7 +54,7 @@ const Table = ({ soAnnouncementMgt, openModifyModal, dispatch }) => {
       dataIndex: 'id',
       width: 180,
       fixed: 'right',
-      render: (dom, data) => [
+      render: (dom: any, data: { orgId: any; noticeId: any }) => [
         <a key={`${data.orgId}detail`} onClick={() => {}}>
           查看
         </a>,
@@ -101,21 +82,24 @@ const Table = ({ soAnnouncementMgt, openModifyModal, dispatch }) => {
     },
   ];
 
-  const publishAnnouncement = noticeId => {
+  const publishAnnouncement = (noticeId: any) => {
     dispatch({
       type: 'soAnnouncementMgt/publishAnnouncement',
       payload: { noticeId, visibleRange: [] },
     });
   };
 
-  const deleteAnnouncement = noticeId => {
+  const deleteAnnouncement = (noticeId: any) => {
     dispatch({
       type: 'soAnnouncementMgt/deleteAnnouncement',
       payload: { noticeId },
     });
   };
 
-  const getAnnouncementList = params =>
+  const getAnnouncementList = (params: {
+    pageSize?: number | undefined;
+    current?: number | undefined;
+  }) =>
     new Promise(resolve => {
       dispatch({
         type: 'soAnnouncementMgt/getAnnouncementList',

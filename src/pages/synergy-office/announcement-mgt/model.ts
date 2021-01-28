@@ -63,7 +63,7 @@ const Model = {
       const response = yield call(addAnnouncement, payload);
       if (!response.error) {
         resolve && resolve(response);
-        // message.success('公告新增成功！');
+        message.success('公告新增成功！');
 
         yield put({
           type: 'tableReload',
