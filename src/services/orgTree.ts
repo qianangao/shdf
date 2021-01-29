@@ -12,17 +12,6 @@ export async function getOrgTreeById(params) {
 }
 
 /**
- * 根据搜索获取完整组织树结构
- * @param {*} params
- */
-export async function searchOrgTree(params) {
-  return request('/organization/all-child', {
-    method: 'GET',
-    params,
-  });
-}
-
-/**
  * 根据id获取完整组织树结构
  * @param {*} params
  */

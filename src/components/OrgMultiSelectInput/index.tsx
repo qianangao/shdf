@@ -57,6 +57,10 @@ const OrgMultiSelectInput = ({ value, onChange }) => {
 
   useEffect(() => {
     getAllOrgTree().then(data => {
+      if (data.error) {
+        return;
+      }
+
       transformOrgTreeData(data);
       setMultiOrgTreeData(data);
 
