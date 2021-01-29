@@ -14,6 +14,7 @@ const Model = {
     fieldListData: {},
     tableRef: {},
     fieldTableRef: {},
+    selectedOrgId: undefined, // 选择的组织id
   },
   effects: {
     *getKeyInstitons({ payload, resolve }, { call, put }) {
@@ -85,6 +86,18 @@ const Model = {
           type: 'tableReload',
         });
       }
+    },
+    *selectOrgChange({ payload }, { put }) {
+      yield put({
+        type: 'save',
+        payload: {
+          selectedOrgId: payload,
+        },
+      });
+
+      yield put({
+        type: 'tableReload',
+      });
     },
   },
   reducers: {

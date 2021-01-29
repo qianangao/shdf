@@ -20,15 +20,15 @@ const announcement = (req: any) => {
         count = 5;
         break
       default:
-        count = 10;
+        count = 7;
         break
     }
-    for (let i = 0; i < count; i++) {
+    for (let i = -2; i < count; i++) {
       announcementItems.push({
-        "noticeId": `3308256841627734016${i}`,//主键ID
+        "noticeId": `3308256841627734016${i+2}`,//主键ID
         "receiptHandle": 0,		//是否需要回执处理(0是 1否)
         "noticeContent": "关于处理色情出版物的规定要求内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容",		//公告内容
-        "noticeStatus": i,		//公告状态（0草稿 1已发布 3待审核 5已通过 7已发布 9已关闭 -1已驳回 -3已撤回）
+        "noticeStatus": i*2+1,		//公告状态（0草稿 1已发布 3待审核 5已通过 7已发布 9已关闭 -1已驳回 -3已撤回）
         "publishDept": null,		// 发布部门
         "secrecyData": null,		//数据完整性标识
         "softDelete": 0,		//软删除标识 0正常   1删除
@@ -56,7 +56,7 @@ const announcement = (req: any) => {
 
 const noticeList = (req, res) => {
   res.send({
-    code: 1,
+    code: 10000,
     msg: 'success',
     data: {
       current: 1,
@@ -73,7 +73,7 @@ const noticeList = (req, res) => {
 const getNoticeDetail = (req, res) => {
   const { id } = req.query;
   res.send({
-    code: 1,
+    code: 10000,
     msg: 'success',
     data: {
       "noticeId": "3308256841627734016",//主键ID
@@ -95,9 +95,9 @@ const getNoticeDetail = (req, res) => {
   });
 };
 export default {
-  'GET /notices': noticeList,
-  'GET /notice/:id': getNoticeDetail,
-  'POST /noticeDetail1': getNoticeDetail,
-  'PUT /user/:id': noResponse,
-  'DELETE /user': noResponse,
+  'GET /shdf/notices': noticeList,
+  'GET /shdf/notice/:id': getNoticeDetail,
+  'POST /shdf/noticeDetail1': getNoticeDetail,
+  'PUT /shdf/user/:id': noResponse,
+  'DELETE /shdf/user': noResponse,
 };

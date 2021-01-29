@@ -1,0 +1,28 @@
+@import '~antd/es/style/themes/default.less';
+
+.listContent {
+  background-color: #fff;
+
+  .btnGroup {
+    display: flex;
+  }
+
+  .listGroup {
+    height: 200px;
+    overflow-x: hidden;
+    border: 1px solid @border-color-split;
+  }
+}
+
+.deleteBtn {
+  color: #aaa;
+  font-size: 12px;
+  cursor: pointer;
+
+  &:hover {
+    color: @primary-color;
+  }
+  &:active {
+    color: @primary-7;
+  }
+}

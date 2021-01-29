@@ -2,6 +2,7 @@ import React from 'react';
 import AdvancedForm from '@/components/AdvancedForm';
 import { Radio } from 'antd';
 import Button from 'antd/es/button';
+import StaffMultiSelectInput from '@/components/StaffMultiSelectInput';
 
 const InstitutionForm = ({ form }) => {
   const formItems = [
@@ -24,9 +25,21 @@ const InstitutionForm = ({ form }) => {
       disabled: true,
     },
     {
+      label: '密级标识',
+      name: 'secrecyLevel',
+      span: 1,
+      rules: [{ required: true, message: '请选择密级标识!' }],
+      // initialValue: '普通',
+      enumsItems: {
+        0: '普通',
+        1: '秘密',
+        2: '机密',
+      },
+    },
+    {
       label: '可见范围',
       name: 'visibleRange',
-      span: 4,
+      span: 2,
       // rules: [{ required: true, message: '请选择可见范围!' }],
       render: <Button>设置公告可见范围</Button>,
     },
@@ -57,6 +70,11 @@ const InstitutionForm = ({ form }) => {
       type: 'upload',
       span: 4,
     },
+    { label: '机构中文名', name: 'orgName' },
+    { label: '保密级别', name: 'subjectSecrecyLevel', enumsLabel: 'subject_secrecy_level' },
+    { label: '成立日期', name: 'establishDate', type: 'date' },
+    // { label: '组织demo', name: 'org', render: <OrgMultiSelectInput /> },
+    { label: '人员demo', name: 'staff', render: <StaffMultiSelectInput /> },
   ];
 
   return <AdvancedForm form={form} fields={formItems} />;
