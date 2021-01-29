@@ -60,19 +60,9 @@ export async function deleteAddressBook(params: any) {
  * @param params
  */
 export async function templateDownload() {
-  return request(`/central/org`, {
-    method: 'POST',
-  });
-}
-/**
- * 导出文件
- * @param params
- */
-export async function exportAddressBook(params) {
-  return noErrorRequest(`/addressBook/export`, {
+  return noErrorRequest(`/通讯录模板.xlsx`, {
     method: 'GET',
-    responseType: 'blob',
-    params,
+    responseType: 'blob'
   });
 }
 
@@ -84,6 +74,18 @@ export async function importAddressBook(params) {
   return request(`/addressBook/import`, {
     method: 'POST',
     data: params,
+  });
+}
+
+/**
+ * 导出文件
+ * @param params
+ */
+export async function exportAddressBook(params) {
+  return noErrorRequest(`/addressBook/export`, {
+    method: 'GET',
+    responseType: 'blob',
+    params,
   });
 }
 

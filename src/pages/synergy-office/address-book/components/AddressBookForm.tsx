@@ -5,13 +5,15 @@ import { checkPhone, checkEmail, checkTelephone } from '@/utils/validators';
 
 const AddressBookForm = ({ form }) => {
   const formItems = [
-    { label: 'id', name: 'orgId', hidden: true },
+    { label: 'id', name: 'bookId', hidden: true },
     {
       label: '员工姓名',
       name: 'userName',
       span: 4,
-      rules: [{ required: true, message: '请输入姓名!', whitespace: true },
-      { max: 30, message: '姓名长度请小于30位!', whitespace: true },],
+      rules: [
+        { required: true, message: '请输入姓名!', whitespace: true },
+        { max: 30, message: '姓名长度请小于30位!' },
+      ],
     },
     {
       label: '员工性别',

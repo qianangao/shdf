@@ -8,6 +8,7 @@ import {
   updateAddressBook,
   templateDownload,
   exportAddressBook,
+  importAddressBook,
   getAddressBookDetail
 } from './service';
 
@@ -48,32 +49,6 @@ const Model = {
       }
     },
 
-    *templateDownload({ resolve }, { call }) {
-      const response = yield call(templateDownload);
-      if (!response.error) {
-        resolve && resolve(response);
-      }
-    },
-
-    *exportAddressBook({ payload }, { call }) {
-      const response = yield call(exportAddressBook, payload); 
-      // if (!response.error) {
-        yield downloadXlsFile(response, `通讯录列表${moment().format('MM-DD HH:mm:ss')}.xls`);
-      // }
-    // else {
-    //   const fileName = `人员列表${moment().format('MM-DD HH:mm:ss')}.xls`;
-    //   params.name = fileName;
-    //   const response = yield call(exportLgbsAsync, params);
-
-    //   message.info('文件导出中，请在用户信息栏通知中查看');
-
-    //   if (!response.error) {
-    //     yield put({
-    //       type: 'global/refreshDownloadFiles',
-    //     });
-    //   }
-    // }
-    },
     *getAddressBookDetail({ payload, resolve }, { call }) {
       const response = yield call(getAddressBookDetail, payload);
 
@@ -92,6 +67,7 @@ const Model = {
         });
       }
     },
+
     *updateAddressBook({ payload, resolve }, { call, put }) {
       const response = yield call(updateAddressBook, payload);
       if (!response.error) {
@@ -115,7 +91,47 @@ const Model = {
         });
       }
     },
+
+    *templateDownload({ call }) {
+      const response = yield call(templateDownload);
+      if (!response.error) {
+        yield downloadXlsFile(response, `通讯录模板`);
+      }
+    },
+
+    *exportAddressBook({ payload }, { call }) {
+      const response = yield call(exportAddressBook, payload); 
+      if (!response.error) {
+        yield downloadXlsFile(response, `通讯录列表${moment().format('MM-DD HH:mm:ss')}.xls`);
+      }
+    // else {
+    //   const fileName = `人员列表${moment().format('MM-DD HH:mm:ss')}.xls`;
+    //   params.name = fileName;
+    //   const response = yield call(exportLgbsAsync, params);
+
+    //   message.info('文件导出中，请在用户信息栏通知中查看');
+
+    //   if (!response.error) {
+    //     yield put({
+    //       type: 'global/refreshDownloadFiles',
+    //     });
+    //   }
+    // }
+    },
+
+    *importAddressBook({ payload, resolve }, { call, put }) {
+      const formData = new FormData();
+      formData.append('file', payload.file);
+      const response = yield call(importAddressBook, formData);
+      if (!response.error) {
+        resolve && resolve(response);
+        yield put({
+          type: 'tableReload',
+        });
+      }
+    },
   },
+
   reducers: {
     save(state, { payload }) {
       return { ...state, ...payload };
