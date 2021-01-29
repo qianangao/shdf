@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Tree, Input } from 'antd';
-import { connect } from 'umi';
+import { getAllOrgTree } from '@/services/orgTree';
+import { transformOrgTreeData } from '@/utils/orgTreeUtil';
 import styles from './index.less';
 
 let treeItems = new Map();
@@ -9,9 +10,10 @@ let treeItems = new Map();
  * 单位多选组件
  * @param param0 出入参格式为： [{ name, id }]
  */
-const OrgMultiSelectInput = ({ value, multiOrgTreeData, onChange, dispatch }) => {
+const OrgMultiSelectInput = ({ value, onChange }) => {
   const [orgSelectModalVisible, setVisible] = useState(false);
   const [valueName, setValueName] = useState('');
+  const [multiOrgTreeData, setMultiOrgTreeData] = useState<any>([]);
 
   /* TEMP 搜索逻辑预留 */
   // const [searchValue, setSearchValue] = useState('');
@@ -54,16 +56,16 @@ const OrgMultiSelectInput = ({ value, multiOrgTreeData, onChange, dispatch }) =>
   // };
 
   useEffect(() => {
-    dispatch({
-      type: 'orgTree/getAllOrgTree',
+    getAllOrgTree().then(data => {
+      transformOrgTreeData(data);
+      setMultiOrgTreeData(data);
+
+      if (data && data[0]) {
+        setExpandedKeys([data[0].key]);
+        treeItems = getTreeitems(data);
+      }
     });
   }, []);
-  useEffect(() => {
-    if (multiOrgTreeData && multiOrgTreeData[0]) {
-      setExpandedKeys([multiOrgTreeData[0].key]);
-      treeItems = getTreeitems(multiOrgTreeData);
-    }
-  }, [multiOrgTreeData]);
 
   useEffect(() => {
     if (value && value.length > 0) {
@@ -204,6 +206,4 @@ const OrgMultiSelectInput = ({ value, multiOrgTreeData, onChange, dispatch }) =>
   );
 };
 
-export default connect(({ orgTree }) => ({
-  multiOrgTreeData: orgTree.multiOrgTreeData,
-}))(OrgMultiSelectInput);
+export default OrgMultiSelectInput;
