@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { connect } from 'umi';
-import OrgTreeLayout from '@/layouts/OrgTreeLayout'
+import OrgTreeLayout from '@/layouts/OrgTreeLayout';
 import Table from './components/Table';
 import ModifyModal from './components/ModifyModal';
 
@@ -23,12 +23,11 @@ const AddressBook = ({ dispatch }) => {
     });
   };
 
-
   const openModifyModal = item => {
     modifyRef.current.showModal(item);
   };
   return (
-     <OrgTreeLayout onOrgSelect={orgChangeHander}>
+    <OrgTreeLayout onOrgSelect={orgChangeHander}>
       <Table openModifyModal={openModifyModal} />
       <ModifyModal actionRef={modifyRef} />
     </OrgTreeLayout>

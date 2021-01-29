@@ -9,7 +9,7 @@ import {
   templateDownload,
   exportAddressBook,
   importAddressBook,
-  getAddressBookDetail
+  getAddressBookDetail,
 } from './service';
 
 const Model = {
@@ -80,7 +80,7 @@ const Model = {
     },
 
     *deleteAddressBook({ payload, resolve }, { call, put }) {
-      const bookIds = payload.toString()
+      const bookIds = payload.toString();
       const response = yield call(deleteAddressBook, bookIds);
       if (!response.error) {
         resolve && resolve(response);
@@ -92,7 +92,7 @@ const Model = {
       }
     },
 
-    *templateDownload({ call }) {
+    *templateDownload({_}, { call }) {
       const response = yield call(templateDownload);
       if (!response.error) {
         yield downloadXlsFile(response, `通讯录模板`);
@@ -100,23 +100,23 @@ const Model = {
     },
 
     *exportAddressBook({ payload }, { call }) {
-      const response = yield call(exportAddressBook, payload); 
+      const response = yield call(exportAddressBook, payload);
       if (!response.error) {
         yield downloadXlsFile(response, `通讯录列表${moment().format('MM-DD HH:mm:ss')}.xls`);
       }
-    // else {
-    //   const fileName = `人员列表${moment().format('MM-DD HH:mm:ss')}.xls`;
-    //   params.name = fileName;
-    //   const response = yield call(exportLgbsAsync, params);
+      // else {
+      //   const fileName = `人员列表${moment().format('MM-DD HH:mm:ss')}.xls`;
+      //   params.name = fileName;
+      //   const response = yield call(exportLgbsAsync, params);
 
-    //   message.info('文件导出中，请在用户信息栏通知中查看');
+      //   message.info('文件导出中，请在用户信息栏通知中查看');
 
-    //   if (!response.error) {
-    //     yield put({
-    //       type: 'global/refreshDownloadFiles',
-    //     });
-    //   }
-    // }
+      //   if (!response.error) {
+      //     yield put({
+      //       type: 'global/refreshDownloadFiles',
+      //     });
+      //   }
+      // }
     },
 
     *importAddressBook({ payload, resolve }, { call, put }) {

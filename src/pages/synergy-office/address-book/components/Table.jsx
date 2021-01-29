@@ -88,41 +88,42 @@ const Table = ({ emAddressBook, openModifyModal, dispatch }) => {
 
   const importAddressBook = e => {
     const file = e.target.files[0];
-    message.loading({ content: '文件上传中，请稍后……', key: 'importsAddressBook', duration: 0 });
-    return new Promise(resolve => {
-        dispatch({
-          type: 'emAddressBook/importAddressBook',
-          payload: {
-            file,
-            type: 'excel',
-          },
-          resolve,
-        });
+    message.loading({ content: '文件上传中，请稍后……', key: 'importsAddressBook' });
+    new Promise(resolve => {
+      dispatch({
+        type: 'emAddressBook/importAddressBook',
+        payload: {
+          file,
+          type: 'excel',
+        },
+        resolve,
+      });
+    })
+      .then(res => {
+        console.log('res', res.failure);
+        if (res && res.failure > 0) {
+          message.error(`${res.failure}条数据格式有误，请确认并更正数据后重新导入`);
+          // Modal.warning({
+          //   title: '导入数据格式有误，请确认并更正数据后重新导入！',
+          //   width: 640,
+          //   content: (
+          //     <div
+          //       style={{
+          //         maxHeight: 400,
+          //         overflow: 'auto',
+          //       }}
+          //     >
+          //       {res.map(item => (
+          //         <div key={item.reason}>{item.reason}</div>
+          //       ))}
+          //     </div>
+          //   ),
+          // });
+        }
       })
-        .then(res => {
-          if (res && res.failure > 0) {
-            message.error(`${res.failure}条数据格式有误，请确认并更正数据后重新导入`)
-            // Modal.warning({
-            //   title: '导入数据格式有误，请确认并更正数据后重新导入！',
-            //   width: 640,
-            //   content: (
-            //     <div
-            //       style={{
-            //         maxHeight: 400,
-            //         overflow: 'auto',
-            //       }}
-            //     >
-            //       {res.map(item => (
-            //         <div key={item.reason}>{item.reason}</div>
-            //       ))}
-            //     </div>
-            //   ),
-            // });
-          }
-        })
-        .finally(() => {
-          message.destroy('importsAddressBook');
-        })
+      .finally(() => {
+        message.destroy('importsAddressBook');
+      });
     e.target.value = '';
   };
 

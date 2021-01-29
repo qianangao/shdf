@@ -1,4 +1,4 @@
-import request,{noErrorRequest} from '@/utils/request';
+import request, { noErrorRequest } from '@/utils/request';
 
 /**
  * 获取通讯录列表
@@ -62,7 +62,7 @@ export async function deleteAddressBook(params: any) {
 export async function templateDownload() {
   return noErrorRequest(`/通讯录模板.xlsx`, {
     method: 'GET',
-    responseType: 'blob'
+    responseType: 'blob',
   });
 }
 
@@ -88,6 +88,3 @@ export async function exportAddressBook(params) {
     params,
   });
 }
-
-
-
