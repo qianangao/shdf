@@ -26,7 +26,7 @@ export async function searchOrgTree(params) {
  * 根据id获取完整组织树结构
  * @param {*} params
  */
-export async function getAllOrgTree(params) {
+export async function getAllOrgTree(params?: any) {
   return request(`/organization/child`, {
     method: 'GET',
     params,
