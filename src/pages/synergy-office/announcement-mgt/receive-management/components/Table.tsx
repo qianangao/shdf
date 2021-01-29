@@ -2,7 +2,7 @@ import React from 'react';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 
-const Table = ({ soAnnouncementMgt, openReadModal, replyModal, dispatch }) => {
+const Table = ({ soAnnouncementMgt, openDetailModal, replyModal, dispatch }) => {
   const { tableRef } = soAnnouncementMgt;
 
   const columns = [
@@ -48,7 +48,7 @@ const Table = ({ soAnnouncementMgt, openReadModal, replyModal, dispatch }) => {
       width: 280,
       fixed: 'right',
       render: (dom: any, data: any) => [
-        <a key={`${data.noticeId}detail`} onClick={() => openReadModal(data)}>
+        <a key={`${data.noticeId}detail`} onClick={() => openDetailModal(data)}>
           查看
         </a>,
         data && data.readingState === 0 && (

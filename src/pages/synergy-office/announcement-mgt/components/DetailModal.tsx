@@ -69,7 +69,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, soAnnouncementMgt }) => {
 
   return (
     <Modal
-      title={detailData ? '编辑公告' : '新建公告'}
+      title="查看公告"
       centered
       width="90vw"
       style={{ paddingBottom: 0 }}
