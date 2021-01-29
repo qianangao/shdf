@@ -21,37 +21,6 @@ export async function getAddressBookDetail(params: any) {
     // params,
   });
 }
-/**
- * 模板下载
- * @param params
- */
-export async function templateDownload() {
-  return request(`/central/org`, {
-    method: 'POST',
-  });
-}
-/**
- * 导出文件
- * @param params
- */
-export async function exportAddressBook(params) {
-  return noErrorRequest(`/addressBook/export`, {
-    method: 'GET',
-    responseType: 'blob',
-    params,
-  });
-}
-
-/**
- * 导入文件
- * @param params
- */
-export async function importAddressBook(params) {
-  return request(`/addressBook/import`, {
-    method: 'POST',
-    data: params,
-  });
-}
 
 /**
  * 新增通讯录
@@ -85,3 +54,38 @@ export async function deleteAddressBook(params: any) {
     data: params,
   });
 }
+
+/**
+ * 模板下载
+ * @param params
+ */
+export async function templateDownload() {
+  return request(`/central/org`, {
+    method: 'POST',
+  });
+}
+/**
+ * 导出文件
+ * @param params
+ */
+export async function exportAddressBook(params) {
+  return noErrorRequest(`/addressBook/export`, {
+    method: 'GET',
+    responseType: 'blob',
+    params,
+  });
+}
+
+/**
+ * 导入文件
+ * @param params
+ */
+export async function importAddressBook(params) {
+  return request(`/addressBook/import`, {
+    method: 'POST',
+    data: params,
+  });
+}
+
+
+

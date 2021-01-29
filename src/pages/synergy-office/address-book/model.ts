@@ -61,17 +61,17 @@ const Model = {
         yield downloadXlsFile(response, `通讯录列表${moment().format('MM-DD HH:mm:ss')}.xls`);
       // }
     // else {
-      // const fileName = `人员列表${moment().format('MM-DD HH:mm:ss')}.xls`;
-      // params.name = fileName;
-      // const response = yield call(exportLgbsAsync, params);
+    //   const fileName = `人员列表${moment().format('MM-DD HH:mm:ss')}.xls`;
+    //   params.name = fileName;
+    //   const response = yield call(exportLgbsAsync, params);
 
-      // message.info('文件导出中，请在用户信息栏通知中查看');
+    //   message.info('文件导出中，请在用户信息栏通知中查看');
 
-      // if (!response.error) {
-      //   yield put({
-      //     type: 'global/refreshDownloadFiles',
-      //   });
-      // }
+    //   if (!response.error) {
+    //     yield put({
+    //       type: 'global/refreshDownloadFiles',
+    //     });
+    //   }
     // }
     },
     *getAddressBookDetail({ payload, resolve }, { call }) {
