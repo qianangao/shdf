@@ -2,12 +2,11 @@ import React, { useEffect, useRef } from 'react';
 import { connect } from 'umi';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import Table from './components/Table';
-import ModifyModal from './components/ModifyModal';
-import ReadSituationModal from './components/ReadSituationModal';
+import ReplyNoticeModal from './components/ReplyNoticeModal';
 
 const AnnouncementMgt = ({ dispatch }) => {
-  const modifyRef = useRef({});
   const readModifyRef = useRef({});
+  const replyRef = useRef({});
 
   useEffect(() => {
     dispatch({
@@ -18,18 +17,17 @@ const AnnouncementMgt = ({ dispatch }) => {
     });
   }, []);
 
-  const openModifyModal = (item: any) => {
-    modifyRef.current.showModal(item);
-  };
   const openReadModal = (item: any) => {
     readModifyRef.current.showModal(item);
+  };
+  const replyModal = (item: any) => {
+    replyRef.current.showModal(item);
   };
 
   return (
     <PageHeaderWrapper>
-      <Table openModifyModal={openModifyModal} openReadModal={openReadModal} />
-      <ModifyModal actionRef={modifyRef} />
-      <ReadSituationModal actionRef={readModifyRef} />
+      <Table openReadModal={openReadModal} replyModal={replyModal} />
+      <ReplyNoticeModal actionRef={replyRef} />
     </PageHeaderWrapper>
   );
 };
