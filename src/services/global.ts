@@ -5,7 +5,7 @@ import request from '@/utils/request';
  * @param {*} params
  */
 export async function getDictionary(params) {
-  return request('/dictionary', {
+  return request('/dicCfg/getDicCfg', {
     method: 'GET',
     params,
   });
@@ -16,18 +16,7 @@ export async function getDictionary(params) {
  * @param {*} params 登陆信息
  */
 export async function uploadFile(params) {
-  return request('/ceph', {
-    method: 'POST',
-    data: params,
-  });
-}
-
-/**
- * 上传文件到本地服务器
- * @param {*} params
- */
-export async function uploadLocalFile(params) {
-  return request('/attachmentsftpto', {
+  return request('/file/upload', {
     method: 'POST',
     data: params,
   });

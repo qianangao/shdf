@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { connect } from 'umi';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
+import OrgTreeLayout from '@/layouts/OrgTreeLayout';
 import Table from './components/Table';
 import ModifyModal from './components/ModifyModal';
 
@@ -11,20 +11,27 @@ const KeyInstitutions = ({ dispatch }) => {
     dispatch({
       type: 'global/getEnums',
       payload: {
-        names: [],
+        names: ['subject_secrecy_level'],
       },
     });
   }, []);
+
+  const orgChangeHander = orgId => {
+    dispatch({
+      type: 'emKeyInstitutions/selectOrgChange',
+      payload: orgId,
+    });
+  };
 
   const openModifyModal = item => {
     modifyRef.current.showModal(item);
   };
 
   return (
-    <PageHeaderWrapper>
+    <OrgTreeLayout onOrgSelect={orgChangeHander}>
       <Table openModifyModal={openModifyModal} />
       <ModifyModal actionRef={modifyRef} />
-    </PageHeaderWrapper>
+    </OrgTreeLayout>
   );
 };
 
