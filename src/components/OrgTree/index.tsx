@@ -12,6 +12,10 @@ const OrgTree = ({ value = '', onChange = null, allInValue = false }) => {
 
   const getTreeData = (id = '') => {
     return getOrgTreeById({ id }).then(data => {
+      if (data.error) {
+        return;
+      }
+
       const tempId = id || 'demoid';
       if (!id) {
         orgTreeData.push({
