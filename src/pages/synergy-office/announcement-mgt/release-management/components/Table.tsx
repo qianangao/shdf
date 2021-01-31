@@ -3,12 +3,19 @@ import { Button, Modal, Popconfirm } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 
-const Table = ({ soAnnouncementMgt, openModifyModal, openReadModal, dispatch }) => {
+const Table = ({
+  soAnnouncementMgt,
+  openModifyModal,
+  openReadModal,
+  detailModal,
+  commitExamineModal,
+  dispatch,
+}) => {
   const { tableRef } = soAnnouncementMgt;
 
   const createButton = (data: { noticeId: any; noticeStatus: any }) => {
     const CHECK = (
-      <a key={`${data.noticeId}detail`} onClick={() => openReadModal(data)}>
+      <a key={`${data.noticeId}detail`} onClick={() => detailModal(data)}>
         查看
       </a>
     );
@@ -38,22 +45,17 @@ const Table = ({ soAnnouncementMgt, openModifyModal, openReadModal, dispatch }) 
       </Popconfirm>
     );
     const COMMIT_EXAMINE = (
-      <Popconfirm
-        key={`${data.noticeId}del`}
-        title="确认对该公告信息提交审核吗？"
-        placement="topRight"
-        onConfirm={() => {}}
-      >
-        <a>提交审核</a>
-      </Popconfirm>
+      <a key={`${data.noticeId}commit`} onClick={() => commitExamineModal(data)}>
+        提交审核
+      </a>
     );
     const EXAMINE = (
-      <a key={`${data.noticeId}del`} onClick={() => {}}>
+      <a key={`${data.noticeId}examine`} onClick={() => {}}>
         审核
       </a>
     );
     const TREATMENT = (
-      <a key={`${data.noticeId}treatment`} onClick={() => {}}>
+      <a key={`${data.noticeId}treatment`} onClick={() => openReadModal(data)}>
         处理情况
       </a>
     );
@@ -62,7 +64,7 @@ const Table = ({ soAnnouncementMgt, openModifyModal, openReadModal, dispatch }) 
         key={`${data.noticeId}rollback`}
         title="确认撤回该公告信息吗？"
         placement="topRight"
-        onConfirm={() => {}}
+        onConfirm={() => rollbackOrCloseAnnouncement(data.noticeId, 0)}
       >
         <a>撤回</a>
       </Popconfirm>
@@ -72,26 +74,31 @@ const Table = ({ soAnnouncementMgt, openModifyModal, openReadModal, dispatch }) 
         key={`${data.noticeId}close`}
         title="确认关闭该公告信息吗？"
         placement="topRight"
-        onConfirm={() => {}}
+        onConfirm={() => rollbackOrCloseAnnouncement(data.noticeId, 1)}
       >
         <a>关闭</a>
       </Popconfirm>
     );
-    const REPLY = (
-      <a key={`${data.noticeId}reply`} onClick={() => {}}>
-        回复
-      </a>
-    );
 
     switch (data.noticeStatus) {
       case -3:
-        return [CHECK, EDIT, PUBLISH, DELETE];
+        return [CHECK, EDIT, COMMIT_EXAMINE, PUBLISH];
       case -1:
-        return [COMMIT_EXAMINE, PUBLISH, ROLLBACK];
+        return [CHECK, EDIT, COMMIT_EXAMINE];
+      case 0:
+        return [CHECK, EDIT, COMMIT_EXAMINE, PUBLISH, DELETE];
       case 1:
-        return [EXAMINE, ROLLBACK, CLOSE];
+        return [CHECK, EXAMINE];
+      case 3:
+        return [CHECK, PUBLISH];
+      case 5:
+        return [CHECK, TREATMENT, ROLLBACK, CLOSE];
+      case 7:
+        return [CHECK, TREATMENT];
+      case 9:
+        return [CHECK];
       default:
-        return [COMMIT_EXAMINE, TREATMENT, PUBLISH, ROLLBACK, REPLY];
+        return [CHECK];
     }
   };
 
@@ -117,7 +124,7 @@ const Table = ({ soAnnouncementMgt, openModifyModal, openReadModal, dispatch }) 
     {
       title: '保存时间',
       align: 'center',
-      dataIndex: 'createTime',
+      dataIndex: 'lastUpdateTime',
       valueType: 'dateTime',
       hideInSearch: true,
     },
@@ -151,6 +158,13 @@ const Table = ({ soAnnouncementMgt, openModifyModal, openReadModal, dispatch }) 
     dispatch({
       type: 'soAnnouncementMgt/publishAnnouncement',
       payload: { noticeId, visibleRange: [] },
+    });
+  };
+
+  const rollbackOrCloseAnnouncement = (noticeId: any, handleType: any) => {
+    dispatch({
+      type: 'soAnnouncementMgt/rollbackOrCloseAnnouncement',
+      payload: { noticeId, handleType },
     });
   };
 

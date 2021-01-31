@@ -95,9 +95,9 @@ const getNoticeDetail = (req, res) => {
   });
 };
 export default {
-  'GET /shdf/notices': noticeList,
-  'GET /shdf/notice/:id': getNoticeDetail,
-  'POST /shdf/noticeDetail1': getNoticeDetail,
+  // 'GET /shdf/notices': noticeList,
+  // 'GET /shdf/notice/:id': getNoticeDetail,
+  // 'POST /shdf/noticeDetail1': getNoticeDetail,
   'PUT /shdf/user/:id': noResponse,
   'DELETE /shdf/user': noResponse,
 };

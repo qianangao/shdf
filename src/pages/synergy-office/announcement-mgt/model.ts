@@ -7,12 +7,17 @@ import {
   deleteAnnouncement,
   publishAnnouncement,
   getReadInfo,
+  replyAnnouncement,
+  getReceiveList,
+  rollbackOrCloseAnnouncement,
+  commitExamineAnnouncement,
 } from './service';
 
 const Model = {
   namespace: 'soAnnouncementMgt',
   state: {
     announcementListData: {},
+    receiveListData: {},
     announcementData: {},
     readSituationData: {},
     tableRef: {},
@@ -47,13 +52,36 @@ const Model = {
         });
       }
     },
-    *getReadInfo({ payload, resolve }, { call, put }) {
+    *getReceiveList({ payload, resolve }, { call, put }) {
       const params = {
         ...payload,
         pageNum: payload.current,
         pageSize: payload.pageSize,
       };
-      const response = yield call(getReadInfo, params);
+      const response = yield call(getReceiveList, params);
+
+      if (!response.error) {
+        const { records, page, total } = response;
+        const result = {
+          data: records,
+          page,
+          pageSize: payload.pageSize,
+          success: true,
+          total,
+        };
+
+        resolve && resolve(result);
+
+        yield put({
+          type: 'save',
+          payload: {
+            receiveListData: result,
+          },
+        });
+      }
+    },
+    *getReadInfo({ payload, resolve }, { call, put }) {
+      const response = yield call(getReadInfo, payload);
 
       if (!response.error) {
         const { records, page, total } = response;
@@ -100,6 +128,17 @@ const Model = {
         });
       }
     },
+    *commitExamineAnnouncement({ payload, resolve }, { call, put }) {
+      const response = yield call(commitExamineAnnouncement, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('提交审核成功！');
+
+        yield put({
+          type: 'tableReload',
+        });
+      }
+    },
     *updateAnnouncement({ payload, resolve }, { call, put }) {
       const response = yield call(updateAnnouncement, payload);
       if (!response.error) {
@@ -127,6 +166,29 @@ const Model = {
       if (!response.error) {
         resolve && resolve(response);
         message.success('公告信息发布成功！');
+
+        yield put({
+          type: 'tableReload',
+        });
+      }
+    },
+    *rollbackOrCloseAnnouncement({ payload, resolve }, { call, put }) {
+      const response = yield call(rollbackOrCloseAnnouncement, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        if (payload.handleType === 1) message.success('公告信息关闭成功！');
+        else message.success('公告信息撤回成功！');
+
+        yield put({
+          type: 'tableReload',
+        });
+      }
+    },
+    *replyAnnouncement({ payload, resolve }, { call, put }) {
+      const response = yield call(replyAnnouncement, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('回复公告信息成功！');
 
         yield put({
           type: 'tableReload',
