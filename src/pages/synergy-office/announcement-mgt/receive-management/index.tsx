@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import { connect } from 'umi';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
+import DetailModal from '@/pages/synergy-office/announcement-mgt/components/DetailModal';
 import Table from './components/Table';
 import ReplyNoticeModal from './components/ReplyNoticeModal';
-import DetailModal from '@/pages/synergy-office/announcement-mgt/components/DetailModal';
 
 const AnnouncementMgt = ({ dispatch }) => {
   const detailRef = useRef({});

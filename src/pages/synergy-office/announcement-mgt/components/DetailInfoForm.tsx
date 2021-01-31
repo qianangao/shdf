@@ -1,6 +1,6 @@
 import React from 'react';
 import AdvancedForm from '@/components/AdvancedForm';
-import { Radio } from 'antd';
+import { Checkbox } from 'antd';
 import StaffMultiSelectInput from '@/components/StaffMultiSelectInput';
 
 const DetailInfoForm = ({ form }) => {
@@ -69,12 +69,7 @@ const DetailInfoForm = ({ form }) => {
       label: '提醒方式',
       name: 'remindWays',
       // rules: [{ required: true, message: '请选择提醒方式!' }],
-      render: (
-        <Radio.Group>
-          <Radio value={0}>站内信</Radio>
-          <Radio value={1}>其他</Radio>
-        </Radio.Group>
-      ),
+      render: <Checkbox checked>站内信</Checkbox>,
     },
     {
       label: '上传附件',
