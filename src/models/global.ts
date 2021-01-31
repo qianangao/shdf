@@ -92,7 +92,7 @@ const GlobalModel = {
     *refreshDownloadFiles(_, { call, put }) {
       const response = yield call(getDownloadFiles);
 
-      if (response || !response.error) {
+      if (!response.error) {
         yield put({
           type: 'save',
           payload: {
@@ -107,7 +107,7 @@ const GlobalModel = {
     *deleteDownloadFiles({ payload }, { call, put }) {
       const response = yield call(deleteDownloadFiles, payload);
 
-      if (!response || !response.error) {
+      if (!response.error) {
         yield put({
           type: 'deleteDownLoadFiles',
           payload,
