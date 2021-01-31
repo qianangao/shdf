@@ -140,7 +140,7 @@ const situation = (req: any) => {
         "noticeId":`3308898160389857280${i}`,
         "noticeTitle":null,
         "readingAccount":`yangc${i}`,
-        "readingState":1,
+        "readingState":i%2,
         "readingOrg":null,
         "replyContent":"回复内容回复内容",
         "createUser":`yangc${i}`,

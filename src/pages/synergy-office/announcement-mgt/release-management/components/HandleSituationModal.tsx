@@ -17,6 +17,7 @@ const HandleSituationModal = ({ dispatch, actionRef, loading, soAnnouncementMgt 
 
   const getHandleSituationList = (params: any) => {
     form.resetFields();
+    setCurrentPage(1);
     searchData(params);
     // dispatch({
     //   type: 'soAnnouncementMgt/getReadInfo',
