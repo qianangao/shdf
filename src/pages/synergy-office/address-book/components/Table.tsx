@@ -1,9 +1,7 @@
 import React, { useRef } from 'react';
-import { Button, Popconfirm, message, Modal } from 'antd';
+import { Button, Popconfirm, message } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
-import UploadInput from '@/components/UploadInput';
-import { RestFilled } from '@ant-design/icons';
 
 const Table = ({ emAddressBook, openModifyModal, dispatch }) => {
   const { tableRef } = emAddressBook;
@@ -36,13 +34,6 @@ const Table = ({ emAddressBook, openModifyModal, dispatch }) => {
       title: '所属部门',
       align: 'center',
       dataIndex: 'userDept',
-      // valueEnum: {
-      //   付小小: { text: '付小小' },
-      //   曲丽丽: { text: '曲丽丽' },
-      //   林东东: { text: '林东东' },
-      //   陈帅帅: { text: '陈帅帅' },
-      //   兼某某: { text: '兼某某' },
-      // },
     },
     { title: '当前职务', align: 'center', dataIndex: 'job', hideInSearch: true },
     { title: '手机号', align: 'center', dataIndex: 'phoneNumber', hideInSearch: true },
@@ -100,25 +91,8 @@ const Table = ({ emAddressBook, openModifyModal, dispatch }) => {
       });
     })
       .then(res => {
-        console.log('res', res.failure);
         if (res && res.failure > 0) {
           message.error(`${res.failure}条数据格式有误，请确认并更正数据后重新导入`);
-          // Modal.warning({
-          //   title: '导入数据格式有误，请确认并更正数据后重新导入！',
-          //   width: 640,
-          //   content: (
-          //     <div
-          //       style={{
-          //         maxHeight: 400,
-          //         overflow: 'auto',
-          //       }}
-          //     >
-          //       {res.map(item => (
-          //         <div key={item.reason}>{item.reason}</div>
-          //       ))}
-          //     </div>
-          //   ),
-          // });
         }
       })
       .finally(() => {
@@ -128,20 +102,10 @@ const Table = ({ emAddressBook, openModifyModal, dispatch }) => {
   };
 
   const exportDetailData = selectedRowKeys => {
-    let bookIds = selectedRowKeys.join(',');
-    // if (selectedRowKeys && selectedRowKeys.length) {
+    const bookIds = selectedRowKeys.join(',');
     dispatch({
       type: 'emAddressBook/exportAddressBook',
       payload: { bookIds },
-    });
-    return;
-    // }
-    tableRef.current.reload();
-    dispatch({
-      type: 'emAddressBook/exportAddressBook',
-      payload: {
-        ...formRef.current.getFieldsValue(),
-      },
     });
   };
 
@@ -178,9 +142,6 @@ const Table = ({ emAddressBook, openModifyModal, dispatch }) => {
             >
               导入
             </Button>
-            {/* // <Upload {...props}>
-          //   <Button type="primary">导入</Button>
-          // </Upload>, */}
           </>,
           <Button
             type="primary"
@@ -190,13 +151,6 @@ const Table = ({ emAddressBook, openModifyModal, dispatch }) => {
           >
             导出
           </Button>,
-          // <Button onClick={() => templateDownload()}>模板下载</Button>,
-          // <UploadInput type="excel" />,
-          // selectedRowKeys && selectedRowKeys.length && (
-          //   <Button type="primary" onClick={() => exportAddressBook(selectedRowKeys)}>
-          //     导出
-          //   </Button>
-          // ),
         ]}
         columns={columns}
       />

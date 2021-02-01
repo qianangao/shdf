@@ -28,8 +28,6 @@ const Model = {
       delete params.current;
       const response = yield call(getAddressBook, params);
       if (!response.error) {
-        // const { items, currentPage, totalNum } = response;
-
         const result = {
           data: response.records,
           page: response.pages,
@@ -92,7 +90,7 @@ const Model = {
       }
     },
 
-    *templateDownload({_}, { call }) {
+    *templateDownload({ _ }, { call }) {
       const response = yield call(templateDownload);
       if (!response.error) {
         yield downloadXlsFile(response, `通讯录模板`);
@@ -102,21 +100,8 @@ const Model = {
     *exportAddressBook({ payload }, { call }) {
       const response = yield call(exportAddressBook, payload);
       if (!response.error) {
-        yield downloadXlsFile(response, `通讯录列表${moment().format('MM-DD HH:mm:ss')}.xls`);
+        yield downloadXlsFile(response, `通讯录列表${moment().format('MM-DD HH:mm:ss')}`);
       }
-      // else {
-      //   const fileName = `人员列表${moment().format('MM-DD HH:mm:ss')}.xls`;
-      //   params.name = fileName;
-      //   const response = yield call(exportLgbsAsync, params);
-
-      //   message.info('文件导出中，请在用户信息栏通知中查看');
-
-      //   if (!response.error) {
-      //     yield put({
-      //       type: 'global/refreshDownloadFiles',
-      //     });
-      //   }
-      // }
     },
 
     *importAddressBook({ payload, resolve }, { call, put }) {

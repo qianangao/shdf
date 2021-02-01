@@ -172,7 +172,7 @@ export const checkPhone = (rule, value, callback) => {
  * @param {*} callback form回调函数
  */
 export const checkTelephone = (rule, value, callback) => {
-  const isTelephone = /^0\d{2,3}-\d{7,8}$/;
+  const isTelephone = /^((0\d{2,3})-)(\d{7,8})(-(\d{3,}))?$/;
   if (value && !isTelephone.test(value)) {
     callback('固定电话输入不合法！');
   } else {
@@ -251,12 +251,11 @@ export const checkPost = (rule, value, callback) => {
  * @param {*} callback form回调函数
  */
 
-export const checkEmail = (rule, value, callback) => {
-    const reg = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/;
-    if (value && !reg.test(value)) {
-      callback('电子邮箱格式不合法');
-    } else {
-      callback();
-    }
-  };
-
+export const checkEmail = (rule, value, callback) => {
+  const reg = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/;
+  if (value && !reg.test(value)) {
+    callback('电子邮箱格式不合法');
+  } else {
+    callback();
+  }
+};

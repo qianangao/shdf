@@ -1,32 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
 import { Modal } from 'antd';
-import AddressBookForm from './AddressBookForm';
+import ChildrenTaskForm from './ChildrenTaskForm';
 
 const ModifyModal = ({ dispatch, actionRef, loading }) => {
-  const [form] = AddressBookForm.useForm();
-  const [detailData, setDetailData] = useState(null);
+  const [form] = ChildrenTaskForm.useForm();
   const [modalVisible, setModalVisible] = useState(false);
 
-  const showModal = bookId => {
-    setDetailData(bookId || null);
-    updateData(bookId);
+  const showModal = () => {
+    // setDetailData(bookId || null);
+    // updateData(bookId);
     setModalVisible(true);
   };
 
-  const updateData = bookId => {
-    if (bookId) {
-      new Promise(resolve => {
-        dispatch({
-          type: 'emAddressBook/getAddressBookDetail',
-          payload: bookId.toString(),
-          resolve,
-        });
-      }).then(res => {
-        if (res) form.setFieldsValue({ ...res });
-      });
-    }
-  };
+  // const updateData = bookId => {
+  //   if (bookId) {
+  //     new Promise(resolve => {
+  //       dispatch({
+  //         type: 'emAddressBook/getAddressBookDetail',
+  //         payload: bookId.toString(),
+  //         resolve,
+  //       });
+  //     }).then(res => {
+  //       if (res) form.setFieldsValue({ ...res });
+  //     });
+  //   }
+  // };
 
   useEffect(() => {
     if (actionRef && typeof actionRef === 'function') {
@@ -49,10 +48,9 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       .then(values => {
         return new Promise(resolve => {
           dispatch({
-            type: `emAddressBook/${detailData ? 'updateAddressBook' : 'addAddressBook'}`,
+            type: `specialAction/addChildrenTaskList`,
             payload: {
               ...values,
-              bookId: detailData && detailData.toString(),
             },
             resolve,
           });
@@ -68,9 +66,9 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
 
   return (
     <Modal
-      title={detailData ? '编辑通讯录' : '新增通讯录'}
+      title="子任务信息"
       centered
-      width="40vw"
+      width="60vw"
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',
@@ -80,7 +78,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <AddressBookForm form={form} />
+      <ChildrenTaskForm form={form} />
     </Modal>
   );
 };

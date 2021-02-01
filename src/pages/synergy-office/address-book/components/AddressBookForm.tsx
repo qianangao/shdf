@@ -19,13 +19,11 @@ const AddressBookForm = ({ form }) => {
       label: '员工性别',
       name: 'gender',
       span: 4,
-      // initialValue: '1',
       rules: [{ required: true, message: '请选择员工性别' }],
       render: (
         <Radio.Group>
           <Radio value={0}>女</Radio>
           <Radio value={1}>男</Radio>
-          <Radio value={2}>保密</Radio>
         </Radio.Group>
       ),
     },
