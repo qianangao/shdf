@@ -109,11 +109,11 @@ const UploadInput = ({
       })
         .then(data => {
           setLoading(false);
-          if (data.length > 0) {
+          if (data) {
             const tempFile = {
-              url: data[0].url,
-              uid: data[0].id,
-              name: data[0].fileName,
+              url: data.url,
+              uid: data.id,
+              name: data.fileName,
               status: 'done',
             };
             setUpFileList([...upFileList, tempFile]);
