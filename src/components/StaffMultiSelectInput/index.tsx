@@ -101,6 +101,9 @@ const StaffMultiSelectInput = ({ value, enums, getLgbs, dispatch, onChange }) =>
       params.orgIdForDataSelect = selectedOrgId;
 
       getStaffList({ ...params, selectedOrgId }).then(data => {
+        if (data.error) {
+          return;
+        }
         const res = formatPageData(data);
         resolve(res);
       });
