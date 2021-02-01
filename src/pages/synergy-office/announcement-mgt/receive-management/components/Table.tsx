@@ -45,7 +45,7 @@ const Table = ({ soAnnouncementMgt, openDetailModal, replyModal, dispatch, enums
       width: 280,
       fixed: 'right',
       render: (dom: any, data: any) => [
-        <a key={`${data.noticeId}detail`} onClick={() => openDetailModal(data)}>
+        <a key={`${data.noticeId}detail`} onClick={() => openDetailModal(data, 'receive')}>
           查看
         </a>,
         data && data.readingState === 0 && (

@@ -131,7 +131,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, soAnnouncementMgt }) => {
 
   return (
     <Modal
-      title="查看公告"
+      title="公告详情"
       centered
       width="90vw"
       style={{ paddingBottom: 0 }}
@@ -181,6 +181,16 @@ const ModifyModal = ({ dispatch, actionRef, loading, soAnnouncementMgt }) => {
             <Descriptions title="公告审核信息" />
             <DetailInfoForm form={form} />
           </>
+        )}
+        {type === 'receive' && (
+          <Descriptions title="处理信息" column={{ xxl: 4, xl: 3, lg: 2 }}>
+            <Descriptions.Item label="回复时间" span={3}>
+              {announcementData.secrecyLevel}
+            </Descriptions.Item>
+            <Descriptions.Item label="回复内容" span={3}>
+              {announcementData.secrecyLevel}
+            </Descriptions.Item>
+          </Descriptions>
         )}
       </Spin>
     </Modal>

@@ -18,8 +18,8 @@ const AnnouncementMgt = ({ dispatch }) => {
     });
   }, []);
 
-  const openDetailModal = (item: any) => {
-    detailRef.current.showModal(item);
+  const openDetailModal = (item: any, type: any) => {
+    detailRef.current.showModal(item, type);
   };
   const replyModal = (item: any) => {
     replyRef.current.showModal(item);
