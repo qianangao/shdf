@@ -17,7 +17,7 @@ const AnnouncementMgt = ({ dispatch }) => {
     dispatch({
       type: 'global/getEnums',
       payload: {
-        names: [],
+        names: ['subject_secrecy_level', 'notice_status'],
       },
     });
   }, []);
@@ -31,8 +31,8 @@ const AnnouncementMgt = ({ dispatch }) => {
   const commitExamineModal = (item: any) => {
     commitExamineRef.current.showModal(item);
   };
-  const detailModal = (item: any) => {
-    detailRef.current.showModal(item);
+  const detailModal = (item: any, type: any) => {
+    detailRef.current.showModal(item, type);
   };
 
   return (

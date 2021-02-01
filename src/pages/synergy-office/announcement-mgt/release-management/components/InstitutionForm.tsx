@@ -1,6 +1,6 @@
 import React from 'react';
 import AdvancedForm from '@/components/AdvancedForm';
-import { Checkbox } from 'antd';
+import { Radio } from 'antd';
 import StaffMultiSelectInput from '@/components/StaffMultiSelectInput';
 
 const InstitutionForm = ({ form }) => {
@@ -28,12 +28,7 @@ const InstitutionForm = ({ form }) => {
       name: 'secrecyLevel',
       span: 2,
       rules: [{ required: true, message: '请选择密级标识!' }],
-      // initialValue: '普通',
-      enumsItems: {
-        0: '普通',
-        1: '秘密',
-        2: '机密',
-      },
+      enumsLabel: 'subject_secrecy_level',
     },
     {
       label: '可见范围',
@@ -56,12 +51,17 @@ const InstitutionForm = ({ form }) => {
     {
       label: '提醒方式',
       name: 'remindWays',
+      initialValue: '1',
       // rules: [{ required: true, message: '请选择提醒方式!' }],
-      render: <Checkbox checked>站内信</Checkbox>,
+      render: (
+        <Radio.Group defaultValue="1">
+          <Radio value="1">站内信</Radio>
+        </Radio.Group>
+      ),
     },
     {
       label: '上传附件',
-      name: 'File',
+      name: 'files',
       type: 'upload',
       span: 4,
     },

@@ -11,6 +11,7 @@ import {
   getReceiveList,
   rollbackOrCloseAnnouncement,
   commitExamineAnnouncement,
+  auditAnnouncement,
 } from './service';
 
 const Model = {
@@ -144,6 +145,17 @@ const Model = {
       if (!response.error) {
         resolve && resolve(response);
         message.success('公告信息修改成功！');
+
+        yield put({
+          type: 'tableReload',
+        });
+      }
+    },
+    *auditAnnouncement({ payload, resolve }, { call, put }) {
+      const response = yield call(auditAnnouncement, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('公告信息审核成功！');
 
         yield put({
           type: 'tableReload',

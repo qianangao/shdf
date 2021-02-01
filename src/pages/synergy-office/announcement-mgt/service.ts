@@ -66,6 +66,17 @@ export async function commitExamineAnnouncement(params: any) {
 }
 
 /**
+ * 审核公告信息
+ * @param params
+ */
+export async function auditAnnouncement(params: any) {
+  return request(`/notice/audit`, {
+    method: 'PUT',
+    data: params,
+  });
+}
+
+/**
  * 修改公告信息
  * @param params
  */

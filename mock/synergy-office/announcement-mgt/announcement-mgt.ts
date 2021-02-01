@@ -71,7 +71,6 @@ const noticeList = (req, res) => {
 };
 
 const getNoticeDetail = (req, res) => {
-  const { id } = req.query;
   res.send({
     "code":10000,
     "msg":"成功",
@@ -83,10 +82,10 @@ const getNoticeDetail = (req, res) => {
       "secrecyData":null,
       "receiptHandle":0,
       "remindWays":"0",
-      "visibleRange":null,
+      "visibleRange":"[{\"id\": \"402883e973e5c2ce0173e5c2ce90\", \"realName\": \"伍仟0\"}]",
       "secrecyLevel":1,
       "includeFile":0,
-      "noticeTitle":"demo1",
+      "noticeTitle":"11111111111内容111111111111111111111333333333333333333333333333333333333333333333333日日日日日日日日日日日",
       "softDelete":0,
       "createUser":null,
       "createTime":"2021-01-29T08:46:42.403+00:00",
@@ -176,5 +175,6 @@ export default {
   'GET /shdf/notice': getNoticeDetail,
   'POST /shdf/noticeDetail': getNoticeDetail,
   'GET /shdf/notice/record/deal': getHandleSituation,
+  'GET /shdf/notice/record/todo': noticeList,
   'DELETE /shdf/user': noResponse,
 };

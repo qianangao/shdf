@@ -18,7 +18,7 @@ const HandleSituationModal = ({ dispatch, actionRef, loading, soAnnouncementMgt 
   const getHandleSituationList = (params: any) => {
     form.resetFields();
     setCurrentPage(1);
-    searchData(params);
+    if (currentPage === 1) searchData(params);
     // dispatch({
     //   type: 'soAnnouncementMgt/getReadInfo',
     //   payload: { pageNum: page, pageSize: 20, noticeId: params },
@@ -59,11 +59,11 @@ const HandleSituationModal = ({ dispatch, actionRef, loading, soAnnouncementMgt 
   }, []);
 
   useEffect((): void => {
-    searchData(noticeId);
+    if (noticeId !== '') searchData(noticeId);
   }, [currentPage]);
 
   useEffect(() => {
-    searchData(noticeId);
+    if (noticeId !== '') searchData(noticeId);
   }, [noticeId]);
 
   const hideModal = (): void => {

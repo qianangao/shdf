@@ -13,7 +13,7 @@ const AnnouncementMgt = ({ dispatch }) => {
     dispatch({
       type: 'global/getEnums',
       payload: {
-        names: [],
+        names: ['noticeReceive'],
       },
     });
   }, []);

@@ -31,7 +31,11 @@ const ModifyModal = ({ dispatch, actionRef, loading, soAnnouncementMgt }) => {
   }, []);
 
   useEffect(() => {
-    if (announcementData) form.setFieldsValue({ ...announcementData });
+    if (announcementData) {
+      announcementData.visibleRange =
+        announcementData.visibleRange && JSON.parse(announcementData.visibleRange);
+      form.setFieldsValue({ ...announcementData });
+    }
   }, [announcementData]);
 
   useEffect(() => {
@@ -48,12 +52,17 @@ const ModifyModal = ({ dispatch, actionRef, loading, soAnnouncementMgt }) => {
     form
       .validateFields()
       .then((values: any) => {
+        const fileIds: any = [];
+        form.getFieldValue(['files']).forEach(item => {
+          fileIds.push(item.uid);
+        });
         return new Promise(resolve => {
           dispatch({
             type: `soAnnouncementMgt/${detailData ? 'updateAnnouncement' : 'addAnnouncement'}`,
             payload: {
               ...values,
-              includeFile: 0,
+              includeFile: form.getFieldValue(['files']) ? 1 : 0,
+              fileIds,
             },
             resolve,
           });
@@ -71,6 +80,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, soAnnouncementMgt }) => {
     <Modal
       title={detailData ? '编辑公告' : '新建公告'}
       centered
+      destroyOnClose
       width="90vw"
       style={{ paddingBottom: 0 }}
       bodyStyle={{

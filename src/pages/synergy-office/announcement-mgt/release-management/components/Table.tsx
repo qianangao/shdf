@@ -10,12 +10,13 @@ const Table = ({
   detailModal,
   commitExamineModal,
   dispatch,
+  enums,
 }) => {
   const { tableRef } = soAnnouncementMgt;
 
   const createButton = (data: { noticeId: any; noticeStatus: any }) => {
     const CHECK = (
-      <a key={`${data.noticeId}detail`} onClick={() => detailModal(data)}>
+      <a key={`${data.noticeId}detail`} onClick={() => detailModal(data, 'publish')}>
         查看
       </a>
     );
@@ -50,7 +51,7 @@ const Table = ({
       </a>
     );
     const EXAMINE = (
-      <a key={`${data.noticeId}examine`} onClick={() => {}}>
+      <a key={`${data.noticeId}examine`} onClick={() => detailModal(data, 'examine')}>
         审核
       </a>
     );
@@ -132,16 +133,17 @@ const Table = ({
       title: '状态',
       align: 'center',
       dataIndex: 'noticeStatus',
-      valueEnum: {
-        '0': { text: '草稿' },
-        '1': { text: '审核中' },
-        '3': { text: '已通过' },
-        '-1': { text: '已驳回' },
-        '5': { text: '已发布' },
-        '-3': { text: '已撤回' },
-        '7': { text: '已关闭' },
-        '9': { text: '已接收' },
-      },
+      valueEnum: enums.notice_status,
+      // valueEnum: {
+      //   '0': { text: '草稿' },
+      //   '1': { text: '审核中' },
+      //   '3': { text: '已通过' },
+      //   '-1': { text: '已驳回' },
+      //   '5': { text: '已发布' },
+      //   '-3': { text: '已撤回' },
+      //   '7': { text: '已关闭' },
+      //   '9': { text: '已接收' },
+      // },
     },
     {
       title: '操作',
@@ -217,6 +219,7 @@ const Table = ({
   );
 };
 
-export default connect(({ soAnnouncementMgt }) => ({
+export default connect(({ soAnnouncementMgt, global }) => ({
   soAnnouncementMgt,
+  enums: global.enums,
 }))(Table);

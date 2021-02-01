@@ -2,7 +2,7 @@ import React from 'react';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 
-const Table = ({ soAnnouncementMgt, openDetailModal, replyModal, dispatch }) => {
+const Table = ({ soAnnouncementMgt, openDetailModal, replyModal, dispatch, enums }) => {
   const { tableRef } = soAnnouncementMgt;
 
   const columns = [
@@ -35,10 +35,7 @@ const Table = ({ soAnnouncementMgt, openDetailModal, replyModal, dispatch }) => 
       title: '状态',
       align: 'center',
       dataIndex: 'readingState',
-      valueEnum: {
-        '0': { text: '已接收' },
-        '1': { text: '已回复' },
-      },
+      valueEnum: enums.noticeReceive,
     },
     {
       title: '操作',
@@ -84,6 +81,7 @@ const Table = ({ soAnnouncementMgt, openDetailModal, replyModal, dispatch }) => 
   );
 };
 
-export default connect(({ soAnnouncementMgt }) => ({
+export default connect(({ soAnnouncementMgt, global }) => ({
   soAnnouncementMgt,
+  enums: global.enums,
 }))(Table);
