@@ -4,7 +4,7 @@ import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 
 const Table = ({
-  receivingMgt,
+  caseMgt,
   openDistributeModal,
   openModifyModal,
   openDetailModal,
@@ -13,42 +13,42 @@ const Table = ({
   enums,
   dispatch,
 }) => {
-  const { tableRef } = receivingMgt;
+  const { tableRef } = caseMgt;
   const columns = [
     {
-      title: '收文编号',
+      title: '案件名称',
       dataIndex: 'receiptCode',
       align: 'center',
       fixed: 'left',
       width: 64,
     },
-    { title: '来文标题', align: 'center', dataIndex: 'receiptTitle' },
+    { title: '案件编号', align: 'center', dataIndex: 'receiptTitle' },
     {
-      title: '来文文号',
+      title: '案件类型',
       align: 'center',
       dataIndex: 'docNo',
       valueEnum: enums.dictOrganizationType,
     },
     {
-      title: '来文单位',
+      title: '案件来源',
       align: 'center',
       dataIndex: 'docUnit',
     },
     {
-      title: '紧急程度',
+      title: '案件地域',
       align: 'center',
       dataIndex: 'urgentLevel',
       valueEnum: enums.urgent_level,
       hideInSearch: true,
     },
     {
-      title: '收文日期',
+      title: '办理状态',
       align: 'center',
       dataIndex: 'receiptData',
       hideInSearch: true,
     },
     {
-      title: '操作',
+      title: '办理操作',
       valueType: 'option',
       align: 'center',
       dataIndex: 'receiptId',
@@ -69,12 +69,34 @@ const Table = ({
         </a>,
       ],
     },
+    {
+      title: '备案督办状态',
+      align: 'center',
+      dataIndex: 'receiptData',
+      hideInSearch: true,
+    },
+    {
+      title: '备案督办操作',
+      valueType: 'option',
+      align: 'center',
+      dataIndex: 'receiptId',
+      width: 80,
+      fixed: 'right',
+      render: (dom, receivingData) => [
+        <a key={`${receivingData.id}up`} onClick={() => openDetailModal(receivingData)}>
+          查看
+        </a>,
+        <a key={`${receivingData.id}up`} onClick={() => openModifyModal(receivingData)}>
+          修改
+        </a>,
+      ],
+    },
   ];
 
   const getReceivingList = params =>
     new Promise(resolve => {
       dispatch({
-        type: 'receivingMgt/getReceivingList',
+        type: 'caseMgt/getReceivingList',
         payload: { ...params },
         resolve,
       });
@@ -82,7 +104,7 @@ const Table = ({
 
   const deleteOrgs = ids => {
     dispatch({
-      type: 'receivingMgt/deleteOrgs',
+      type: 'caseMgt/deleteOrgs',
       payload: {
         ids,
       },
@@ -93,13 +115,13 @@ const Table = ({
     <ProTable
       actionRef={tableRef}
       rowKey="receiptId"
-      headerTitle="收文列表"
+      headerTitle="案件列表"
       // rowSelection={[]}
       scroll={{ x: 'max-content' }}
       request={async params => getReceivingList(params)}
       toolBarRender={(_, { selectedRowKeys }) => [
         <Button type="primary" onClick={() => openAddModal()}>
-          收文登记
+          新增
         </Button>,
         selectedRowKeys && selectedRowKeys.length && (
           <Button
@@ -121,7 +143,7 @@ const Table = ({
   );
 };
 
-export default connect(({ receivingMgt, global }) => ({
-  receivingMgt,
+export default connect(({ caseMgt, global }) => ({
+  caseMgt,
   enums: global.enums,
 }))(Table);

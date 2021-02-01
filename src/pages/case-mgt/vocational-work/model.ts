@@ -12,7 +12,7 @@ import {
 } from './service';
 
 const Model = {
-  namespace: 'receivingMgt',
+  namespace: 'caseMgt',
   state: {
     receivingListData: {},
     receivingReadListData: {},

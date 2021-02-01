@@ -54,7 +54,7 @@ const TableRead = ({ enums, dispatch }) => {
   const getReadList = params =>
     new Promise(resolve => {
       dispatch({
-        type: 'receivingMgt/getReceivingReadList',
+        type: 'caseMgt/getReceivingReadList',
         payload: { ...params },
         resolve,
       });
@@ -70,7 +70,7 @@ const TableRead = ({ enums, dispatch }) => {
   );
 };
 
-export default connect(({ receivingMgt, global }) => ({
-  receivingMgt,
+export default connect(({ caseMgt, global }) => ({
+  caseMgt,
   enums: global.enums,
 }))(TableRead);

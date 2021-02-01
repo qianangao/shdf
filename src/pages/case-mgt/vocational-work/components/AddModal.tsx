@@ -1,23 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
 import { Modal } from 'antd';
 import OrgInfoForm from './ReceivingForm';
 
-const ModifyModal = ({ dispatch, actionRef, loading }) => {
+const AddModal = ({ dispatch, actionRef, loading }) => {
   const [form] = OrgInfoForm.useForm();
-  const [receivingDetailData, setOrgInfoData] = useState(null);
-  const [modifyModalVisible, setModalVisible] = useState(false);
-
+  const [orgInfoData, setOrgInfoData] = useState(null);
+  const [addModalVisible, setModalVisible] = useState(false);
   const showModal = items => {
-    // 获取详情
-    dispatch({
-      type: 'receivingMgt/getDetail',
-      payload: {
-        id: items.receiptId,
-      },
-    });
     setOrgInfoData(items || null);
-    if (items) form.setFieldsValue({ ...items });
+
     setModalVisible(true);
   };
 
@@ -41,19 +33,8 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       .validateFields()
       .then(values => {
         return new Promise(resolve => {
-          let filesStr = '';
-          if (values.files && values.files.length > 0) {
-            values.files.forEach(item => {
-              filesStr += `${item.uid},`;
-            });
-          }
-          filesStr = filesStr.substr(0, filesStr.length - 1);
-          delete values.files;
-          values.fileIds = filesStr;
-          // 打印上传信号
-
           dispatch({
-            type: 'receivingMgt/update',
+            type: 'caseMgt/add',
             payload: {
               ...values,
             },
@@ -74,25 +55,25 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
 
   return (
     <Modal
-      title="编辑收文登记"
+      title="案件录入"
       centered
       width={780}
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',
       }}
-      visible={modifyModalVisible}
+      visible={addModalVisible}
       onOk={handleOk}
       forceRender
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <OrgInfoForm form={form} orgInfoData={receivingDetailData} />
+      <OrgInfoForm form={form} orgInfoData={orgInfoData} />
     </Modal>
   );
 };
 
-export default connect(({ receivingMgt, loading }) => ({
-  receivingMgt,
-  loading: loading.models.receivingMgt,
-}))(ModifyModal);
+export default connect(({ caseMgt, loading }) => ({
+  caseMgt,
+  loading: loading.models.caseMgt,
+}))(AddModal);

@@ -11,7 +11,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
   const showModal = items => {
     // 获取详情
     dispatch({
-      type: 'receivingMgt/getDetail',
+      type: 'caseMgt/getDetail',
       payload: {
         id: items.receiptId,
       },
@@ -41,19 +41,8 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       .validateFields()
       .then(values => {
         return new Promise(resolve => {
-          let filesStr = '';
-          if (values.files && values.files.length > 0) {
-            values.files.forEach(item => {
-              filesStr += `${item.uid},`;
-            });
-          }
-          filesStr = filesStr.substr(0, filesStr.length - 1);
-          delete values.files;
-          values.fileIds = filesStr;
-          // 打印上传信号
-
           dispatch({
-            type: 'receivingMgt/update',
+            type: 'caseMgt/update',
             payload: {
               ...values,
             },
@@ -92,7 +81,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
   );
 };
 
-export default connect(({ receivingMgt, loading }) => ({
-  receivingMgt,
-  loading: loading.models.receivingMgt,
+export default connect(({ caseMgt, loading }) => ({
+  caseMgt,
+  loading: loading.models.caseMgt,
 }))(ModifyModal);

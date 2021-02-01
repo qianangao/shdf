@@ -1,22 +1,21 @@
 import React, { useEffect } from 'react';
 import AdvancedForm from '@/components/AdvancedForm';
 
-const ReceivingForm = ({ form, orgInfoData }) => {
+const CaseMgt = ({ form, orgInfoData }) => {
   const formItems = [
     {
       name: 'receiptId',
       hidden: true,
     },
     {
-      label: '办理类型',
+      label: '案件名称',
       name: 'handleType',
       span: 1,
       enumsLabel: 'handle_type',
-
       // rules: [  { required: true, message: '请选择类型!', whitespace: true },  ],
     },
     {
-      label: '来文单位',
+      label: '案件编号',
       name: 'docUnit',
       span: 1,
       rules: [
@@ -25,7 +24,7 @@ const ReceivingForm = ({ form, orgInfoData }) => {
       ],
     },
     {
-      label: '来文文号',
+      label: '案件类型',
       name: 'docNo',
       span: 1,
       rules: [
@@ -34,14 +33,14 @@ const ReceivingForm = ({ form, orgInfoData }) => {
       ],
     },
     {
-      label: '收文日期',
+      label: '案件来源',
       name: 'receiptData',
       span: 1,
       type: 'dateTime',
       rules: [{ required: true, message: '请输入收文日期!', whitespace: true }],
     },
     {
-      label: '信封编号',
+      label: '重要程度',
       name: 'envelopeCode',
       span: 1,
       rules: [
@@ -50,50 +49,97 @@ const ReceivingForm = ({ form, orgInfoData }) => {
       ],
     },
     {
-      label: '紧急程度',
+      label: '保密等级',
       name: 'urgentLevel',
       enumsLabel: 'urgent_level',
       span: 1,
       // rules: [  { required: true, message: '请选择紧急程度!', whitespace: true },   ],
     },
     {
-      label: '密级', ///
+      label: '立案日期', ///
       name: 'secrecyLevel',
       enumsLabel: 'subject_secrecy_level',
       span: 1,
       // rules: [  { required: true, message: '请选择密级!', whitespace: true }, ],
     },
     {
-      label: '保密期限', /// /
+      label: '紧急程度', /// /
       name: 'secrecyDuration',
       span: 1,
     },
     {
-      label: '文件份数', /// /
+      label: '抓获人数', /// /
       name: 'fileNum',
       span: 1,
     },
     {
-      label: '成文日期', ///
+      label: '采取刑事强制措施人数', ///
       name: 'finishTime',
       span: 1,
       type: 'dateTime',
       rules: [{ message: '请输入成文日期!', whitespace: true }],
     },
     {
-      label: '办理时限', ///
+      label: '传播载体形式', ///
       name: 'handleDuration',
       span: 1,
     },
     {
-      label: '收文编号(系统生成)', ///
+      label: '所属联防工程', ///
       name: 'receiptCode',
       span: 1,
       disabled: 'true',
     },
-
     {
-      label: '来文标题',
+      label: '平台类型', ///
+      name: 'receiptCode',
+      span: 1,
+      disabled: 'true',
+    },
+    {
+      label: '是否网络案件', ///
+      name: 'receiptCode',
+      span: 1,
+      disabled: 'true',
+    },
+    {
+      label: '专项行动', ///
+      name: 'receiptCode',
+      span: 1,
+      disabled: 'true',
+    },
+    {
+      label: '案件查处部门', ///
+      name: 'receiptCode',
+      span: 1,
+      disabled: 'true',
+    },
+    {
+      label: '涉案数量', ///
+      name: 'receiptCode',
+      span: 1,
+      disabled: 'true',
+    },
+    {
+      label: '涉案金额', ///
+      name: 'receiptCode',
+      span: 1,
+      disabled: 'true',
+    },
+    {
+      label: '案件办理阶段', ///
+      name: 'receiptCode',
+      span: 1,
+      disabled: 'true',
+    },
+    {
+      label: '发案时间', ///
+      name: 'receiptCode',
+      span: 1,
+      disabled: 'true',
+    },
+    {
+      label: '发生地域',
       name: 'receiptTitle',
       span: 4,
       rules: [
@@ -102,14 +148,23 @@ const ReceivingForm = ({ form, orgInfoData }) => {
       ],
     },
     {
-      label: '备注',
+      label: '线索串并联',
+      name: 'receiptTitle',
+      span: 4,
+      rules: [
+        { required: true, message: '请输入来文标题!', whitespace: true },
+        { max: 80, message: '来文标题长度请小于80位!', whitespace: true },
+      ],
+    },
+    {
+      label: '案情描述',
       name: 'remarks',
       span: 4,
       type: 'textarea',
       rules: [{ max: 400, message: '备注长度请小于400位!', whitespace: true }],
     },
     {
-      label: '批示',
+      label: '案件办理结果',
       name: 'instructions',
       span: 4,
       type: 'editor',
@@ -119,8 +174,8 @@ const ReceivingForm = ({ form, orgInfoData }) => {
       ],
     },
     {
-      label: '附件',
-      name: 'files',
+      label: '相关附件',
+      name: 'fileIds',
       span: 4,
       type: 'upload',
     },
@@ -135,6 +190,6 @@ const ReceivingForm = ({ form, orgInfoData }) => {
   return <AdvancedForm form={form} fields={formItems} />;
 };
 
-ReceivingForm.useForm = AdvancedForm.useForm;
+CaseMgt.useForm = AdvancedForm.useForm;
 
-export default ReceivingForm;
+export default CaseMgt;

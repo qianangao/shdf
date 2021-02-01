@@ -3,18 +3,14 @@ import { connect } from 'umi';
 import { Modal } from 'antd';
 import OrgInfoForm from './ReceivingForm';
 
-const AddModal = ({ addModalVisible, dispatch, actionRef, loading }) => {
+const AddModal = ({ dispatch, actionRef, loading }) => {
   const [form] = OrgInfoForm.useForm();
   const [orgInfoData, setOrgInfoData] = useState(null);
-
+  const [addModalVisible, setModalVisible] = useState(false);
   const showModal = items => {
     setOrgInfoData(items || null);
-    dispatch({
-      type: 'receivingMgt/save',
-      payload: {
-        addModalVisible: true,
-      },
-    });
+
+    setModalVisible(true);
   };
 
   useEffect(() => {
@@ -28,13 +24,7 @@ const AddModal = ({ addModalVisible, dispatch, actionRef, loading }) => {
   }, []);
 
   const hideModal = () => {
-    dispatch({
-      type: 'receivingMgt/save',
-      payload: {
-        addModalVisible: false,
-      },
-    });
-    setOrgInfoData(null);
+    setModalVisible(false);
     form.resetFields();
   };
 
@@ -50,6 +40,9 @@ const AddModal = ({ addModalVisible, dispatch, actionRef, loading }) => {
             },
             resolve,
           });
+          setTimeout(function () {
+            setModalVisible(false);
+          }, 2000);
         });
       })
       .then(() => {
@@ -64,7 +57,7 @@ const AddModal = ({ addModalVisible, dispatch, actionRef, loading }) => {
     <Modal
       title="收文登记"
       centered
-      width={680}
+      width={780}
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',
@@ -82,6 +75,5 @@ const AddModal = ({ addModalVisible, dispatch, actionRef, loading }) => {
 
 export default connect(({ receivingMgt, loading }) => ({
   receivingMgt,
-  addModalVisible: receivingMgt.addModalVisible,
   loading: loading.models.receivingMgt,
 }))(AddModal);
