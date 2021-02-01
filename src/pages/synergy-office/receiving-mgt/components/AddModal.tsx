@@ -33,6 +33,15 @@ const AddModal = ({ dispatch, actionRef, loading }) => {
       .validateFields()
       .then(values => {
         return new Promise(resolve => {
+          let filesStr = '';
+          if (values.files && values.files.length > 0) {
+            values.files.forEach(item => {
+              filesStr += `${item.uid},`;
+            });
+            filesStr = filesStr.substr(0, filesStr.length - 1);
+          }
+          delete values.files;
+          values.fileIds = filesStr;
           dispatch({
             type: 'receivingMgt/add',
             payload: {
@@ -40,7 +49,7 @@ const AddModal = ({ dispatch, actionRef, loading }) => {
             },
             resolve,
           });
-          setTimeout(function () {
+          setTimeout(() => {
             setModalVisible(false);
           }, 2000);
         });

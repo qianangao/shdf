@@ -48,7 +48,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
             },
             resolve,
           });
-          setTimeout(function () {
+          setTimeout(() => {
             setModalVisible(false);
           }, 2000);
         });

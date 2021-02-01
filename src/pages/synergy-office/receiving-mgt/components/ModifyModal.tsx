@@ -46,12 +46,12 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
             values.files.forEach(item => {
               filesStr += `${item.uid},`;
             });
+            filesStr = filesStr.substr(0, filesStr.length - 1);
           }
-          filesStr = filesStr.substr(0, filesStr.length - 1);
           delete values.files;
           values.fileIds = filesStr;
           // 打印上传信号
-
+          // console.log(values ,'values--1')
           dispatch({
             type: 'receivingMgt/update',
             payload: {
@@ -59,7 +59,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
             },
             resolve,
           });
-          setTimeout(function () {
+          setTimeout(() => {
             setModalVisible(false);
           }, 2000);
         });
