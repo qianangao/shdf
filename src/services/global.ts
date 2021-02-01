@@ -5,7 +5,7 @@ import request from '@/utils/request';
  * @param {*} params
  */
 export async function getDictionary(params) {
-  return request('/dicCfg/getDicCfg', {
+  return request('/dict', {
     method: 'GET',
     params,
   });
