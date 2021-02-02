@@ -16,9 +16,9 @@ const routes = {
       remark: '重点机构',
     },
     {
-      path: '/engineering-mgt/dictionary-mgt',
-      name: 'engineering-mgt-dictionary-mgt',
-      component: './engineering-mgt/key-institutions',
+      path: '/engineering-mgt/special-project',
+      name: 'engineering-mgt-special-project',
+      component: './engineering-mgt/special-project',
       remark: '专项工程',
     },
     {
