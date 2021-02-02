@@ -171,10 +171,10 @@ const situation = (req: any) => {
   return items;
 }
 export default {
-  'GET /shdf/notices': noticeList,
-  'GET /shdf/notice': getNoticeDetail,
-  'POST /shdf/noticeDetail': getNoticeDetail,
-  'GET /shdf/notice/record/deal': getHandleSituation,
-  'GET /shdf/notice/record/todo': noticeList,
-  'DELETE /shdf/user': noResponse,
+  // 'GET /shdf/notices': noticeList,
+  // 'GET /shdf/notice': getNoticeDetail,
+  // 'POST /shdf/noticeDetail': getNoticeDetail,
+  // 'GET /shdf/notice/record/deal': getHandleSituation,
+  // 'GET /shdf/notice/record/todo': noticeList,
+  // 'DELETE /shdf/user': noResponse,
 };
