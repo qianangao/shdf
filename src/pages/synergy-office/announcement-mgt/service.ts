@@ -33,6 +33,17 @@ export async function getAnnouncementDetail(params: any) {
 }
 
 /**
+ * 获取已接收公告信息详情
+ * @param params
+ */
+export async function getReceiveDetail(params: any) {
+  return request(`/notice/record`, {
+    method: 'GET',
+    params,
+  });
+}
+
+/**
  * 查询 公告处理情况
  * @param params
  */

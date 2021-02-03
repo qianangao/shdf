@@ -35,7 +35,7 @@ const Table = ({ soAnnouncementMgt, openDetailModal, replyModal, dispatch, enums
       title: '状态',
       align: 'center',
       dataIndex: 'readingState',
-      valueEnum: enums.noticeReceive,
+      valueEnum: enums.notice_receive,
     },
     {
       title: '操作',
@@ -45,11 +45,14 @@ const Table = ({ soAnnouncementMgt, openDetailModal, replyModal, dispatch, enums
       width: 280,
       fixed: 'right',
       render: (dom: any, data: any) => [
-        <a key={`${data.noticeId}detail`} onClick={() => openDetailModal(data, 'receive')}>
+        <a
+          key={`${data.noticeId}detail`}
+          onClick={() => openDetailModal(data.readingId, data.readingState, 'receive')}
+        >
           查看
         </a>,
         data && data.readingState === 0 && (
-          <a key={`${data.noticeId}reply`} onClick={() => replyModal(data)}>
+          <a key={`${data.noticeId}reply`} onClick={() => replyModal(data.readingId)}>
             回复
           </a>
         ),

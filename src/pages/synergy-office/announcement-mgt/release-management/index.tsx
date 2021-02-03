@@ -9,7 +9,7 @@ import DetailModal from '../components/DetailModal';
 
 const AnnouncementMgt = ({ dispatch }) => {
   const modifyRef = useRef({});
-  const readModifyRef = useRef({});
+  const HandleSituationRef = useRef({});
   const commitExamineRef = useRef({});
   const detailRef = useRef({});
 
@@ -17,34 +17,34 @@ const AnnouncementMgt = ({ dispatch }) => {
     dispatch({
       type: 'global/getEnums',
       payload: {
-        names: ['subject_secrecy_level', 'notice_status'],
+        names: ['object_secrecy_level', 'notice_status'],
       },
     });
   }, []);
 
-  const openModifyModal = (item: any) => {
-    modifyRef.current.showModal(item);
+  const openModifyModal = (id: any) => {
+    modifyRef.current.showModal(id);
   };
-  const openReadModal = (item: any) => {
-    readModifyRef.current.showModal(item);
+  const handleSituationModal = (id: any) => {
+    HandleSituationRef.current.showModal(id);
   };
-  const commitExamineModal = (item: any) => {
-    commitExamineRef.current.showModal(item);
+  const commitExamineModal = (id: any) => {
+    commitExamineRef.current.showModal(id);
   };
-  const detailModal = (item: any, type: any) => {
-    detailRef.current.showModal(item, type);
+  const detailModal = (id: any, status: any, type: any) => {
+    detailRef.current.showModal(id, status, type);
   };
 
   return (
     <PageHeaderWrapper>
       <Table
         openModifyModal={openModifyModal}
-        openReadModal={openReadModal}
+        handleSituationModal={handleSituationModal}
         commitExamineModal={commitExamineModal}
         detailModal={detailModal}
       />
       <ModifyModal actionRef={modifyRef} />
-      <HandleSituationModal actionRef={readModifyRef} />
+      <HandleSituationModal actionRef={HandleSituationRef} />
       <CommitExamineModal actionRef={commitExamineRef} />
       <DetailModal actionRef={detailRef} />
     </PageHeaderWrapper>

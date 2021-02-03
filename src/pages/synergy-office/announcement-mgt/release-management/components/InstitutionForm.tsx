@@ -28,14 +28,14 @@ const InstitutionForm = ({ form }) => {
       name: 'secrecyLevel',
       span: 2,
       rules: [{ required: true, message: '请选择密级标识!' }],
-      enumsLabel: 'subject_secrecy_level',
+      enumsLabel: 'object_secrecy_level',
     },
     {
       label: '可见范围',
       name: 'visibleRange',
       span: 2,
       disabled: true,
-      // rules: [{ required: true, message: '请选择可见范围!' }],
+      rules: [{ required: true, message: '请选择可见范围!' }],
       render: <StaffMultiSelectInput />,
     },
     {
@@ -52,7 +52,6 @@ const InstitutionForm = ({ form }) => {
       label: '提醒方式',
       name: 'remindWays',
       initialValue: '1',
-      // rules: [{ required: true, message: '请选择提醒方式!' }],
       render: (
         <Radio.Group defaultValue="1">
           <Radio value="1">站内信</Radio>

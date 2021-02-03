@@ -13,16 +13,16 @@ const AnnouncementMgt = ({ dispatch }) => {
     dispatch({
       type: 'global/getEnums',
       payload: {
-        names: ['noticeReceive'],
+        names: ['notice_receive'],
       },
     });
   }, []);
 
-  const openDetailModal = (item: any, type: any) => {
-    detailRef.current.showModal(item, type);
+  const openDetailModal = (id: any, status: any, type: any) => {
+    detailRef.current.showModal(id, status, type);
   };
-  const replyModal = (item: any) => {
-    replyRef.current.showModal(item);
+  const replyModal = (id: any) => {
+    replyRef.current.showModal(id);
   };
 
   return (

@@ -1,4 +1,5 @@
 import { message } from 'antd';
+import { formatPageData } from '@/utils';
 import {
   getAnnouncementList,
   getAnnouncementDetail,
@@ -12,6 +13,7 @@ import {
   rollbackOrCloseAnnouncement,
   commitExamineAnnouncement,
   auditAnnouncement,
+  getReceiveDetail,
 } from './service';
 
 const Model = {
@@ -20,7 +22,7 @@ const Model = {
     announcementListData: {},
     receiveListData: {},
     announcementData: {},
-    readSituationData: {},
+    handleSituationData: {},
     tableRef: {},
     fieldTableRef: {},
   },
@@ -34,14 +36,7 @@ const Model = {
       const response = yield call(getAnnouncementList, params);
 
       if (!response.error) {
-        const { records, page, total } = response;
-        const result = {
-          data: records,
-          page,
-          pageSize: payload.pageSize,
-          success: true,
-          total,
-        };
+        const result = formatPageData(response);
 
         resolve && resolve(result);
 
@@ -60,17 +55,8 @@ const Model = {
         pageSize: payload.pageSize,
       };
       const response = yield call(getReceiveList, params);
-
       if (!response.error) {
-        const { records, page, total } = response;
-        const result = {
-          data: records,
-          page,
-          pageSize: payload.pageSize,
-          success: true,
-          total,
-        };
-
+        const result = formatPageData(response);
         resolve && resolve(result);
 
         yield put({
@@ -83,23 +69,14 @@ const Model = {
     },
     *getReadInfo({ payload, resolve }, { call, put }) {
       const response = yield call(getReadInfo, payload);
-
       if (!response.error) {
-        const { records, page, total } = response;
-        const result = {
-          data: records,
-          page,
-          pageSize: payload.pageSize,
-          success: true,
-          total,
-        };
-
+        const result = formatPageData(response);
         resolve && resolve(result);
 
         yield put({
           type: 'save',
           payload: {
-            readSituationData: result,
+            handleSituationData: result,
           },
         });
       }
@@ -117,7 +94,19 @@ const Model = {
         });
       }
     },
+    *getReceiveDetail({ payload, resolve }, { call, put }) {
+      const response = yield call(getReceiveDetail, payload);
+      if (!response.error) {
+        resolve && resolve(response);
 
+        yield put({
+          type: 'save',
+          payload: {
+            announcementData: response,
+          },
+        });
+      }
+    },
     *addAnnouncement({ payload, resolve }, { call, put }) {
       const response = yield call(addAnnouncement, payload);
       if (!response.error) {
@@ -211,6 +200,9 @@ const Model = {
   reducers: {
     save(state, { payload }) {
       return { ...state, ...payload };
+    },
+    removeAnnouncementDetail(state) {
+      return { ...state, announcementData: {} };
     },
     tableReload(state) {
       const tableRef = state.tableRef || {};

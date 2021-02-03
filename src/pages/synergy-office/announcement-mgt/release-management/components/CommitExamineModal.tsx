@@ -9,8 +9,8 @@ const CommitExamineModal = ({ dispatch, loading, actionRef }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [noticeId, setNoticeId] = useState('');
 
-  const showModal = (items: any) => {
-    setNoticeId(items.noticeId);
+  const showModal = (id: any) => {
+    setNoticeId(id);
     setModalVisible(true);
   };
 
@@ -37,7 +37,7 @@ const CommitExamineModal = ({ dispatch, loading, actionRef }) => {
       });
     })
       .then(_ => {
-        setModalVisible(false);
+        onResetModalCancel();
       })
       .catch((info: any) => {
         console.error('Validate Failed:', info);

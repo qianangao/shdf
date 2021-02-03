@@ -8,8 +8,8 @@ const ReplyNoticeModal = ({ dispatch, loading, actionRef }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [readingId, setReadingId] = useState('');
 
-  const showModal = (items: any) => {
-    setReadingId(items.readingId);
+  const showModal = (id: any) => {
+    setReadingId(id);
     setModalVisible(true);
   };
 
@@ -35,7 +35,7 @@ const ReplyNoticeModal = ({ dispatch, loading, actionRef }) => {
       });
     })
       .then(_ => {
-        setModalVisible(false);
+        onResetModalCancel();
       })
       .catch((info: any) => {
         console.error('Validate Failed:', info);

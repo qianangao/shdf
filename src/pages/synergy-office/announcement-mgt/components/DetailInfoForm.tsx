@@ -11,6 +11,7 @@ const DetailInfoForm = ({ form }) => {
       initialValue: 'user',
       disabled: true,
     },
+    { name: 'segmentation', type: 'segmentation' },
     {
       label: '审核状态',
       name: 'auditResult',

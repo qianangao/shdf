@@ -4,24 +4,31 @@ import { Descriptions, Modal, Spin } from 'antd';
 import { formatDateStr } from '@/utils/format';
 import DetailInfoForm from './DetailInfoForm';
 
-const ModifyModal = ({ dispatch, actionRef, loading, soAnnouncementMgt }) => {
-  const { announcementData } = soAnnouncementMgt;
+const ModifyModal = ({ dispatch, actionRef, loading, announcementData, enums }) => {
   const [form]: any = DetailInfoForm.useForm();
-  const [detailData, setDetailData] = useState(null);
+  const [noticeId, setNoticeId] = useState(undefined);
+  const [status, setStatus] = useState(undefined);
   const [type, setType] = useState('publish');
   const [modalVisible, setModalVisible] = useState(false);
+  const [visibleRange, setVisibleRange] = useState([]);
 
-  const showModal = (items: any, t: any) => {
+  const showModal = (id: any, state: any, t: any) => {
     setType(t);
-    setDetailData(items);
+    setNoticeId(id);
+    setStatus(state);
     setModalVisible(true);
+    if (t === 'receive') {
+      dispatch({
+        type: 'soAnnouncementMgt/getReceiveDetail',
+        payload: { readingId: id },
+      });
+    } else {
+      dispatch({
+        type: 'soAnnouncementMgt/getAnnouncementDetail',
+        payload: { noticeId: id },
+      });
+    }
   };
-
-  const getAnnouncementDetail = (params: any): any =>
-    dispatch({
-      type: 'soAnnouncementMgt/getAnnouncementDetail',
-      payload: { noticeId: params },
-    });
 
   useEffect(() => {
     if (actionRef && typeof actionRef === 'function') {
@@ -33,53 +40,75 @@ const ModifyModal = ({ dispatch, actionRef, loading, soAnnouncementMgt }) => {
     }
   }, []);
 
-  const areas = [];
   useEffect(() => {
     if (announcementData) {
-      // const range = announcementData.visibleRange === undefined ? [] : JSON.parse(announcementData.visibleRange);
-      // console.log('range',range)
-      // range.map((item: { realName: string; }) => {
-      //   areas.push(item.realName);
-      // });
-      // announcementData.visibleRange = areas;
-      form.setFieldsValue({ ...announcementData });
+      const range = announcementData.visibleRange && JSON.parse(announcementData.visibleRange);
+      const names =
+        range &&
+        range.map((item: { realName: string }) => {
+          return item.realName;
+        });
+      setVisibleRange(names && names.join(',  '));
+      // announcementData.visibleRange = names && names.join(',  ');
     }
   }, [announcementData]);
 
-  useEffect(() => {
-    if (detailData) getAnnouncementDetail(detailData.noticeId);
-  }, [detailData]);
-
   const hideModal = (): void => {
+    dispatch({
+      type: 'soAnnouncementMgt/removeAnnouncementDetail',
+    });
     setModalVisible(false);
     form.resetFields();
-    setDetailData(null);
+    setNoticeId(undefined);
+    setStatus(undefined);
+    setVisibleRange([]);
   };
 
   const handleOk = (): void => {
     form
       .validateFields()
       .then((values: any) => {
+        delete values.auditUser;
         return new Promise(resolve => {
           dispatch({
             type: `soAnnouncementMgt/auditAnnouncement`,
             payload: {
               ...values,
-              noticeId: detailData.noticeId,
+              noticeId,
             },
             resolve,
           });
         });
       })
-      .then(() => {})
+      .then(() => {
+        hideModal();
+      })
       .catch((info: any) => {
         console.error('Validate Failed:', info);
       });
   };
 
+  const fileList = files => {
+    if (files && files.length > 0) {
+      const views = files.map(item => {
+        return (
+          <a href={item.url} style={{ display: 'block' }}>
+            {item.fileName}
+          </a>
+        );
+      });
+
+      return (
+        <Descriptions.Item label="附件列表" span={3}>
+          <div style={{ marginBottom: 20 }}>{views}</div>
+        </Descriptions.Item>
+      );
+    }
+    return <div style={{ marginBottom: 20 }} />;
+  };
+
   const createItem = () => {
     if (type === 'publish') {
-      const status = detailData && detailData.noticeStatus;
       switch (status) {
         case -3:
           return [
@@ -153,12 +182,15 @@ const ModifyModal = ({ dispatch, actionRef, loading, soAnnouncementMgt }) => {
           <Descriptions.Item label="公告创建时间">
             {formatDateStr(announcementData.createTime, 'YYYY-MM-DD HH:mm:ss')}
           </Descriptions.Item>
-          <Descriptions.Item label="保密等级">{announcementData.secrecyLevel}</Descriptions.Item>
+          <Descriptions.Item label="保密等级">
+            {enums.object_secrecy_level &&
+              enums.object_secrecy_level[announcementData.secrecyLevel]}
+          </Descriptions.Item>
           <Descriptions.Item label="发布单位" span={1}>
             {announcementData.publishDept}
           </Descriptions.Item>
           <Descriptions.Item label="公告可见范围" span={3}>
-            {areas}
+            {visibleRange}
           </Descriptions.Item>
           <Descriptions.Item label="公告内容" span={3}>
             <div
@@ -167,28 +199,44 @@ const ModifyModal = ({ dispatch, actionRef, loading, soAnnouncementMgt }) => {
               }}
             />
           </Descriptions.Item>
-          {/* <Descriptions.Item label="附件列表" span={3}>{announcementData.f}</Descriptions.Item> */}
-
+          {fileList(announcementData.files)}
           {createItem()}
         </Descriptions>
-        {type === 'publish' && detailData && detailData.noticeStatus === 7 && (
-          <Descriptions title="公告处理信息" column={{ xxl: 4, xl: 3, lg: 2 }}>
+        {type === 'publish' && status === 7 && (
+          <Descriptions
+            title="公告处理信息"
+            column={{ xxl: 4, xl: 3, lg: 2 }}
+            style={{ marginTop: 30 }}
+          >
             <Descriptions.Item label="保密等级">{announcementData.secrecyLevel}</Descriptions.Item>
           </Descriptions>
         )}
         {type === 'examine' && (
           <>
-            <Descriptions title="公告审核信息" />
+            <Descriptions title="公告审核信息" style={{ marginTop: 30 }} />
             <DetailInfoForm form={form} />
           </>
         )}
-        {type === 'receive' && (
-          <Descriptions title="处理信息" column={{ xxl: 4, xl: 3, lg: 2 }}>
+        {type === 'receive' && announcementData.readingState === 1 && (
+          <Descriptions
+            title="处理信息"
+            column={{ xxl: 4, xl: 3, lg: 2 }}
+            style={{ marginTop: 30 }}
+          >
             <Descriptions.Item label="回复时间" span={3}>
-              {announcementData.secrecyLevel}
+              {formatDateStr(announcementData.replyTime, 'YYYY-MM-DD HH:mm:ss')}
             </Descriptions.Item>
             <Descriptions.Item label="回复内容" span={3}>
-              {announcementData.secrecyLevel}
+              <div
+                style={{
+                  border: '1px solid #f2f2f2',
+                  padding: '5px 10px',
+                  width: '100%',
+                  minHeight: 80,
+                }}
+              >
+                {announcementData.replyContent}
+              </div>
             </Descriptions.Item>
           </Descriptions>
         )}
@@ -197,7 +245,8 @@ const ModifyModal = ({ dispatch, actionRef, loading, soAnnouncementMgt }) => {
   );
 };
 
-export default connect(({ loading, soAnnouncementMgt }) => ({
+export default connect(({ loading, soAnnouncementMgt, global }) => ({
   loading: loading.models.soAnnouncementMgt,
-  soAnnouncementMgt,
+  announcementData: soAnnouncementMgt.announcementData,
+  enums: global.enums,
 }))(ModifyModal);

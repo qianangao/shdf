@@ -6,7 +6,7 @@ import { connect } from 'umi';
 const Table = ({
   soAnnouncementMgt,
   openModifyModal,
-  openReadModal,
+  handleSituationModal,
   detailModal,
   commitExamineModal,
   dispatch,
@@ -16,12 +16,15 @@ const Table = ({
 
   const createButton = (data: { noticeId: any; noticeStatus: any }) => {
     const CHECK = (
-      <a key={`${data.noticeId}detail`} onClick={() => detailModal(data, 'publish')}>
+      <a
+        key={`${data.noticeId}detail`}
+        onClick={() => detailModal(data.noticeId, data.noticeStatus, 'publish')}
+      >
         查看
       </a>
     );
     const EDIT = (
-      <a key={`${data.noticeId}up`} onClick={() => openModifyModal(data)}>
+      <a key={`${data.noticeId}up`} onClick={() => openModifyModal(data.noticeId)}>
         编辑
       </a>
     );
@@ -46,17 +49,20 @@ const Table = ({
       </Popconfirm>
     );
     const COMMIT_EXAMINE = (
-      <a key={`${data.noticeId}commit`} onClick={() => commitExamineModal(data)}>
+      <a key={`${data.noticeId}commit`} onClick={() => commitExamineModal(data.noticeId)}>
         提交审核
       </a>
     );
     const EXAMINE = (
-      <a key={`${data.noticeId}examine`} onClick={() => detailModal(data, 'examine')}>
+      <a
+        key={`${data.noticeId}examine`}
+        onClick={() => detailModal(data.noticeId, data.noticeStatus, 'examine')}
+      >
         审核
       </a>
     );
     const TREATMENT = (
-      <a key={`${data.noticeId}treatment`} onClick={() => openReadModal(data)}>
+      <a key={`${data.noticeId}treatment`} onClick={() => handleSituationModal(data.noticeId)}>
         处理情况
       </a>
     );
@@ -121,7 +127,7 @@ const Table = ({
     },
 
     { title: '公告标题', align: 'center', dataIndex: 'noticeTitle' },
-    { title: '发布人', align: 'center', dataIndex: 'createUser' },
+    { title: '发布人', align: 'center', dataIndex: 'lastUpdateUser' },
     {
       title: '保存时间',
       align: 'center',
@@ -134,16 +140,6 @@ const Table = ({
       align: 'center',
       dataIndex: 'noticeStatus',
       valueEnum: enums.notice_status,
-      // valueEnum: {
-      //   '0': { text: '草稿' },
-      //   '1': { text: '审核中' },
-      //   '3': { text: '已通过' },
-      //   '-1': { text: '已驳回' },
-      //   '5': { text: '已发布' },
-      //   '-3': { text: '已撤回' },
-      //   '7': { text: '已关闭' },
-      //   '9': { text: '已接收' },
-      // },
     },
     {
       title: '操作',
@@ -194,7 +190,6 @@ const Table = ({
       rowKey="noticeId"
       headerTitle="公告列表"
       actionRef={tableRef}
-      // rowSelection={[]}
       scroll={{ x: 'max-content' }}
       request={async params => getAnnouncementList(params)}
       toolBarRender={(_, { selectedRowKeys }) => [

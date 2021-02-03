@@ -3,26 +3,21 @@ import { connect } from 'umi';
 import { Button, Card, Col, Form, Input, List, Modal, Row, Select, Spin } from 'antd';
 import { formatDateStr } from '@/utils/format';
 
-const HandleSituationModal = ({ dispatch, actionRef, loading, soAnnouncementMgt }) => {
-  const { readSituationData } = soAnnouncementMgt;
+const HandleSituationModal = ({ dispatch, actionRef, loading, handleSituationData }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [noticeId, setNoticeId] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [form] = Form.useForm();
 
-  const showModal = (items: any) => {
+  const showModal = (id: any) => {
     setModalVisible(true);
-    setNoticeId(items.noticeId);
+    setNoticeId(id);
   };
 
   const getHandleSituationList = (params: any) => {
     form.resetFields();
     setCurrentPage(1);
     if (currentPage === 1) searchData(params);
-    // dispatch({
-    //   type: 'soAnnouncementMgt/getReadInfo',
-    //   payload: { pageNum: page, pageSize: 20, noticeId: params },
-    // });
   };
 
   const searchData = nId => {
@@ -127,13 +122,13 @@ const HandleSituationModal = ({ dispatch, actionRef, loading, soAnnouncementMgt 
         <List
           style={{ background: '#fff', padding: 20, marginTop: 10 }}
           split={false}
-          dataSource={readSituationData && readSituationData.data}
+          dataSource={handleSituationData && handleSituationData.data}
           pagination={{
             showTotal: (total, range) => {
               return `第 ${range.slice(',')[0]}-${range.slice(',')[1]} 条/总共 ${total} 条`;
             },
             current: currentPage,
-            total: readSituationData.total,
+            total: handleSituationData.total,
             onChange: page => {
               setCurrentPage(page);
             },
@@ -173,5 +168,5 @@ const HandleSituationModal = ({ dispatch, actionRef, loading, soAnnouncementMgt 
 
 export default connect(({ loading, soAnnouncementMgt }) => ({
   loading: loading.models.soAnnouncementMgt,
-  soAnnouncementMgt,
+  handleSituationData: soAnnouncementMgt.handleSituationData,
 }))(HandleSituationModal);

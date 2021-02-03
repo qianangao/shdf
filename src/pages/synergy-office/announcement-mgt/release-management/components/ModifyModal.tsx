@@ -3,22 +3,45 @@ import { connect } from 'umi';
 import { Modal, Spin } from 'antd';
 import InstitutionForm from './InstitutionForm';
 
-const ModifyModal = ({ dispatch, actionRef, loading, soAnnouncementMgt }) => {
-  const { announcementData } = soAnnouncementMgt;
+const ModifyModal = ({ dispatch, actionRef, loading }) => {
   const [form]: any = InstitutionForm.useForm();
-  const [detailData, setDetailData] = useState(null);
+  const [noticeId, setNoticeId] = useState(undefined);
   const [modalVisible, setModalVisible] = useState(false);
 
-  const showModal = (items: any) => {
-    setDetailData(items || null);
+  const showModal = (id: any) => {
+    setNoticeId(id || undefined);
     setModalVisible(true);
   };
 
-  const getAnnouncementDetail = (params: any) =>
-    dispatch({
-      type: 'soAnnouncementMgt/getAnnouncementDetail',
-      payload: { noticeId: params },
-    });
+  const getAnnouncementDetail = (id: any) => {
+    new Promise(resolve => {
+      dispatch({
+        type: 'soAnnouncementMgt/getAnnouncementDetail',
+        payload: { noticeId: id },
+        resolve,
+      });
+    })
+      .then(data => {
+        if (data) {
+          const fields = {
+            ...data,
+            visibleRange: data.visibleRange && JSON.parse(data.visibleRange),
+            files:
+              data.files &&
+              data.files.map(item => {
+                return {
+                  url: item.url,
+                  uid: item.fileId,
+                  name: item.fileName,
+                  status: 'done',
+                };
+              }),
+          };
+          form.setFieldsValue(fields);
+        }
+      })
+      .catch(_ => {});
+  };
 
   useEffect(() => {
     if (actionRef && typeof actionRef === 'function') {
@@ -31,34 +54,29 @@ const ModifyModal = ({ dispatch, actionRef, loading, soAnnouncementMgt }) => {
   }, []);
 
   useEffect(() => {
-    if (announcementData) {
-      announcementData.visibleRange =
-        announcementData.visibleRange && JSON.parse(announcementData.visibleRange);
-      form.setFieldsValue({ ...announcementData });
+    if (noticeId) {
+      getAnnouncementDetail(noticeId);
     }
-  }, [announcementData]);
-
-  useEffect(() => {
-    if (detailData) getAnnouncementDetail(detailData.noticeId);
-  }, [detailData]);
+  }, [noticeId]);
 
   const hideModal = (): void => {
     setModalVisible(false);
     form.resetFields();
-    setDetailData(null);
+    setNoticeId(undefined);
   };
 
   const handleOk = (): void => {
     form
       .validateFields()
       .then((values: any) => {
-        const fileIds: any = [];
-        form.getFieldValue(['files']).forEach(item => {
-          fileIds.push(item.uid);
-        });
+        const fileIds =
+          values.files &&
+          values.files.map((item: { uid: any }) => {
+            return item.uid;
+          });
         return new Promise(resolve => {
           dispatch({
-            type: `soAnnouncementMgt/${detailData ? 'updateAnnouncement' : 'addAnnouncement'}`,
+            type: `soAnnouncementMgt/${noticeId ? 'updateAnnouncement' : 'addAnnouncement'}`,
             payload: {
               ...values,
               includeFile: form.getFieldValue(['files']) ? 1 : 0,
@@ -78,7 +96,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, soAnnouncementMgt }) => {
 
   return (
     <Modal
-      title={detailData ? '编辑公告' : '新建公告'}
+      title={noticeId ? '编辑公告' : '新建公告'}
       centered
       destroyOnClose
       width="90vw"
@@ -100,7 +118,6 @@ const ModifyModal = ({ dispatch, actionRef, loading, soAnnouncementMgt }) => {
   );
 };
 
-export default connect(({ loading, soAnnouncementMgt }) => ({
+export default connect(({ loading }) => ({
   loading: loading.models.soAnnouncementMgt,
-  soAnnouncementMgt,
 }))(ModifyModal);
