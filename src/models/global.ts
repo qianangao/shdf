@@ -24,26 +24,29 @@ const GlobalModel = {
     *getEnums({ payload }, { put }) {
       const { names } = payload;
 
-      for (const codeTypeNm of names) {
+      for (const dictTypeCode of names) {
         yield put({
           type: 'getEnum',
-          payload: { codeTypeNm },
+          payload: { dictTypeCode },
         });
       }
     },
     *getEnum({ payload }, { call, put, select }) {
-      const { codeTypeNm } = payload;
+      const { dictTypeCode } = payload;
       const enums = yield select(state => state.global.enums);
       const enumsTimestamp = yield select(state => state.global.enumsTimestamp);
 
       // 缺少参数
-      if (!codeTypeNm) return;
+      if (!dictTypeCode) return;
 
       // 存在对应枚举，且为常量
-      if (enums[codeTypeNm] && enumsTimestamp[codeTypeNm] === 0) return;
+      if (enums[dictTypeCode] && enumsTimestamp[dictTypeCode] === 0) return;
 
       // 存在对应枚举，且时效为5分钟内
-      if (enums[codeTypeNm] && new Date().getTime() - enumsTimestamp[codeTypeNm] < 60 * 1000 * 5)
+      if (
+        enums[dictTypeCode] &&
+        new Date().getTime() - enumsTimestamp[dictTypeCode] < 60 * 1000 * 5
+      )
         return;
 
       const response = yield call(getDictionary, payload);
@@ -52,13 +55,13 @@ const GlobalModel = {
         const isCommon = response[0].dicType === 0; // dicType 0、系统运行性类 1、业务类
         const items = {};
         response.forEach(item => {
-          items[item.codeValue] = item.codeDesc || '';
+          items[item.dictCode] = item.dictName || '';
         });
 
         yield put({
           type: 'saveEnum',
           payload: {
-            key: codeTypeNm,
+            key: dictTypeCode,
             timestamp: isCommon ? 0 : new Date().getTime(),
             items,
           },
