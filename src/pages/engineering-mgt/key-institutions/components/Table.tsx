@@ -5,7 +5,6 @@ import { connect } from 'umi';
 
 const Table = ({ emKeyInstitutions, openModifyModal, enums, dispatch }) => {
   const { tableRef } = emKeyInstitutions;
-
   const columns = [
     {
       title: '序号',
@@ -57,7 +56,6 @@ const Table = ({ emKeyInstitutions, openModifyModal, enums, dispatch }) => {
       ],
     },
   ];
-
   const getKeyInstitons = params =>
     new Promise(resolve => {
       dispatch({
