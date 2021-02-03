@@ -2,9 +2,17 @@ import React, { useRef } from 'react';
 import { Button } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
-import ActionForm from './ActionForm';
+import ActionForm from './EditAction/ActionForm';
 
-const Table = ({ specialAction, openModifyModal, dispatch }) => {
+const Table = ({
+  specialAction,
+  openAddModal,
+  openDownModal,
+  openModifyModal,
+  openAddSpecialModal,
+  openFeedbackModal,
+  dispatch,
+}) => {
   const { tableRef } = specialAction;
   const [form] = ActionForm.useForm();
   const formRef = useRef();
@@ -46,8 +54,23 @@ const Table = ({ specialAction, openModifyModal, dispatch }) => {
       width: 180,
       fixed: 'right',
       render: (dom, data) => [
-        <a key={`${data.bookId}up`} onClick={() => openModifyModal(data.bookId)}>
+        <a
+          key={`${data.bookId}view`}
+          onClick={() => openModifyModal({ id: data.bookId, disabled: true })}
+        >
+          查看
+        </a>,
+        <a
+          key={`${data.bookId}up`}
+          onClick={() => openModifyModal({ id: data.bookId, disabled: false })}
+        >
           修改
+        </a>,
+        <a key={`${data.bookId}down`} onClick={() => openDownModal()}>
+          下发
+        </a>,
+        <a key={`${data.bookId}back`} onClick={() => openFeedbackModal(data.bookId)}>
+          反馈
         </a>,
       ],
     },
@@ -55,7 +78,7 @@ const Table = ({ specialAction, openModifyModal, dispatch }) => {
 
   return (
     <div>
-      <ActionForm form={form} />
+      <ActionForm form={form} openAddSpecialModal={openAddSpecialModal} />
       <ProTable
         search={false}
         rowKey="bookId"
@@ -65,7 +88,7 @@ const Table = ({ specialAction, openModifyModal, dispatch }) => {
         scroll={{ x: 'max-content' }}
         request={async params => getChildrenTaskList(params)}
         toolBarRender={_ => [
-          <Button type="primary" onClick={() => openModifyModal()}>
+          <Button type="primary" onClick={() => openAddModal()}>
             新增子任务
           </Button>,
         ]}
@@ -75,6 +98,7 @@ const Table = ({ specialAction, openModifyModal, dispatch }) => {
   );
 };
 
-export default connect(({ specialAction }) => ({
+export default connect(({ specialAction, global }) => ({
   specialAction,
+  enums: global.enums,
 }))(Table);

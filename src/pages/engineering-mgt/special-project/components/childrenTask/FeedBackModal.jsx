@@ -1,31 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
 import { Modal } from 'antd';
-import ChildrenTaskForm from './ChildrenTaskForm';
+import FeedbackForm from './FeedbackForm';
+// import FeedbackTable from './FeedbackTable';
 
-const ModifyModal = ({ dispatch, actionRef, loading }) => {
-  const [form] = ChildrenTaskForm.useForm();
+const FeedbackModal = ({ dispatch, actionRef, loading }) => {
+  const [form] = FeedbackForm.useForm();
   const [modalVisible, setModalVisible] = useState(false);
-
   const showModal = () => {
-    // setDetailData(bookId || null);
-    // updateData(bookId);
     setModalVisible(true);
   };
-
-  // const updateData = bookId => {
-  //   if (bookId) {
-  //     new Promise(resolve => {
-  //       dispatch({
-  //         type: 'emAddressBook/getAddressBookDetail',
-  //         payload: bookId.toString(),
-  //         resolve,
-  //       });
-  //     }).then(res => {
-  //       if (res) form.setFieldsValue({ ...res });
-  //     });
-  //   }
-  // };
 
   useEffect(() => {
     if (actionRef && typeof actionRef === 'function') {
@@ -66,7 +50,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
 
   return (
     <Modal
-      title="子任务信息"
+      title="任务反馈"
       centered
       width="60vw"
       style={{ paddingBottom: 0 }}
@@ -78,11 +62,11 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <ChildrenTaskForm form={form} />
+      <FeedbackForm form={form} />
     </Modal>
   );
 };
 
 export default connect(({ loading }) => ({
   loading: loading.models.smDictionaryMgt,
-}))(ModifyModal);
+}))(FeedbackModal);

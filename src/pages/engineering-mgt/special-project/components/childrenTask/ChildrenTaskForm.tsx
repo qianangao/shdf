@@ -1,6 +1,7 @@
 import React from 'react';
-import { Select, Button } from 'antd';
+// import { Select, Button } from 'antd';
 import AdvancedForm from '@/components/AdvancedForm';
+import FeedbackTable from './FeedbackTable';
 
 const ChildrenTaskForm = ({ form }) => {
   const formItems = [
@@ -19,19 +20,6 @@ const ChildrenTaskForm = ({ form }) => {
       name: 'level',
       span: 2,
       rules: [{ required: true, message: '请选择保密等级' }],
-      render: (
-        <Select>
-          <Select.Option value={1} key="1">
-            机密
-          </Select.Option>
-          <Select.Option value={2} key="2">
-            秘密
-          </Select.Option>
-          <Select.Option value={3} key="3">
-            普通
-          </Select.Option>
-        </Select>
-      ),
     },
     {
       label: '开始日期',
@@ -53,7 +41,7 @@ const ChildrenTaskForm = ({ form }) => {
       span: 4,
       rules: [
         { required: true, message: '请输入!' },
-        { max: 300, message: '长度请小于300位!' },
+        { max: 300, min: 0, message: '输入文字过长，内容不能超过300字' },
       ],
       type: 'textarea',
     },
@@ -61,6 +49,7 @@ const ChildrenTaskForm = ({ form }) => {
       label: '阶段反馈要求',
       name: 'stageRequest',
       span: 4,
+      render: <FeedbackTable />,
     },
     {
       label: '总结反馈要求',
@@ -73,13 +62,9 @@ const ChildrenTaskForm = ({ form }) => {
     },
     {
       label: '附件列表',
-      name: 'attachmentList',
+      name: 'files',
       span: 4,
-      render: (
-        <Button type="primary" danger>
-          上传附件
-        </Button>
-      ),
+      type: 'upload',
     },
   ];
 

@@ -4,10 +4,9 @@ import request, { noErrorRequest } from '@/utils/request';
  * 获取子任务列表
  * @param params
  */
-export async function getChildrenTaskList(params: any) {
-  return request(`/addressBook/find`, {
-    method: 'GET',
-    params,
+export async function getChildrenTaskList() {
+  return request(`/specialAction/findSubtask`, {
+    method: 'POST',
   });
 }
 
@@ -15,21 +14,21 @@ export async function getChildrenTaskList(params: any) {
  * 添加子任务
  * @param params
  */
-export async function addChildrenTaskList(params: any) {
-  return request(`/addressBook/${params}`, {
-    method: 'GET',
-    // params,
+export async function addChildrenTaskList(params) {
+  return request(`/specialAction/addSubtask`, {
+    method: 'POST',
+    params,
   });
 }
 
 /**
- * 编辑专项行动
+ * 修改子任务
  * @param params
  */
-export async function editSpecialAction(params: any) {
-  return request(`/addressBook/add`, {
+export async function updateChildrenTaskList(params) {
+  return request(`/specialAction/updateSubtask`, {
     method: 'POST',
-    data: params,
+    params,
   });
 }
 
@@ -38,8 +37,8 @@ export async function editSpecialAction(params: any) {
  * @param params
  */
 export async function addSpecialAction(params: any) {
-  return request(`/addressBook/update`, {
-    method: 'PUT',
+  return request(`/specialAction/add`, {
+    method: 'POST',
     data: params,
   });
 }
@@ -49,8 +48,19 @@ export async function addSpecialAction(params: any) {
  * @param params
  */
 export async function addAnnualSpecialAction(params: any) {
-  return request(`/addressBook/delete?bookIds=${params}`, {
-    method: 'DELETE',
+  return request(`/specialAction/add`, {
+    method: 'POST',
+    data: params,
+  });
+}
+
+/**
+ * 编辑专项行动
+ * @param params
+ */
+export async function editSpecialAction(params: any) {
+  return request(`/specialAction/update`, {
+    method: 'PUT',
     data: params,
   });
 }
@@ -59,9 +69,30 @@ export async function addAnnualSpecialAction(params: any) {
  * 专项行动查询
  * @param params
  */
-export async function getSpecialAction() {
-  return noErrorRequest(`/通讯录模板.xlsx`, {
+export async function getSpecialAction(params) {
+  return noErrorRequest(`/specialAction/find`, {
     method: 'GET',
-    responseType: 'blob',
+    params,
+  });
+}
+
+/**
+ * 复用历史信息查询
+ * @param params
+ */
+export async function getHistoryInfoAction() {
+  return noErrorRequest(`/specialAction/findReuseHistory`, {
+    method: 'GET',
+  });
+}
+
+/**
+ * 获取专项行动树
+ *
+ */
+export async function getSpecialActionTree(params) {
+  return request(`/specialAction/findTree`, {
+    method: 'GET',
+    params,
   });
 }

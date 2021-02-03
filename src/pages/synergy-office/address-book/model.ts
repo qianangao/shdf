@@ -1,6 +1,7 @@
 import { message } from 'antd';
 import { downloadXlsFile } from '@/utils';
 import moment from 'moment';
+import { formatPageData } from '@/utils/index';
 import {
   getAddressBook,
   deleteAddressBook,
@@ -28,14 +29,7 @@ const Model = {
       delete params.current;
       const response = yield call(getAddressBook, params);
       if (!response.error) {
-        const result = {
-          data: response.records,
-          page: response.pages,
-          pageSize: payload.pageSize,
-          success: true,
-          total: response.total,
-        };
-
+        const result = formatPageData(response);
         resolve && resolve(result);
 
         yield put({

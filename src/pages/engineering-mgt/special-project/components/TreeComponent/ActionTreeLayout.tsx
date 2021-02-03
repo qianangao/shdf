@@ -1,8 +1,14 @@
 import React from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import OrgTreeQuery from '@/components/OrgTreeQuery';
+import ActionTree from './ActionTree/index';
 
-const OrgTreeLayout = ({ children, onOrgSelect, addAnnualAction, addAction }) => {
+const ActionTreeLayout = ({
+  children,
+  openAddSpecialModal,
+  onActionSelect,
+  addAnnualAction,
+  addAction,
+}) => {
   return (
     <PageHeaderWrapper>
       <section
@@ -23,10 +29,11 @@ const OrgTreeLayout = ({ children, onOrgSelect, addAnnualAction, addAction }) =>
             overflow: 'hidden',
           }}
         >
-          <OrgTreeQuery
-            onChange={onOrgSelect}
+          <ActionTree
+            onChange={onActionSelect}
             addAnnualAction={addAnnualAction}
             addAction={addAction}
+            openAddSpecialModal={openAddSpecialModal}
           />
         </aside>
         <section style={{ marginLeft: 15, width: '100%', overflow: 'auto' }}>
@@ -37,4 +44,4 @@ const OrgTreeLayout = ({ children, onOrgSelect, addAnnualAction, addAction }) =>
   );
 };
 
-export default OrgTreeLayout;
+export default ActionTreeLayout;

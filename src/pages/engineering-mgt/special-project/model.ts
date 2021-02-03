@@ -1,4 +1,5 @@
 import { message } from 'antd';
+import { formatPageData } from '@/utils/index';
 import {
   getChildrenTaskList,
   addChildrenTaskList,
@@ -6,6 +7,7 @@ import {
   addSpecialAction,
   addAnnualSpecialAction,
   getSpecialAction,
+  getSpecialActionTree,
 } from './service';
 
 const Model = {
@@ -24,15 +26,7 @@ const Model = {
       delete params.current;
       const response = yield call(getChildrenTaskList, params);
       if (!response.error) {
-        // const { items, currentPage, totalNum } = response;
-
-        const result = {
-          data: response.records,
-          page: response.pages,
-          pageSize: payload.pageSize,
-          success: true,
-          total: response.total,
-        };
+        const result = formatPageData(response);
 
         resolve && resolve(result);
 
@@ -96,15 +90,7 @@ const Model = {
       delete params.current;
       const response = yield call(getSpecialAction, params);
       if (!response.error) {
-        // const { items, currentPage, totalNum } = response;
-
-        const result = {
-          data: response.records,
-          page: response.pages,
-          pageSize: payload.pageSize,
-          success: true,
-          total: response.total,
-        };
+        const result = formatPageData(response);
 
         resolve && resolve(result);
 
@@ -114,6 +100,13 @@ const Model = {
             taskListData: result,
           },
         });
+      }
+    },
+
+    *getSpecialActionTree({ payload, resolve }, { call }) {
+      const response = yield call(getSpecialActionTree, payload);
+      if (!response.error) {
+        resolve && resolve(response);
       }
     },
   },
