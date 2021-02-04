@@ -10,6 +10,7 @@ const SpecialActionModal = ({ dispatch, actionRef, loading }) => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const showModal = item => {
+    // let {year, id} = item
     setDetailData(item || null);
     if (item) setVisible(true);
     // if(item) updateData(item)
@@ -29,8 +30,16 @@ const SpecialActionModal = ({ dispatch, actionRef, loading }) => {
     }
   }, []);
 
+  useEffect(() => {
+    dispatch({
+      type: 'specialAction/getSpecialActionTree',
+    });
+  });
+
   const hideModal = () => {
     setModalVisible(false);
+    setDetailData(null);
+    setVisible(false);
     form.resetFields();
   };
 
@@ -39,16 +48,28 @@ const SpecialActionModal = ({ dispatch, actionRef, loading }) => {
       .validateFields()
       .then(values => {
         return new Promise(resolve => {
+          const fileIds =
+            values.files &&
+            values.files.map(item => {
+              return item.uid;
+            });
           dispatch({
             type: `specialAction/${detailData ? 'addAnnualSpecialAction' : 'addSpecialAction'}`,
             payload: {
               ...values,
+              fileIds,
             },
             resolve,
           });
         });
       })
       .then(() => {
+        dispatch({
+          type: 'specialAction/getSpecialActionTree',
+          payload: {
+            actionName: '',
+          },
+        });
         hideModal();
       })
       .catch(info => {

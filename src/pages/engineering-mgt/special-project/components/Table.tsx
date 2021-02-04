@@ -17,6 +17,13 @@ const Table = ({
   const [form] = ActionForm.useForm();
   const formRef = useRef();
 
+  // useEffect(() => {
+  //   dispatch({
+  //     type:'specialAction/getSpecialActionTree',
+
+  //   })
+  // })
+
   const getChildrenTaskList = params =>
     new Promise(resolve => {
       dispatch({
@@ -35,17 +42,17 @@ const Table = ({
       fixed: 'left',
       width: 64,
     },
-    { title: '子任务名称', align: 'center', dataIndex: 'userName', hideInSearch: true },
+    { title: '子任务名称', align: 'center', dataIndex: 'taskName', hideInSearch: true },
     {
       title: '年度',
       align: 'center',
       dataIndex: 'gender',
       hideInSearch: true,
     },
-    { title: '开始日期', align: 'center', dataIndex: 'userDept', hideInSearch: true },
-    { title: '截止日期', align: 'center', dataIndex: 'job', hideInSearch: true },
-    { title: '状态', align: 'center', dataIndex: 'phoneNumber', hideInSearch: true },
-    { title: '任务描述', align: 'center', dataIndex: 'officeTelephone', hideInSearch: true },
+    { title: '开始日期', align: 'center', dataIndex: 'startDate', hideInSearch: true },
+    { title: '截止日期', align: 'center', dataIndex: 'endDate', hideInSearch: true },
+    { title: '状态', align: 'center', dataIndex: 'taskState', hideInSearch: true },
+    { title: '任务描述', align: 'center', dataIndex: 'taskDescription', hideInSearch: true },
     {
       title: '操作',
       valueType: 'option',
