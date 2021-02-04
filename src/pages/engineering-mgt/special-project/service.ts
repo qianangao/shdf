@@ -4,9 +4,10 @@ import request, { noErrorRequest } from '@/utils/request';
  * 获取子任务列表
  * @param params
  */
-export async function getChildrenTaskList() {
-  return request(`/specialAction/findSubtask`, {
-    method: 'POST',
+export async function getChildrenTaskList(params) {
+  return request(`/task/findSubtaskList`, {
+    method: 'GET',
+    params,
   });
 }
 
@@ -15,9 +16,9 @@ export async function getChildrenTaskList() {
  * @param params
  */
 export async function addChildrenTaskList(params) {
-  return request(`/specialAction/addSubtask`, {
+  return request(`/task/addSubtask`, {
     method: 'POST',
-    params,
+    data: params,
   });
 }
 
@@ -66,7 +67,7 @@ export async function editSpecialAction(params: any) {
 }
 
 /**
- * 专项行动查询
+ * 专项行动查询/复用历史信息查询
  * @param params
  */
 export async function getSpecialAction(params) {
@@ -76,15 +77,15 @@ export async function getSpecialAction(params) {
   });
 }
 
-/**
- * 复用历史信息查询
- * @param params
- */
-export async function getHistoryInfoAction() {
-  return noErrorRequest(`/specialAction/findReuseHistory`, {
-    method: 'GET',
-  });
-}
+// /**
+//  * 复用历史信息查询
+//  * @param params
+//  */
+// export async function getHistoryInfoAction() {
+//   return noErrorRequest(`/specialAction/findReuseHistory`, {
+//     method: 'GET',
+//   });
+// }
 
 /**
  * 获取专项行动树

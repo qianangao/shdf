@@ -4,7 +4,8 @@ import { connect } from 'umi';
 import { getSpecialActionTree } from '../../../service';
 import styles from './index.less';
 
-const ActionTree = ({ openAddSpecialModal, dispatch }) => {
+const ActionTree = ({ openAddSpecialModal, dispatch, specialAction }) => {
+  const { treeRef } = specialAction;
   const [actionTreeData, setActionTreeData] = useState<any>([]);
   const [expandedKeys, setExpandedKeys] = useState<any>([]);
   const [selectedKeys, setSelectedKeys] = useState<any>([]);
@@ -58,7 +59,7 @@ const ActionTree = ({ openAddSpecialModal, dispatch }) => {
   //   });
   // };
   const actionSearchHander = value => {
-    if (!value) return;
+    // if (!value) return;
     getTreeData(value).then(data => setActionTreeData(data));
   };
 
@@ -68,11 +69,14 @@ const ActionTree = ({ openAddSpecialModal, dispatch }) => {
     setExpandedKeys(node);
   };
   const actionSelectHandler = (keys, { node }) => {
-    // console.log("keys, { node }",keys, node );
-    const id = node.key;
+    const actionId = node.key;
     dispatch({
       type: 'specialAction/getSpecialAction',
-      payload: { id },
+      payload: { actionId },
+    });
+    dispatch({
+      type: 'specialAction/getChildrenTaskList',
+      payload: { actionId },
     });
 
     if (!keys[0]) return;
@@ -103,12 +107,14 @@ const ActionTree = ({ openAddSpecialModal, dispatch }) => {
       <Input.Search
         allowClear
         style={{ marginBottom: 8, marginTop: 8 }}
-        placeholder="查询"
+        placeholder="行动名称"
+        enterButton="查询"
         onSearch={actionSearchHander}
       />
 
       <Tree
         treeData={actionTreeData}
+        actionRef={treeRef}
         // loadData={actionLoadDataHandler}
         onSelect={actionSelectHandler}
         selectedKeys={selectedKeys}
@@ -119,4 +125,4 @@ const ActionTree = ({ openAddSpecialModal, dispatch }) => {
   );
 };
 
-export default connect(() => ({}))(ActionTree);
+export default connect(({ specialAction }) => ({ specialAction }))(ActionTree);

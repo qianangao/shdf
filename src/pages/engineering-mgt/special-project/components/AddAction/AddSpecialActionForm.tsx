@@ -1,47 +1,96 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import AdvancedForm from '@/components/AdvancedForm';
 import { Select } from 'antd';
 import { connect } from 'umi';
 
-const AddSpecialActionForm = ({ form, visible, historyInfo, actionList }) => {
-  // console.log("actionList",actionList);
-  // console.log("historyInfo",historyInfo);
+const AddSpecialActionForm = ({ dispatch, form, visible }) => {
+  const [actionList, setActionList] = useState([]);
+  const [actionData, setActionData] = useState([]);
+  const [historyData, setHistoryData] = useState([]);
+
+  useEffect(() => {
+    new Promise(resolve => {
+      dispatch({
+        type: 'specialAction/getSpecialActionTree',
+        resolve,
+      });
+    }).then(res => {
+      setActionList(res);
+      const arr = [];
+      res.forEach(item => {
+        arr.push({ key: item.key, title: item.title });
+      });
+      setActionData(arr);
+    });
+  }, []);
+
+  const onChangeAction = key => {
+    form.setFieldsValue({ historyInfo: '' });
+    actionList.forEach(item => {
+      if (item.key === key) {
+        setHistoryData(item.children);
+      }
+    });
+  };
+
+  const onChangehistory = key => {
+    new Promise(resolve => {
+      dispatch({
+        type: 'specialAction/getSpecialAction',
+        payload: {
+          actionId: key,
+        },
+        resolve,
+      });
+    }).then(res => {
+      delete res.actionId;
+      form.setFieldsValue({ ...res });
+    });
+  };
 
   const formItems = [
     {
       label: '专项行动',
-      name: 'id',
+      name: 'actionId',
       span: 2,
       rules: [{ required: true, message: '请选择行动名称' }],
       visible,
       render: (
         <Select
           allowClear
-          // onChange={onChangeType}
-          // getPopupContainer={triggerNode => {
-          //   return triggerNode.parentNode || document.body;
-          // }}
+          onChange={onChangeAction}
+          getPopupContainer={triggerNode => {
+            return triggerNode.parentNode || document.body;
+          }}
         >
-          {actionList &&
-            actionList.map(item => <Select.Option key={item.key}>{item.title}</Select.Option>)}
+          {actionData &&
+            actionData.map(item => (
+              <Select.Option key={item.key} value={item.key}>
+                {item.title}
+              </Select.Option>
+            ))}
         </Select>
       ),
     },
     {
       label: '复用历史信息',
-      name: 'info',
+      name: 'historyInfo',
       span: 2,
       visible,
       render: (
         <Select
           allowClear
-          // onChange={onChangeType}
+          onChange={onChangehistory}
           // getPopupContainer={triggerNode => {
           //   return triggerNode.parentNode || document.body;
           // }}
         >
-          {historyInfo &&
-            historyInfo.map(item => <Select.Option key={item.id}>{item.actionName}</Select.Option>)}
+          {historyData &&
+            historyData.map(item => (
+              <Select.Option key={item.key} value={item.key}>
+                {item.title}
+              </Select.Option>
+            ))}
         </Select>
       ),
     },
@@ -84,10 +133,14 @@ const AddSpecialActionForm = ({ form, visible, historyInfo, actionList }) => {
       rules: [{ required: true, message: '请输入行动年度!', whitespace: true }],
       visible,
     },
-    {
-      name: 'segmentation',
-      type: 'segmentation',
-    },
+    { name: 'segmentation', type: 'segmentation' },
+    // {
+    //   label: '行动类型',
+    //   name: 'actionType',
+    //   span: 2,
+    //   rules: [{ required: true, message: '请输入行动类型!', whitespace: true }],
+    //   enumsLabel:'special_type'
+    // },
     {
       label: '行动描述',
       name: 'actionDescription',
@@ -108,7 +161,4 @@ const AddSpecialActionForm = ({ form, visible, historyInfo, actionList }) => {
 
 AddSpecialActionForm.useForm = AdvancedForm.useForm;
 
-export default connect(specialAction => ({
-  historyInfo: specialAction.historyInfo,
-  actionList: specialAction.actionList,
-}))(AddSpecialActionForm);
+export default connect(() => ({}))(AddSpecialActionForm);

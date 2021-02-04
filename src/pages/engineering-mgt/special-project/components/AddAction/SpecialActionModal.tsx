@@ -6,20 +6,60 @@ import AddSpecialActionForm from './AddSpecialActionForm';
 const SpecialActionModal = ({ dispatch, actionRef, loading }) => {
   const [form] = AddSpecialActionForm.useForm();
   const [detailData, setDetailData] = useState(null);
+  const [title, setTitle] = useState('');
+  const [titles, setTitles] = useState('');
   const [visible, setVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
+  const updateData = data => {
+    form.setFieldsValue({ ...data });
+  };
+
   const showModal = item => {
-    // let {year, id} = item
+    if (item) {
+      if (item.year) {
+        setTitle('新增年度专项行动');
+      } else if (item.actionForm) {
+        if (item.actionForm.actionYear) {
+          setTitle('编辑年度专项行动');
+        } else {
+          setTitle('编辑专项行动');
+        }
+      }
+    } else {
+      setTitle('新增专项行动');
+    }
     setDetailData(item || null);
-    if (item) setVisible(true);
-    // if(item) updateData(item)
+    if (item) {
+      if (item.year || item.actionForm.actionYear) setVisible(true);
+      if (item.actionForm) updateData(item.actionForm);
+    }
     setModalVisible(true);
   };
-  // const updateData = data => {
-  //   form.setFieldsValue({ ...data });
-  // };
 
+  if (detailData) {
+    if (detailData.actionForm) {
+      setTitles('editSpecialAction');
+    } else {
+      setTitles('addAnnualSpecialAction');
+    }
+  } else {
+    setTitles('addSpecialAction');
+  }
+
+  // const updateData = bookId => {
+  //   if (bookId) {
+  //     new Promise(resolve => {
+  //       dispatch({
+  //         type: 'emAddressBook/getAddressBookDetail',
+  //         payload: bookId.toString(),
+  //         resolve,
+  //       });
+  //     }).then(res => {
+  //       if (res) form.setFieldsValue({ ...res });
+  //     });
+  //   }
+  // };
   useEffect(() => {
     if (actionRef && typeof actionRef === 'function') {
       actionRef({ showModal });
@@ -30,16 +70,11 @@ const SpecialActionModal = ({ dispatch, actionRef, loading }) => {
     }
   }, []);
 
-  useEffect(() => {
-    dispatch({
-      type: 'specialAction/getSpecialActionTree',
-    });
-  });
-
   const hideModal = () => {
     setModalVisible(false);
     setDetailData(null);
     setVisible(false);
+    setTitle('');
     form.resetFields();
   };
 
@@ -53,8 +88,11 @@ const SpecialActionModal = ({ dispatch, actionRef, loading }) => {
             values.files.map(item => {
               return item.uid;
             });
+          if (detailData && detailData.actionForm) {
+            values.actionId = detailData.actionForm.actionId;
+          }
           dispatch({
-            type: `specialAction/${detailData ? 'addAnnualSpecialAction' : 'addSpecialAction'}`,
+            type: `specialAction/${titles}`,
             payload: {
               ...values,
               fileIds,
@@ -64,12 +102,12 @@ const SpecialActionModal = ({ dispatch, actionRef, loading }) => {
         });
       })
       .then(() => {
-        dispatch({
-          type: 'specialAction/getSpecialActionTree',
-          payload: {
-            actionName: '',
-          },
-        });
+        // dispatch({
+        //   type:'specialAction/getSpecialActionTree',
+        //   payload:{
+        //     actionName: ''
+        //   }
+        // })
         hideModal();
       })
       .catch(info => {
@@ -79,7 +117,7 @@ const SpecialActionModal = ({ dispatch, actionRef, loading }) => {
 
   return (
     <Modal
-      title={detailData ? '新增年度专项行动' : '新增专项行动'}
+      title={title}
       centered
       width="60vw"
       style={{ paddingBottom: 0 }}

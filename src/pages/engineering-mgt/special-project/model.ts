@@ -8,38 +8,39 @@ import {
   addAnnualSpecialAction,
   getSpecialAction,
   getSpecialActionTree,
-  getHistoryInfoAction,
 } from './service';
 
 const Model = {
   namespace: 'specialAction',
   state: {
     tableRef: {},
+    // treeRef: {},
     taskListData: {},
-    historyInfo: [],
+    // historyInfo: [],
     actionForm: {},
-    actionList: [],
+    // actionList: [],
   },
   effects: {
     *getChildrenTaskList({ payload, resolve }, { call, put }) {
       const params = {
         ...payload,
-        pageNum: payload.current,
-        pageSize: payload.pageSize,
+        pageNum: payload.current ? payload.current : 1,
+        pageSize: payload.pageSize ? payload.pageSize : 20,
       };
       delete params.current;
       const response = yield call(getChildrenTaskList, params);
       if (!response.error) {
         const result = formatPageData(response);
-
         resolve && resolve(result);
-
         yield put({
           type: 'save',
           payload: {
             taskListData: result,
           },
         });
+        // yield put({
+        //   type: 'tableReload',
+        // });
       }
     },
 
@@ -88,20 +89,12 @@ const Model = {
     *getSpecialAction({ payload, resolve }, { call, put }) {
       const response = yield call(getSpecialAction, payload);
       if (!response.error) {
-        resolve && resolve(result);
+        response.secrecyLevel = response.secrecyLevel.toString();
+        resolve && resolve(response);
         yield put({
           type: 'save',
           payload: {
-            // actionForm: result,
-            actionForm: {
-              actionName: '行动名称',
-              displayCode: '显示编码/行动编号',
-              secrecyLevel: '保密等级',
-              startDate: '2020-12-02',
-              endDate: '2020-12-30',
-              actionDescription: '行动描述',
-              actionYear: '2021',
-            },
+            actionForm: response,
           },
         });
       }
@@ -111,31 +104,21 @@ const Model = {
       const response = yield call(getSpecialActionTree, payload);
       if (!response.error) {
         resolve && resolve(response);
-        const arr = [];
-        response.forEach(item => {
-          arr.push({ key: item.key, item: item.title });
-        });
-        yield put({
-          type: 'save',
-          payload: {
-            actionList: arr,
-          },
-        });
       }
     },
 
-    *getHistoryInfoAction({ resolve }, { call }) {
-      const response = yield call(getHistoryInfoAction);
-      if (!response.error) {
-        resolve && resolve(response);
-        yield put({
-          type: 'save',
-          payload: {
-            historyInfo: response,
-          },
-        });
-      }
-    },
+    //   *getHistoryInfoAction({ resolve }, { call }) {
+    //     const response = yield call(getHistoryInfoAction);
+    //     if (!response.error) {
+    //       resolve && resolve(response);
+    //       yield put({
+    //         type: 'save',
+    //         payload: {
+    //           historyInfo: response,
+    //         },
+    //       });
+    //     }
+    //   },
   },
 
   reducers: {
@@ -144,13 +127,23 @@ const Model = {
     },
 
     tableReload(state) {
+      // const treeRef = state.treeRef || {};
       const tableRef = state.tableRef || {};
       setTimeout(() => {
         // tableRef.current.reloadAndRest 刷新并清空，页码也会重置
         tableRef.current && tableRef.current.reloadAndRest();
+        // treeRef.current && treeRef.current.reloadAndRest();
       }, 0);
       return { ...state };
     },
+    // treeReload(state) {
+    //   const treeRef = state.treeRef || {};
+    //   setTimeout(() => {
+    //     // tableRef.current.reloadAndRest 刷新并清空，页码也会重置
+    //     treeRef.current && treeRef.current.reloadAndRest();
+    //   }, 0);
+    //   return { ...state };
+    // },
   },
 };
 

@@ -8,7 +8,7 @@ const ChildrenTaskForm = ({ form }) => {
     // { label: 'id', name: 'bookId', hidden: true },
     {
       label: '子任务名称',
-      name: 'actionName',
+      name: 'taskName',
       span: 2,
       rules: [
         { required: true, message: '请输入子任务名称!', whitespace: true },
@@ -17,27 +17,28 @@ const ChildrenTaskForm = ({ form }) => {
     },
     {
       label: '保密等级',
-      name: 'level',
+      name: 'secrecyLevel',
       span: 2,
       rules: [{ required: true, message: '请选择保密等级' }],
+      enumsLabel: 'subject_secrecy_level',
     },
     {
       label: '开始日期',
-      name: 'start_date',
+      name: 'startDate',
       span: 2,
       rules: [{ required: true, message: '请选择开始日期' }],
       type: 'date',
     },
     {
       label: '截止日期',
-      name: 'end_date',
+      name: 'endDate',
       span: 2,
       rules: [{ required: true, message: '请选择截止日期!' }],
       type: 'date',
     },
     {
       label: '任务描述',
-      name: 'description',
+      name: 'taskDescription',
       span: 4,
       rules: [
         { required: true, message: '请输入!' },
@@ -62,7 +63,7 @@ const ChildrenTaskForm = ({ form }) => {
     },
     {
       label: '附件列表',
-      name: 'files',
+      name: 'fileIds',
       span: 4,
       type: 'upload',
     },

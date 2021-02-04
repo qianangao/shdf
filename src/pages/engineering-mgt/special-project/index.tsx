@@ -23,17 +23,22 @@ const SpecialProject = ({ dispatch }) => {
     dispatch({
       type: 'global/getEnums',
       payload: {
-        names: ['subject_secrecy_level'],
+        names: ['subject_secrecy_level', 'special_type'],
       },
     });
   }, []);
-
-  const actionChangeHander = actionName => {
-    dispatch({
-      type: 'specialAction/getSpecialActionTree',
-      payload: actionName,
-    });
-  };
+  // useEffect(()=>{
+  //   dispatch({
+  //     type: 'specialAction/getSpecialActionTree',
+  //     // payload: actionName,
+  //   });
+  // })
+  // const actionChangeHander = actionName => {
+  //   dispatch({
+  //     type: 'specialAction/getSpecialActionTree',
+  //     payload: actionName,
+  //   });
+  // };
 
   const openModifyModal = item => {
     editchildrenRef.current.showModal(item);
@@ -60,7 +65,7 @@ const SpecialProject = ({ dispatch }) => {
   // };
 
   return (
-    <ActionTreeLayout onActionSelect={actionChangeHander} openAddSpecialModal={openAddSpecialModal}>
+    <ActionTreeLayout openAddSpecialModal={openAddSpecialModal}>
       <Table
         openAddModal={openAddModal}
         openDownModal={openDownModal}

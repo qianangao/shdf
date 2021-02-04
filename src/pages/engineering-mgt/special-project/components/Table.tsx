@@ -1,8 +1,9 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Button } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import ActionForm from './EditAction/ActionForm';
+import { getSpecialActionTree } from '../service';
 
 const Table = ({
   specialAction,
@@ -23,6 +24,23 @@ const Table = ({
 
   //   })
   // })
+
+  useEffect(() => {
+    getSpecialActionTree({}).then(data => {
+      if (data.error) {
+        return;
+      }
+      new Promise(resolve => {
+        dispatch({
+          type: 'specialAction/getSpecialAction',
+          payload: { actionId: data[0].key },
+          resolve,
+        });
+      }).then(res => {
+        form.setFieldsValue({ ...res });
+      });
+    });
+  }, []);
 
   const getChildrenTaskList = params =>
     new Promise(resolve => {
@@ -46,7 +64,7 @@ const Table = ({
     {
       title: '年度',
       align: 'center',
-      dataIndex: 'gender',
+      dataIndex: 'taskYear',
       hideInSearch: true,
     },
     { title: '开始日期', align: 'center', dataIndex: 'startDate', hideInSearch: true },
@@ -88,7 +106,7 @@ const Table = ({
       <ActionForm form={form} openAddSpecialModal={openAddSpecialModal} />
       <ProTable
         search={false}
-        rowKey="bookId"
+        rowKey="taskId"
         headerTitle="子任务"
         actionRef={tableRef}
         formRef={formRef}
