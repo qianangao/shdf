@@ -9,7 +9,7 @@ const ReadListModal = React.lazy(() => import('./components/ReadListModal'));
 const DetailModal = React.lazy(() => import('./components/DetailModal'));
 const DistributeModal = React.lazy(() => import('./components/DistributeModal'));
 
-const ReceivingMgt = ({ dispatch }) => {
+const CaseMgt = ({ dispatch }) => {
   const modifyRef = useRef({});
   const addRef = useRef({});
   const readListRef = useRef({});
@@ -65,4 +65,4 @@ const ReceivingMgt = ({ dispatch }) => {
   );
 };
 
-export default connect(() => ({}))(ReceivingMgt);
+export default connect(() => ({}))(CaseMgt);
