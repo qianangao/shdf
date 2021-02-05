@@ -5,8 +5,15 @@ const routes = {
   routes: [
     {
       path: '/case-mgt',
-      redirect: '/case-mgt/key-institutions',
+      redirect: '/case-mgt/vocational-work',
       hideInMenu: true,
+    },
+    {
+      path: '/case-mgt/vocational-work',
+      name: 'case-mgt-vocational-work',
+      component: './case-mgt/vocational-work',
+      icon: 'setting',
+      remark: '案件业务管理',
     },
   ],
 };
