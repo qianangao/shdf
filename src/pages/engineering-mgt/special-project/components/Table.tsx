@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
@@ -16,15 +16,7 @@ const Table = ({
 }) => {
   const { tableRef } = specialAction;
   const [form] = ActionForm.useForm();
-  const formRef = useRef();
   const [actionId, setActionId] = useState('');
-
-  // useEffect(() => {
-  //   dispatch({
-  //     type:'specialAction/getSpecialActionTree',
-
-  //   })
-  // })
 
   useEffect(() => {
     getSpecialActionTree({}).then(data => {
@@ -33,7 +25,10 @@ const Table = ({
       }
       if (data[0]) {
         setActionId(data[0].key);
-        getChildrenTaskList({ actionId: data[0].key });
+        // getChildrenTaskList({ actionId: data[0].key });
+        dispatch({
+          type: 'specialAction/tableReload',
+        });
         new Promise(resolve => {
           dispatch({
             type: 'specialAction/getSpecialAction',
@@ -52,12 +47,9 @@ const Table = ({
       // console.log("params",params);
       // console.log("actionId",actionId);
 
-      if (!params.actionId) {
-        params.actionId = actionId;
-      }
       dispatch({
         type: 'specialAction/getChildrenTaskList',
-        payload: { ...params },
+        payload: { ...params, actionId },
         resolve,
       });
     });
@@ -120,9 +112,8 @@ const Table = ({
         rowKey="taskId"
         headerTitle="子任务"
         actionRef={tableRef}
-        formRef={formRef}
         scroll={{ x: 'max-content' }}
-        // request={async params => getChildrenTaskList(params)}
+        request={async params => getChildrenTaskList(params)}
         toolBarRender={_ => [
           <Button type="primary" onClick={() => openAddModal()}>
             新增子任务

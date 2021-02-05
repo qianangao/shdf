@@ -40,9 +40,9 @@ const Model = {
             actionId: payload.actionId,
           },
         });
-        yield put({
-          type: 'tableReload',
-        });
+        // yield put({
+        //   type: 'tableReload',
+        // });
       }
     },
 

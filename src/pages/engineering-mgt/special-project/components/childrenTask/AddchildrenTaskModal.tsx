@@ -36,12 +36,18 @@ const AddchildrenTaskModal = ({ dispatch, actionRef, loading, specialAction }) =
     form
       .validateFields()
       .then(values => {
+        const fileIds =
+          values.fileIds &&
+          values.fileIds.map(item => {
+            return item.uid;
+          });
         return new Promise(resolve => {
           dispatch({
             type: `specialAction/addChildrenTaskList`,
             payload: {
               ...values,
               actionId,
+              fileIds,
             },
             resolve,
           });

@@ -12,7 +12,7 @@ const ActionForm = ({ form, actionForm, openAddSpecialModal, enums }) => {
     }
     return () => {
       setVisible(false);
-      form.setFieldsValue({});
+      form.resetFields();
     };
   });
 

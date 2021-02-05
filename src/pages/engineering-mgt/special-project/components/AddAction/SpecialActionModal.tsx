@@ -10,6 +10,7 @@ const SpecialActionModal = ({ dispatch, actionRef, loading }) => {
   const [titles, setTitles] = useState('');
   const [visible, setVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [editVisible, setEditVisible] = useState(true);
 
   const updateData = data => {
     form.setFieldsValue({ ...data });
@@ -19,7 +20,9 @@ const SpecialActionModal = ({ dispatch, actionRef, loading }) => {
     if (item) {
       if (item.year) {
         setTitle('新增年度专项行动');
+        setEditVisible(true);
       } else if (item.actionForm) {
+        setEditVisible(false);
         if (item.actionForm.actionYear) {
           setTitle('编辑年度专项行动');
         } else {
@@ -83,8 +86,8 @@ const SpecialActionModal = ({ dispatch, actionRef, loading }) => {
       .then(values => {
         return new Promise(resolve => {
           const fileIds =
-            values.files &&
-            values.files.map(item => {
+            values.fileIds &&
+            values.fileIds.map(item => {
               return item.uid;
             });
           if (detailData && detailData.actionForm) {
@@ -135,7 +138,7 @@ const SpecialActionModal = ({ dispatch, actionRef, loading }) => {
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <AddSpecialActionForm form={form} visible={visible} />
+      <AddSpecialActionForm form={form} visible={visible} editVisible={editVisible} />
     </Modal>
   );
 };

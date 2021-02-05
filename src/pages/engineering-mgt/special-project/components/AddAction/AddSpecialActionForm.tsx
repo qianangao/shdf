@@ -3,10 +3,11 @@ import AdvancedForm from '@/components/AdvancedForm';
 import { Select } from 'antd';
 import { connect } from 'umi';
 
-const AddSpecialActionForm = ({ dispatch, form, visible }) => {
+const AddSpecialActionForm = ({ dispatch, form, visible, editVisible }) => {
   const [actionList, setActionList] = useState([]);
   const [actionData, setActionData] = useState([]);
   const [historyData, setHistoryData] = useState([]);
+  // const [idVisible, setIdVisible] = useState(true);
 
   useEffect(() => {
     new Promise(resolve => {
@@ -54,7 +55,7 @@ const AddSpecialActionForm = ({ dispatch, form, visible }) => {
       name: 'actionId',
       span: 2,
       rules: [{ required: true, message: '请选择行动名称' }],
-      visible,
+      visible: editVisible && visible,
       render: (
         <Select
           allowClear
@@ -76,7 +77,7 @@ const AddSpecialActionForm = ({ dispatch, form, visible }) => {
       label: '复用历史信息',
       name: 'historyInfo',
       span: 2,
-      visible,
+      visible: editVisible && visible,
       render: (
         <Select
           allowClear
