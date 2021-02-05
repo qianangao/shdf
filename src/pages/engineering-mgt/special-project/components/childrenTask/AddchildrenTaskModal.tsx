@@ -3,7 +3,8 @@ import { connect } from 'umi';
 import { Modal } from 'antd';
 import ChildrenTaskForm from './ChildrenTaskForm';
 
-const AddchildrenTaskModal = ({ dispatch, actionRef, loading }) => {
+const AddchildrenTaskModal = ({ dispatch, actionRef, loading, specialAction }) => {
+  const [actionId, setActionId] = useState('');
   const [form] = ChildrenTaskForm.useForm();
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -20,9 +21,14 @@ const AddchildrenTaskModal = ({ dispatch, actionRef, loading }) => {
       actionRef.current = { showModal };
     }
   }, []);
-
+  useEffect(() => {
+    if (specialAction.actionId) {
+      setActionId(specialAction.actionId);
+    }
+  });
   const hideModal = () => {
     setModalVisible(false);
+    setActionId('');
     form.resetFields();
   };
 
@@ -35,6 +41,7 @@ const AddchildrenTaskModal = ({ dispatch, actionRef, loading }) => {
             type: `specialAction/addChildrenTaskList`,
             payload: {
               ...values,
+              actionId,
             },
             resolve,
           });
@@ -67,6 +74,7 @@ const AddchildrenTaskModal = ({ dispatch, actionRef, loading }) => {
   );
 };
 
-export default connect(({ loading }) => ({
+export default connect(({ loading, specialAction }) => ({
   loading: loading.models.smDictionaryMgt,
+  specialAction,
 }))(AddchildrenTaskModal);

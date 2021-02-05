@@ -43,8 +43,8 @@ const Model = {
 
     *getAddressBookDetail({ payload, resolve }, { call }) {
       const response = yield call(getAddressBookDetail, payload);
-
       if (!response.error) {
+        response.gender = response.gender.toString();
         resolve && resolve(response);
       }
     },

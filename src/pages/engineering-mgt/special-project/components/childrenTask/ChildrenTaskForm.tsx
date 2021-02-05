@@ -1,7 +1,7 @@
 import React from 'react';
 // import { Select, Button } from 'antd';
 import AdvancedForm from '@/components/AdvancedForm';
-import FeedbackTable from './FeedbackTable';
+// import FeedbackTable from './FeedbackTable';
 
 const ChildrenTaskForm = ({ form }) => {
   const formItems = [
@@ -50,7 +50,7 @@ const ChildrenTaskForm = ({ form }) => {
       label: '阶段反馈要求',
       name: 'stageRequest',
       span: 4,
-      render: <FeedbackTable />,
+      // render: <FeedbackTable />,
     },
     {
       label: '总结反馈要求',

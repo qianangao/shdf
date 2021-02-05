@@ -16,15 +16,6 @@ const ActionTree = ({ openAddSpecialModal, dispatch, specialAction }) => {
       if (data.error) {
         return;
       }
-      // const tempId = actionName || 'demoid';
-      // if (!actionName) {
-      //   actionTreeData.push({
-      //     // TEMP 获取用户所在组织id title
-      //     key: tempId,
-      //     title: '专项行动',
-      //   });
-      // }
-
       setActionTreeData(data);
     });
   };

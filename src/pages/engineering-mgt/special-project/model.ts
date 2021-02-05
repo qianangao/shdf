@@ -18,6 +18,7 @@ const Model = {
     taskListData: {},
     // historyInfo: [],
     actionForm: {},
+    actionId: '',
     // actionList: [],
   },
   effects: {
@@ -36,11 +37,12 @@ const Model = {
           type: 'save',
           payload: {
             taskListData: result,
+            actionId: payload.actionId,
           },
         });
-        // yield put({
-        //   type: 'tableReload',
-        // });
+        yield put({
+          type: 'tableReload',
+        });
       }
     },
 
@@ -48,7 +50,15 @@ const Model = {
       const response = yield call(addChildrenTaskList, payload);
       if (!response.error) {
         resolve && resolve(response);
+        // console.log("response.records",response.records);
+
         message.success('新增成功！');
+        yield put({
+          type: 'save',
+          payload: {
+            taskListData: response.records,
+          },
+        });
         yield put({
           type: 'tableReload',
         });
@@ -65,31 +75,32 @@ const Model = {
         });
       }
     },
-    *addSpecialAction({ payload, resolve }, { call, put }) {
+    *addSpecialAction({ payload, resolve }, { call }) {
       const response = yield call(addSpecialAction, payload);
       if (!response.error) {
         resolve && resolve(response);
         message.success('新增成功！');
-        yield put({
-          type: 'tableReload',
-        });
+        // yield put({
+        //   type: 'tableReload',
+        // });
       }
     },
-    *addAnnualSpecialAction({ payload, resolve }, { call, put }) {
+    *addAnnualSpecialAction({ payload, resolve }, { call }) {
       const response = yield call(addAnnualSpecialAction, payload);
       if (!response.error) {
         resolve && resolve(response);
         message.success('新增成功！');
-        yield put({
-          type: 'tableReload',
-        });
+        // yield put({
+        //   type: 'tableReload',
+        // });
       }
     },
 
     *getSpecialAction({ payload, resolve }, { call, put }) {
       const response = yield call(getSpecialAction, payload);
       if (!response.error) {
-        response.secrecyLevel = response.secrecyLevel.toString();
+        response.secrecyLevel += '';
+        response.actionId += '';
         resolve && resolve(response);
         yield put({
           type: 'save',
@@ -136,14 +147,6 @@ const Model = {
       }, 0);
       return { ...state };
     },
-    // treeReload(state) {
-    //   const treeRef = state.treeRef || {};
-    //   setTimeout(() => {
-    //     // tableRef.current.reloadAndRest 刷新并清空，页码也会重置
-    //     treeRef.current && treeRef.current.reloadAndRest();
-    //   }, 0);
-    //   return { ...state };
-    // },
   },
 };
 

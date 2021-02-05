@@ -35,17 +35,16 @@ const SpecialActionModal = ({ dispatch, actionRef, loading }) => {
       if (item.actionForm) updateData(item.actionForm);
     }
     setModalVisible(true);
-  };
-
-  if (detailData) {
-    if (detailData.actionForm) {
-      setTitles('editSpecialAction');
+    if (item) {
+      if (item.actionForm) {
+        setTitles('editSpecialAction');
+      } else {
+        setTitles('addAnnualSpecialAction');
+      }
     } else {
-      setTitles('addAnnualSpecialAction');
+      setTitles('addSpecialAction');
     }
-  } else {
-    setTitles('addSpecialAction');
-  }
+  };
 
   // const updateData = bookId => {
   //   if (bookId) {
@@ -92,7 +91,14 @@ const SpecialActionModal = ({ dispatch, actionRef, loading }) => {
             values.actionId = detailData.actionForm.actionId;
           }
           dispatch({
-            type: `specialAction/${titles}`,
+            type: `specialAction/${
+              titles
+              // detailData
+              //   ? detailData.actionForm
+              //     ? 'editSpecialAction'
+              //     : 'addAnnualSpecialAction'
+              //   : 'addSpecialAction'
+            }`,
             payload: {
               ...values,
               fileIds,
