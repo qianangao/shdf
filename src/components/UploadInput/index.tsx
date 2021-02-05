@@ -112,7 +112,7 @@ const UploadInput = ({
           if (data) {
             const tempFile = {
               url: data.url,
-              uid: data.id,
+              uid: data.fileId,
               name: data.fileName,
               status: 'done',
             };
