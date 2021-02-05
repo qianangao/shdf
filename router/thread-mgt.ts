@@ -5,8 +5,8 @@ const routes = {
   routes: [
     {
       path: '/thread-mgt',
-      redirect: '/thread-mgt/key-institutions',
-      hideInMenu: true,
+      name: 'thread-mgt',
+      component: './thread-mgt',
     },
   ],
 };
