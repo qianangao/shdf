@@ -3,20 +3,17 @@ import { connect } from 'umi';
 import { Modal, Button, Descriptions } from 'antd';
 
 const CaresDetailModal = ({ dispatch, caseMgt, actionRef }) => {
-  const [caresId] = useState('');
-
-  const [DetailModalVisible, setModalVisible] = useState(false);
-  const { receivingDetailData } = caseMgt;
+  const [detailModalVisible, setModalVisible] = useState(false);
+  const { caseDetailData } = caseMgt;
 
   const showModal = items => {
     // 获取详情
     dispatch({
       type: 'caseMgt/getDetail',
       payload: {
-        id: items.receiptId,
+        id: items.caseId,
       },
     });
-
     setModalVisible(true);
   };
 
@@ -28,24 +25,15 @@ const CaresDetailModal = ({ dispatch, caseMgt, actionRef }) => {
       actionRef.current = { showModal };
     }
   }, []);
-  useEffect(() => {
-    if (caresId) {
-      dispatch({
-        type: 'oaCaresNext/getCaresDetail',
-        payload: { id: caresId },
-      });
-    }
-  }, [caresId]);
 
   const hideModal = () => {
     setModalVisible(false);
-
-    // dispatch({
-    //   type: 'oaCaresNext/save',
-    //   payload: {
-    //     DetailModalVisible: false,
-    //   },
-    // });
+    dispatch({
+      type: 'caseMgt/save',
+      payload: {
+        caseDetailData: {},
+      },
+    });
   };
 
   return (
@@ -54,7 +42,7 @@ const CaresDetailModal = ({ dispatch, caseMgt, actionRef }) => {
       centered
       width="900px"
       style={{ paddingBottom: 0 }}
-      visible={DetailModalVisible}
+      visible={detailModalVisible}
       destroyOnClose
       onCancel={hideModal}
       footer={[
@@ -63,50 +51,51 @@ const CaresDetailModal = ({ dispatch, caseMgt, actionRef }) => {
         </Button>,
       ]}
     >
-      <Descriptions size="middle" column={2}>
-        <Descriptions.Item label="办  理  类  型">
-          {receivingDetailData.handleType}
+      <Descriptions size="middle" column={3}>
+        <Descriptions.Item label="案件名称">{caseDetailData.caseName}</Descriptions.Item>
+        <Descriptions.Item label="罪名">{caseDetailData.charge}</Descriptions.Item>
+        <Descriptions.Item label="案件简要">{caseDetailData.brieflyCase}</Descriptions.Item>
+        <Descriptions.Item label="案件编号">{caseDetailData.caseCode}</Descriptions.Item>
+        <Descriptions.Item label="案件性质">{caseDetailData.caseNature}</Descriptions.Item>
+        <Descriptions.Item label="案件来源">{caseDetailData.caseSource}</Descriptions.Item>
+        <Descriptions.Item label="重要程度">{caseDetailData.importanceLevel}</Descriptions.Item>
+        <Descriptions.Item label="保密等级">{caseDetailData.secrecyLevel}</Descriptions.Item>
+        <Descriptions.Item label="立案日期">{caseDetailData.registerTime}</Descriptions.Item>
+        <Descriptions.Item label="紧急程度">{caseDetailData.urgentLevel}</Descriptions.Item>
+        <Descriptions.Item label="抓获人数">{caseDetailData.captureNumber}</Descriptions.Item>
+        <Descriptions.Item label="刑事拘留人数">{caseDetailData.detentionNumber}</Descriptions.Item>
+        <Descriptions.Item label="逮捕人数">{caseDetailData.arrestNumber}</Descriptions.Item>
+        <Descriptions.Item label="判处被告人数量">
+          {caseDetailData.defendantNumber}
         </Descriptions.Item>
-        <Descriptions.Item label="来  文  单  位">{receivingDetailData.docUnit}</Descriptions.Item>
-        <Descriptions.Item label="来  文  文  号">{receivingDetailData.docNo}</Descriptions.Item>
-        <Descriptions.Item label="收  文  日  期">
-          {receivingDetailData.receiptData}
+        <Descriptions.Item label="传播载体形式">{caseDetailData.spreadForm}</Descriptions.Item>
+        <Descriptions.Item label="所属联防工程">{caseDetailData.projectId}</Descriptions.Item>
+        <Descriptions.Item label="平台类型">
+          {caseDetailData.involvedPlatformType}
         </Descriptions.Item>
-        <Descriptions.Item label="信  封  编  号">
-          {receivingDetailData.envelopeCode}
+        <Descriptions.Item label="是否网络案件">{caseDetailData.isNetworkCase}</Descriptions.Item>
+        <Descriptions.Item label="专项行动">{caseDetailData.specialActionId}</Descriptions.Item>
+        <Descriptions.Item label="案件查处部门">
+          {caseDetailData.investigationDepartment}
         </Descriptions.Item>
-        <Descriptions.Item label="紧  急  程  度">
-          {receivingDetailData.urgentLevel}
-        </Descriptions.Item>
-        <Descriptions.Item label="密             级">
-          {receivingDetailData.secrecyLevel}
-        </Descriptions.Item>
-        <Descriptions.Item label="保  密  期  限">
-          {receivingDetailData.secrecyDuration}
-        </Descriptions.Item>
-        <Descriptions.Item label="文  件  份  数">{receivingDetailData.fileNum}</Descriptions.Item>
-        <Descriptions.Item label="成  文  日  期">
-          {receivingDetailData.finishTime}
-        </Descriptions.Item>
-        <Descriptions.Item label="办  理   时   限">
-          {receivingDetailData.handleDuration}
-        </Descriptions.Item>
-        <Descriptions.Item label="收   文  编  号">
-          {receivingDetailData.receiptCode}
-        </Descriptions.Item>
-        <Descriptions.Item label="来  文   标   题">
-          {receivingDetailData.receiptTitle}
-        </Descriptions.Item>
-        <Descriptions.Item label="备    注">{receivingDetailData.remarks}</Descriptions.Item>
-        <Descriptions.Item label="批   示">{receivingDetailData.instructions}</Descriptions.Item>
-        {/* <Descriptions.Item label="附   件">{receivingDetailData.fileList}</Descriptions.Item> */}
+        <Descriptions.Item label="涉案数量">{caseDetailData.caseNumber}</Descriptions.Item>
+        <Descriptions.Item label="涉案金额">{caseDetailData.caseAmount}</Descriptions.Item>
+        <Descriptions.Item label="案件办理阶段">{caseDetailData.caseType}</Descriptions.Item>
+        <Descriptions.Item label="发案公司">{caseDetailData.reportCompany}</Descriptions.Item>
+        <Descriptions.Item label="发案时间">{caseDetailData.reportTime}</Descriptions.Item>
+        <Descriptions.Item label="案件地域">{caseDetailData.region}</Descriptions.Item>
+      </Descriptions>
+      <Descriptions size="middle" column={1}>
+        <Descriptions.Item label="案情描述">{caseDetailData.completeCase}</Descriptions.Item>
+        <Descriptions.Item label="行政处理结果">{caseDetailData.punishResult}</Descriptions.Item>
+        <Descriptions.Item label="案件办理结果">{caseDetailData.sentenceResult}</Descriptions.Item>
+        {/* <Descriptions.Item label="附   件">{caseDetailData.fileList}</Descriptions.Item> */}
       </Descriptions>
     </Modal>
   );
 };
 
 export default connect(({ caseMgt, loading }) => ({
-  DetailModalVisible: false,
   caseMgt,
   loading: loading.models.caseMgt,
 }))(CaresDetailModal);

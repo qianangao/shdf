@@ -20,9 +20,22 @@ const routes = {
     {
       path: '/synergy-office/announcement-mgt',
       name: 'synergy-office-announcement-mgt',
-      component: './synergy-office/announcement-mgt',
       icon: 'setting',
       remark: '公告管理',
+      routes: [
+        {
+          path: '/synergy-office/announcement-mgt/release-management',
+          name: 'synergy-office-announcement-mgt/release-management',
+          component: './synergy-office/announcement-mgt/release-management',
+          remark: '发布管理',
+        },
+        {
+          path: '/synergy-office/announcement-mgt/receive-management',
+          name: 'synergy-office-announcement-mgt/receive-management',
+          component: './synergy-office/announcement-mgt/receive-management',
+          remark: '接收管理',
+        }
+      ]
     },
     {
       path: '/synergy-office',

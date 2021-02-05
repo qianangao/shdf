@@ -9,13 +9,6 @@ const ReadListModal = ({ actionRef }) => {
 
   const showModal = () => {
     setModalVisible(true);
-    // setInfoId(id);
-    // dispatch({
-    //   type: 'oaVolunteerTeam/save',
-    //   payload: {
-    //     ReadModalVisible: true,
-    //   },
-    // });
   };
 
   useEffect(() => {

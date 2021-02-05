@@ -1,14 +1,26 @@
 import { message } from 'antd';
+import { downloadXlsFile } from '@/utils';
+import { getReceivingCode } from '@/pages/synergy-office/receiving-mgt/service';
 import {
-  getReceivingList,
+  getCaseList,
   getReceivingReadList,
-  getReceivingDetail,
-  deleteReceiving,
-  distribute,
-  getMemberList,
-  addReceiving,
-  updateReceiving,
-  getReceivingCode,
+  getCaseDetail,
+  del,
+  authorize,
+  getAuthorize,
+  addCase,
+  updateCase,
+  applyCase,
+  recall,
+  recordApproval,
+  getRecordDetail,
+  supervise,
+  recallSupervise,
+  getSuperviseDetail,
+  superviseApproval,
+  templateDownload,
+  importCase,
+  exportCase,
 } from './service';
 
 const Model = {
@@ -17,27 +29,22 @@ const Model = {
     receivingListData: {},
     receivingReadListData: {},
     memberListData: {},
-    receivingDetailData: {},
+    caseDetailData: {},
+    recordDetailData: {},
+    authorizeData: {},
     trendsDetailData: {},
     tableRef: {},
-    selectedOrgId: undefined, // 选择的组织id
-    DetailModalVisible: false, // 关工组织详情modal visible
-    modifyModalVisible: false, // 关工组织编辑modal visible
-    addModalVisible: false, // 新增关工组织modal visible
-    readModalVisible: false, // 新增关工组织modal visible
-    trendsAddModalVisible: false, // 发布动态modal visible
-    memberModifyModalVisible: false, // 编辑成员modal visible
-    memberAddModalVisible: false, // 新增成员modal visible
+    selectedOrgId: undefined,
   },
   effects: {
-    *getReceivingList({ payload, resolve }, { call, put }) {
+    *getCaseList({ payload, resolve }, { call, put }) {
       const params = {
         ...payload,
         pageNum: payload.current,
         pageSize: payload.pageSize,
       };
 
-      const response = yield call(getReceivingList, params);
+      const response = yield call(getCaseList, params);
 
       if (!response.error) {
         const { records, current, total } = response;
@@ -90,67 +97,45 @@ const Model = {
         });
       }
     },
-    *getMemberList({ payload, resolve }, { call, put }) {
-      const params = {
-        ...payload,
-        currentPage: payload.current,
-        pageSize: payload.pageSize,
-      };
-      const response = yield call(getMemberList, params);
+    *getAuthorize({ payload, resolve }, { call, put }) {
+      const response = yield call(getAuthorize, payload);
       if (!response.error) {
-        const { items, currentPage, totalNum } = response;
-
-        const result = {
-          data: items,
-          page: currentPage,
-          pageSize: payload.pageSize,
-          success: true,
-          total: totalNum,
-        };
-
-        resolve && resolve(result);
-
+        resolve && resolve(response.data);
         yield put({
           type: 'save',
           payload: {
-            memberListData: result,
+            authorizeData: response.data,
           },
         });
       }
     },
     *getDetail({ payload, resolve }, { call, put }) {
-      // console.log(payload,'payload---3')
-      const response = yield call(getReceivingDetail, payload);
+      const response = yield call(getCaseDetail, payload);
 
       if (!response.error) {
         resolve && resolve(response);
         yield put({
           type: 'save',
           payload: {
-            receivingDetailData: response,
+            caseDetailData: response,
           },
         });
       }
     },
-    *update({ payload }, { call, put }) {
-      const response = yield call(updateReceiving, payload);
+    *update({ payload, resolve }, { call, put }) {
+      const response = yield call(updateCase, payload);
       if (!response.error) {
-        yield put({
-          type: 'save',
-          payload: {
-            modifyModalVisible: false,
-          },
-        });
-        message.success('收文登记修改成功！');
+        resolve && resolve(response);
+        message.success('案件修改成功！');
         yield put({
           type: 'tableReload',
         });
       }
     },
-    *deleteReceiving({ payload }, { call, put }) {
-      const response = yield call(deleteReceiving, payload);
-
+    *del({ payload, resolve }, { call, put }) {
+      const response = yield call(del, payload);
       if (!response.error) {
+        resolve && resolve(response);
         message.success('删除成功！');
         yield put({
           type: 'tableReload',
@@ -169,30 +154,140 @@ const Model = {
         type: 'tableReload',
       });
     },
-    *distribute({ payload }, { call, put }) {
-      const response = yield call(distribute, payload);
+    *authorize({ payload, resolve }, { call, put }) {
+      const response = yield call(authorize, payload);
 
       if (!response.error) {
-        yield put({
-          type: 'save',
-          payload: {
-            readModalVisible: false,
-          },
-        });
-        message.success('分发成功！');
+        resolve && resolve(response);
+        message.success('授权成功！');
         yield put({
           type: 'tableReload',
         });
       }
     },
-    *add({ payload }, { call, put }) {
+    *add({ payload, resolve }, { call, put }) {
       // 先获取编码
       const resCode = yield call(getReceivingCode, {});
-      payload.receiptCode = `SW${resCode}`;
-      // console.log(payload,'resCode---5')
-      const response = yield call(addReceiving, payload);
+      payload.caseCode = `AJ${resCode}`;
+      const response = yield call(addCase, payload);
       if (!response.error) {
-        message.success('新增收文登记成功！');
+        resolve && resolve(response);
+        message.success('新增案件成功！');
+        yield put({
+          type: 'tableReload',
+        });
+      }
+    },
+    *applyCase({ payload, resolve }, { call, put }) {
+      // 先获取编码
+      const response = yield call(applyCase, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('申请备案成功！');
+        yield put({
+          type: 'tableReload',
+        });
+      }
+    },
+    *recall({ payload, resolve }, { call, put }) {
+      // 先获取编码
+      const response = yield call(recall, payload);
+      if (!response.error) {
+        resolve && resolve(response.data);
+        message.success('备案撤回成功！');
+        yield put({
+          type: 'tableReload',
+        });
+      }
+    },
+    *recordApproval({ payload, resolve }, { call, put }) {
+      // 先获取编码
+      const response = yield call(recordApproval, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('备案审批成功！');
+        yield put({
+          type: 'tableReload',
+        });
+      }
+    },
+    *getRecordDetail({ payload, resolve }, { call, put }) {
+      const response = yield call(getRecordDetail, payload);
+
+      if (!response.error) {
+        resolve && resolve(response);
+        yield put({
+          type: 'save',
+          payload: {
+            recordDetailData: response,
+          },
+        });
+      }
+    },
+    *supervise({ payload, resolve }, { call, put }) {
+      const response = yield call(supervise, payload);
+
+      if (!response.error) {
+        resolve && resolve(response);
+        yield put({
+          type: 'tableReload',
+        });
+      }
+    },
+    *recallSupervise({ payload, resolve }, { call, put }) {
+      // 先获取编码
+      const response = yield call(recallSupervise, payload);
+      if (!response.error) {
+        resolve && resolve(response.data);
+        message.success('备案撤回成功！');
+        yield put({
+          type: 'tableReload',
+        });
+      }
+    },
+    *superviseApproval({ payload, resolve }, { call, put }) {
+      // 先获取编码
+      const response = yield call(superviseApproval, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('督办审批成功！');
+        yield put({
+          type: 'tableReload',
+        });
+      }
+    },
+    *getSuperviseDetail({ payload, resolve }, { call, put }) {
+      const response = yield call(getSuperviseDetail, payload);
+
+      if (!response.error) {
+        resolve && resolve(response);
+        yield put({
+          type: 'save',
+          payload: {
+            recordDetailData: response,
+          },
+        });
+      }
+    },
+    *templateDownload({ _ }, { call }) {
+      const response = yield call(templateDownload);
+      if (!response.error) {
+        yield downloadXlsFile(response, `案件管理模板`);
+      }
+    },
+    *exportCase({ payload }, { call }) {
+      const response = yield call(exportCase, payload);
+      if (!response.error) {
+        yield downloadXlsFile(response, `通讯录列表${moment().format('MM-DD HH:mm:ss')}`);
+      }
+    },
+
+    *importCase({ payload, resolve }, { call, put }) {
+      const formData = new FormData();
+      formData.append('file', payload.file);
+      const response = yield call(importCase, formData);
+      if (!response.error) {
+        resolve && resolve(response);
         yield put({
           type: 'tableReload',
         });

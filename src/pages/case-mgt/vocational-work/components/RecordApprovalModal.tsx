@@ -1,26 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'umi';
-import { Modal } from 'antd';
-import OrgInfoForm from './form/CaseForm';
+import { Button, Modal } from 'antd';
+import OrgInfoForm from './form/RecordApprovalForm';
 
 const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
   const [form] = OrgInfoForm.useForm();
-  const [modifyModalVisible, setModalVisible] = useState(false);
+  const [recordApprovalModalVisible, setModalVisible] = useState(false);
   const [detailData, setDetailData] = useState(null);
-  const { caseDetailData } = caseMgt;
-
+  const { recordDetailData } = caseMgt;
   const showModal = items => {
     // 获取详情
     if (items) {
+      // 获取详情
       dispatch({
-        type: 'caseMgt/getDetail',
+        type: 'caseMgt/getRecordDetail',
         payload: {
           id: items.caseId,
         },
       });
-      setDetailData(caseDetailData);
-    } else {
-      setDetailData(null);
+      setDetailData(items);
     }
     setModalVisible(true);
   };
@@ -37,18 +35,25 @@ const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
 
   const hideModal = () => {
     setModalVisible(false);
-    form.resetFields();
   };
 
   const handleOk = () => {
+    doRollBack(1);
+  };
+
+  const handleRollBack = () => {
+    doRollBack(0);
+  };
+
+  const doRollBack = type => {
     form
       .validateFields()
       .then(values => {
-        values.engineeringIds = [values.engineeringIds];
-        values.specialActionIds = [values.specialActionIds];
+        values.id = detailData.caseId;
+        values.approvalResult = type;
         return new Promise(resolve => {
           dispatch({
-            type: `caseMgt/${detailData ? 'update' : 'add'}`,
+            type: `caseMgt/recordApproval`,
             payload: {
               ...values,
             },
@@ -66,20 +71,25 @@ const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
 
   return (
     <Modal
-      title={detailData ? '案件编辑' : '案件录入'}
+      title="备案审批"
       centered
-      width={1080}
+      width={780}
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',
       }}
-      visible={modifyModalVisible}
-      onOk={handleOk}
+      visible={recordApprovalModalVisible}
       forceRender
       confirmLoading={loading}
       onCancel={hideModal}
+      footer={[
+        <Button onClick={handleRollBack}>不通过</Button>,
+        <Button type="primary" onClick={handleOk}>
+          通过
+        </Button>,
+      ]}
     >
-      <OrgInfoForm form={form} orgInfoData={caseDetailData} />
+      <OrgInfoForm form={form} orgInfoData={recordDetailData} />
     </Modal>
   );
 };

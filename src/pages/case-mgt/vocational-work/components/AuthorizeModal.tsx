@@ -1,27 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
 import { message, Modal } from 'antd';
-import OrgInfoForm from './DistributeForm';
+import OrgInfoForm from './form/AuthorizeForm';
 
-const AddModal = ({ readModalVisible, dispatch, actionRef, loading, caseMgt }) => {
+const AddModal = ({ dispatch, actionRef, loading, caseMgt }) => {
   const [form] = OrgInfoForm.useForm();
   const [orgInfoData, setOrgInfoData] = useState(null);
-  const { receivingDetailData } = caseMgt;
+  const [authorizeModalVisible, setModalVisible] = useState(false);
+  const { authorizeData } = caseMgt;
   const showModal = items => {
     setOrgInfoData(items || null);
+
     // 获取详情
     dispatch({
-      type: 'caseMgt/getDetail',
+      type: 'caseMgt/getAuthorize',
       payload: {
-        id: items.receiptId,
+        id: items.caseId,
       },
     });
-    dispatch({
-      type: 'caseMgt/save',
-      payload: {
-        readModalVisible: true,
-      },
-    });
+    setModalVisible(true);
   };
 
   useEffect(() => {
@@ -35,12 +32,7 @@ const AddModal = ({ readModalVisible, dispatch, actionRef, loading, caseMgt }) =
   }, []);
 
   const hideModal = () => {
-    dispatch({
-      type: 'caseMgt/save',
-      payload: {
-        readModalVisible: false,
-      },
-    });
+    setModalVisible(false);
     setOrgInfoData(null);
   };
 
@@ -57,20 +49,20 @@ const AddModal = ({ readModalVisible, dispatch, actionRef, loading, caseMgt }) =
             values.staff === 'undefined' ||
             values.staff.length <= 0
           ) {
-            message.error('请选择你要分发传阅的人！');
+            message.error('请选择你要授权的人！');
           } else {
             const params = values.staff.map(item => {
               return {
-                readingAccount: item.id,
-                readingOrg: '',
+                empowerTargetUser: item.id,
+                caseDeptId: 700, // 部门id
               };
             });
-            // console.log(receivingDetailData,'values----0')
+            // console.log(params,'values----0')
             dispatch({
-              type: `caseMgt/distribute`,
+              type: `caseMgt/authorize`,
               payload: {
                 params,
-                id: receivingDetailData.receiptId,
+                id: orgInfoData.caseId,
               },
               resolve,
             });
@@ -87,26 +79,25 @@ const AddModal = ({ readModalVisible, dispatch, actionRef, loading, caseMgt }) =
 
   return (
     <Modal
-      title="分发传阅"
+      title="授权"
       centered
       width={580}
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',
       }}
-      visible={readModalVisible}
+      visible={authorizeModalVisible}
       onOk={handleOk}
       forceRender
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <OrgInfoForm form={form} orgInfoData={orgInfoData} />
+      <OrgInfoForm form={form} orgInfoData={authorizeData} />
     </Modal>
   );
 };
 
 export default connect(({ caseMgt, loading }) => ({
   caseMgt,
-  readModalVisible: caseMgt.readModalVisible,
   loading: loading.models.caseMgt,
 }))(AddModal);

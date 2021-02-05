@@ -1,15 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
 import { Modal } from 'antd';
-import OrgInfoForm from './ReceivingForm';
+import ChildrenTaskForm from './ChildrenTaskForm';
 
-const AddModal = ({ dispatch, actionRef, loading, receivingMgt }) => {
-  const [form] = OrgInfoForm.useForm();
-  const [addModalVisible, setModalVisible] = useState(false);
-  const { receivingDetailData } = receivingMgt;
+const ModifyModal = ({ dispatch, actionRef, loading }) => {
+  const [form] = ChildrenTaskForm.useForm();
+  const [modalVisible, setModalVisible] = useState(false);
+
   const showModal = () => {
+    // setDetailData(bookId || null);
+    // updateData(bookId);
     setModalVisible(true);
   };
+
+  // const updateData = bookId => {
+  //   if (bookId) {
+  //     new Promise(resolve => {
+  //       dispatch({
+  //         type: 'emAddressBook/getAddressBookDetail',
+  //         payload: bookId.toString(),
+  //         resolve,
+  //       });
+  //     }).then(res => {
+  //       if (res) form.setFieldsValue({ ...res });
+  //     });
+  //   }
+  // };
 
   useEffect(() => {
     if (actionRef && typeof actionRef === 'function') {
@@ -31,25 +47,13 @@ const AddModal = ({ dispatch, actionRef, loading, receivingMgt }) => {
       .validateFields()
       .then(values => {
         return new Promise(resolve => {
-          let filesStr = '';
-          if (values.files && values.files.length > 0) {
-            values.files.forEach(item => {
-              filesStr += `${item.uid},`;
-            });
-            filesStr = filesStr.substr(0, filesStr.length - 1);
-          }
-          delete values.files;
-          values.fileIds = filesStr;
           dispatch({
-            type: 'receivingMgt/add',
+            type: `specialAction/addChildrenTaskList`,
             payload: {
               ...values,
             },
             resolve,
           });
-          setTimeout(() => {
-            setModalVisible(false);
-          }, 2000);
         });
       })
       .then(() => {
@@ -62,25 +66,23 @@ const AddModal = ({ dispatch, actionRef, loading, receivingMgt }) => {
 
   return (
     <Modal
-      title="收文登记"
+      title="子任务信息"
       centered
-      width={780}
+      width="60vw"
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',
       }}
-      visible={addModalVisible}
+      visible={modalVisible}
       onOk={handleOk}
-      forceRender
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <OrgInfoForm form={form} orgInfoData={receivingDetailData} />
+      <ChildrenTaskForm form={form} />
     </Modal>
   );
 };
 
-export default connect(({ receivingMgt, loading }) => ({
-  receivingMgt,
-  loading: loading.models.receivingMgt,
-}))(AddModal);
+export default connect(({ loading }) => ({
+  loading: loading.models.smDictionaryMgt,
+}))(ModifyModal);

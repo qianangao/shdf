@@ -1,16 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
 import { Modal } from 'antd';
-import OrgInfoForm from './ReceivingForm';
+import AddressBookForm from './AddressBookForm';
 
-const AddModal = ({ dispatch, actionRef, loading }) => {
-  const [form] = OrgInfoForm.useForm();
-  const [orgInfoData, setOrgInfoData] = useState(null);
-  const [addModalVisible, setModalVisible] = useState(false);
-  const showModal = items => {
-    setOrgInfoData(items || null);
+const ModifyModal = ({ dispatch, actionRef, loading }) => {
+  const [form] = AddressBookForm.useForm();
+  const [detailData, setDetailData] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
 
+  const showModal = bookId => {
+    setDetailData(bookId || null);
+    updateData(bookId);
     setModalVisible(true);
+  };
+
+  const updateData = bookId => {
+    if (bookId) {
+      new Promise(resolve => {
+        dispatch({
+          type: 'emAddressBook/getAddressBookDetail',
+          payload: bookId.toString(),
+          resolve,
+        });
+      }).then(res => {
+        if (res) form.setFieldsValue({ ...res });
+      });
+    }
   };
 
   useEffect(() => {
@@ -34,15 +49,13 @@ const AddModal = ({ dispatch, actionRef, loading }) => {
       .then(values => {
         return new Promise(resolve => {
           dispatch({
-            type: 'caseMgt/add',
+            type: `emAddressBook/${detailData ? 'updateAddressBook' : 'addAddressBook'}`,
             payload: {
               ...values,
+              bookId: detailData && detailData.toString(),
             },
             resolve,
           });
-          setTimeout(() => {
-            setModalVisible(false);
-          }, 2000);
         });
       })
       .then(() => {
@@ -55,25 +68,23 @@ const AddModal = ({ dispatch, actionRef, loading }) => {
 
   return (
     <Modal
-      title="案件录入"
+      title={detailData ? '编辑通讯录' : '新增通讯录'}
       centered
-      width={780}
+      width="40vw"
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',
       }}
-      visible={addModalVisible}
+      visible={modalVisible}
       onOk={handleOk}
-      forceRender
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <OrgInfoForm form={form} orgInfoData={orgInfoData} />
+      <AddressBookForm form={form} />
     </Modal>
   );
 };
 
-export default connect(({ caseMgt, loading }) => ({
-  caseMgt,
-  loading: loading.models.caseMgt,
-}))(AddModal);
+export default connect(({ loading }) => ({
+  loading: loading.models.smDictionaryMgt,
+}))(ModifyModal);

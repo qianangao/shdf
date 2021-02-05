@@ -3,10 +3,10 @@ import AdvancedForm from '@/components/AdvancedForm';
 
 import StaffMultiSelectInput from '@/components/StaffMultiSelectInput';
 
-const DistributeForm = ({ form, orgInfoData }) => {
+const AuthorizeForm = ({ form, orgInfoData }) => {
   const formItems = [
     { label: 'id', name: 'orgId', hidden: true },
-    { label: '请选择你要分发传阅的人', name: 'staff', span: 4, render: <StaffMultiSelectInput /> },
+    { label: '请选择你要授权的人', name: 'staff', span: 4, render: <StaffMultiSelectInput /> },
   ];
 
   useEffect(() => {
@@ -18,6 +18,6 @@ const DistributeForm = ({ form, orgInfoData }) => {
   return <AdvancedForm form={form} fields={formItems} />;
 };
 
-DistributeForm.useForm = AdvancedForm.useForm;
+AuthorizeForm.useForm = AdvancedForm.useForm;
 
-export default DistributeForm;
+export default AuthorizeForm;

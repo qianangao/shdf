@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Modal } from 'antd';
+import { Button, Popconfirm, Modal } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 
@@ -14,6 +14,16 @@ const Table = ({
   dispatch,
 }) => {
   const { tableRef } = receivingMgt;
+
+  const deleteReceiving = id => {
+    dispatch({
+      type: 'receivingMgt/deleteReceiving',
+      payload: {
+        id,
+      },
+    });
+  };
+
   const columns = [
     {
       title: '收文编号',
@@ -52,21 +62,29 @@ const Table = ({
       valueType: 'option',
       align: 'center',
       dataIndex: 'receiptId',
-      width: 180,
+      width: 220,
       fixed: 'right',
       render: (dom, receivingData) => [
-        <a key={`${receivingData.id}up`} onClick={() => openDetailModal(receivingData)}>
+        <a key={`${receivingData.receiptId}add`} onClick={() => openDetailModal(receivingData)}>
           查看
         </a>,
-        <a key={`${receivingData.id}up`} onClick={() => openModifyModal(receivingData)}>
+        <a key={`${receivingData.receiptId}up`} onClick={() => openModifyModal(receivingData)}>
           修改
         </a>,
-        <a key={`${receivingData.id}up`} onClick={() => openReadListModal(receivingData)}>
+        <a key={`${receivingData.receiptId}read`} onClick={() => openReadListModal(receivingData)}>
           处理情况
         </a>,
-        <a key={`${receivingData.id}up`} onClick={() => openDistributeModal(receivingData)}>
+        <a key={`${receivingData.receiptId}dis`} onClick={() => openDistributeModal(receivingData)}>
           分发
         </a>,
+        <Popconfirm
+          key={`${receivingData.receiptId}del`}
+          title="确认删除？"
+          placement="topRight"
+          onConfirm={() => deleteReceiving(receivingData.receiptId)}
+        >
+          <a>删除</a>
+        </Popconfirm>,
       ],
     },
   ];
@@ -79,15 +97,6 @@ const Table = ({
         resolve,
       });
     });
-
-  const deleteOrgs = ids => {
-    dispatch({
-      type: 'receivingMgt/deleteOrgs',
-      payload: {
-        ids,
-      },
-    });
-  };
 
   return (
     <ProTable
@@ -107,7 +116,7 @@ const Table = ({
               Modal.confirm({
                 title: '确认删除所选择单位？该操作不可恢复',
                 onOk: () => {
-                  deleteOrgs(selectedRowKeys);
+                  deleteReceiving(selectedRowKeys);
                 },
               });
             }}

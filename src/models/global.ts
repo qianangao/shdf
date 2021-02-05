@@ -24,10 +24,10 @@ const GlobalModel = {
     *getEnums({ payload }, { put }) {
       const { names } = payload;
 
-      for (const codeTypeNm of names) {
+      for (const dictTypeCode of names) {
         yield put({
           type: 'getEnum',
-          payload: { codeTypeNm },
+          payload: { dictTypeCode },
         });
       }
     },
@@ -55,7 +55,7 @@ const GlobalModel = {
         const isCommon = response[0].dicType === 0; // dicType 0、系统运行性类 1、业务类
         const items = {};
         response.forEach(item => {
-          items[item.codeValue] = item.codeDesc || '';
+          items[item.dictCode] = item.dictName || '';
         });
 
         yield put({
