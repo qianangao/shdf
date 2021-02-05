@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="referrer" content="never">
+    <meta name="referrer" content="never" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta
       name="viewport"
@@ -10,7 +10,6 @@
     />
     <title>SHDF管理系统</title>
     <link rel="icon" href="<%= context.config.publicPath +'favicon.png'%>" type="image/x-icon" />
-
   </head>
   <body>
     <noscript>Out-of-the-box mid-stage front/design solution!</noscript>
@@ -31,35 +30,35 @@
         }
 
         .page-loading-warp {
-          padding: 120px;
           display: flex;
-          justify-content: center;
           align-items: center;
+          justify-content: center;
+          padding: 120px;
         }
 
         .ant-spin {
+          position: absolute;
+          display: none;
           -webkit-box-sizing: border-box;
           box-sizing: border-box;
           margin: 0;
           padding: 0;
           color: rgba(0, 0, 0, 0.65);
+          color: #fd0000;
           font-size: 14px;
           font-variant: tabular-nums;
           line-height: 1.5;
-          list-style: none;
-          -webkit-font-feature-settings: 'tnum';
-          font-feature-settings: 'tnum';
-          position: absolute;
-          display: none;
-          color: #fd0000;
           text-align: center;
           vertical-align: middle;
+          list-style: none;
           opacity: 0;
           -webkit-transition: -webkit-transform 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
           transition: -webkit-transform 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
           transition: transform 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
           transition: transform 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86),
             -webkit-transform 0.3s cubic-bezier(0.78, 0.14, 0.15, 0.86);
+          -webkit-font-feature-settings: 'tnum';
+          font-feature-settings: 'tnum';
         }
 
         .ant-spin-spinning {
@@ -71,9 +70,9 @@
         .ant-spin-dot {
           position: relative;
           display: inline-block;
-          font-size: 20px;
           width: 20px;
           height: 20px;
+          font-size: 20px;
         }
 
         .ant-spin-dot-item {
@@ -129,9 +128,9 @@
         }
 
         .ant-spin-lg .ant-spin-dot {
-          font-size: 32px;
           width: 32px;
           height: 32px;
+          font-size: 32px;
         }
 
         .ant-spin-lg .ant-spin-dot i {
