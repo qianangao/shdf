@@ -3,21 +3,21 @@ import { connect } from 'umi';
 import { Button, Modal } from 'antd';
 import ProTable from '@ant-design/pro-table';
 
-let tempSelectData = [];
+let tempSelectData: any[] = [];
 
-const CueAssociation = ({ value, getLgbs, dispatch, onChange, actionRef, commit }) => {
+const CueAssociation = ({ value, getLgbs, dispatch, onSelected, actionRef, commit }) => {
   const tableRef = useRef({});
   const [selectModalVisible, setVisible] = useState(false);
   const [selectChildModalVisible, setChildVisible] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const [assoiation, setAssoiation] = useState(null);
+  const [association, setAssociation] = useState(null);
   const [views, setViews] = useState(null);
 
   const [listData, setListData] = useState([]);
 
   const showModal = (item: any, view: any) => {
     setViews(view);
-    setAssoiation(item || null);
+    setAssociation(item);
     setVisible(true);
   };
 
@@ -46,28 +46,50 @@ const CueAssociation = ({ value, getLgbs, dispatch, onChange, actionRef, commit 
     new Promise(resolve => {
       dispatch({
         type: 'cueAssociation/getAssociationList',
-        payload: { ...params, id: assoiation && assoiation.clueId },
+        payload: { ...params, id: association && association.clueId },
         resolve,
       });
     });
 
-  const handleOk = () => {
-    commit &&
-      new Promise(resolve => {
-        dispatch({
-          type: commit.type,
-          payload: { mainClueId: assoiation.clueId, relationClueIds: selectedRowKeys },
-          resolve,
-        });
-      })
-        .then(data => {
-          if (data) {
-            // setVisible(false);
-          }
-        })
-        .catch(_ => {});
+  const selectClue = () => {
+    setChildVisible(false);
+  };
 
-    onChange && onChange(listData, tempSelectData);
+  const delSelectClue = (arr: any[]) => {
+    const newArrKeys: React.SetStateAction<never[]> = [];
+    selectedRowKeys.forEach(item => {
+      if (!arr.includes(item)) {
+        newArrKeys.push(item);
+      }
+    });
+    setSelectedRowKeys(newArrKeys);
+    const newSelectData: any[] = [];
+    tempSelectData.forEach(item => {
+      if (!arr.includes(item.clueId)) {
+        newSelectData.push(item);
+      }
+    });
+    tempSelectData = newSelectData;
+  };
+
+  const handleOk = () => {
+    onSelected && onSelected(tempSelectData, listData);
+
+    commit
+      ? new Promise(resolve => {
+          dispatch({
+            type: commit.type,
+            payload: { mainClueId: association.clueId, relationClueIds: selectedRowKeys },
+            resolve,
+          });
+        })
+          .then(data => {
+            if (data) {
+              setVisible(false);
+            }
+          })
+          .catch(_ => {})
+      : setVisible(false);
 
     // const listMap = new Map();
     //
@@ -140,7 +162,7 @@ const CueAssociation = ({ value, getLgbs, dispatch, onChange, actionRef, commit 
   return (
     <>
       <Modal
-        title="选择串并联线索"
+        title="串并联线索"
         centered
         width="90vw"
         style={{ paddingBottom: 0 }}
@@ -160,25 +182,32 @@ const CueAssociation = ({ value, getLgbs, dispatch, onChange, actionRef, commit 
         </Button>
         <ProTable
           search={false}
-          toolBarRender={false}
+          toolBarRender={_ => [
+            selectedRowKeys && selectedRowKeys.length && (
+              <Button
+                onClick={() => {
+                  Modal.confirm({
+                    title: '确认删除所选择待串并联线索？',
+                    onOk: () => delSelectClue,
+                  });
+                }}
+              >
+                批量删除
+              </Button>
+            ),
+          ]}
           pagination={false}
           rowKey="clueId"
-          headerTitle="串并联线索信息"
+          headerTitle="待串并联线索"
           actionRef={tableRef}
-          rowSelection={{
-            onChange: (keys, rows) => {
-              tempSelectData = rows;
-              setSelectedRowKeys(keys);
-            },
-            selectedRowKeys,
-          }}
           scroll={{ x: 'max-content' }}
-          request={getLgbs || (async params => getCueAssociationById(params))}
+          rowSelection={{}}
+          dataSource={tempSelectData}
           columns={columns}
         />
       </Modal>
       <Modal
-        title="选择串并联信息"
+        title="选择待串并联线索"
         centered
         width="90vw"
         style={{ paddingBottom: 0 }}
@@ -187,14 +216,15 @@ const CueAssociation = ({ value, getLgbs, dispatch, onChange, actionRef, commit 
           overflow: 'auto',
         }}
         visible={selectChildModalVisible}
-        onOk={handleOk}
+        onOk={selectClue}
         destroyOnClose
-        okText="添加"
+        okText="选择"
         onCancel={() => setChildVisible(false)}
       >
         <ProTable
           rowKey="clueId"
-          headerTitle="串并联线索信息"
+          headerTitle="串并联线索"
+          toolBarRender={false}
           actionRef={tableRef}
           rowSelection={{
             onChange: (keys, rows) => {
