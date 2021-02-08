@@ -30,13 +30,13 @@ const TransferClueForm = ({ form }) => {
       label: '主办单位',
       name: 'sourceUnit',
       initialValue: '全国SHDF办公室',
-      // disabled: true,
+      disabled: true,
     },
     {
       label: '主办人',
       name: 'sourceDealUser',
       initialValue: '张三',
-      // disabled: true,
+      disabled: true,
     },
     // {
     //   name: 'line1',

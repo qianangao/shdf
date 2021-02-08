@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import { Descriptions, List, Spin } from 'antd';
+import { Descriptions, List } from 'antd';
 import { connect } from 'umi';
 import { formatDateStr } from '@/utils/format';
 
-const ProcessInfo = ({ dispatch, loading, clueId, circulationId, processListData, enums }) => {
+const ProcessInfo = ({ dispatch, clueId, circulationId, processListData, enums, title }) => {
   useEffect(() => {
     dispatch({
       type: 'emClueManagement/getProcessInfoList',
@@ -11,7 +11,7 @@ const ProcessInfo = ({ dispatch, loading, clueId, circulationId, processListData
     });
   }, [clueId]);
 
-  const createDiv = item => {
+  const createDiv = (item: any) => {
     switch (item.circulationType) {
       case 1:
       case 2:
@@ -20,9 +20,11 @@ const ProcessInfo = ({ dispatch, loading, clueId, circulationId, processListData
             <div style={{ width: '100%', justifyContent: 'start', display: 'flex', marginTop: 15 }}>
               <span style={{ marginTop: 5, whiteSpace: 'nowrap' }}>转办单位：</span>
               <span style={{ border: '1px solid #f2f2f2', padding: '5px 20px', width: '100%' }}>
-                {item.targetUnit.map(unit => {
-                  return JSON.parse(unit).name;
-                })}
+                {item.targetUnit
+                  .map((unit: string) => {
+                    return JSON.parse(unit).name;
+                  })
+                  .join(' ,  ')}
               </span>
             </div>
             <div style={{ width: '100%', justifyContent: 'start', display: 'flex', marginTop: 15 }}>
@@ -64,10 +66,10 @@ const ProcessInfo = ({ dispatch, loading, clueId, circulationId, processListData
                 是否涉足敏感事件：{item.involveSensitive === 1 ? '是' : '否'}
               </span>
             </div>
-            {item.files && (
+            {item.fileList && (
               <div style={{ marginTop: 10 }}>
                 <span>相关附件：</span>
-                {fileList(item.files)}
+                {fileList(item.fileList)}
               </div>
             )}
           </>
@@ -95,7 +97,7 @@ const ProcessInfo = ({ dispatch, loading, clueId, circulationId, processListData
     }
   };
 
-  const fileList = files => {
+  const fileList = (files: any[]) => {
     if (files && files.length > 0) {
       const views = files.map(item => {
         return (
@@ -111,15 +113,13 @@ const ProcessInfo = ({ dispatch, loading, clueId, circulationId, processListData
   };
 
   return (
-    <Spin spinning={loading}>
-      <Descriptions title="办理信息" column={{ xxl: 4, xl: 3, lg: 2 }} />
+    <>
+      <Descriptions title={title || '办理信息'} column={{ xxl: 4, xl: 3, lg: 2 }} />
       {processListData && (
         <List
-          style={{ background: '#fff', padding: 20, marginTop: 10 }}
+          style={{ background: '#fff', padding: '0px 10px 30px 10px' }}
           split={false}
-          dataSource={
-            processListData === null || processListData === undefined ? [] : processListData
-          }
+          dataSource={processListData}
           renderItem={item => (
             <List.Item
               key={item.circulationId}
@@ -144,12 +144,11 @@ const ProcessInfo = ({ dispatch, loading, clueId, circulationId, processListData
           )}
         />
       )}
-    </Spin>
+    </>
   );
 };
 
-export default connect(({ emClueManagement, loading, global }) => ({
+export default connect(({ emClueManagement, global }) => ({
   processListData: emClueManagement.processListData,
-  loading: loading.models.emClueManagement,
   enums: global.enums,
 }))(ProcessInfo);

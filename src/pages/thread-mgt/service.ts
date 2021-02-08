@@ -1,4 +1,4 @@
-import request from '@/utils/request';
+import request, { noErrorRequest } from '@/utils/request';
 
 /**
  * 获取線索列表
@@ -21,6 +21,16 @@ export async function getOperatingLogList(params: any) {
   });
 }
 /**
+ * 获取线索详情
+ * @param params
+ */
+export async function getClueDetail(params: any) {
+  return request(`/clue/${params.clueId}`, {
+    method: 'GET',
+    params,
+  });
+}
+/**
  * 新增線索
  * @param params
  */
@@ -36,7 +46,7 @@ export async function addClue(params: any) {
  */
 export async function editClue(params: any) {
   return request(`/clue/${params.clueId}`, {
-    method: 'POST',
+    method: 'PUT',
     data: params,
   });
 }
@@ -138,5 +148,57 @@ export async function finishClue(params: any) {
   return request(`/clue/over/${params.clueId}`, {
     method: 'PUT',
     data: params,
+  });
+}
+/**
+ * 线索审批
+ * @param params
+ */
+export async function approvalClue(params: any) {
+  return request(`/clue-approval/approval`, {
+    method: 'PUT',
+    data: params,
+  });
+}
+/**
+ * 根据id获取已关联线索
+ * @param {*} params
+ */
+export async function getCueAssociation(params: any) {
+  return request(`/clue-relation/${params.clueId}`, {
+    method: 'GET',
+    params,
+  });
+}
+/**
+ * 获取编码
+ * @param params
+ */
+export async function getTemplate(params: any) {
+  return noErrorRequest(`/${params.name}.xlsx`, {
+    method: 'GET',
+    responseType: 'blob',
+  });
+}
+/**
+ * 导入文件
+ * @param params
+ */
+export async function importClue(params: any) {
+  return request(`/clue/excel`, {
+    method: 'POST',
+    data: params,
+  });
+}
+
+/**
+ * 导出文件
+ * @param params
+ */
+export async function exportClue(params: any) {
+  return noErrorRequest(`/clue/export`, {
+    method: 'GET',
+    responseType: 'blob',
+    params,
   });
 }

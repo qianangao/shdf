@@ -58,8 +58,14 @@ const CommitExamineModal = ({ dispatch, loading, actionRef, hidePreView }) => {
     <Modal
       title="提交审核"
       width={500}
+      centered
       visible={modalVisible}
       confirmLoading={loading}
+      style={{ paddingBottom: 0 }}
+      bodyStyle={{
+        height: 'calc(90vh - 108px)',
+        overflow: 'auto',
+      }}
       onOk={() => {
         form.submit();
       }}

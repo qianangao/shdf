@@ -61,7 +61,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
   };
   return (
     <Modal
-      title="线索转办"
+      title="线索办理"
       centered
       width="90vw"
       style={{ paddingBottom: 0 }}

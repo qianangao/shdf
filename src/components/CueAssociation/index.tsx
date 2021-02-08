@@ -5,11 +5,21 @@ import ProTable from '@ant-design/pro-table';
 
 let tempSelectData: any[] = [];
 
-const CueAssociation = ({ value, getLgbs, dispatch, onSelected, actionRef, commit }) => {
+const CueAssociation = ({
+  value,
+  getLgbs,
+  dispatch,
+  onSelected,
+  actionRef,
+  commit,
+  loading,
+  enums,
+}) => {
   const tableRef = useRef({});
   const [selectModalVisible, setVisible] = useState(false);
   const [selectChildModalVisible, setChildVisible] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [selectedTempRowKeys, setSelectedTempRowKeys] = useState([]);
   const [association, setAssociation] = useState(null);
   const [views, setViews] = useState(null);
 
@@ -19,6 +29,21 @@ const CueAssociation = ({ value, getLgbs, dispatch, onSelected, actionRef, commi
     setViews(view);
     setAssociation(item);
     setVisible(true);
+    dispatch({
+      type: 'global/getEnums',
+      payload: {
+        names: ['clue_type'],
+      },
+    });
+  };
+
+  const hideModal = () => {
+    setVisible(false);
+    setSelectedRowKeys([]);
+    setSelectedTempRowKeys([]);
+    setAssociation(null);
+    setViews(null);
+    tempSelectData = [];
   };
 
   useEffect(() => {
@@ -85,11 +110,11 @@ const CueAssociation = ({ value, getLgbs, dispatch, onSelected, actionRef, commi
         })
           .then(data => {
             if (data) {
-              setVisible(false);
+              hideModal();
             }
           })
           .catch(_ => {})
-      : setVisible(false);
+      : hideModal();
 
     // const listMap = new Map();
     //
@@ -138,15 +163,10 @@ const CueAssociation = ({ value, getLgbs, dispatch, onSelected, actionRef, commi
       align: 'center',
       dataIndex: 'clueType',
       hideInSearch: true,
+      valueEnum: enums.clue_type,
     },
     {
-      title: '被举报人',
-      align: 'center',
-      dataIndex: 'reportedObjectName',
-      hideInSearch: true,
-    },
-    {
-      title: '被举报机构',
+      title: '被举报人/机构/公司',
       align: 'center',
       dataIndex: 'reportedObjectName',
       hideInSearch: true,
@@ -174,21 +194,23 @@ const CueAssociation = ({ value, getLgbs, dispatch, onSelected, actionRef, commi
         onOk={handleOk}
         destroyOnClose
         okText="添加"
-        onCancel={() => setVisible(false)}
+        confirmLoading={loading}
+        onCancel={hideModal}
       >
         {views}
-        <Button type="primary" onClick={() => setChildVisible(true)}>
+        <Button type="primary" onClick={() => setChildVisible(true)} disabled={loading}>
           选择串并联线索
         </Button>
         <ProTable
           search={false}
           toolBarRender={_ => [
-            selectedRowKeys && selectedRowKeys.length && (
+            selectedTempRowKeys && selectedTempRowKeys.length && (
               <Button
+                type="primary"
                 onClick={() => {
                   Modal.confirm({
                     title: '确认删除所选择待串并联线索？',
-                    onOk: () => delSelectClue,
+                    onOk: () => delSelectClue(selectedTempRowKeys),
                   });
                 }}
               >
@@ -201,7 +223,12 @@ const CueAssociation = ({ value, getLgbs, dispatch, onSelected, actionRef, commi
           headerTitle="待串并联线索"
           actionRef={tableRef}
           scroll={{ x: 'max-content' }}
-          rowSelection={{}}
+          rowSelection={{
+            onChange: keys => {
+              setSelectedTempRowKeys(keys);
+            },
+            selectedTempRowKeys,
+          }}
           dataSource={tempSelectData}
           columns={columns}
         />
@@ -219,6 +246,7 @@ const CueAssociation = ({ value, getLgbs, dispatch, onSelected, actionRef, commi
         onOk={selectClue}
         destroyOnClose
         okText="选择"
+        confirmLoading={loading}
         onCancel={() => setChildVisible(false)}
       >
         <ProTable
@@ -242,6 +270,8 @@ const CueAssociation = ({ value, getLgbs, dispatch, onSelected, actionRef, commi
   );
 };
 
-export default connect(({ cueAssociation }) => ({
+export default connect(({ cueAssociation, loading, global }) => ({
   cueAssociation,
+  loading: loading.models.cueAssociation || loading.models.emClueManagement,
+  enums: global.enums,
 }))(CueAssociation);

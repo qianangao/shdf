@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
-import { Modal } from 'antd';
+import { Modal, Spin } from 'antd';
 import AddThreadForm from './AddThreadForm';
 
 const ModifyModal = ({ dispatch, actionRef, loading, emClueManagement }) => {
   const { code } = emClueManagement;
   const [form] = AddThreadForm.useForm();
-  const [detailData, setDetailData] = useState(null);
+  const [clueId, setClueId] = useState(undefined);
   const [modalVisible, setModalVisible] = useState(false);
 
-  const showModal = items => {
-    setDetailData(items || null);
-    if (items) {
-      form.setFieldsValue({ ...items });
-    } else {
+  const showModal = id => {
+    setClueId(id);
+    if (!id) {
       dispatch({
         type: `emClueManagement/getCode`,
       });
@@ -21,8 +19,43 @@ const ModifyModal = ({ dispatch, actionRef, loading, emClueManagement }) => {
     setModalVisible(true);
   };
 
+  const getClueDetail = (id: any) => {
+    new Promise(resolve => {
+      dispatch({
+        type: 'emClueManagement/getClueDetail',
+        payload: { clueId: id },
+        resolve,
+      });
+    })
+      .then(data => {
+        if (data) {
+          const fields = {
+            ...data,
+            files:
+              data.fileList &&
+              data.fileList.map(item => {
+                return {
+                  url: item.url,
+                  uid: item.fileId,
+                  name: item.fileName,
+                  status: 'done',
+                };
+              }),
+          };
+          form.setFieldsValue(fields);
+        }
+      })
+      .catch(_ => {});
+  };
+
   useEffect(() => {
-    code && form.setFieldsValue({ clueNumber: `xs${code}` });
+    if (clueId) {
+      getClueDetail(clueId);
+    }
+  }, [clueId]);
+
+  useEffect(() => {
+    code && form.setFieldsValue({ clueNumber: `XS${code}` });
   }, [code]);
 
   useEffect(() => {
@@ -38,6 +71,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, emClueManagement }) => {
   const hideModal = () => {
     setModalVisible(false);
     form.resetFields();
+    setClueId(undefined);
   };
   const handleOk = () => {
     form
@@ -50,9 +84,9 @@ const ModifyModal = ({ dispatch, actionRef, loading, emClueManagement }) => {
           });
         return new Promise(resolve => {
           dispatch({
-            type: `emClueManagement/${detailData ? 'editClue' : 'addClues'}`,
+            type: `emClueManagement/${clueId ? 'editClue' : 'addClues'}`,
             payload: {
-              clueId: detailData.clueId,
+              clueId,
               ...values,
               fileIds,
             },
@@ -69,9 +103,10 @@ const ModifyModal = ({ dispatch, actionRef, loading, emClueManagement }) => {
   };
   return (
     <Modal
-      title="线索录入"
+      title={clueId ? '线索修改' : '线索录入'}
       centered
       width="90vw"
+      destroyOnClose
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',
@@ -83,7 +118,9 @@ const ModifyModal = ({ dispatch, actionRef, loading, emClueManagement }) => {
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <AddThreadForm form={form} />
+      <Spin spinning={loading}>
+        <AddThreadForm form={form} />
+      </Spin>
     </Modal>
   );
 };

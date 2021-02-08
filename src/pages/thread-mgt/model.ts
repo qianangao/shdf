@@ -1,5 +1,6 @@
 import { message } from 'antd';
-import { formatPageData } from '@/utils';
+import { downloadXlsFile, formatPageData } from '@/utils';
+import moment from 'moment';
 import {
   getAllClues,
   commitCueAssociation,
@@ -15,13 +16,21 @@ import {
   deleteClue,
   finishClue,
   feedbackClue,
+  approvalClue,
+  getClueDetail,
+  getTemplate,
+  exportClue,
+  importClue,
+  getCueAssociation,
 } from './service';
 
 const Model = {
   namespace: 'emClueManagement',
   state: {
     clueListData: {},
+    clueDetailData: {},
     logListData: {},
+    cueAssociationList: [],
     processListData: [],
     code: {},
     tableRef: {},
@@ -45,15 +54,38 @@ const Model = {
         });
       }
     },
+    *getClueDetail({ payload, resolve }, { call, put }) {
+      const response = yield call(getClueDetail, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        yield put({
+          type: 'save',
+          payload: {
+            clueDetailData: response,
+          },
+        });
+      }
+    },
     *getCode({ payload, resolve }, { call, put }) {
       const response = yield call(getCode, payload);
       if (!response.error) {
         resolve && resolve(response);
-
         yield put({
           type: 'save',
           payload: {
             code: response,
+          },
+        });
+      }
+    },
+    *getCueAssociation({ payload, resolve }, { call, put }) {
+      const response = yield call(getCueAssociation, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        yield put({
+          type: 'save',
+          payload: {
+            cueAssociationList: response,
           },
         });
       }
@@ -113,7 +145,6 @@ const Model = {
       if (!response.error) {
         resolve && resolve(response);
         message.success('线索删除成功！');
-
         yield put({
           type: 'tableReload',
         });
@@ -124,7 +155,6 @@ const Model = {
       if (!response.error) {
         resolve && resolve(response);
         message.success('线索反馈成功！');
-
         yield put({
           type: 'tableReload',
         });
@@ -135,7 +165,16 @@ const Model = {
       if (!response.error) {
         resolve && resolve(response);
         message.success('线索结束成功！');
-
+        yield put({
+          type: 'tableReload',
+        });
+      }
+    },
+    *approvalClue({ payload, resolve }, { call, put }) {
+      const response = yield call(approvalClue, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('线索审批成功！');
         yield put({
           type: 'tableReload',
         });
@@ -191,10 +230,43 @@ const Model = {
         });
       }
     },
+    *getTemplate({ payload }, { call }) {
+      const response = yield call(getTemplate, payload);
+      if (!response.error) {
+        yield downloadXlsFile(response, `${payload.name}`);
+      }
+    },
+    *exportClue({ payload }, { call }) {
+      const response = yield call(exportClue, payload);
+      if (!response.error) {
+        yield downloadXlsFile(response, `线索列表${moment().format('YYYYMMDDHHmmss')}`);
+      }
+    },
+
+    *importClue({ payload, resolve }, { call, put }) {
+      const formData = new FormData();
+      formData.append('file', payload.file);
+      const response = yield call(importClue, formData);
+      if (!response.error) {
+        resolve && resolve(response);
+        yield put({
+          type: 'tableReload',
+        });
+      }
+    },
   },
   reducers: {
     save(state, { payload }) {
       return { ...state, ...payload };
+    },
+    removeClueDetail(state) {
+      return { ...state, clueDetailData: {} };
+    },
+    removeClueAssociation(state) {
+      return { ...state, cueAssociationList: [] };
+    },
+    removeProcessDetail(state) {
+      return { ...state, processListData: [] };
     },
     tableReload(state) {
       const tableRef = state.tableRef || {};

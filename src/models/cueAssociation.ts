@@ -28,19 +28,6 @@ const Model = {
         });
       }
     },
-    *getAssociationDetail({ payload, resolve }, { call, put }) {
-      const response = yield call(getCueAssociationById, payload);
-      if (!response.error) {
-        resolve && resolve(response);
-
-        yield put({
-          type: 'save',
-          payload: {
-            cueAssociationList: response,
-          },
-        });
-      }
-    },
   },
   reducers: {
     save(state, { payload }) {

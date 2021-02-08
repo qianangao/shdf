@@ -3,7 +3,7 @@ import { connect } from 'umi';
 import { Modal } from 'antd';
 import ProTable from '@ant-design/pro-table';
 
-const OperatingLogModal = ({ dispatch, actionRef, tableRef }) => {
+const OperatingLogModal = ({ dispatch, actionRef, tableRef, enums }) => {
   const [cueId, setCueId] = useState(undefined);
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -39,13 +39,13 @@ const OperatingLogModal = ({ dispatch, actionRef, tableRef }) => {
       fixed: 'left',
       width: 64,
     },
-    { title: '日志时间', align: 'center', dataIndex: 'createTime', type: 'datetime' },
+    { title: '日志时间', align: 'center', dataIndex: 'createTime', valueType: 'dateTime' },
     { title: '操作人员', align: 'center', dataIndex: 'createUser' },
     {
       title: '操作类型',
       align: 'center',
       dataIndex: 'oplogType',
-      // valueEnum: enums.subject_secrecy_level,
+      valueEnum: enums.clue_oplog_type,
     },
     {
       title: 'IP地址',
@@ -78,6 +78,8 @@ const OperatingLogModal = ({ dispatch, actionRef, tableRef }) => {
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',
+        height: 'calc(95vh - 108px)',
+        overflow: 'auto',
       }}
       visible={modalVisible}
       onOk={handleOk}
@@ -96,6 +98,7 @@ const OperatingLogModal = ({ dispatch, actionRef, tableRef }) => {
     </Modal>
   );
 };
-export default connect(({ emClueManagement }) => ({
+export default connect(({ emClueManagement, global }) => ({
   tableRef: emClueManagement.tableRef,
+  enums: global.enums,
 }))(OperatingLogModal);
