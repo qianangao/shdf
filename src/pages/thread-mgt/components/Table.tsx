@@ -261,10 +261,18 @@ const Table = ({
   };
 
   const exportClue = () => {
-    dispatch({
-      type: 'emClueManagement/exportClue',
-      payload: { ids: selectedRowKeys },
-    });
+    message.loading({ content: '数据正在处理中，请稍后……', key: 'exportClue' });
+    new Promise(resolve => {
+      dispatch({
+        type: 'emClueManagement/exportClue',
+        payload: { ids: selectedRowKeys },
+        resolve,
+      });
+    })
+      .then(_ => {})
+      .finally(() => {
+        message.destroy('exportClue');
+      });
   };
 
   return (
