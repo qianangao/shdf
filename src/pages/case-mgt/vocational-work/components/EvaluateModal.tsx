@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'umi';
-import { Modal } from 'antd';
-import OrgInfoForm from './form/SuperviseForm';
+import { Descriptions, Modal, Radio } from 'antd';
+import OrgInfoForm from './form/EvaluateForm';
 
 const ModifyModal = ({ dispatch, actionRef, loading }) => {
   const [form] = OrgInfoForm.useForm();
   const [applyCaseModalVisible, setModalVisible] = useState(false);
   const [detailData, setDetailData] = useState(null);
+  const [evaluateLevel, setEvaluateLevel] = React.useState(1);
 
   const showModal = items => {
     // 获取详情
@@ -20,7 +21,6 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
     if (actionRef && typeof actionRef === 'function') {
       actionRef({ showModal });
     }
-
     if (actionRef && typeof actionRef !== 'function') {
       actionRef.current = { showModal };
     }
@@ -36,12 +36,10 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       .validateFields()
       .then(values => {
         values.id = detailData.caseId;
-        values.targetDeptId = 7000;
-        values.target = 7001;
-        // console.log(values,'values---8')
+        values.evaluateLevel = evaluateLevel;
         return new Promise(resolve => {
           dispatch({
-            type: `caseMgt/supervise`,
+            type: `caseMgt/evaluate`,
             payload: {
               ...values,
             },
@@ -57,9 +55,13 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       });
   };
 
+  const onChange = e => {
+    setEvaluateLevel(e.target.value);
+  };
+
   return (
     <Modal
-      title="督办"
+      title="评价"
       centered
       width={780}
       style={{ paddingBottom: 0 }}
@@ -72,6 +74,20 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       confirmLoading={loading}
       onCancel={hideModal}
     >
+      <Descriptions title="您对本次案件办理的整体表现评价（请用0-10分来评价）" />
+      <Radio.Group name="evaluateLevel" onChange={onChange} value={evaluateLevel}>
+        <Radio value={1}>1</Radio>
+        <Radio value={2}>2</Radio>
+        <Radio value={3}>3</Radio>
+        <Radio value={4}>4</Radio>
+        <Radio value={5}>5</Radio>
+        <Radio value={6}>6</Radio>
+        <Radio value={7}>7</Radio>
+        <Radio value={8}>8</Radio>
+        <Radio value={9}>9</Radio>
+        <Radio value={10}>10</Radio>
+      </Radio.Group>
+      <Descriptions title=" " />
       <OrgInfoForm form={form} />
     </Modal>
   );

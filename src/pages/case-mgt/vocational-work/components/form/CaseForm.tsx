@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import AdvancedForm from '@/components/AdvancedForm';
-import { Button, Descriptions } from 'antd';
 
 const CaseMgt = ({ form, orgInfoData }) => {
   const formItems = [
@@ -156,7 +155,7 @@ const CaseMgt = ({ form, orgInfoData }) => {
     {
       label: '行政处理结果',
       name: 'punishResult',
-      span: 4,
+      span: 1.5,
       type: 'textarea',
       rules: [
         { message: '请输入行政处理结果!', whitespace: true },
@@ -166,7 +165,7 @@ const CaseMgt = ({ form, orgInfoData }) => {
     {
       label: '案件办理结果',
       name: 'sentenceResult',
-      span: 4,
+      span: 1.5,
       type: 'textarea',
       rules: [
         { message: '请输入案件办理结果!', whitespace: true },
@@ -187,16 +186,9 @@ const CaseMgt = ({ form, orgInfoData }) => {
     }
   }, [orgInfoData]);
 
-  const openModifyModal = () => {};
-
   const selectLgbInput = (
     // 显示老干部信息-公共组件
-    <>
-      <Descriptions title="线索串并联" />
-      <Button type="primary" onClick={() => openModifyModal()}>
-        线索串并联
-      </Button>
-    </>
+    <></>
   );
 
   return <AdvancedForm form={form} fields={formItems} footerRender={selectLgbInput} />;

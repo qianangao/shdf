@@ -7,7 +7,7 @@ const CaseMgt = ({ form, orgInfoData }) => {
     {
       label: '督办开始时间：',
       name: 'superviseStart',
-      type: 'textarea',
+      type: 'dateTime',
       rules: [
         { message: '请输入备注!', whitespace: true },
         { max: 80, message: '备注长度请小于80位!', whitespace: true },
@@ -16,7 +16,7 @@ const CaseMgt = ({ form, orgInfoData }) => {
     {
       label: '督办结束时间：',
       name: 'superviseEnd',
-      type: 'textarea',
+      type: 'dateTime',
       rules: [
         { message: '请输入备注!', whitespace: true },
         { max: 80, message: '备注长度请小于80位!', whitespace: true },

@@ -15,8 +15,8 @@ export async function getCaseList(params) {
  * 获取关工动态列表
  * @param {*} params
  */
-export async function getReceivingReadList(params) {
-  return request('/shdfReceipt/readList', {
+export async function getCaseHandleList(params) {
+  return request(`/shdfCase/caseTansmitList/${params.id}`, {
     method: 'POST',
     data: params,
   });
@@ -72,7 +72,16 @@ export async function del(params) {
     data: params,
   });
 }
-
+/**
+ * 新增
+ * @param {*} params
+ */
+export async function addCaseHandle(params) {
+  return request(`/shdfCase/saveCaseTansmit/${params.id}`, {
+    method: 'POST',
+    data: params,
+  });
+}
 /**
  * 新增
  * @param {*} params
@@ -138,7 +147,37 @@ export async function getRecordDetail(params) {
  * @param {*} params
  */
 export async function supervise(params) {
-  return request(`/shdfCase/applySupervise/${params.id}`, {
+  return request(`/shdfCase/saveSupervise/${params.id}`, {
+    method: 'POST',
+    data: params,
+  });
+}
+/**
+ * 编辑
+ * @param {*} params
+ */
+export async function completed(params) {
+  return request(`/shdfCase/caseFinish/${params.id}`, {
+    method: 'GET',
+    params,
+  });
+}
+/**
+ * 编辑
+ * @param {*} params
+ */
+export async function evaluate(params) {
+  return request(`/shdfCase/saveEvaluate/${params.id}`, {
+    method: 'POST',
+    data: params,
+  });
+}
+/**
+ * 编辑
+ * @param {*} params
+ */
+export async function evaluateFeedback(params) {
+  return request(`/shdfCase/feedbackEvaluate/${params.id}`, {
     method: 'POST',
     data: params,
   });
@@ -180,6 +219,7 @@ export async function getSuperviseDetail(params) {
 export async function templateDownload() {
   return noErrorRequest(`/case/excel/template`, {
     method: 'GET',
+    responseType: 'blob',
   });
 }
 

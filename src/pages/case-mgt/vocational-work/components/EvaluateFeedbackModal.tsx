@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'umi';
 import { Modal } from 'antd';
-import OrgInfoForm from './form/SuperviseForm';
+import OrgInfoForm from './form/EvaluateFeedbackForm';
 
 const ModifyModal = ({ dispatch, actionRef, loading }) => {
   const [form] = OrgInfoForm.useForm();
@@ -36,12 +36,9 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       .validateFields()
       .then(values => {
         values.id = detailData.caseId;
-        values.targetDeptId = 7000;
-        values.target = 7001;
-        // console.log(values,'values---8')
         return new Promise(resolve => {
           dispatch({
-            type: `caseMgt/supervise`,
+            type: `caseMgt/evaluateFeedback`,
             payload: {
               ...values,
             },
@@ -59,7 +56,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
 
   return (
     <Modal
-      title="督办"
+      title="评价反馈"
       centered
       width={780}
       style={{ paddingBottom: 0 }}

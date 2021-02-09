@@ -1,9 +1,10 @@
 import { message } from 'antd';
 import { downloadXlsFile } from '@/utils';
 import { getReceivingCode } from '@/pages/synergy-office/receiving-mgt/service';
+import moment from 'moment';
 import {
   getCaseList,
-  getReceivingReadList,
+  getCaseHandleList,
   getCaseDetail,
   del,
   authorize,
@@ -11,10 +12,14 @@ import {
   addCase,
   updateCase,
   applyCase,
+  addCaseHandle,
   recall,
   recordApproval,
   getRecordDetail,
   supervise,
+  completed,
+  evaluateFeedback,
+  evaluate,
   recallSupervise,
   getSuperviseDetail,
   superviseApproval,
@@ -34,6 +39,7 @@ const Model = {
     authorizeData: {},
     trendsDetailData: {},
     tableRef: {},
+    tableHandleRef: {},
     selectedOrgId: undefined,
   },
   effects: {
@@ -67,34 +73,28 @@ const Model = {
         });
       }
     },
-    *getReceivingReadList({ payload, resolve }, { call, put }) {
+    *getCaseHandleList({ payload, resolve }, { call }) {
       const params = {
         ...payload,
         pageNum: payload.current,
         pageSize: payload.pageSize,
       };
-
-      const response = yield call(getReceivingReadList, params);
+      const response = yield call(getCaseHandleList, params);
 
       if (!response.error) {
-        const { records, current, totalNum } = response;
+        const { page, file, current, totalNum } = response;
 
         const result = {
-          data: records,
+          data: page.records,
+          files: file,
           page: current,
           pageSize: payload.pageSize,
           success: true,
           total: totalNum,
         };
-
         resolve && resolve(result);
-
-        yield put({
-          type: 'save',
-          payload: {
-            receivingReadListData: result,
-          },
-        });
+      } else {
+        resolve && resolve({});
       }
     },
     *getAuthorize({ payload, resolve }, { call, put }) {
@@ -178,6 +178,17 @@ const Model = {
         });
       }
     },
+    *addCaseHandle({ payload, resolve }, { call, put }) {
+      // 先获取编码
+      const response = yield call(addCaseHandle, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('新增案件办理成功！');
+        yield put({
+          type: 'tableHandleReload',
+        });
+      }
+    },
     *applyCase({ payload, resolve }, { call, put }) {
       // 先获取编码
       const response = yield call(applyCase, payload);
@@ -234,6 +245,38 @@ const Model = {
         });
       }
     },
+    *completed({ payload, resolve }, { call, put }) {
+      const response = yield call(completed, payload);
+
+      if (!response.error) {
+        resolve && resolve(response);
+        yield put({
+          type: 'tableReload',
+        });
+      }
+    },
+    *evaluate({ payload, resolve }, { call, put }) {
+      // 先获取编码
+      const response = yield call(evaluate, payload);
+      if (!response.error) {
+        resolve && resolve(response.data);
+        message.success('评价成功！');
+        yield put({
+          type: 'tableReload',
+        });
+      }
+    },
+    *evaluateFeedback({ payload, resolve }, { call, put }) {
+      // 先获取编码
+      const response = yield call(evaluateFeedback, payload);
+      if (!response.error) {
+        resolve && resolve(response.data);
+        message.success('评价反馈成功！');
+        yield put({
+          type: 'tableReload',
+        });
+      }
+    },
     *recallSupervise({ payload, resolve }, { call, put }) {
       // 先获取编码
       const response = yield call(recallSupervise, payload);
@@ -275,13 +318,12 @@ const Model = {
         yield downloadXlsFile(response, `案件管理模板`);
       }
     },
-    *exportCase({ payload }, { call }) {
-      const response = yield call(exportCase, payload);
+    *exportCase({ _ }, { call }) {
+      const response = yield call(exportCase);
       if (!response.error) {
-        yield downloadXlsFile(response, `通讯录列表${moment().format('MM-DD HH:mm:ss')}`);
+        yield downloadXlsFile(response, `案件管理列表${moment().format('MM-DD HH:mm:ss')}`);
       }
     },
-
     *importCase({ payload, resolve }, { call, put }) {
       const formData = new FormData();
       formData.append('file', payload.file);
@@ -302,6 +344,13 @@ const Model = {
       const tableRef = state.tableRef || {};
       setTimeout(() => {
         tableRef.current && tableRef.current.reloadAndRest();
+      }, 0);
+      return { ...state };
+    },
+    tableHandleReload(state) {
+      const tableHandleRef = state.tableHandleRef || {};
+      setTimeout(() => {
+        tableHandleRef.current && tableHandleRef.current.reloadAndRest();
       }, 0);
       return { ...state };
     },

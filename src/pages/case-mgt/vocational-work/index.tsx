@@ -4,7 +4,6 @@ import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import Table from './components/Table';
 
 const ModifyModal = React.lazy(() => import('./components/ModifyModal'));
-const ReadListModal = React.lazy(() => import('./components/ReadListModal'));
 const DetailModal = React.lazy(() => import('./components/DetailModal'));
 const AuthorizeModal = React.lazy(() => import('./components/AuthorizeModal'));
 const ApplyCaseModal = React.lazy(() => import('./components/ApplyCaseModal'));
@@ -14,10 +13,11 @@ const ApplySuperviseModal = React.lazy(() => import('./components/ApplySupervise
 const SuperviseModal = React.lazy(() => import('./components/SuperviseModal'));
 const SuperviseApprovalModal = React.lazy(() => import('./components/SuperviseApprovalModal'));
 const SuperviseDetailModal = React.lazy(() => import('./components/SuperviseDetailModal'));
+const EvaluateModal = React.lazy(() => import('./components/EvaluateModal'));
+const EvaluateFeedbackModal = React.lazy(() => import('./components/EvaluateFeedbackModal'));
 
 const CaseMgt = ({ dispatch }) => {
   const modifyRef = useRef({});
-  const readListRef = useRef({});
   const detailRef = useRef({});
   const authorizeRef = useRef({});
   const applyCaseRef = useRef({});
@@ -27,6 +27,8 @@ const CaseMgt = ({ dispatch }) => {
   const superviseRef = useRef({});
   const superviseApprovalRef = useRef({});
   const superviseDetailRef = useRef({});
+  const evaluateRef = useRef({});
+  const evaluateFeedbackRef = useRef({});
 
   useEffect(() => {
     dispatch({
@@ -39,10 +41,6 @@ const CaseMgt = ({ dispatch }) => {
 
   const openModifyModal = item => {
     modifyRef.current.showModal(item);
-  };
-
-  const openReadListModal = item => {
-    readListRef.current.showModal(item);
   };
 
   const openDetailModal = item => {
@@ -81,9 +79,19 @@ const CaseMgt = ({ dispatch }) => {
     superviseDetailRef.current.showModal(item);
   };
 
+  const openEvaluateModal = item => {
+    evaluateRef.current.showModal(item);
+  };
+
+  const openEvaluateFeedbackModal = item => {
+    evaluateFeedbackRef.current.showModal(item);
+  };
+
   return (
     <PageHeaderWrapper>
       <Table
+        openEvaluateFeedbackModal={openEvaluateFeedbackModal}
+        openEvaluateModal={openEvaluateModal}
         openSuperviseDetailModal={openSuperviseDetailModal}
         openSuperviseApprovalModal={openSuperviseApprovalModal}
         openSuperviseModal={openSuperviseModal}
@@ -92,11 +100,12 @@ const CaseMgt = ({ dispatch }) => {
         openRecordDetailModal={openRecordDetailModal}
         openApplyCaseModal={openApplyCaseModal}
         openModifyModal={openModifyModal}
-        openReadListModal={openReadListModal}
         openDetailModal={openDetailModal}
         openAuthorizeModal={openAuthorizeModal}
       />
       <Suspense fallback={null}>
+        <EvaluateFeedbackModal actionRef={evaluateFeedbackRef} />
+        <EvaluateModal actionRef={evaluateRef} />
         <SuperviseDetailModal actionRef={superviseDetailRef} />
         <SuperviseApprovalModal actionRef={superviseApprovalRef} />
         <SuperviseModal actionRef={superviseRef} />
@@ -105,7 +114,6 @@ const CaseMgt = ({ dispatch }) => {
         <RecordDetailModal actionRef={recordDetailRef} />
         <ApplyCaseModal actionRef={applyCaseRef} />
         <ModifyModal actionRef={modifyRef} />
-        <ReadListModal actionRef={readListRef} />
         <DetailModal actionRef={detailRef} />
         <AuthorizeModal actionRef={authorizeRef} />
       </Suspense>

@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Button, Modal, Popconfirm } from 'antd';
+import { Button, Modal, Popconfirm, message } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 
@@ -15,6 +15,8 @@ const Table = ({
   openSuperviseModal,
   openSuperviseApprovalModal,
   openSuperviseDetailModal,
+  openEvaluateModal,
+  openEvaluateFeedbackModal,
   enums,
   dispatch,
 }) => {
@@ -28,9 +30,27 @@ const Table = ({
       },
     });
   };
+
+  const recallSupervise = id => {
+    dispatch({
+      type: 'caseMgt/recallSupervise',
+      payload: {
+        id,
+      },
+    });
+  };
+
   const recall = id => {
     dispatch({
       type: 'caseMgt/recall',
+      payload: {
+        id,
+      },
+    });
+  };
+  const completed = id => {
+    dispatch({
+      type: 'caseMgt/completed',
       payload: {
         id,
       },
@@ -63,16 +83,34 @@ const Table = ({
       </a>
     );
     const Well = (
-      <a key={`${caseData.caseId}well`} onClick={() => openAuthorizeModal(caseData)}>
-        办结
+      <Popconfirm
+        key={`${caseData.caseId}re_re`}
+        title="确认办结？"
+        placement="topRight"
+        onConfirm={() => completed(caseData.caseId)}
+      >
+        <a>办结</a>
+      </Popconfirm>
+    );
+
+    const Evaluate = (
+      <a key={`${caseData.caseId}eval`} onClick={() => openEvaluateModal(caseData)}>
+        评价
       </a>
     );
 
+    const EvaluateFeedback = (
+      <a key={`${caseData.caseId}ev_ba`} onClick={() => openEvaluateFeedbackModal(caseData)}>
+        评价反馈
+      </a>
+    );
     switch (caseData.handleState) {
       case 0:
         return [Cat, Edit, Delete];
       case 1:
         return [Auth, Well];
+      case 2:
+        return [Evaluate, EvaluateFeedback];
       default:
         return [Cat, Edit, Delete];
     }
@@ -155,14 +193,6 @@ const Table = ({
     }
   };
 
-  const recallSupervise = id => {
-    dispatch({
-      type: 'caseMgt/recallSupervise',
-      payload: {
-        id,
-      },
-    });
-  };
   const columns = [
     {
       title: '案件名称',
@@ -236,7 +266,7 @@ const Table = ({
     });
   };
 
-  const importAddressBook = e => {
+  const importCase = e => {
     const file = e.target.files[0];
     message.loading({ content: '文件上传中，请稍后……', key: 'importsAddressBook' });
     new Promise(resolve => {
@@ -260,12 +290,13 @@ const Table = ({
     e.target.value = '';
   };
 
-  const exportDetailData = selectedRowKeys => {
-    const bookIds = selectedRowKeys.join(',');
+  const exportDetailData = () => {
+    // const bookIds = selectedRowKeys.join(',');
+    message.loading({ content: '文件导出，请稍后……', key: 'importsAddressBook' });
     dispatch({
       type: 'caseMgt/exportCase',
-      payload: { bookIds },
     });
+    message.destroy('error++');
   };
 
   return (
@@ -287,7 +318,7 @@ const Table = ({
           <input
             type="file"
             name="file"
-            onChange={importAddressBook}
+            onChange={importCase}
             style={{ display: 'none' }}
             ref={uploadLgbListRef}
           />

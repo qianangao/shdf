@@ -37,14 +37,6 @@ const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
     setModalVisible(false);
   };
 
-  const handleOk = () => {
-    doRollBack(1);
-  };
-
-  const handleRollBack = () => {
-    doRollBack(0);
-  };
-
   const doRollBack = type => {
     form
       .validateFields()
@@ -67,6 +59,14 @@ const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
       .catch(info => {
         console.error('Validate Failed:', info);
       });
+  };
+
+  const handleOk = () => {
+    doRollBack(1);
+  };
+
+  const handleRollBack = () => {
+    doRollBack(0);
   };
 
   return (
