@@ -7,11 +7,46 @@ const ModifyModal = ({ dispatch, actionRef, loading, openFeedbackModal, openAddM
   const [form] = EditChildrenTaskForm.useForm();
   const [modalVisible, setModalVisible] = useState(false);
   const [disabled, setDisabled] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [id, setId] = useState('');
+
+  const updateData = taskId => {
+    // if (id) {
+    new Promise(resolve => {
+      dispatch({
+        type: 'specialAction/findChildrenTaskDetail',
+        payload: { taskId },
+        resolve,
+      });
+    }).then(res => {
+      if (res) {
+        const fileInfoList =
+          res.fileInfoList &&
+          res.fileInfoList.map(item => {
+            return {
+              url: item.url,
+              uid: item.fileId,
+              name: item.fileName,
+              status: 'done',
+            };
+          });
+        form.setFieldsValue({ ...res, fileIds: fileInfoList });
+      }
+    });
+    // }
+  };
+
   const showModal = item => {
+    if (item.visible) {
+      setVisible(item.visible);
+    }
     if (item.disabled) {
       setDisabled(true);
     }
-
+    if (item.id) {
+      setId(item.id);
+      updateData(item.id);
+    }
     setModalVisible(true);
   };
 
@@ -27,30 +62,42 @@ const ModifyModal = ({ dispatch, actionRef, loading, openFeedbackModal, openAddM
 
   const hideModal = () => {
     setModalVisible(false);
+    setVisible(false);
     setDisabled(false);
     form.resetFields();
   };
 
   const handleOk = () => {
-    form
-      .validateFields()
-      .then(values => {
-        return new Promise(resolve => {
-          dispatch({
-            type: `specialAction/addChildrenTaskList`,
-            payload: {
-              ...values,
-            },
-            resolve,
+    if (disabled) {
+      hideModal();
+    } else {
+      form
+        .validateFields()
+        .then(values => {
+          return new Promise(resolve => {
+            const fileIds =
+              values.fileIds &&
+              values.fileIds.map(item => {
+                return item.uid;
+              });
+            dispatch({
+              type: `specialAction/${id ? 'updateChildrenTaskList' : 'addChildrenTaskList'}`,
+              payload: {
+                ...values,
+                taskId: id,
+                fileIds,
+              },
+              resolve,
+            });
           });
+        })
+        .then(() => {
+          hideModal();
+        })
+        .catch(info => {
+          console.error('Validate Failed:', info);
         });
-      })
-      .then(() => {
-        hideModal();
-      })
-      .catch(info => {
-        console.error('Validate Failed:', info);
-      });
+    }
   };
 
   return (
@@ -69,6 +116,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, openFeedbackModal, openAddM
     >
       <EditChildrenTaskForm
         form={form}
+        visible={visible}
         disabled={disabled}
         openFeedbackModal={openFeedbackModal}
         openAddModal={openAddModal}

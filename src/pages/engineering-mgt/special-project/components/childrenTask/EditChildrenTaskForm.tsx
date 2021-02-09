@@ -1,15 +1,16 @@
 import React from 'react';
 import { Button, Card } from 'antd';
 import AdvancedForm from '@/components/AdvancedForm';
-import FeedbackTable from './FeedbackTable';
-import TaskProgressTable from './TaskProgressTable';
+// import FeedbackTable from './FeedbackTable';
+// import TaskProgressTable from './TaskProgressTable';
+import SummaryFeedbackTable from './SummaryFeedbackTable';
 
-const EditChildrenTaskForm = ({ form, disabled, openFeedbackModal, openAddModal }) => {
+const EditChildrenTaskForm = ({ form, disabled, visible, openFeedbackModal, openAddModal }) => {
   const formItems = [
     // { label: 'id', name: 'bookId', hidden: true },
     {
       label: '任务名称',
-      name: 'actionName',
+      name: 'taskName',
       span: 2,
       disabled,
       rules: [
@@ -18,26 +19,24 @@ const EditChildrenTaskForm = ({ form, disabled, openFeedbackModal, openAddModal 
       ],
     },
     {
-      name: 'segmentation',
-      type: 'segmentation',
-    },
-    {
       label: '任务状态',
-      name: 'level',
+      name: 'taskState',
       span: 2,
       disabled,
       rules: [{ required: true, message: '请选择任务状态' }],
+      enumsLabel: 'special_task_state',
     },
     {
       label: '保密等级',
-      name: 'level',
+      name: 'secrecyLevel',
       span: 2,
       disabled,
       rules: [{ required: true, message: '请选择保密等级' }],
+      enumsLabel: 'subject_secrecy_level',
     },
     {
       label: '开始日期',
-      name: 'start_date',
+      name: 'startDate',
       span: 2,
       disabled,
       rules: [{ required: true, message: '请选择开始日期' }],
@@ -45,15 +44,19 @@ const EditChildrenTaskForm = ({ form, disabled, openFeedbackModal, openAddModal 
     },
     {
       label: '截止日期',
-      name: 'end_date',
+      name: 'endDate',
       span: 2,
       disabled,
       rules: [{ required: true, message: '请选择截止日期!' }],
       type: 'date',
     },
     {
+      name: 'segmentation',
+      type: 'segmentation',
+    },
+    {
       label: '任务描述',
-      name: 'description',
+      name: 'taskDescription',
       span: 4,
       disabled,
       rules: [
@@ -64,14 +67,14 @@ const EditChildrenTaskForm = ({ form, disabled, openFeedbackModal, openAddModal 
     },
     {
       label: '反馈要求',
-      name: 'stageRequest',
+      name: 'stageFeedback',
       span: 4,
       disabled,
-      render: <FeedbackTable />,
+      render: <SummaryFeedbackTable disabled={disabled} visible={visible} />,
     },
     {
       label: '附件列表',
-      name: 'files',
+      name: 'fileIds',
       span: 4,
       disabled,
       type: 'upload',
@@ -81,7 +84,7 @@ const EditChildrenTaskForm = ({ form, disabled, openFeedbackModal, openAddModal 
       name: 'stageRequest',
       span: 4,
       disabled,
-      render: <TaskProgressTable />,
+      // render: <TaskProgressTable />,
     },
   ];
 

@@ -22,13 +22,20 @@ const AddSpecialActionForm = ({ dispatch, form, visible, editVisible }) => {
         arr.push({ key: item.key, title: item.title });
       });
       setActionData(arr);
+      setHistoryData([]);
     });
+    return () => {
+      setActionData([]);
+      setHistoryData([]);
+    };
   }, []);
 
   const onChangeAction = key => {
     form.setFieldsValue({ historyInfo: '' });
     actionList.forEach(item => {
       if (item.key === key) {
+        form.resetFields();
+        form.setFieldsValue({ actionId: key });
         setHistoryData(item.children);
       }
     });

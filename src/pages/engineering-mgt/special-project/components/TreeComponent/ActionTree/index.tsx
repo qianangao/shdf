@@ -1,23 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { Tree, Button, Row, Col, Input } from 'antd';
+import { Tree, Button, Row, Col, Input, Spin } from 'antd';
 import { connect } from 'umi';
-import { getSpecialActionTree } from '../../../service';
+// import { getSpecialActionTree } from '../../../model';
 import styles from './index.less';
 
-const ActionTree = ({ openAddSpecialModal, dispatch, specialAction }) => {
-  const { treeRef } = specialAction;
-  const [actionTreeData, setActionTreeData] = useState<any>([]);
+const ActionTree = ({ openAddSpecialModal, dispatch, actionTree, loading }) => {
+  // const { treeRef } = specialAction;
+  // const [actionTreeData, setActionTreeData] = useState<any>([]);
   const [expandedKeys, setExpandedKeys] = useState<any>([]);
   const [selectedKeys, setSelectedKeys] = useState<any>([]);
   // const [loadedKeys, setLoadedKeys] = useState<any>([]);
+  // const [loading, setLoading] = useState(false);
 
   const getTreeData = (actionName = '') => {
-    return getSpecialActionTree({ actionName }).then(data => {
-      if (data.error) {
-        return;
-      }
-      setActionTreeData(data);
+    dispatch({
+      type: 'specialAction/getSpecialActionTree',
+      payload: { actionName },
     });
+    // return getSpecialActionTree({ actionName }).then(data => {
+    //   if (data.error) {
+    //     return;
+    //   }
+    //   setActionTreeData(data);
+    // });
   };
 
   useEffect(() => {
@@ -51,7 +56,8 @@ const ActionTree = ({ openAddSpecialModal, dispatch, specialAction }) => {
   // };
   const actionSearchHander = value => {
     // if (!value) return;
-    getTreeData(value).then(data => setActionTreeData(data));
+    getTreeData(value);
+    // getTreeData(value).then(data => setActionTreeData(data));
   };
 
   const actionExpandHandler = node => {
@@ -61,12 +67,13 @@ const ActionTree = ({ openAddSpecialModal, dispatch, specialAction }) => {
   };
   const actionSelectHandler = (keys, { node }) => {
     const actionId = node.key;
+    // dispatch({
+    //   type: 'specialAction/getSpecialAction',
+    //   payload: { actionId },
+    // });
     dispatch({
-      type: 'specialAction/getSpecialAction',
-      payload: { actionId },
-    });
-    dispatch({
-      type: 'specialAction/getChildrenTaskList',
+      type: 'specialAction/getListTable',
+      // type: 'specialAction/tableReload',
       payload: { actionId },
     });
 
@@ -102,18 +109,22 @@ const ActionTree = ({ openAddSpecialModal, dispatch, specialAction }) => {
         enterButton="查询"
         onSearch={actionSearchHander}
       />
-
-      <Tree
-        treeData={actionTreeData}
-        actionRef={treeRef}
-        // loadData={actionLoadDataHandler}
-        onSelect={actionSelectHandler}
-        selectedKeys={selectedKeys}
-        onExpand={actionExpandHandler}
-        expandedKeys={expandedKeys}
-      />
+      <Spin spinning={loading}>
+        <Tree
+          treeData={actionTree}
+          // actionRef={treeRef}
+          // loadData={actionLoadDataHandler}
+          onSelect={actionSelectHandler}
+          selectedKeys={selectedKeys}
+          onExpand={actionExpandHandler}
+          expandedKeys={expandedKeys}
+        />
+      </Spin>
     </div>
   );
 };
 
-export default connect(({ specialAction }) => ({ specialAction }))(ActionTree);
+export default connect(({ specialAction }) => ({
+  actionTree: specialAction.actionTree,
+  loading: specialAction.loading,
+}))(ActionTree);

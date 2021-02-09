@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useRef } from 'react';
 // import { Select, Button } from 'antd';
 import AdvancedForm from '@/components/AdvancedForm';
 // import FeedbackTable from './FeedbackTable';
+import SummaryFeedbackTable from './SummaryFeedbackTable';
 
-const ChildrenTaskForm = ({ form }) => {
+const ChildrenTaskForm = ({ form, visible }) => {
+  const feedRef = useRef();
   const formItems = [
     // { label: 'id', name: 'bookId', hidden: true },
     {
@@ -48,18 +50,16 @@ const ChildrenTaskForm = ({ form }) => {
     },
     {
       label: '阶段反馈要求',
-      name: 'stageRequest',
+      name: 'specialTaskFeedbackList',
       span: 4,
-      // render: <FeedbackTable />,
+      render: <SummaryFeedbackTable visible={visible} />,
     },
     {
       label: '总结反馈要求',
       name: 'totalRequest',
       span: 4,
-      rules: [{ required: true, message: '请输入!' }],
-      // render:(
-      //     <RequestTable/>
-      // )
+      // rules: [{ required: true, message: '请输入!' }],
+      render: <SummaryFeedbackTable visible={visible} ref={feedRef} />,
     },
     {
       label: '附件列表',

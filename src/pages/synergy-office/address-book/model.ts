@@ -31,7 +31,6 @@ const Model = {
       if (!response.error) {
         const result = formatPageData(response);
         resolve && resolve(result);
-
         yield put({
           type: 'save',
           payload: {

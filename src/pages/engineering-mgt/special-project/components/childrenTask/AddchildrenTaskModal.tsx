@@ -1,14 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'umi';
 import { Modal } from 'antd';
 import ChildrenTaskForm from './ChildrenTaskForm';
 
 const AddchildrenTaskModal = ({ dispatch, actionRef, loading, specialAction }) => {
+  const formRef = useRef();
   const [actionId, setActionId] = useState('');
   const [form] = ChildrenTaskForm.useForm();
   const [modalVisible, setModalVisible] = useState(false);
-
-  const showModal = () => {
+  const [visible, setVisible] = useState(false);
+  const showModal = item => {
+    if (item.visible) {
+      setVisible(item.visible);
+    }
     setModalVisible(true);
   };
 
@@ -28,6 +32,7 @@ const AddchildrenTaskModal = ({ dispatch, actionRef, loading, specialAction }) =
   });
   const hideModal = () => {
     setModalVisible(false);
+    setVisible(false);
     setActionId('');
     form.resetFields();
   };
@@ -66,7 +71,7 @@ const AddchildrenTaskModal = ({ dispatch, actionRef, loading, specialAction }) =
       title="子任务信息"
       centered
       width="60vw"
-      style={{ paddingBottom: 0 }}
+      style={{ paddingBottom: 0, zIndex: 100 }}
       bodyStyle={{
         padding: '30px 60px',
       }}
@@ -75,7 +80,7 @@ const AddchildrenTaskModal = ({ dispatch, actionRef, loading, specialAction }) =
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <ChildrenTaskForm form={form} />
+      <ChildrenTaskForm form={form} visible={visible} ref={formRef} />
     </Modal>
   );
 };

@@ -4,7 +4,7 @@ import ActionTreeLayout from '@/pages/engineering-mgt/special-project/components
 import Table from './components/Table';
 import AddchildrenTaskModal from './components/childrenTask/AddchildrenTaskModal';
 import SpecialActionModal from './components/AddAction/SpecialActionModal';
-import EditModal from './components/EditAction/EditModal';
+// import EditModal from './components/EditAction/EditModal';
 import DownModal from './components/childrenTask/DownModal';
 import ModifyModal from './components/childrenTask/ModifyModal';
 import FeedbackModal from './components/childrenTask/FeedBackModal';
@@ -13,7 +13,7 @@ import FeedbackModal from './components/childrenTask/FeedBackModal';
 const SpecialProject = ({ dispatch }) => {
   const modifyRef = useRef({});
   const addSpecialRef = useRef({});
-  const editRef = useRef({});
+  // const editRef = useRef({});
   const editchildrenRef = useRef({});
   const feedbackRef = useRef({});
   const downRef = useRef({});
@@ -23,7 +23,7 @@ const SpecialProject = ({ dispatch }) => {
     dispatch({
       type: 'global/getEnums',
       payload: {
-        names: ['subject_secrecy_level', 'special_type'],
+        names: ['subject_secrecy_level', 'special_type', 'special_task_state'],
       },
     });
   }, []);
@@ -51,9 +51,9 @@ const SpecialProject = ({ dispatch }) => {
   const openAddSpecialModal = item => {
     addSpecialRef.current.showModal(item);
   };
-  const openEditModal = item => {
-    editRef.current.showModal(item);
-  };
+  // const openEditModal = item => {
+  //   editRef.current.showModal(item);
+  // };
   const openDownModal = item => {
     downRef.current.showModal(item);
   };
@@ -69,7 +69,7 @@ const SpecialProject = ({ dispatch }) => {
       <Table
         openAddModal={openAddModal}
         openDownModal={openDownModal}
-        openEditModal={openEditModal}
+        // openEditModal={openEditModal}
         openModifyModal={openModifyModal}
         openFeedbackModal={openFeedbackModal}
         openAddSpecialModal={openAddSpecialModal}
@@ -77,7 +77,7 @@ const SpecialProject = ({ dispatch }) => {
       />
       <AddchildrenTaskModal actionRef={modifyRef} />
       <SpecialActionModal actionRef={addSpecialRef} />
-      <EditModal actionRef={editRef} />
+      {/* <EditModal actionRef={editRef} /> */}
       <ModifyModal
         actionRef={editchildrenRef}
         openFeedbackModal={openFeedbackModal}

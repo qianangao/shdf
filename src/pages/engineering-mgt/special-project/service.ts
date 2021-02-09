@@ -27,9 +27,50 @@ export async function addChildrenTaskList(params) {
  * @param params
  */
 export async function updateChildrenTaskList(params) {
-  return request(`/specialAction/updateSubtask`, {
-    method: 'POST',
+  return request(`/task/updateSubtask`, {
+    method: 'PUT',
+    data: params,
+  });
+}
+
+/**
+ * 查询子任务详情
+ * @param params
+ */
+export async function findChildrenTaskDetail(params) {
+  return request(`/task/findSubtask`, {
+    method: 'GET',
     params,
+  });
+}
+// /**
+//  * 阶段反馈要求列表
+//  * @param params
+//  */
+// export async function FeedbackRequestList(params) {
+//   return request(`/taskFeedback/findTaskFeedbackList`, {
+//     method: 'GET',
+//     params,
+//   });
+// }
+/**
+ * 阶段反馈要求新增、总要求反馈新增
+ * @param params
+ */
+export async function addFeedbackRequest(params) {
+  return request(`/taskFeedback/addStageFeedback`, {
+    method: 'POST',
+    data: params,
+  });
+}
+
+/**
+ * 阶段反馈要求删除
+ * @param params
+ */
+export async function deleteFeedbackRequest(params) {
+  return request(`/taskFeedback/deleteStageFeedback?feedbackId=${params}`, {
+    method: 'DELETE',
   });
 }
 
@@ -52,6 +93,17 @@ export async function addAnnualSpecialAction(params: any) {
   return request(`/specialAction/add`, {
     method: 'POST',
     data: params,
+  });
+}
+
+/**
+ * 删除专项行动
+ * @param params
+ */
+export async function deleteSpecialAction(actionId) {
+  return request(`/specialAction/delete?actionId=${actionId}`, {
+    method: 'DELETE',
+    // data: params,
   });
 }
 

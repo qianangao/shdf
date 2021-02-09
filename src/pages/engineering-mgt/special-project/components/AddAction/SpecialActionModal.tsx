@@ -13,7 +13,17 @@ const SpecialActionModal = ({ dispatch, actionRef, loading }) => {
   const [editVisible, setEditVisible] = useState(true);
 
   const updateData = data => {
-    form.setFieldsValue({ ...data });
+    const fileInfoList =
+      data.fileInfoList &&
+      data.fileInfoList.map(item => {
+        return {
+          url: item.url,
+          uid: item.fileId,
+          name: item.fileName,
+          status: 'done',
+        };
+      });
+    form.setFieldsValue({ ...data, fileIds: fileInfoList });
   };
 
   const showModal = item => {
@@ -49,19 +59,6 @@ const SpecialActionModal = ({ dispatch, actionRef, loading }) => {
     }
   };
 
-  // const updateData = bookId => {
-  //   if (bookId) {
-  //     new Promise(resolve => {
-  //       dispatch({
-  //         type: 'emAddressBook/getAddressBookDetail',
-  //         payload: bookId.toString(),
-  //         resolve,
-  //       });
-  //     }).then(res => {
-  //       if (res) form.setFieldsValue({ ...res });
-  //     });
-  //   }
-  // };
   useEffect(() => {
     if (actionRef && typeof actionRef === 'function') {
       actionRef({ showModal });
