@@ -1,4 +1,5 @@
 import { message } from 'antd';
+import { formatPageData } from '@/utils';
 import {
   getKeyInstitons,
   getKeyInstitonDetail,
@@ -8,7 +9,7 @@ import {
 } from './service';
 
 const Model = {
-  namespace: 'emKeyInstitutions',
+  namespace: 'kdBanPublishMgt',
   state: {
     institonListData: {},
     fieldListData: {},
@@ -26,15 +27,7 @@ const Model = {
       const response = yield call(getKeyInstitons, params);
 
       if (!response.error) {
-        // const { items, currentPage, totalNum } = response;
-
-        const result = {
-          data: response,
-          // page: currentPage,
-          // pageSize: payload.pageSize,
-          success: true,
-          // total: totalNum,
-        };
+        const result = formatPageData(response);
 
         resolve && resolve(result);
 

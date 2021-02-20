@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { connect } from 'umi';
-import OrgTreeLayout from '@/layouts/OrgTreeLayout';
+import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import Table from './components/Table';
 import ModifyModal from './components/ModifyModal';
 
@@ -16,22 +16,22 @@ const KeyInstitutions = ({ dispatch }) => {
     });
   }, []);
 
-  const orgChangeHander = orgId => {
-    dispatch({
-      type: 'emKeyInstitutions/selectOrgChange',
-      payload: orgId,
-    });
-  };
+  // const orgChangeHander = orgId => {
+  //   dispatch({
+  //     type: 'kdKeyPersonMgt/selectOrgChange',
+  //     payload: orgId,
+  //   });
+  // };
 
   const openModifyModal = item => {
     modifyRef.current.showModal(item);
   };
 
   return (
-    <OrgTreeLayout onOrgSelect={orgChangeHander}>
+    <PageHeaderWrapper>
       <Table openModifyModal={openModifyModal} />
       <ModifyModal actionRef={modifyRef} />
-    </OrgTreeLayout>
+    </PageHeaderWrapper>
   );
 };
 

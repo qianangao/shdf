@@ -2,6 +2,7 @@ import React from 'react';
 import AdvancedForm from '@/components/AdvancedForm';
 import OrgMultiSelectInput from '@/components/OrgMultiSelectInput';
 import StaffMultiSelectInput from '@/components/StaffMultiSelectInput';
+import AddressInput from '@/components/AddressInput';
 
 const InstitutionForm = ({ form }) => {
   const formItems = [
@@ -11,6 +12,7 @@ const InstitutionForm = ({ form }) => {
     { label: '成立日期', name: 'establishDate', type: 'date' },
     { label: '组织demo', name: 'org', render: <OrgMultiSelectInput /> },
     { label: '人员demo', name: 'staff', render: <StaffMultiSelectInput /> },
+    { label: '地址选择', name: 'address', render: <AddressInput /> },
   ];
 
   return <AdvancedForm form={form} fields={formItems} />;

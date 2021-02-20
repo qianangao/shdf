@@ -35,7 +35,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       .then(values => {
         return new Promise(resolve => {
           dispatch({
-            type: `emKeyInstitutions/${detailData ? 'updateKeyInstiton' : 'addKeyInstiton'}`,
+            type: `kdBanPublishMgt/${detailData ? 'updateKeyInstiton' : 'addKeyInstiton'}`,
             payload: {
               ...values,
             },
@@ -71,5 +71,5 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
 };
 
 export default connect(({ loading }) => ({
-  loading: loading.models.smDictionaryMgt,
+  loading: loading.models.kdBanPublishMgt,
 }))(ModifyModal);
