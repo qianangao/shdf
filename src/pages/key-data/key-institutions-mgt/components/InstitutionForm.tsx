@@ -17,7 +17,6 @@ const InstitutionForm = ({ form }) => {
     {
       label: '机构类别',
       name: 'category',
-      enumsLabel: 'dict_sex',
       rules: [{ required: true, message: '请选择机构类别!' }],
     },
     {

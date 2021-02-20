@@ -8,7 +8,6 @@ const Table = ({
   openModifyModal,
   openDetailModal,
   openAuthModal,
-  enums,
   dispatch,
 }) => {
   const { tableRef } = kdKeyInstitutionsMgt;
@@ -41,7 +40,6 @@ const Table = ({
       title: '机构类型',
       align: 'center',
       dataIndex: 'category',
-      valueEnum: enums.subject_secrecy_level,
       hideInTable: true,
     },
     {
@@ -181,7 +179,6 @@ const Table = ({
   );
 };
 
-export default connect(({ kdKeyInstitutionsMgt, global }) => ({
+export default connect(({ kdKeyInstitutionsMgt }) => ({
   kdKeyInstitutionsMgt,
-  enums: global.enums,
 }))(Table);

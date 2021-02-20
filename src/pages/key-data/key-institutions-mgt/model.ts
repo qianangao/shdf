@@ -1,6 +1,7 @@
 import { message } from 'antd';
 import { downloadXlsFile, formatPageData } from '@/utils';
 import moment from 'moment';
+import { formatDateStr } from '@/utils/format';
 import {
   addKeyInstitutions,
   authUser,
@@ -12,7 +13,6 @@ import {
   templateDownload,
   updateKeyInstitutions,
 } from './service';
-import { formatDateStr } from '@/utils/format';
 
 const Model = {
   namespace: 'kdKeyInstitutionsMgt',

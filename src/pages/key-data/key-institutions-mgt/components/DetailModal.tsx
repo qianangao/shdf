@@ -55,9 +55,7 @@ const DetailModal = ({ dispatch, actionRef, loading, institutionData, enums }) =
         <Descriptions title="基本信息" column={{ xxl: 4, xl: 3, lg: 2 }}>
           <Descriptions.Item label="中文名称">{institutionData.orgName}</Descriptions.Item>
           <Descriptions.Item label="英文名称">{institutionData.orgNameEn}</Descriptions.Item>
-          <Descriptions.Item label="机构类别">
-            {enums.dict_sex && enums.dict_sex[institutionData.category]}
-          </Descriptions.Item>
+          <Descriptions.Item label="机构类别">{institutionData.category}</Descriptions.Item>
           <Descriptions.Item label="所在地区">
             {enums.dict_sex && enums.dict_sex[institutionData.area]}
           </Descriptions.Item>
