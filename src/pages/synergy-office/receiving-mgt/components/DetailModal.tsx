@@ -16,7 +16,6 @@ const CaresDetailModal = ({ dispatch, receivingMgt, actionRef }) => {
         id: items.receiptId,
       },
     });
-
     setModalVisible(true);
   };
 
@@ -28,6 +27,7 @@ const CaresDetailModal = ({ dispatch, receivingMgt, actionRef }) => {
       actionRef.current = { showModal };
     }
   }, []);
+
   useEffect(() => {
     if (caresId) {
       dispatch({
@@ -39,13 +39,6 @@ const CaresDetailModal = ({ dispatch, receivingMgt, actionRef }) => {
 
   const hideModal = () => {
     setModalVisible(false);
-
-    // dispatch({
-    //   type: 'oaCaresNext/save',
-    //   payload: {
-    //     DetailModalVisible: false,
-    //   },
-    // });
   };
 
   return (

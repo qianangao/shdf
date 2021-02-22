@@ -70,7 +70,6 @@ const TableRead = ({ enums, dispatch }) => {
   );
 };
 
-export default connect(({ receivingMgt, global }) => ({
-  receivingMgt,
+export default connect(({ global }) => ({
   enums: global.enums,
 }))(TableRead);
