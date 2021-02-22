@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'umi';
 import { Modal } from 'antd';
-import OrgInfoForm from './ReceivingForm';
+import OrgInfoForm from './form/EvaluateFeedbackForm';
 
-const ModifyModal = ({ dispatch, actionRef, loading, receivingMgt }) => {
+const ModifyModal = ({ dispatch, actionRef, loading }) => {
   const [form] = OrgInfoForm.useForm();
-  const [modifyModalVisible, setModalVisible] = useState(false);
-  const { receivingDetailData } = receivingMgt;
+  const [applyCaseModalVisible, setModalVisible] = useState(false);
+  const [detailData, setDetailData] = useState(null);
+
   const showModal = items => {
     // 获取详情
-    dispatch({
-      type: 'receivingMgt/getDetail',
-      payload: {
-        id: items.receiptId,
-      },
-    });
+    if (items) {
+      setDetailData(items);
+    }
     setModalVisible(true);
   };
 
@@ -37,18 +35,10 @@ const ModifyModal = ({ dispatch, actionRef, loading, receivingMgt }) => {
     form
       .validateFields()
       .then(values => {
+        values.id = detailData.caseId;
         return new Promise(resolve => {
-          let filesStr = '';
-          if (values.files && values.files.length > 0) {
-            const ids = values.files.map(item => {
-              return item.uid;
-            });
-            filesStr = ids.join(',');
-            delete values.files;
-          }
-          values.fileIds = filesStr;
           dispatch({
-            type: 'receivingMgt/update',
+            type: `caseMgt/evaluateFeedback`,
             payload: {
               ...values,
             },
@@ -57,7 +47,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, receivingMgt }) => {
         });
       })
       .then(() => {
-        setModalVisible(false);
+        hideModal();
       })
       .catch(info => {
         console.error('Validate Failed:', info);
@@ -66,25 +56,25 @@ const ModifyModal = ({ dispatch, actionRef, loading, receivingMgt }) => {
 
   return (
     <Modal
-      title="编辑收文登记"
+      title="评价反馈"
       centered
       width={780}
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',
       }}
-      visible={modifyModalVisible}
+      visible={applyCaseModalVisible}
       onOk={handleOk}
       forceRender
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <OrgInfoForm form={form} orgInfoData={receivingDetailData} />
+      <OrgInfoForm form={form} />
     </Modal>
   );
 };
 
-export default connect(({ receivingMgt, loading }) => ({
-  receivingMgt,
-  loading: loading.models.receivingMgt,
+export default connect(({ caseMgt, loading }) => ({
+  caseMgt,
+  loading: loading.models.caseMgt,
 }))(ModifyModal);
