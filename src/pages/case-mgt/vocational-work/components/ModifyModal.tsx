@@ -3,6 +3,7 @@ import { connect } from 'umi';
 import { Modal } from 'antd';
 import OrgInfoForm from './form/CaseForm';
 import TableCaseHandle from './TableCaseHandle';
+import TableFileCase from './TableFileCase';
 import CaseHandleModal from './CaseHandleModal';
 import ClubSplicing from './ClubSplicing';
 import ClubSplicingModal from './ClubSplicingModal';
@@ -34,6 +35,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
       setCaresId(items.caseId);
       setDetailData(caseDetailData);
     } else {
+      setCaresId('');
       setDetailData(null);
     }
     setModalVisible(true);
@@ -60,6 +62,15 @@ const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
       .then(values => {
         values.engineeringIds = [values.engineeringIds];
         values.specialActionIds = [values.specialActionIds];
+        let filesStr = '';
+        if (values.files && values.files.length > 0) {
+          const ids = values.files.map(item => {
+            return item.uid;
+          });
+          filesStr = ids.join(',');
+          delete values.files;
+        }
+        values.fileIds = filesStr;
         return new Promise(resolve => {
           dispatch({
             type: `caseMgt/${detailData ? 'update' : 'add'}`,
@@ -104,7 +115,9 @@ const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
 
       <ClubSplicing id={infoId} openClubSplicingModal={openClubSplicingModal} />
 
-      <TableCaseHandle id={infoId} openCaseHandleModal={openCaseHandleModal} />
+      {infoId ? <TableCaseHandle id={infoId} openCaseHandleModal={openCaseHandleModal} /> : null}
+
+      {infoId ? <TableFileCase id={infoId} orgInfoData={caseDetailData} /> : null}
 
       <CaseHandleModal actionRef={caseHandleModalRef} id={infoId} />
 

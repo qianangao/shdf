@@ -37,6 +37,7 @@ const Model = {
     caseDetailData: {},
     recordDetailData: {},
     authorizeData: {},
+    caseFileData: {},
     trendsDetailData: {},
     tableRef: {},
     tableHandleRef: {},
@@ -79,6 +80,10 @@ const Model = {
         pageNum: payload.current,
         pageSize: payload.pageSize,
       };
+      if (payload.id === '') {
+        resolve && resolve({});
+        return;
+      }
       const response = yield call(getCaseHandleList, params);
 
       if (!response.error) {
@@ -91,6 +96,33 @@ const Model = {
           pageSize: payload.pageSize,
           success: true,
           total: totalNum,
+        };
+        resolve && resolve(result);
+      } else {
+        resolve && resolve({});
+      }
+    },
+    *getCaseHandleFile({ payload, resolve }, { call }) {
+      const params = {
+        ...payload,
+        pageNum: payload.current,
+        pageSize: payload.pageSize,
+      };
+      if (payload.id === '') {
+        resolve && resolve({});
+        return;
+      }
+      const response = yield call(getCaseHandleList, params);
+
+      if (!response.error) {
+        const { file, current } = response;
+
+        const result = {
+          data: file,
+          page: current,
+          pageSize: file.length,
+          success: true,
+          total: file.length,
         };
         resolve && resolve(result);
       } else {

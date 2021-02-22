@@ -204,7 +204,7 @@ const Table = ({
       title: '案件类型',
       align: 'center',
       dataIndex: 'caseType',
-      valueEnum: enums.dictOrganizationType,
+      valueEnum: enums.case_type,
     },
     {
       title: '案件来源',
@@ -214,13 +214,13 @@ const Table = ({
       title: '案件地域',
       align: 'center',
       dataIndex: 'region',
-      valueEnum: enums.urgent_level,
       hideInSearch: true,
     },
     {
       title: '办理状态',
       align: 'center',
       dataIndex: 'handleState',
+      valueEnum: enums.handle_state,
       hideInSearch: true,
     },
     {
@@ -236,6 +236,7 @@ const Table = ({
       title: '备案督办状态',
       align: 'center',
       dataIndex: 'caseSuperviseState',
+      valueEnum: enums.case_supervise_state,
       fixed: 'right',
       width: 60,
       hideInSearch: true,

@@ -30,6 +30,15 @@ const CaseHandleModal = ({ actionRef, dispatch, id }) => {
       .validateFields()
       .then(values => {
         values.id = id;
+        let filesStr = '';
+        if (values.transmitFiles && values.transmitFiles.length > 0) {
+          const ids = values.transmitFiles.map(item => {
+            return item.uid;
+          });
+          filesStr = ids.join(',');
+          delete values.transmitFiles;
+        }
+        values.transmitFileIds = filesStr;
         return new Promise(resolve => {
           dispatch({
             type: `caseMgt/addCaseHandle`,

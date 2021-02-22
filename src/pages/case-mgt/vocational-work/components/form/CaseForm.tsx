@@ -30,26 +30,26 @@ const CaseMgt = ({ form, orgInfoData }) => {
     {
       label: '案件性质',
       name: 'caseNature',
-      enumsLabel: 'handle_type',
+      enumsLabel: 'case_nature',
       rules: [{ required: true, message: '请输入案件性质!', whitespace: true }],
     },
     {
       label: '案件来源',
       name: 'caseSource',
-      enumsLabel: 'handle_type',
+      enumsLabel: 'case_source',
       rules: [{ required: true, message: '请输入案件来源!', whitespace: true }],
     },
     {
       label: '重要程度',
       name: 'importanceLevel',
-      enumsLabel: 'handle_type',
+      enumsLabel: 'importance_level',
       rules: [{ required: true, message: '请输入重要程度!', whitespace: true }],
     },
     {
       label: '保密等级',
       name: 'secrecyLevel',
-      enumsLabel: 'urgent_level',
-      // rules: [  { required: true, message: '请选择保密等级!', whitespace: true },   ],
+      enumsLabel: 'subject_secrecy_level',
+      rules: [{ required: true, message: '请选择保密等级!', whitespace: true }],
     },
     {
       label: '立案日期',
@@ -60,7 +60,7 @@ const CaseMgt = ({ form, orgInfoData }) => {
     {
       label: '紧急程度',
       name: 'urgentLevel',
-      enumsLabel: 'handle_type',
+      enumsLabel: 'urgent_level',
       rules: [{ required: true, message: '请输入紧急程度!', whitespace: true }],
     },
     {
@@ -80,10 +80,16 @@ const CaseMgt = ({ form, orgInfoData }) => {
       name: 'defendantNumber',
     },
     {
-      label: '传播载体形式',
+      label: '传播渠道',
+      name: 'spreadChannel',
+      enumsLabel: 'spread_channel',
+      rules: [{ required: true, message: '请选择传播渠道!', whitespace: true }],
+    },
+    {
+      label: '传播形式',
       name: 'spreadForm',
-      enumsLabel: 'handle_type',
-      rules: [{ required: true, message: '请选择传播载体形式!', whitespace: true }],
+      enumsLabel: 'spread_form',
+      rules: [{ required: true, message: '请选择传播形式!', whitespace: true }],
     },
     {
       label: '所属联防工程',
@@ -92,15 +98,9 @@ const CaseMgt = ({ form, orgInfoData }) => {
       rules: [{ required: true, message: '请选择所属联防工程!', whitespace: true }],
     },
     {
-      label: '平台类型',
-      name: 'involvedPlatformType',
-      enumsLabel: 'handle_type',
-      rules: [{ required: true, message: '请选择平台类型!', whitespace: true }],
-    },
-    {
       label: '是否网络案件',
       name: 'isNetworkCase',
-      enumsLabel: 'handle_type',
+      enumsLabel: 'is_network_case',
       rules: [{ required: true, message: '请选择类型!', whitespace: true }],
     },
     {
@@ -112,6 +112,12 @@ const CaseMgt = ({ form, orgInfoData }) => {
     {
       label: '案件查处部门',
       name: 'investigationDepartment',
+    },
+    {
+      label: '涉案平台类型',
+      name: 'involvedPlatformType',
+      enumsLabel: 'involved_platform_type',
+      rules: [{ required: true, message: '请选择涉案平台!', whitespace: true }],
     },
     {
       label: '涉案数量',

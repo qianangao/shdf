@@ -34,7 +34,22 @@ const CaseMgt = ({ dispatch }) => {
     dispatch({
       type: 'global/getEnums',
       payload: {
-        names: ['subject_secrecy_level', 'reading_state', 'urgent_level', 'handle_type'],
+        names: [
+          'subject_secrecy_level',
+          'reading_state',
+          'urgent_level',
+          'spread_channel',
+          'spread_form',
+          'involved_platform_type',
+          'case_type',
+          'case_nature',
+          'case_source',
+          'is_network_case',
+          'handle_state',
+          'case_supervise_state',
+          'importance_level',
+          'handle_type',
+        ],
       },
     });
   }, []);

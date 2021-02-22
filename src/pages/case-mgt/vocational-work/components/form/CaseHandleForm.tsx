@@ -7,7 +7,7 @@ const CaseHandleForm = ({ form, formData }) => {
     {
       label: '办理阶段',
       name: 'handleStage',
-      enumsLabel: 'dictSex',
+      enumsLabel: 'case_type',
       rules: [{ required: true, message: '请输入姓名!', whitespace: true }],
     },
     {
@@ -22,12 +22,18 @@ const CaseHandleForm = ({ form, formData }) => {
     {
       label: '办理进度',
       name: 'handleProgress',
-      enumsLabel: 'dictSex',
+      enumsLabel: 'case_type',
     },
     {
       label: '完整案情',
       span: 4,
       name: 'handleContent',
+    },
+    {
+      label: '附件列表',
+      name: 'transmitFiles',
+      span: 4,
+      type: 'upload',
     },
   ];
 
