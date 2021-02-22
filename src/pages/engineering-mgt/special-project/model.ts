@@ -1,5 +1,6 @@
 import { message } from 'antd';
 import { formatPageData } from '@/utils/index';
+import { downloadXlsFile } from '@/utils';
 import {
   getChildrenTaskList,
   addChildrenTaskList,
@@ -13,20 +14,29 @@ import {
   updateChildrenTaskList,
   addFeedbackRequest,
   deleteFeedbackRequest,
-  // FeedbackRequestList
+  deployChildrenTaskList,
+  deleteChildrenTaskList,
+  FeedbackRequestList,
+  exportLog,
+  addFeedback,
+  // feedbackDetail
 } from './service';
 
 const Model = {
   namespace: 'specialAction',
   state: {
     tableRef: {},
-    // feedTableRef:{},
+    feedDetailTableRef: {},
     // treeRef: {},
     taskListData: {},
     feedListData: [],
+    feedData: {},
+    FeedbackData: [],
+    feedbackDetailData: [],
     // historyInfo: [],
     actionForm: {},
     actionId: '',
+    taskId: '',
     actionTree: [],
     loading: false,
     // actionList: [],
@@ -78,12 +88,12 @@ const Model = {
       if (!response.error) {
         resolve && resolve(response);
         message.success('新增成功！');
-        yield put({
-          type: 'save',
-          payload: {
-            taskListData: response,
-          },
-        });
+        // yield put({
+        //   type: 'save',
+        //   payload: {
+        //     taskListData: response,
+        //   },
+        // });
         yield put({
           type: 'tableReload',
         });
@@ -96,11 +106,28 @@ const Model = {
         resolve && resolve(response);
         message.success('修改成功！');
         yield put({
-          type: 'save',
-          payload: {
-            taskListData: response,
-          },
+          type: 'tableReload',
         });
+      }
+    },
+
+    *deleteChildrenTaskList({ payload, resolve }, { call, put }) {
+      const response = yield call(deleteChildrenTaskList, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('删除成功！');
+
+        yield put({
+          type: 'tableReload',
+        });
+      }
+    },
+
+    *deployChildrenTaskList({ payload, resolve }, { call, put }) {
+      const response = yield call(deployChildrenTaskList, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('下发成功！');
         yield put({
           type: 'tableReload',
         });
@@ -116,6 +143,7 @@ const Model = {
         yield put({
           type: 'save',
           payload: {
+            taskId: payload.taskId,
             feedListData: response.feedbackRequireList,
           },
         });
@@ -143,19 +171,27 @@ const Model = {
       }
     },
 
-    // *FeedbackRequestList({ payload, resolve }, { call, put }) {
-    //   const response = yield call(FeedbackRequestList, payload);
-    //   if (!response.error) {
-    //     resolve && resolve(response);
-    //     const result = formatPageData(response);
-    //     yield put({
-    //       type: 'save',
-    //       payload: {
-    //         feedListData: result,
-    //       },
-    //     });
-    //   }
-    // },
+    *FeedbackRequestList({ payload, resolve }, { call, put, select }) {
+      const taskId = yield select(state => state.specialAction.taskId);
+      const params = {
+        ...payload,
+        taskId,
+        pageNum: payload.current ? payload.current : 1,
+        pageSize: payload.pageSize ? payload.pageSize : 20,
+      };
+      delete params.current;
+      const response = yield call(FeedbackRequestList, params);
+      if (!response.error) {
+        const result = formatPageData(response);
+        resolve && resolve(result);
+        yield put({
+          type: 'save',
+          payload: {
+            feedData: result,
+          },
+        });
+      }
+    },
 
     *editSpecialAction({ payload, resolve }, { call, put }) {
       const response = yield call(editSpecialAction, payload);
@@ -190,6 +226,7 @@ const Model = {
         });
       }
     },
+
     *addAnnualSpecialAction({ payload, resolve }, { call, put }) {
       const response = yield call(addAnnualSpecialAction, payload);
       if (!response.error) {
@@ -260,6 +297,57 @@ const Model = {
         });
       }
     },
+
+    *exportLog(_, { call, select }) {
+      const taskId = yield select(state => state.specialAction.taskId);
+      const response = yield call(exportLog, taskId);
+      if (!response.error) {
+        yield downloadXlsFile(response, `任务进度列表${moment().format('MM-DD HH:mm:ss')}`);
+      }
+    },
+    *addFeedback({ payload, resolve }, { call, put }) {
+      const response = yield call(addFeedback, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('新增成功！');
+        yield put({
+          type: 'tableReload',
+        });
+      }
+    },
+
+    //   *feedbackDetail({ payload, resolve }, { call,select }) {
+    //     const taskId = yield select(state => state.specialAction.taskId);
+    //     // const params = {
+    //     //   ...payload,
+    //     //   actionId,
+    //     //   pageNum: payload.current ? payload.current : 1,
+    //     //   pageSize: payload.pageSize ? payload.pageSize : 20,
+    //     // };
+    //     // delete params.current;
+    //     const response = yield call(getChildrenTaskList, taskId);
+    //     if (!response.error) {
+    //       // const result = formatPageData(response);
+    //       resolve && resolve(response);
+    //       console.log("response",response);
+
+    //       yield put({
+    //         type: 'save',
+    //         payload: {
+    //           feedbackDetailData: response,
+    //           // actionId: payload.actionId,
+    //         },
+    //       });
+    //   }
+    // },
+    *selectFeedbackData(_, { put }) {
+      yield put({
+        type: 'save',
+        payload: {
+          FeedbackData: payload,
+        },
+      });
+    },
   },
 
   reducers: {
@@ -274,14 +362,14 @@ const Model = {
       }, 0);
       return { ...state };
     },
-    // feedTableReload(state) {
-    //   const feedTableRef = state.feedTableRef || {};
-    //   setTimeout(() => {
-    //     // tableRef.current.reloadAndRest 刷新并清空，页码也会重置
-    //     feedTableRef.current && feedTableRef.current.reloadAndRest();
-    //   }, 0);
-    //   return { ...state };
-    // },
+    feedTableReload(state) {
+      const feedTableRef = state.feedTableRef || {};
+      setTimeout(() => {
+        // tableRef.current.reloadAndRest 刷新并清空，页码也会重置
+        feedTableRef.current && feedTableRef.current.reloadAndRest();
+      }, 0);
+      return { ...state };
+    },
   },
 };
 

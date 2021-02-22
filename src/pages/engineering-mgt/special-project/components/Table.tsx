@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from 'antd';
+import { Button, Popconfirm } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import ActionDeacription from './EditAction/ActionDeacription';
@@ -27,6 +27,15 @@ const Table = ({
       });
     });
 
+  const confirmDelete = id =>
+    new Promise(resolve => {
+      dispatch({
+        type: 'specialAction/deleteChildrenTaskList',
+        payload: id,
+        resolve,
+      });
+    });
+
   const columns = [
     {
       title: '序号',
@@ -37,12 +46,12 @@ const Table = ({
       width: 64,
     },
     { title: '子任务名称', align: 'center', dataIndex: 'taskName', hideInSearch: true },
-    {
-      title: '年度',
-      align: 'center',
-      dataIndex: 'taskYear',
-      hideInSearch: true,
-    },
+    // {
+    //   title: '年度',
+    //   align: 'center',
+    //   dataIndex: 'taskYear',
+    //   hideInSearch: true,
+    // },
     { title: '开始日期', align: 'center', dataIndex: 'startDate', hideInSearch: true },
     { title: '截止日期', align: 'center', dataIndex: 'endDate', hideInSearch: true },
     {
@@ -58,7 +67,7 @@ const Table = ({
       valueType: 'option',
       align: 'center',
       dataIndex: 'id',
-      width: 180,
+      width: 220,
       fixed: 'right',
       render: (dom, data) => [
         <a
@@ -76,9 +85,17 @@ const Table = ({
         <a key={`${data.taskId}down`} onClick={() => openDownModal()}>
           下发
         </a>,
-        <a key={`${data.bookId}back`} onClick={() => openFeedbackModal(id)}>
+        <a key={`${data.taskId}back`} onClick={() => openFeedbackModal(data.taskId)}>
           反馈
         </a>,
+        <Popconfirm
+          title="你确定要删除该反馈要求吗？"
+          onConfirm={() => confirmDelete(data.taskId)}
+          okText="是"
+          cancelText="否"
+        >
+          <a key={`${data.taskId}del`}>删除</a>
+        </Popconfirm>,
       ],
     },
   ];

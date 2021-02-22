@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Button, Card } from 'antd';
 import AdvancedForm from '@/components/AdvancedForm';
 // import FeedbackTable from './FeedbackTable';
-// import TaskProgressTable from './TaskProgressTable';
-import SummaryFeedbackTable from './SummaryFeedbackTable';
+import TaskProgressTable from '../TaskProgressTable';
+import SummaryFeedbackTable from '../feedback/SummaryFeedbackTable';
+// import SummaryFeedbackTable_2 from '../feedback/SummaryFeedbackTable_2';
 
 const EditChildrenTaskForm = ({ form, disabled, visible, openFeedbackModal, openAddModal }) => {
+  const feedRef = useRef();
   const formItems = [
     // { label: 'id', name: 'bookId', hidden: true },
     {
@@ -67,10 +69,11 @@ const EditChildrenTaskForm = ({ form, disabled, visible, openFeedbackModal, open
     },
     {
       label: '反馈要求',
-      name: 'stageFeedback',
+      name: 'feedbackRequire',
       span: 4,
       disabled,
-      render: <SummaryFeedbackTable disabled={disabled} visible={visible} />,
+      render: <SummaryFeedbackTable disabled={disabled} visible={visible} ref={feedRef} />,
+      // render: <SummaryFeedbackTable_2 disabled={disabled} visible={visible} ref={feedRef} value={form.feedbackRequire}/>,
     },
     {
       label: '附件列表',
@@ -81,10 +84,10 @@ const EditChildrenTaskForm = ({ form, disabled, visible, openFeedbackModal, open
     },
     {
       label: '任务进度',
-      name: 'stageRequest',
+      name: 'taskProgressList',
       span: 4,
       disabled,
-      // render: <TaskProgressTable />,
+      render: <TaskProgressTable />,
     },
   ];
 

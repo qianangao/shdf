@@ -1,11 +1,32 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, forwardRef } from 'react';
 // import { Select, Button } from 'antd';
 import AdvancedForm from '@/components/AdvancedForm';
 // import FeedbackTable from './FeedbackTable';
-import SummaryFeedbackTable from './SummaryFeedbackTable';
+import SummaryFeedbackTable from '../feedback/SummaryFeedbackTable';
 
-const ChildrenTaskForm = ({ form, visible }) => {
+const ChildrenTaskForm = props => {
+  const { form, visible } = props;
   const feedRef = useRef();
+  // const [data,setData] = useState([])
+  const [tableData, setTableData] = useState([]);
+  // useEffect(()=>{
+  //   const a = feedRef.current && feedRef.current.handle_query()
+  //   setData(a)
+  // })
+
+  // 通过forwardRef转发ref到DOM
+  // 使用useImperativeHandle自定义ref暴露
+  // useImperativeHandle(ref,()=>({
+  //   handleQuery
+  // }))
+
+  // // 需要暴露的函数
+  // const handleQuery=()=>{
+  //   return data
+  // }
+  const onChange = data => {
+    setTableData([...data]);
+  };
   const formItems = [
     // { label: 'id', name: 'bookId', hidden: true },
     {
@@ -28,7 +49,7 @@ const ChildrenTaskForm = ({ form, visible }) => {
       label: '开始日期',
       name: 'startDate',
       span: 2,
-      rules: [{ required: true, message: '请选择开始日期' }],
+      rules: [{ required: true, message: '请选择开始日期!' }],
       type: 'date',
     },
     {
@@ -48,18 +69,27 @@ const ChildrenTaskForm = ({ form, visible }) => {
       ],
       type: 'textarea',
     },
+    // {
+    //   label: '阶段反馈要求',
+    //   name: 'specialTaskFeedbackList',
+    //   span: 4,
+    //   render: <SummaryFeedbackTable visible={visible} />,
+    // },
     {
-      label: '阶段反馈要求',
+      label: '反馈要求',
       name: 'specialTaskFeedbackList',
       span: 4,
-      render: <SummaryFeedbackTable visible={visible} />,
-    },
-    {
-      label: '总结反馈要求',
-      name: 'totalRequest',
-      span: 4,
       // rules: [{ required: true, message: '请输入!' }],
-      render: <SummaryFeedbackTable visible={visible} ref={feedRef} />,
+      render: (
+        <SummaryFeedbackTable
+          visible={visible}
+          ref={feedRef}
+          onChange={onChange}
+          value={tableData}
+          add
+        />
+      ),
+      // render: <SummaryFeedbackTable visible={visible} ref={feedRef} value={form.feedbackRequire} onChange={tableChange}/>,
     },
     {
       label: '附件列表',
@@ -72,6 +102,6 @@ const ChildrenTaskForm = ({ form, visible }) => {
   return <AdvancedForm form={form} fields={formItems} />;
 };
 
-ChildrenTaskForm.useForm = AdvancedForm.useForm;
-
-export default ChildrenTaskForm;
+const ChildrenForm = forwardRef(ChildrenTaskForm);
+ChildrenForm.useForm = AdvancedForm.useForm;
+export default ChildrenForm;

@@ -32,6 +32,25 @@ export async function updateChildrenTaskList(params) {
     data: params,
   });
 }
+/**
+ * 删除子任务
+ * @param params
+ */
+export async function deleteChildrenTaskList(params) {
+  return request(`/task/delete?taskId=${params}`, {
+    method: 'DELETE',
+  });
+}
+/**
+ * 子任务下发
+ * @param params
+ */
+export async function deployChildrenTaskList(params) {
+  return request(`/taskDeploy/deploy`, {
+    method: 'POST',
+    data: params,
+  });
+}
 
 /**
  * 查询子任务详情
@@ -43,16 +62,16 @@ export async function findChildrenTaskDetail(params) {
     params,
   });
 }
-// /**
-//  * 阶段反馈要求列表
-//  * @param params
-//  */
-// export async function FeedbackRequestList(params) {
-//   return request(`/taskFeedback/findTaskFeedbackList`, {
-//     method: 'GET',
-//     params,
-//   });
-// }
+/**
+ * 阶段反馈要求列表
+ * @param params
+ */
+export async function FeedbackRequestList(params) {
+  return request(`/taskFeedback/findTaskFeedbackList`, {
+    method: 'GET',
+    params,
+  });
+}
 /**
  * 阶段反馈要求新增、总要求反馈新增
  * @param params
@@ -129,22 +148,44 @@ export async function getSpecialAction(params) {
   });
 }
 
-// /**
-//  * 复用历史信息查询
-//  * @param params
-//  */
-// export async function getHistoryInfoAction() {
-//   return noErrorRequest(`/specialAction/findReuseHistory`, {
-//     method: 'GET',
-//   });
-// }
-
 /**
  * 获取专项行动树
  *
  */
 export async function getSpecialActionTree(params) {
   return request(`/specialAction/findTree`, {
+    method: 'GET',
+    params,
+  });
+}
+
+/**
+ * 任务反馈新增
+ *
+ */
+export async function addFeedback(params) {
+  return request(`/specialFeedbackLog/addFeedbackLog`, {
+    method: 'POST',
+    data: params,
+  });
+}
+
+/**
+ * 任务进度导出
+ *
+ */
+export async function exportLog(params) {
+  return request(`/task/export`, {
+    method: 'GET',
+    params,
+  });
+}
+/**
+ *反馈详情
+ *
+ */
+export async function feedbackDetail(params) {
+  return request(`/specialFeedbackLog/findFeedbackLog`, {
     method: 'GET',
     params,
   });

@@ -1,21 +1,33 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
 import { Modal } from 'antd';
-import ChildrenTaskForm from './ChildrenTaskForm';
+import FeedbackForm from './FeedbackForm';
+// import FeedbackTable from './FeedbackTable';
 
-const AddchildrenTaskModal = ({ dispatch, actionRef, loading, specialAction }) => {
-  const formRef = useRef();
-  const [actionId, setActionId] = useState('');
-  const [form] = ChildrenTaskForm.useForm();
+const FeedbackModal = ({ dispatch, actionRef, loading, openFeedbackReqModal, FeedbackData }) => {
+  const [form] = FeedbackForm.useForm();
   const [modalVisible, setModalVisible] = useState(false);
-  const [visible, setVisible] = useState(false);
-  const showModal = item => {
-    if (item.visible) {
-      setVisible(item.visible);
-    }
+  const [taskId, setTaskId] = useState('');
+  const showModal = id => {
+    setTaskId(id);
+    updateData(id);
     setModalVisible(true);
   };
-
+  const updateData = id => {
+    // if (id) {
+    new Promise(resolve => {
+      dispatch({
+        type: 'specialAction/findChildrenTaskDetail',
+        payload: { id },
+        resolve,
+      });
+    }).then(res => {
+      if (res) {
+        form.setFieldsValue({ ...res });
+      }
+    });
+    // }
+  };
   useEffect(() => {
     if (actionRef && typeof actionRef === 'function') {
       actionRef({ showModal });
@@ -25,15 +37,9 @@ const AddchildrenTaskModal = ({ dispatch, actionRef, loading, specialAction }) =
       actionRef.current = { showModal };
     }
   }, []);
-  useEffect(() => {
-    if (specialAction.actionId) {
-      setActionId(specialAction.actionId);
-    }
-  });
+
   const hideModal = () => {
     setModalVisible(false);
-    setVisible(false);
-    setActionId('');
     form.resetFields();
   };
 
@@ -46,13 +52,16 @@ const AddchildrenTaskModal = ({ dispatch, actionRef, loading, specialAction }) =
           values.fileIds.map(item => {
             return item.uid;
           });
+
         return new Promise(resolve => {
           dispatch({
-            type: `specialAction/addChildrenTaskList`,
+            type: `specialAction/addFeedback`,
             payload: {
               ...values,
-              actionId,
               fileIds,
+              taskId,
+              feedbackId: FeedbackData[0].feedbackId,
+              feedbackType: FeedbackData[0].feedbackType,
             },
             resolve,
           });
@@ -68,10 +77,10 @@ const AddchildrenTaskModal = ({ dispatch, actionRef, loading, specialAction }) =
 
   return (
     <Modal
-      title="子任务信息"
+      title="任务反馈"
       centered
       width="60vw"
-      style={{ paddingBottom: 0, zIndex: 100 }}
+      style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',
       }}
@@ -80,12 +89,12 @@ const AddchildrenTaskModal = ({ dispatch, actionRef, loading, specialAction }) =
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <ChildrenTaskForm form={form} visible={visible} ref={formRef} />
+      <FeedbackForm form={form} openFeedbackReqModal={openFeedbackReqModal} />
     </Modal>
   );
 };
 
 export default connect(({ loading, specialAction }) => ({
   loading: loading.models.smDictionaryMgt,
-  specialAction,
-}))(AddchildrenTaskModal);
+  FeedbackData: specialAction.FeedbackData,
+}))(FeedbackModal);

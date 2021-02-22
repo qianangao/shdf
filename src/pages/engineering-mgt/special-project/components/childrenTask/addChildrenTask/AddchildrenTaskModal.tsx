@@ -1,13 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'umi';
 import { Modal } from 'antd';
-import FeedbackForm from './FeedbackForm';
-// import FeedbackTable from './FeedbackTable';
+import ChildrenTaskForm from './ChildrenTaskForm';
 
-const FeedbackModal = ({ dispatch, actionRef, loading }) => {
-  const [form] = FeedbackForm.useForm();
+const AddchildrenTaskModal = ({ dispatch, actionRef, loading, specialAction }) => {
+  const formRef = useRef();
+  const [actionId, setActionId] = useState('');
+  const [form] = ChildrenTaskForm.useForm();
   const [modalVisible, setModalVisible] = useState(false);
-  const showModal = () => {
+  const [visible, setVisible] = useState(false);
+  // const [feedbackData, setFeedbackData] = useState([]);
+
+  const showModal = item => {
+    if (item.visible) {
+      setVisible(item.visible);
+    }
     setModalVisible(true);
   };
 
@@ -20,9 +27,16 @@ const FeedbackModal = ({ dispatch, actionRef, loading }) => {
       actionRef.current = { showModal };
     }
   }, []);
+  useEffect(() => {
+    if (specialAction.actionId) {
+      setActionId(specialAction.actionId);
+    }
+  });
 
   const hideModal = () => {
     setModalVisible(false);
+    setVisible(false);
+    setActionId('');
     form.resetFields();
   };
 
@@ -30,11 +44,18 @@ const FeedbackModal = ({ dispatch, actionRef, loading }) => {
     form
       .validateFields()
       .then(values => {
+        const fileIds =
+          values.fileIds &&
+          values.fileIds.map(item => {
+            return item.uid;
+          });
         return new Promise(resolve => {
           dispatch({
             type: `specialAction/addChildrenTaskList`,
             payload: {
               ...values,
+              actionId,
+              fileIds,
             },
             resolve,
           });
@@ -50,10 +71,10 @@ const FeedbackModal = ({ dispatch, actionRef, loading }) => {
 
   return (
     <Modal
-      title="任务反馈"
+      title="子任务信息"
       centered
       width="60vw"
-      style={{ paddingBottom: 0 }}
+      style={{ paddingBottom: 0, zIndex: 100 }}
       bodyStyle={{
         padding: '30px 60px',
       }}
@@ -62,11 +83,12 @@ const FeedbackModal = ({ dispatch, actionRef, loading }) => {
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <FeedbackForm form={form} />
+      <ChildrenTaskForm form={form} visible={visible} ref={formRef} />
     </Modal>
   );
 };
 
-export default connect(({ loading }) => ({
+export default connect(({ loading, specialAction }) => ({
   loading: loading.models.smDictionaryMgt,
-}))(FeedbackModal);
+  specialAction,
+}))(AddchildrenTaskModal);

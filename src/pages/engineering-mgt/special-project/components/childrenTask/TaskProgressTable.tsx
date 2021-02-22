@@ -3,8 +3,8 @@ import { Button } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 
-const TaskProgressTable = ({ specialAction, openModifyModal, dispatch }) => {
-  const { tableRef } = specialAction;
+const TaskProgressTable = ({ specialAction, dispatch }) => {
+  const { feedDetailTableRef } = specialAction;
 
   const getChildrenTaskList = params =>
     new Promise(resolve => {
@@ -15,6 +15,13 @@ const TaskProgressTable = ({ specialAction, openModifyModal, dispatch }) => {
       });
     });
 
+  const exportDetailData = () => {
+    dispatch({
+      type: 'emAddressBook/exportAddressBook',
+      // payload: { bookIds },
+    });
+  };
+
   const columns = [
     {
       title: '序号',
@@ -24,7 +31,7 @@ const TaskProgressTable = ({ specialAction, openModifyModal, dispatch }) => {
       fixed: 'left',
       width: 64,
     },
-    { title: '省份/进度', align: 'center', dataIndex: 'userName', hideInSearch: true },
+    { title: '省份/进度', align: 'center', dataIndex: 'province', hideInSearch: true },
     { title: '阶段反馈1', align: 'center', dataIndex: 'userDept', hideInSearch: true },
     { title: '阶段反馈2', align: 'center', dataIndex: 'job', hideInSearch: true },
     { title: '阶段反馈3', align: 'center', dataIndex: 'phoneNumber', hideInSearch: true },
@@ -38,11 +45,16 @@ const TaskProgressTable = ({ specialAction, openModifyModal, dispatch }) => {
       <ProTable
         search={false}
         rowKey="bookId"
-        actionRef={tableRef}
+        actionRef={feedDetailTableRef}
         scroll={{ x: 'max-content' }}
         request={async params => getChildrenTaskList(params)}
         toolBarRender={_ => [
-          <Button type="primary" onClick={() => openModifyModal()}>
+          <Button
+            type="primary"
+            onClick={() => {
+              exportDetailData();
+            }}
+          >
             导出
           </Button>,
         ]}

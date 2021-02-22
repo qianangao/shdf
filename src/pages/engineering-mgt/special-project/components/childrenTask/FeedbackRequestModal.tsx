@@ -1,11 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
 import { Modal } from 'antd';
-import FeedbackTable from './FeedbackTable';
+// import FeedbackTable from './FeedbackTable';
+import SummaryFeedbackTable from './feedback/SummaryFeedbackTable';
 
 const FeedbackRequestModal = ({ dispatch, actionRef, loading }) => {
   const [modalVisible, setModalVisible] = useState(false);
+  // const [id, setId] = useState('');
+  // const [data, setData] = useState([]);
+  // const feedRef = useRef();
+  // useEffect(()=>{
+  //   let a = feedRef.current && feedRef.current.handle_query()
+  //   setData(a)
+  // })
+
   const showModal = () => {
+    // setId(id)
     setModalVisible(true);
   };
 
@@ -18,6 +28,11 @@ const FeedbackRequestModal = ({ dispatch, actionRef, loading }) => {
       actionRef.current = { showModal };
     }
   }, []);
+
+  const onChange = () => {
+    // setData([...data])
+    hideModal();
+  };
 
   const hideModal = () => {
     setModalVisible(false);
@@ -55,11 +70,16 @@ const FeedbackRequestModal = ({ dispatch, actionRef, loading }) => {
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <FeedbackTable />
+      <SummaryFeedbackTable onChange={onChange} select />
+      {/* <FeedbackTable /> */}
     </Modal>
   );
 };
 
-export default connect(({ loading }) => ({
-  loading: loading.models.smDictionaryMgt,
-}))(FeedbackRequestModal);
+// export default connect(({ loading }) => ({
+//   loading: loading.models.smDictionaryMgt,
+// }))(FeedbackRequestModal);
+
+export default connect(({ loading }) => ({ loading: loading.models.smDictionaryMgt }))(
+  FeedbackRequestModal,
+);

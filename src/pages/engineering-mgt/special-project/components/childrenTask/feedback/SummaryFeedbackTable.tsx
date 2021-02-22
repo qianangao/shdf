@@ -1,29 +1,78 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Table, Popconfirm, Modal, Radio } from 'antd';
 // import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import AdvancedForm from '@/components/AdvancedForm';
 
-const SummaryFeedbackTable = ({ visible, feedListData, disabled }) => {
+const SummaryFeedbackTable = ({
+  dispatch,
+  visible,
+  feedListData,
+  disabled,
+  onChange,
+  select = false,
+  add = false,
+}) => {
+  // const { visible, feedListData, disabled,,onChange,add } = props
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [dataSource, setDataSource] = useState([] || feedListData);
+  const [dataSource, setDataSource] = useState([]);
+  // const [selectData, setSelectData] = useState([]);
+  useEffect(() => {
+    if (add) {
+      setDataSource([]);
+    }
+    // else if (feed){
+    //   setDataSource([...value])
+    // }
+    else {
+      setDataSource([...feedListData]);
+    }
+  }, [feedListData]);
   // const [arr, setArr] = useState([]);
   const [form] = AdvancedForm.useForm();
   const [id, setId] = useState(1);
   //   const { tableRef } = specialAction;
+  // 通过forwardRef转发ref到DOM
+  // 使用useImperativeHandle自定义ref暴露
+  // useImperativeHandle(refInstance,()=>({
+  //   handleQuery
+  // }))
+
+  // // 需要暴露的函数
+  // const handleQuery=()=>{
+  //   return dataSource
+  // }
 
   const confirmDelete = ids => {
     const data = dataSource;
     data.forEach(item => {
       if (item.id === ids) {
         data.splice(ids - 1, 1);
-        setDataSource(data);
+        setDataSource([...data]);
       }
     });
   };
-
+  const handleSelect = ids => {
+    const data = dataSource;
+    data.forEach(item => {
+      if (item.feedbackId === ids) {
+        const arr = [];
+        arr.push(item);
+        onChange && onChange(arr);
+        dispatch({
+          type: `specialAction/selectFeedbackData`,
+          payload: arr,
+        });
+      }
+    });
+  };
   const addFeedback = () => {
     setIsModalVisible(true);
+    form.resetFields();
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
   };
 
   const handleOk = () => {
@@ -33,14 +82,11 @@ const SummaryFeedbackTable = ({ visible, feedListData, disabled }) => {
       const arr = [];
       arr.push(values);
       setDataSource([...dataSource, ...arr]);
+      onChange && onChange([...dataSource, ...arr]);
     });
-
-    setIsModalVisible(false);
+    handleCancel();
   };
 
-  const handleCancel = () => {
-    setIsModalVisible(false);
-  };
   const formItems = [
     {
       label: '名称',
@@ -88,56 +134,44 @@ const SummaryFeedbackTable = ({ visible, feedListData, disabled }) => {
       type: 'textarea',
     },
   ];
-  // const dataSource = [
-  //   {
-  //     key: '1',
-  //     feedbackName: '反馈阶段1',
-  //     startDate: '2020-12-03',
-  //     endDate: '2020-12-14',
-  //     feedbackRequire: '反馈要求11111111',
-  //   },
-  //   {
-  //     key: '2',
-  //     feedbackName: '反馈阶段2',
-  //     startDate: '2020-12-03',
-  //     endDate: '2020-12-14',
-  //     feedbackRequire: '反馈要求2222222222',
-  //   },
-  // ];
 
   const columns = [
-    // {
-    //   title:'序号',
-    //   render:(text,render, index) => `${index+1}`,
-    //   width:64,
-    //   align: "center",
-    //   dataIndex: 'id',
-    //   key:'id'
-    // },
-    { title: '序号', align: 'center', dataIndex: 'id', hideInSearch: true },
-    { title: '名称', align: 'center', dataIndex: 'feedbackName', hideInSearch: true },
-    { title: '开始日期', align: 'center', dataIndex: 'startDate', hideInSearch: true },
-    { title: '截止日期', align: 'center', dataIndex: 'endDate', hideInSearch: true },
-    { title: '反馈要求', align: 'center', dataIndex: 'feedbackRequire', hideInSearch: true },
-    // {visible &&
+    {
+      title: '序号',
+      render: (text, render, index) => `${index + 1}`,
+      width: 64,
+      align: 'center',
+      dataIndex: 'id',
+      key: 'id',
+    },
+    // { title: '序号', align: 'center', dataIndex: 'id', hideInSearch: true },
+    { title: '名称', align: 'center', dataIndex: 'feedbackName' },
+    { title: '反馈类型', align: 'center', dataIndex: 'feedbackType' },
+    { title: '开始日期', align: 'center', dataIndex: 'startDate' },
+    { title: '截止日期', align: 'center', dataIndex: 'endDate' },
+    { title: '反馈要求', align: 'center', dataIndex: 'feedbackRequire' },
     {
       title: '操作',
       dataIndex: 'action',
       key: 'action',
-      render: (dom, data, index) => (
+      // visible:false,
+      render: (dom, data, index) => [
         <Popconfirm
           title="你确定要删除该反馈要求吗？"
           onConfirm={() => confirmDelete(index + 1)}
           okText="是"
           cancelText="否"
         >
-          <Button type="link" size="small" disabled={disabled}>
-            删除
+          <Button type="link" size="small">
+            {/*  disabled={!add} */}
+            {add && '删除'}
           </Button>
-        </Popconfirm>
-      ),
+        </Popconfirm>,
+        <Button type="link" size="small" onClick={() => handleSelect(data.feedbackId)}>
+          {select && '选择'}
+        </Button>,
+      ],
     },
-    // },
   ];
 
   return (
@@ -152,7 +186,7 @@ const SummaryFeedbackTable = ({ visible, feedListData, disabled }) => {
           新增
         </Button>
       )}
-      <Table dataSource={dataSource} columns={columns} rowKey="id" />
+      <Table dataSource={dataSource} columns={columns} rowKey="taskId" />
       <Modal
         title="阶段反馈要求"
         visible={isModalVisible}
@@ -171,6 +205,7 @@ const SummaryFeedbackTable = ({ visible, feedListData, disabled }) => {
   );
 };
 
-export default connect(({ specialAction }) => ({ feedListData: specialAction.feedListData }))(
-  SummaryFeedbackTable,
-);
+export default connect(({ specialAction }) => ({
+  feedListData: specialAction.feedListData,
+  specialAction,
+}))(SummaryFeedbackTable);

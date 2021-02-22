@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
 import { Modal, Transfer } from 'antd';
+// import ProvinceCascaderInput from '@/components/ProvinceCascaderInput'
 
 const mockData = [];
 for (let i = 0; i < 20; i++) {
@@ -52,7 +53,7 @@ const DownModal = ({ dispatch, actionRef, loading }) => {
   const handleOk = () => {
     return new Promise(resolve => {
       dispatch({
-        type: `specialAction/editSpecialAction`,
+        type: `specialAction/deployChildrenTaskList`,
         payload: {
           selectedKeys,
         },
@@ -92,6 +93,7 @@ const DownModal = ({ dispatch, actionRef, loading }) => {
         render={item => item.title}
         oneWay
       />
+      {/* <ProvinceCascaderInput/> */}
     </Modal>
   );
 };
