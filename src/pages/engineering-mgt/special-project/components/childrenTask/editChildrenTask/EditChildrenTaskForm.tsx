@@ -6,7 +6,15 @@ import TaskProgressTable from '../TaskProgressTable';
 import SummaryFeedbackTable from '../feedback/SummaryFeedbackTable';
 // import SummaryFeedbackTable_2 from '../feedback/SummaryFeedbackTable_2';
 
-const EditChildrenTaskForm = ({ form, disabled, visible, openFeedbackModal, openAddModal }) => {
+const EditChildrenTaskForm = ({
+  form,
+  disabled,
+  visible,
+  taskId,
+  openFeedbackModal,
+  openAddModal,
+  FeedbackDetailModal,
+}) => {
   const feedRef = useRef();
   const formItems = [
     // { label: 'id', name: 'bookId', hidden: true },
@@ -87,7 +95,7 @@ const EditChildrenTaskForm = ({ form, disabled, visible, openFeedbackModal, open
       name: 'taskProgressList',
       span: 4,
       disabled,
-      render: <TaskProgressTable />,
+      render: <TaskProgressTable FeedbackDetailModal={FeedbackDetailModal} />,
     },
   ];
 
@@ -96,10 +104,14 @@ const EditChildrenTaskForm = ({ form, disabled, visible, openFeedbackModal, open
       title="任务信息"
       extra={
         <>
-          <Button type="primary" onClick={() => openFeedbackModal()} style={{ marginRight: 8 }}>
+          <Button
+            type="primary"
+            onClick={() => openFeedbackModal(taskId)}
+            style={{ marginRight: 8 }}
+          >
             任务反馈
           </Button>
-          <Button type="primary" onClick={() => openAddModal()}>
+          <Button type="primary" onClick={() => openAddModal({ visible: true })}>
             新增子任务
           </Button>
         </>

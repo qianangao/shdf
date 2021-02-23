@@ -4,19 +4,21 @@ import { Modal } from 'antd';
 import FeedbackDetailForm from './FeedbackDetailForm';
 // import FeedbackTable from './FeedbackTable';
 
-const FeedbackDetailModal = ({ dispatch, actionRef, loading, openFeedbackReqModal }) => {
+const FeedbackDetailModal = ({ dispatch, actionRef, loading }) => {
   const [form] = FeedbackDetailForm.useForm();
   const [modalVisible, setModalVisible] = useState(false);
   const showModal = id => {
-    updateData(id);
-    setModalVisible(true);
+    if (id) {
+      updateData(id);
+      setModalVisible(true);
+    }
   };
-  const updateData = taskId => {
+  const updateData = id => {
     // if (id) {
     new Promise(resolve => {
       dispatch({
         type: 'specialAction/findChildrenTaskDetail',
-        payload: { taskId },
+        payload: { feedbackLogId: id },
         resolve,
       });
     }).then(res => {
@@ -59,7 +61,7 @@ const FeedbackDetailModal = ({ dispatch, actionRef, loading, openFeedbackReqModa
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <FeedbackDetailForm form={form} openFeedbackReqModal={openFeedbackReqModal} />
+      <FeedbackDetailForm form={form} />
     </Modal>
   );
 };

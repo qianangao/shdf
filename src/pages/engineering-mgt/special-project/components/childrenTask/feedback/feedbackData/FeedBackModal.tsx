@@ -18,7 +18,7 @@ const FeedbackModal = ({ dispatch, actionRef, loading, openFeedbackReqModal, Fee
     new Promise(resolve => {
       dispatch({
         type: 'specialAction/findChildrenTaskDetail',
-        payload: { id },
+        payload: { taskId: id },
         resolve,
       });
     }).then(res => {
@@ -52,7 +52,6 @@ const FeedbackModal = ({ dispatch, actionRef, loading, openFeedbackReqModal, Fee
           values.fileIds.map(item => {
             return item.uid;
           });
-
         return new Promise(resolve => {
           dispatch({
             type: `specialAction/addFeedback`,
@@ -88,6 +87,7 @@ const FeedbackModal = ({ dispatch, actionRef, loading, openFeedbackReqModal, Fee
       onOk={handleOk}
       confirmLoading={loading}
       onCancel={hideModal}
+      zIndex={2000}
     >
       <FeedbackForm form={form} openFeedbackReqModal={openFeedbackReqModal} />
     </Modal>

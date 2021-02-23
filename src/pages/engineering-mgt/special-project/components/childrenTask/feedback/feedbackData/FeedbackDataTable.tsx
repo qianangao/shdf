@@ -30,11 +30,7 @@ const FeedbackTableData = ({ FeedbackData }) => {
     { title: '反馈要求', align: 'center', dataIndex: 'feedbackRequire' },
   ];
 
-  return (
-    <div>
-      <Table dataSource={dataSource} columns={columns} rowKey="taskId" />
-    </div>
-  );
+  return <Table dataSource={dataSource} columns={columns} rowKey="taskId" />;
 };
 
 export default connect(({ specialAction }) => ({

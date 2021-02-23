@@ -198,6 +198,7 @@ const SummaryFeedbackTable = ({
         bodyStyle={{
           padding: '30px 60px',
         }}
+        zIndex={3000}
       >
         <AdvancedForm fields={formItems} form={form} />
       </Modal>

@@ -30,6 +30,7 @@ const Model = {
     // treeRef: {},
     taskListData: {},
     feedListData: [],
+    taskProgressList: [],
     feedData: {},
     FeedbackData: [],
     feedbackDetailData: [],
@@ -140,11 +141,76 @@ const Model = {
         response.secrecyLevel += '';
         response.taskState += '';
         resolve && resolve(response);
+        response.taskProgressList = [
+          {
+            province: '省份/进度',
+            stage1: '阶段反馈1',
+            stage2: '阶段反馈2',
+            stage3: '阶段反馈3',
+            stage4: '阶段反馈4',
+          },
+          {
+            province: '北京',
+            stage1: '已反馈',
+            feedbackLogId1: 2,
+            stage2: '已反馈',
+            feedbackLogId2: 5,
+            stage3: '未反馈',
+            feedbackLogId3: '',
+            stage4: '未反馈',
+            feedbackLogId4: '',
+          },
+          {
+            province: '陕西',
+            stage1: '未反馈',
+            feedbackLogId1: '',
+            stage2: '未反馈',
+            feedbackLogId2: '',
+            stage3: '未反馈',
+            feedbackLogId3: '',
+            stage4: '未反馈',
+            feedbackLogId4: '',
+          },
+          {
+            province: '河南',
+            stage1: '未反馈',
+            feedbackLogId1: '',
+            stage2: '未反馈',
+            feedbackLogId2: '',
+            stage3: '未反馈',
+            feedbackLogId3: '',
+            stage4: '未反馈',
+            feedbackLogId4: '',
+          },
+          {
+            province: '四川',
+            stage1: '未反馈',
+            feedbackLogId1: '',
+            stage2: '未反馈',
+            feedbackLogId2: '',
+            stage3: '未反馈',
+            feedbackLogId3: '',
+            stage4: '未反馈',
+            feedbackLogId4: '',
+          },
+          {
+            province: '江苏',
+            stage1: '已反馈',
+            feedbackLogId1: 1,
+            stage2: '已反馈',
+            feedbackLogId2: 3,
+            stage3: '已反馈',
+            feedbackLogId3: 4,
+            stage4: '未反馈',
+            feedbackLogId4: '',
+          },
+        ];
         yield put({
           type: 'save',
           payload: {
             taskId: payload.taskId,
             feedListData: response.feedbackRequireList,
+            taskProgressList: response.taskProgressList,
           },
         });
       }
@@ -278,6 +344,12 @@ const Model = {
     },
 
     *getSpecialActionTree({ payload, resolve }, { call, put }) {
+      yield put({
+        type: 'save',
+        payload: {
+          loading: true,
+        },
+      });
       const response = yield call(getSpecialActionTree, payload);
       if (!response.error) {
         resolve && resolve(response);
@@ -309,38 +381,28 @@ const Model = {
       const response = yield call(addFeedback, payload);
       if (!response.error) {
         resolve && resolve(response);
-        message.success('新增成功！');
+        message.success('反馈成功！');
         yield put({
           type: 'tableReload',
         });
       }
     },
 
-    //   *feedbackDetail({ payload, resolve }, { call,select }) {
-    //     const taskId = yield select(state => state.specialAction.taskId);
-    //     // const params = {
-    //     //   ...payload,
-    //     //   actionId,
-    //     //   pageNum: payload.current ? payload.current : 1,
-    //     //   pageSize: payload.pageSize ? payload.pageSize : 20,
-    //     // };
-    //     // delete params.current;
-    //     const response = yield call(getChildrenTaskList, taskId);
-    //     if (!response.error) {
-    //       // const result = formatPageData(response);
-    //       resolve && resolve(response);
-    //       console.log("response",response);
-
-    //       yield put({
-    //         type: 'save',
-    //         payload: {
-    //           feedbackDetailData: response,
-    //           // actionId: payload.actionId,
-    //         },
-    //       });
-    //   }
-    // },
-    *selectFeedbackData(_, { put }) {
+    *feedbackDetail({ payload, resolve }, { call, put }) {
+      const response = yield call(feedbackDetail, payload.feedbackLogId);
+      if (!response.error) {
+        // const result = formatPageData(response);
+        resolve && resolve(response);
+        yield put({
+          type: 'save',
+          payload: {
+            feedbackDetailData: response,
+            // actionId: payload.actionId,
+          },
+        });
+      }
+    },
+    *selectFeedbackData({ payload }, { put }) {
       yield put({
         type: 'save',
         payload: {

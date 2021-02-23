@@ -153,7 +153,10 @@ const AddSpecialActionForm = ({ dispatch, form, visible, editVisible }) => {
       label: '行动描述',
       name: 'actionDescription',
       span: 4,
-      rules: [{ required: true, message: '请输入!' }],
+      rules: [
+        { required: true, message: '请输入!' },
+        { max: 300, min: 0, message: '输入文字过长，内容不能超过300字' },
+      ],
       type: 'textarea',
     },
     {

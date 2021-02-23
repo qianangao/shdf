@@ -78,6 +78,7 @@ const AddchildrenTaskModal = ({ dispatch, actionRef, loading, specialAction }) =
       bodyStyle={{
         padding: '30px 60px',
       }}
+      zIndex={2000}
       visible={modalVisible}
       onOk={handleOk}
       confirmLoading={loading}

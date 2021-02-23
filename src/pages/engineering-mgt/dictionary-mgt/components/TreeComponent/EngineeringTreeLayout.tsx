@@ -1,14 +1,8 @@
 import React from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import ActionTree from './actionTree/index';
+import EngineeringTree from './engineeringTree/index';
 
-const ActionTreeLayout = ({
-  children,
-  openAddSpecialModal,
-  onActionSelect,
-  addAnnualAction,
-  addAction,
-}) => {
+const EngineeringTreeLayout = ({ children, openAddEngineeringModal }) => {
   return (
     <PageHeaderWrapper>
       <section
@@ -29,12 +23,7 @@ const ActionTreeLayout = ({
             overflow: 'hidden',
           }}
         >
-          <ActionTree
-            onChange={onActionSelect}
-            addAnnualAction={addAnnualAction}
-            addAction={addAction}
-            openAddSpecialModal={openAddSpecialModal}
-          />
+          <EngineeringTree openAddEngineeringModal={openAddEngineeringModal} />
         </aside>
         <section style={{ marginLeft: 15, width: '100%', overflow: 'auto' }}>
           <main style={{ overflow: 'initial' }}>{children}</main>
@@ -44,4 +33,4 @@ const ActionTreeLayout = ({
   );
 };
 
-export default ActionTreeLayout;
+export default EngineeringTreeLayout;

@@ -3,19 +3,26 @@ import { connect } from 'umi';
 import { Modal } from 'antd';
 import EditChildrenTaskForm from './EditChildrenTaskForm';
 
-const ModifyModal = ({ dispatch, actionRef, loading, openFeedbackModal, openAddModal }) => {
+const ModifyModal = ({
+  dispatch,
+  actionRef,
+  loading,
+  openFeedbackModal,
+  openAddModal,
+  FeedbackDetailModal,
+}) => {
   const [form] = EditChildrenTaskForm.useForm();
   const [modalVisible, setModalVisible] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const [visible, setVisible] = useState(false);
   const [id, setId] = useState('');
 
-  const updateData = taskId => {
+  const updateData = Id => {
     // if (id) {
     new Promise(resolve => {
       dispatch({
         type: 'specialAction/findChildrenTaskDetail',
-        payload: { taskId },
+        payload: { taskId: Id },
         resolve,
       });
     }).then(res => {
@@ -116,10 +123,12 @@ const ModifyModal = ({ dispatch, actionRef, loading, openFeedbackModal, openAddM
     >
       <EditChildrenTaskForm
         form={form}
+        taskId={id}
         visible={visible}
         disabled={disabled}
         openFeedbackModal={openFeedbackModal}
         openAddModal={openAddModal}
+        FeedbackDetailModal={FeedbackDetailModal}
       />
     </Modal>
   );

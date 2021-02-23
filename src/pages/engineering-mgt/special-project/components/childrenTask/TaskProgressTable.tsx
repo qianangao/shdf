@@ -1,69 +1,43 @@
-import React from 'react';
-import { Button } from 'antd';
-import ProTable from '@ant-design/pro-table';
+import React, { useState, useEffect } from 'react';
+import { Table } from 'antd';
+// import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
+// import AdvancedForm from '@/components/AdvancedForm';
 
-const TaskProgressTable = ({ specialAction, dispatch }) => {
-  const { feedDetailTableRef } = specialAction;
-
-  const getChildrenTaskList = params =>
-    new Promise(resolve => {
-      dispatch({
-        type: 'specialAction/getChildrenTaskList',
-        payload: { ...params },
-        resolve,
-      });
-    });
-
-  const exportDetailData = () => {
-    dispatch({
-      type: 'emAddressBook/exportAddressBook',
-      // payload: { bookIds },
-    });
-  };
+const TaskProgressTable = ({ taskProgressList, FeedbackDetailModal }) => {
+  const [dataSource, setDataSource] = useState([]);
+  // const [selectData, setSelectData] = useState([]);
+  useEffect(() => {
+    if (taskProgressList) {
+      setDataSource([...taskProgressList]);
+    }
+  }, [taskProgressList]);
 
   const columns = [
     {
       title: '序号',
-      dataIndex: 'index',
-      valueType: 'index',
-      align: 'center',
-      fixed: 'left',
+      render: (text, render, index) => `${index + 1}`,
       width: 64,
+      align: 'center',
+      dataIndex: 'id',
+      key: 'id',
     },
-    { title: '省份/进度', align: 'center', dataIndex: 'province', hideInSearch: true },
-    { title: '阶段反馈1', align: 'center', dataIndex: 'userDept', hideInSearch: true },
-    { title: '阶段反馈2', align: 'center', dataIndex: 'job', hideInSearch: true },
-    { title: '阶段反馈3', align: 'center', dataIndex: 'phoneNumber', hideInSearch: true },
-    { title: '阶段反馈4', align: 'center', dataIndex: 'userDept', hideInSearch: true },
-    { title: '阶段反馈5', align: 'center', dataIndex: 'job', hideInSearch: true },
-    { title: '总结反馈', align: 'center', dataIndex: 'phoneNumber', hideInSearch: true },
+    {
+      title: '省份/进度',
+      align: 'center',
+      dataIndex: 'province',
+      render: text => <a onClick={() => FeedbackDetailModal(2)}>{text}</a>,
+    },
+    { title: '阶段反馈1', align: 'center', dataIndex: 'stage1', render: text => <a>{text}</a> },
+    { title: '阶段反馈2', align: 'center', dataIndex: 'stage2', render: text => <a>{text}</a> },
+    { title: '阶段反馈3', align: 'center', dataIndex: 'stage3', render: text => <a>{text}</a> },
+    { title: '阶段反馈4', align: 'center', dataIndex: 'stage4', render: text => <a>{text}</a> },
   ];
 
-  return (
-    <div>
-      <ProTable
-        search={false}
-        rowKey="bookId"
-        actionRef={feedDetailTableRef}
-        scroll={{ x: 'max-content' }}
-        request={async params => getChildrenTaskList(params)}
-        toolBarRender={_ => [
-          <Button
-            type="primary"
-            onClick={() => {
-              exportDetailData();
-            }}
-          >
-            导出
-          </Button>,
-        ]}
-        columns={columns}
-      />
-    </div>
-  );
+  return <Table dataSource={dataSource} columns={columns} rowKey="province" />;
 };
 
 export default connect(({ specialAction }) => ({
+  taskProgressList: specialAction.taskProgressList,
   specialAction,
 }))(TaskProgressTable);

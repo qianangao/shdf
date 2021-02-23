@@ -142,7 +142,7 @@ export async function editSpecialAction(params: any) {
  * @param params
  */
 export async function getSpecialAction(params) {
-  return noErrorRequest(`/specialAction/find`, {
+  return request(`/specialAction/find`, {
     method: 'GET',
     params,
   });
@@ -175,7 +175,7 @@ export async function addFeedback(params) {
  *
  */
 export async function exportLog(params) {
-  return request(`/task/export`, {
+  return noErrorRequest(`/task/export`, {
     method: 'GET',
     params,
   });
