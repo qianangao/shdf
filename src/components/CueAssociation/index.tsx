@@ -20,14 +20,14 @@ const CueAssociation = ({
   const [selectChildModalVisible, setChildVisible] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [selectedTempRowKeys, setSelectedTempRowKeys] = useState([]);
-  const [association, setAssociation] = useState(null);
+  const [clueId, setClueId] = useState(undefined);
   const [views, setViews] = useState(null);
 
   const [listData, setListData] = useState([]);
 
-  const showModal = (item: any, view: any) => {
+  const showModal = (id: any, view: any) => {
     setViews(view);
-    setAssociation(item);
+    setClueId(id);
     setVisible(true);
     dispatch({
       type: 'global/getEnums',
@@ -41,7 +41,7 @@ const CueAssociation = ({
     setVisible(false);
     setSelectedRowKeys([]);
     setSelectedTempRowKeys([]);
-    setAssociation(null);
+    setClueId(undefined);
     setViews(null);
     tempSelectData = [];
   };
@@ -71,7 +71,7 @@ const CueAssociation = ({
     new Promise(resolve => {
       dispatch({
         type: 'cueAssociation/getAssociationList',
-        payload: { ...params, id: association && association.clueId },
+        payload: { ...params, id: clueId },
         resolve,
       });
     });
@@ -104,7 +104,7 @@ const CueAssociation = ({
       ? new Promise(resolve => {
           dispatch({
             type: commit.type,
-            payload: { mainClueId: association.clueId, relationClueIds: selectedRowKeys },
+            payload: { mainClueId: clueId, relationClueIds: selectedRowKeys },
             resolve,
           });
         })
