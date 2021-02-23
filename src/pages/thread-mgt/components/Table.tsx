@@ -299,7 +299,7 @@ const Table = ({
                   message.error('只能单条线索串并联');
                 } else {
                   openAssociationModal(
-                    tempSelectData[0],
+                    tempSelectData[0] && tempSelectData[0].clueId,
                     <AssociationDesc association={tempSelectData[0]} />,
                   );
                 }
