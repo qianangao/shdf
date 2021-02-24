@@ -7,6 +7,9 @@ import { connect } from 'umi';
 const TaskProgressTable = ({ taskProgressList, FeedbackDetailModal }) => {
   const [dataSource, setDataSource] = useState([]);
   // const [selectData, setSelectData] = useState([]);
+  // console.log("taskProgressList",taskProgressList);
+  // console.log("head",head);
+
   useEffect(() => {
     if (taskProgressList) {
       setDataSource([...taskProgressList]);
@@ -39,5 +42,6 @@ const TaskProgressTable = ({ taskProgressList, FeedbackDetailModal }) => {
 
 export default connect(({ specialAction }) => ({
   taskProgressList: specialAction.taskProgressList,
+  head: specialAction.head,
   specialAction,
 }))(TaskProgressTable);

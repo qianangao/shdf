@@ -32,7 +32,7 @@ const ChildrenTaskForm = props => {
     {
       label: '子任务名称',
       name: 'taskName',
-      span: 2,
+      span: 8,
       rules: [
         { required: true, message: '请输入子任务名称!', whitespace: true },
         { max: 30, message: '长度请小于30位!' },
@@ -41,28 +41,30 @@ const ChildrenTaskForm = props => {
     {
       label: '保密等级',
       name: 'secrecyLevel',
-      span: 2,
+      span: 8,
       rules: [{ required: true, message: '请选择保密等级' }],
       enumsLabel: 'subject_secrecy_level',
     },
     {
       label: '开始日期',
       name: 'startDate',
-      span: 2,
+      span: 8,
       rules: [{ required: true, message: '请选择开始日期!' }],
       type: 'date',
     },
+    { name: 'segmentation', type: 'segmentation' },
     {
       label: '截止日期',
       name: 'endDate',
-      span: 2,
+      span: 8,
       rules: [{ required: true, message: '请选择截止日期!' }],
       type: 'date',
     },
+    { name: 'segmentation', type: 'segmentation' },
     {
       label: '任务描述',
       name: 'taskDescription',
-      span: 4,
+      span: 24,
       rules: [
         { required: true, message: '请输入!' },
         { max: 300, min: 0, message: '输入文字过长，内容不能超过300字' },
@@ -78,7 +80,7 @@ const ChildrenTaskForm = props => {
     {
       label: '反馈要求',
       name: 'specialTaskFeedbackList',
-      span: 4,
+      span: 24,
       // rules: [{ required: true, message: '请输入!' }],
       render: (
         <SummaryFeedbackTable
@@ -94,7 +96,7 @@ const ChildrenTaskForm = props => {
     {
       label: '附件列表',
       name: 'fileIds',
-      span: 4,
+      span: 24,
       type: 'upload',
     },
   ];

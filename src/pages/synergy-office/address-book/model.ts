@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { downloadXlsFile } from '@/utils';
+import { downloadExcelFile } from '@/utils';
 import moment from 'moment';
 import { formatPageData } from '@/utils/index';
 import {
@@ -86,14 +86,14 @@ const Model = {
     *templateDownload({ _ }, { call }) {
       const response = yield call(templateDownload);
       if (!response.error) {
-        yield downloadXlsFile(response, `通讯录模板`);
+        yield downloadExcelFile(response, `通讯录模板`);
       }
     },
 
     *exportAddressBook({ payload }, { call }) {
       const response = yield call(exportAddressBook, payload);
       if (!response.error) {
-        yield downloadXlsFile(response, `通讯录列表${moment().format('MM-DD HH:mm:ss')}`);
+        yield downloadExcelFile(response, `通讯录列表${moment().format('MM-DD HH:mm:ss')}`);
       }
     },
 

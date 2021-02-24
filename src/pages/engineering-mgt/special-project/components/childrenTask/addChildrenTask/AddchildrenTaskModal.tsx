@@ -73,7 +73,7 @@ const AddchildrenTaskModal = ({ dispatch, actionRef, loading, specialAction }) =
     <Modal
       title="子任务信息"
       centered
-      width="60vw"
+      width="90vw"
       style={{ paddingBottom: 0, zIndex: 100 }}
       bodyStyle={{
         padding: '30px 60px',

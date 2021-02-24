@@ -9,8 +9,8 @@ const FeedbackDetailModal = ({ dispatch, actionRef, loading }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const showModal = id => {
     if (id) {
-      updateData(id);
       setModalVisible(true);
+      updateData(id);
     }
   };
   const updateData = id => {

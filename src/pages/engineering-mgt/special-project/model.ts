@@ -40,6 +40,7 @@ const Model = {
     taskId: '',
     actionTree: [],
     loading: false,
+    head: {},
     // actionList: [],
   },
   effects: {
@@ -141,76 +142,14 @@ const Model = {
         response.secrecyLevel += '';
         response.taskState += '';
         resolve && resolve(response);
-        response.taskProgressList = [
-          {
-            province: '省份/进度',
-            stage1: '阶段反馈1',
-            stage2: '阶段反馈2',
-            stage3: '阶段反馈3',
-            stage4: '阶段反馈4',
-          },
-          {
-            province: '北京',
-            stage1: '已反馈',
-            feedbackLogId1: 2,
-            stage2: '已反馈',
-            feedbackLogId2: 5,
-            stage3: '未反馈',
-            feedbackLogId3: '',
-            stage4: '未反馈',
-            feedbackLogId4: '',
-          },
-          {
-            province: '陕西',
-            stage1: '未反馈',
-            feedbackLogId1: '',
-            stage2: '未反馈',
-            feedbackLogId2: '',
-            stage3: '未反馈',
-            feedbackLogId3: '',
-            stage4: '未反馈',
-            feedbackLogId4: '',
-          },
-          {
-            province: '河南',
-            stage1: '未反馈',
-            feedbackLogId1: '',
-            stage2: '未反馈',
-            feedbackLogId2: '',
-            stage3: '未反馈',
-            feedbackLogId3: '',
-            stage4: '未反馈',
-            feedbackLogId4: '',
-          },
-          {
-            province: '四川',
-            stage1: '未反馈',
-            feedbackLogId1: '',
-            stage2: '未反馈',
-            feedbackLogId2: '',
-            stage3: '未反馈',
-            feedbackLogId3: '',
-            stage4: '未反馈',
-            feedbackLogId4: '',
-          },
-          {
-            province: '江苏',
-            stage1: '已反馈',
-            feedbackLogId1: 1,
-            stage2: '已反馈',
-            feedbackLogId2: 3,
-            stage3: '已反馈',
-            feedbackLogId3: 4,
-            stage4: '未反馈',
-            feedbackLogId4: '',
-          },
-        ];
+
         yield put({
           type: 'save',
           payload: {
             taskId: payload.taskId,
             feedListData: response.feedbackRequireList,
             taskProgressList: response.taskProgressList,
+            head: response.head,
           },
         });
       }

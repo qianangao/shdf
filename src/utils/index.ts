@@ -67,7 +67,7 @@ export function downloadExcelFile(data, title) {
  * @param {*} title 文件名称
  */
 export function downloadXlsFile(data, title) {
-  downLoaddownloadBlobFile('xlsx', data, title);
+  downLoaddownloadBlobFile('xls', data, title);
 }
 
 function downLoaddownloadBlobFile(type, data, title) {

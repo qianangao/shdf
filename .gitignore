@@ -39,3 +39,4 @@ screenshot
 build
 /config/config.local.js
 /config/config.local.ts
+/config/proxy.ts
