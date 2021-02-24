@@ -1,16 +1,16 @@
-import { Input, Modal, Form } from 'antd';
-
+import { Modal, Form } from 'antd';
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
 import StaffMultiSelectInput from '@/components/StaffMultiSelectInput';
 
-const CommitExamineModal = ({ dispatch, loading, actionRef }) => {
+const AuthorizeModal = ({ dispatch, loading, actionRef }) => {
   const [form] = Form.useForm();
-  const [modalVisible, setModalVisible] = useState(false);
-  const [noticeId, setNoticeId] = useState('');
 
-  const showModal = (id: any) => {
-    setNoticeId(id);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [personId, setPersonId] = useState(undefined);
+
+  const showModal = (id: React.SetStateAction<undefined>) => {
+    setPersonId(id);
     setModalVisible(true);
   };
 
@@ -24,14 +24,19 @@ const CommitExamineModal = ({ dispatch, loading, actionRef }) => {
     }
   }, []);
 
-  const commitReplyMessage = (params: any) =>
+  const onResetModalCancel = () => {
+    form.resetFields();
+    setModalVisible(false);
+    setPersonId(undefined);
+  };
+
+  const authorizeClue = (params: any) =>
     new Promise(resolve => {
       dispatch({
-        type: 'soAnnouncementMgt/commitExamineAnnouncement',
+        type: 'kdKeyPersonMgt/authUser',
         payload: {
-          noticeId,
-          auditUser: params.auditUser,
-          remarks: params.remarks,
+          personId,
+          authTargetUser: params.authTargetUser,
         },
         resolve,
       });
@@ -43,15 +48,10 @@ const CommitExamineModal = ({ dispatch, loading, actionRef }) => {
         console.error('Validate Failed:', info);
       });
 
-  const onResetModalCancel = () => {
-    form.resetFields();
-    setModalVisible(false);
-  };
-
   return (
     <Modal
-      title="提交审核"
-      width={580}
+      title="授权"
+      width={500}
       visible={modalVisible}
       confirmLoading={loading}
       onOk={() => {
@@ -59,36 +59,23 @@ const CommitExamineModal = ({ dispatch, loading, actionRef }) => {
       }}
       onCancel={onResetModalCancel}
     >
-      <Form form={form} scrollToFirstError layout="vertical" onFinish={commitReplyMessage}>
+      <Form form={form} scrollToFirstError layout="vertical" onFinish={authorizeClue}>
         <Form.Item
-          name="auditUser"
-          label="审核人员"
+          name="authTargetUser"
+          label="授权人员"
           rules={[
             {
               required: true,
-              message: '请选择审核人员!',
+              message: '请选择需要授权的人员!',
             },
           ]}
         >
           <StaffMultiSelectInput />
         </Form.Item>
-        <Form.Item
-          name="remarks"
-          label="留言备注"
-          rules={[
-            {
-              required: true,
-              message: '请输入留言备注!',
-            },
-          ]}
-        >
-          <Input.TextArea autoSize={{ minRows: 2, maxRows: 3 }} />
-        </Form.Item>
       </Form>
     </Modal>
   );
 };
-
 export default connect(({ loading }) => ({
-  loading: loading.effects['soAnnouncementMgt/commitExamineAnnouncement'],
-}))(CommitExamineModal);
+  loading: loading.effects['kdKeyPersonMgt/authUser'],
+}))(AuthorizeModal);

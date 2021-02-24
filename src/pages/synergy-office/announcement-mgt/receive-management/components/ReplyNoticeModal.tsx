@@ -49,7 +49,7 @@ const ReplyNoticeModal = ({ dispatch, loading, actionRef }) => {
   return (
     <Modal
       title="回复提示"
-      width={500}
+      width={580}
       visible={modalVisible}
       confirmLoading={loading}
       onOk={() => {

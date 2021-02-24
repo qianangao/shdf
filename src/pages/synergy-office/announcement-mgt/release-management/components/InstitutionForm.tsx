@@ -18,7 +18,7 @@ const InstitutionForm = ({ form }) => {
     {
       label: '发布部门',
       name: 'publishDept',
-      span: 2,
+      span: 4,
       rules: [{ required: true, message: '请输入发布部门!' }],
       initialValue: '全国SHDF办公室',
       disabled: true,
@@ -26,14 +26,14 @@ const InstitutionForm = ({ form }) => {
     {
       label: '密级标识',
       name: 'secrecyLevel',
-      span: 2,
+      span: 4,
       rules: [{ required: true, message: '请选择密级标识!' }],
       enumsLabel: 'object_secrecy_level',
     },
     {
       label: '可见范围',
       name: 'visibleRange',
-      span: 2,
+      span: 4,
       disabled: true,
       rules: [{ required: true, message: '请选择可见范围!' }],
       render: <StaffMultiSelectInput />,
@@ -52,6 +52,7 @@ const InstitutionForm = ({ form }) => {
       label: '提醒方式',
       name: 'remindWays',
       initialValue: '1',
+      span: 4,
       render: (
         <Radio.Group defaultValue="1">
           <Radio value="1">站内信</Radio>

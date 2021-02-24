@@ -51,7 +51,7 @@ const AuthorizeModal = ({ dispatch, loading, actionRef }) => {
   return (
     <Modal
       title="线索信息授权"
-      width={500}
+      width={580}
       visible={modalVisible}
       confirmLoading={loading}
       onOk={() => {

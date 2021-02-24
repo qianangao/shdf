@@ -99,7 +99,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       title={noticeId ? '编辑公告' : '新建公告'}
       centered
       destroyOnClose
-      width="90vw"
+      width={580}
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',
