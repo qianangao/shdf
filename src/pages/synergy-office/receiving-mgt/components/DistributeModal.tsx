@@ -49,8 +49,6 @@ const AddModal = ({ readModalVisible, dispatch, actionRef, loading, receivingMgt
       .validateFields()
       .then(values => {
         return new Promise(resolve => {
-          // 处理数据
-          // 请选择你要分发传阅的人
           if (
             !values ||
             !values.staff ||
@@ -65,7 +63,6 @@ const AddModal = ({ readModalVisible, dispatch, actionRef, loading, receivingMgt
                 readingOrg: '',
               };
             });
-            // console.log(receivingDetailData,'values----0')
             dispatch({
               type: `receivingMgt/distribute`,
               payload: {

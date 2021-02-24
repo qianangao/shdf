@@ -5,7 +5,14 @@ const routes = {
   routes: [
     {
       path: '/thread-mgt',
-      redirect: '/thread-mgt/key-institutions',
+      name: 'thread-mgt',
+      component: './thread-mgt',
+      icon: 'setting',
+      remark: '线索管理',
+    },
+    {
+      path: '/thread-mgt',
+      redirect: '/thread-mgt',
       hideInMenu: true,
     },
   ],

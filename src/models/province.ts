@@ -1,22 +1,5 @@
 import { getProvinceData } from '@/services/province';
-
-const findData = (idArr, data) => {
-  if (idArr.length === 1) {
-    return { children: data };
-  }
-
-  let tempData = { children: data };
-  let tempId = idArr[0];
-
-  for (let i = 1; i < idArr.length; i++) {
-    tempId = `${tempId}-${idArr[i]}`;
-    // eslint-disable-next-line no-loop-func
-    tempData = tempData.children.find(item => item.value === tempId);
-    if (!tempData) break;
-  }
-
-  return tempData;
-};
+import { LocalCache } from '@/utils/storage';
 
 const Model = {
   namespace: 'globalProvince',
@@ -25,40 +8,68 @@ const Model = {
   },
   effects: {
     *getData({ payload }, { call, put, select }) {
-      const provinceData = yield select(state => state.globalProvince.provinceData);
-      const idArr = payload.id.split('-');
-      const selectData = findData(idArr, provinceData);
-
-      if (selectData && selectData.children && selectData.children.length > 0) {
+      if (payload && payload.areaInfo && payload.areaInfo.length > 0) {
+        yield put({
+          type: 'save',
+          payload: {
+            provinceData: payload.areaInfo,
+          },
+        });
         return;
       }
+      const provinceData = yield select(
+        (state: { globalProvince: { provinceData: any } }) => state.globalProvince.provinceData,
+      );
+      let selectData: never[] = [];
 
-      selectData.loading = true;
       const response = yield call(getProvinceData, payload);
-
       if (!response.error) {
-        selectData.loading = false;
-        selectData.children = yield response.map(item => ({
-          label: item.areaName,
-          value: item.areaId,
-          isLeaf: idArr.length === 3,
-        }));
-
-        if (!selectData.value) {
+        if (payload && payload.areaPid) {
+          selectData = yield response.map((item: any) => ({
+            label: item.areaName,
+            value: item.areaId,
+            pid: item.areaPid,
+            isLeaf: item.areaLevel === 3,
+          }));
+          const temp: any[] = [];
+          const childTemp: any[] = [];
+          provinceData.forEach((item: any) => {
+            if (item.value === payload.areaPid) {
+              temp.push({ ...item, children: selectData });
+            } else if (item.value === payload.mPId) {
+              item.children &&
+                item.children.forEach((child: { value: any }) => {
+                  if (child.value === payload.areaPid) {
+                    childTemp.push({ ...child, children: selectData });
+                  } else {
+                    childTemp.push(child);
+                  }
+                });
+              temp.push({ ...item, children: childTemp });
+            } else {
+              temp.push(item);
+            }
+          });
           yield put({
             type: 'save',
             payload: {
-              provinceData: selectData.children,
+              provinceData: [...temp],
             },
           });
         } else {
+          selectData = yield response.map((item: { areaName: any; areaId: any }) => ({
+            label: item.areaName,
+            value: item.areaId,
+            isLeaf: false,
+          }));
           yield put({
             type: 'save',
             payload: {
-              provinceData: [...provinceData],
+              provinceData: selectData,
             },
           });
         }
+        LocalCache.set('areaInfo', provinceData);
       }
     },
   },

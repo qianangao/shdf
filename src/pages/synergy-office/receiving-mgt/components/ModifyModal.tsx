@@ -3,11 +3,10 @@ import { connect } from 'umi';
 import { Modal } from 'antd';
 import OrgInfoForm from './ReceivingForm';
 
-const ModifyModal = ({ dispatch, actionRef, loading }) => {
+const ModifyModal = ({ dispatch, actionRef, loading, receivingMgt }) => {
   const [form] = OrgInfoForm.useForm();
-  const [receivingDetailData, setOrgInfoData] = useState(null);
   const [modifyModalVisible, setModalVisible] = useState(false);
-
+  const { receivingDetailData } = receivingMgt;
   const showModal = items => {
     // 获取详情
     dispatch({
@@ -16,8 +15,6 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
         id: items.receiptId,
       },
     });
-    setOrgInfoData(items || null);
-    if (items) form.setFieldsValue({ ...items });
     setModalVisible(true);
   };
 
@@ -43,15 +40,13 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
         return new Promise(resolve => {
           let filesStr = '';
           if (values.files && values.files.length > 0) {
-            values.files.forEach(item => {
-              filesStr += `${item.uid},`;
+            const ids = values.files.map(item => {
+              return item.uid;
             });
-            filesStr = filesStr.substr(0, filesStr.length - 1);
+            filesStr = ids.join(',');
+            delete values.files;
           }
-          delete values.files;
           values.fileIds = filesStr;
-          // 打印上传信号
-          // console.log(values ,'values--1')
           dispatch({
             type: 'receivingMgt/update',
             payload: {
@@ -59,13 +54,10 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
             },
             resolve,
           });
-          setTimeout(() => {
-            setModalVisible(false);
-          }, 2000);
         });
       })
       .then(() => {
-        hideModal();
+        setModalVisible(false);
       })
       .catch(info => {
         console.error('Validate Failed:', info);

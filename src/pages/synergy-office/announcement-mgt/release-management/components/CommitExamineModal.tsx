@@ -51,7 +51,7 @@ const CommitExamineModal = ({ dispatch, loading, actionRef }) => {
   return (
     <Modal
       title="提交审核"
-      width={500}
+      width={580}
       visible={modalVisible}
       confirmLoading={loading}
       onOk={() => {

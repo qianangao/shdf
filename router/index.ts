@@ -4,7 +4,7 @@ import ThreadMgt from './thread-mgt';
 import CaseMgt from './case-mgt';
 import SensitiveEventMgt from './sensitive-event-mgt';
 import EngineeringMgt from './engineering-mgt';
-import BanpublishMgt from './banpublish-mgt';
+import KeyData from './key-data';
 import Analysis from './analysis';
 import SystemMgt from './system-mgt';
 
@@ -52,7 +52,7 @@ const router = [
               CaseMgt,
               SensitiveEventMgt,
               EngineeringMgt,
-              BanpublishMgt,
+              KeyData,
               Analysis,
               SystemMgt,
               {
