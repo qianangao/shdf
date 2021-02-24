@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useState } from 'react';
 import { Tree, Button, Row, Col, Input, Spin } from 'antd';
 import { connect } from 'umi';
@@ -17,70 +18,28 @@ const ActionTree = ({ openAddSpecialModal, dispatch, actionTree, loading }) => {
       type: 'specialAction/getSpecialActionTree',
       payload: { actionName },
     });
-    // return getSpecialActionTree({ actionName }).then(data => {
-    //   if (data.error) {
-    //     return;
-    //   }
-    //   setActionTreeData(data);
-    // });
   };
 
   useEffect(() => {
     getTreeData();
-    //  // 初始化组织树选择
-    //  onChange &&
-    //  onChange(
-    //    allInValue
-    //      ? {
-    //          // TEMP 获取用户所在组织id title
-    //          key: 'demoid',
-    //          title: 'demo全扫',
-    //        }
-    //      : 'demoid',
-    //  );
   }, []);
 
-  // const actionLoadDataHandler = treeNode => {
-
-  //   return new Promise<any>(resolve => {
-
-  //     console.log("treeNode",treeNode);
-
-  //     if (treeNode.children) {
-  //       resolve(null);
-  //       return;
-  //     }
-
-  //     getTreeData(treeNode.id).then(data => resolve(data));
-  //   });
-  // };
   const actionSearchHander = value => {
-    // if (!value) return;
     getTreeData(value);
-    // getTreeData(value).then(data => setActionTreeData(data));
   };
 
   const actionExpandHandler = node => {
-    // console.log("node",node);
-
     setExpandedKeys(node);
   };
   const actionSelectHandler = (keys, { node }) => {
     const actionId = node.key;
-    // dispatch({
-    //   type: 'specialAction/getSpecialAction',
-    //   payload: { actionId },
-    // });
     dispatch({
       type: 'specialAction/getListTable',
-      // type: 'specialAction/tableReload',
       payload: { actionId },
     });
 
     if (!keys[0]) return;
-
     setSelectedKeys(keys);
-    // onChange && onChange(allInValue ? node : keys[0]);
   };
 
   return (

@@ -177,6 +177,7 @@ export async function addFeedback(params) {
 export async function exportLog(params) {
   return noErrorRequest(`/task/export`, {
     method: 'GET',
+    responseType: 'blob',
     params,
   });
 }

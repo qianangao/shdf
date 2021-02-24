@@ -4,7 +4,7 @@ import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import EngineeringDescription from './engineeringInfo/EngineeringDescription';
 
-const Table = ({ dictionaryMgt, dispatch, enums, openAddEngineeringModal }) => {
+const Table = ({ dictionaryMgt, dispatch, enums, openAddEngineeringModal, tempProvinceModal }) => {
   const { tableRef } = dictionaryMgt;
   // engineeringForm
   const columns = [
@@ -82,7 +82,10 @@ const Table = ({ dictionaryMgt, dispatch, enums, openAddEngineeringModal }) => {
 
   return (
     <div>
-      <EngineeringDescription openAddEngineeringModal={openAddEngineeringModal} />
+      <EngineeringDescription
+        openAddEngineeringModal={openAddEngineeringModal}
+        tempProvinceModal={tempProvinceModal}
+      />
       {/* { engineeringForm.actionYear && ( */}
       <ProTable
         rowKey="taskId"

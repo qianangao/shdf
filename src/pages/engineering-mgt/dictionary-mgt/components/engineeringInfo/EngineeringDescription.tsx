@@ -3,7 +3,12 @@ import { Button, Descriptions, Popconfirm, Card } from 'antd';
 import { connect } from 'umi';
 // import Table from '../Table'
 
-const EngineeringDescription = ({ dispatch, engineeringForm, openAddEngineeringModal }) => {
+const EngineeringDescription = ({
+  dispatch,
+  engineeringForm,
+  openAddEngineeringModal,
+  tempProvinceModal,
+}) => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -30,7 +35,7 @@ const EngineeringDescription = ({ dispatch, engineeringForm, openAddEngineeringM
         title=""
         extra={
           <>
-            <Button type="primary" style={{ marginRight: 8 }}>
+            <Button type="primary" style={{ marginRight: 8 }} onClick={() => tempProvinceModal()}>
               新增临时省份
             </Button>
             <Button

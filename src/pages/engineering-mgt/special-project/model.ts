@@ -1,6 +1,7 @@
 import { message } from 'antd';
 import { formatPageData } from '@/utils/index';
-import { downloadXlsFile } from '@/utils';
+import { downloadExcelFile } from '@/utils';
+import moment from 'moment';
 import {
   getChildrenTaskList,
   addChildrenTaskList,
@@ -311,9 +312,9 @@ const Model = {
 
     *exportLog(_, { call, select }) {
       const taskId = yield select(state => state.specialAction.taskId);
-      const response = yield call(exportLog, taskId);
+      const response = yield call(exportLog, { taskId });
       if (!response.error) {
-        yield downloadXlsFile(response, `任务进度列表${moment().format('MM-DD HH:mm:ss')}`);
+        yield downloadExcelFile(response, `任务进度列表${moment().format('MM-DD HH:mm:ss')}`);
       }
     },
     *addFeedback({ payload, resolve }, { call, put }) {

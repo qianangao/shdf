@@ -4,7 +4,7 @@ import { Table, Button } from 'antd';
 import { connect } from 'umi';
 // import AdvancedForm from '@/components/AdvancedForm';
 
-const TaskProgressTable = ({ taskProgressList, head, feedbackDetailModal }) => {
+const TaskProgressTable = ({ dispatch, taskProgressList, head, feedbackDetailModal }) => {
   const [dataSource, setDataSource] = useState([]);
   const [columns, setColumns] = useState([]);
 
@@ -20,10 +20,10 @@ const TaskProgressTable = ({ taskProgressList, head, feedbackDetailModal }) => {
       const arr = [];
       Object.keys(head).forEach(function (key) {
         if (key === 'province') {
-          arr.push({ title: key, dataIndex: key, align: 'center' });
+          arr.push({ title: head[key], dataIndex: key, align: 'center' });
         } else {
           arr.push({
-            title: key,
+            title: head[key],
             dataIndex: key,
             align: 'center',
             render: (text, record) => (
@@ -36,10 +36,17 @@ const TaskProgressTable = ({ taskProgressList, head, feedbackDetailModal }) => {
     }
   }, [head]);
 
+  const exportData = () => {
+    dispatch({
+      type: 'specialAction/exportLog',
+    });
+  };
+
   return (
     <>
-      {/* onClick={() => this.exportData()}  */}
-      <Button type="primary">导出</Button>
+      <Button type="primary" onClick={() => exportData()}>
+        导出
+      </Button>
       <Table dataSource={dataSource} columns={columns} rowKey="province" />
     </>
   );
