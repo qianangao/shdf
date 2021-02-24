@@ -67,7 +67,7 @@ export async function distribute(params) {
  * @param {*} params
  */
 export async function deleteReceiving(params) {
-  return request(`/care-generation/mechanism`, {
+  return request(`/shdfReceipt/deleteById/${params.id}`, {
     method: 'DELETE',
     data: params,
   });

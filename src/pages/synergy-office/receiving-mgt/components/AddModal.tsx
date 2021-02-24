@@ -3,13 +3,11 @@ import { connect } from 'umi';
 import { Modal } from 'antd';
 import OrgInfoForm from './ReceivingForm';
 
-const AddModal = ({ dispatch, actionRef, loading }) => {
+const AddModal = ({ dispatch, actionRef, loading, receivingMgt }) => {
   const [form] = OrgInfoForm.useForm();
-  const [orgInfoData, setOrgInfoData] = useState(null);
   const [addModalVisible, setModalVisible] = useState(false);
-  const showModal = items => {
-    setOrgInfoData(items || null);
-
+  const { receivingDetailData } = receivingMgt;
+  const showModal = () => {
     setModalVisible(true);
   };
 
@@ -77,7 +75,7 @@ const AddModal = ({ dispatch, actionRef, loading }) => {
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <OrgInfoForm form={form} orgInfoData={orgInfoData} />
+      <OrgInfoForm form={form} orgInfoData={receivingDetailData} />
     </Modal>
   );
 };

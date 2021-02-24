@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'umi';
 import { Modal } from 'antd';
-import OrgInfoForm from './ReceivingForm';
+import OrgInfoForm from './form/SuperviseForm';
 
-const AddModal = ({ dispatch, actionRef, loading }) => {
+const ModifyModal = ({ dispatch, actionRef, loading }) => {
   const [form] = OrgInfoForm.useForm();
-  const [orgInfoData, setOrgInfoData] = useState(null);
-  const [addModalVisible, setModalVisible] = useState(false);
-  const showModal = items => {
-    setOrgInfoData(items || null);
+  const [applyCaseModalVisible, setModalVisible] = useState(false);
+  const [detailData, setDetailData] = useState(null);
 
+  const showModal = items => {
+    // 获取详情
+    if (items) {
+      setDetailData(items);
+    }
     setModalVisible(true);
   };
 
@@ -32,17 +35,18 @@ const AddModal = ({ dispatch, actionRef, loading }) => {
     form
       .validateFields()
       .then(values => {
+        values.id = detailData.caseId;
+        values.targetDeptId = 7000;
+        values.target = 7001;
+        // console.log(values,'values---8')
         return new Promise(resolve => {
           dispatch({
-            type: 'caseMgt/add',
+            type: `caseMgt/supervise`,
             payload: {
               ...values,
             },
             resolve,
           });
-          setTimeout(() => {
-            setModalVisible(false);
-          }, 2000);
         });
       })
       .then(() => {
@@ -55,20 +59,20 @@ const AddModal = ({ dispatch, actionRef, loading }) => {
 
   return (
     <Modal
-      title="案件录入"
+      title="督办"
       centered
       width={780}
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',
       }}
-      visible={addModalVisible}
+      visible={applyCaseModalVisible}
       onOk={handleOk}
       forceRender
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <OrgInfoForm form={form} orgInfoData={orgInfoData} />
+      <OrgInfoForm form={form} />
     </Modal>
   );
 };
@@ -76,4 +80,4 @@ const AddModal = ({ dispatch, actionRef, loading }) => {
 export default connect(({ caseMgt, loading }) => ({
   caseMgt,
   loading: loading.models.caseMgt,
-}))(AddModal);
+}))(ModifyModal);

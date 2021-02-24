@@ -1,23 +1,43 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'umi';
 import { Modal } from 'antd';
-import OrgInfoForm from './ReceivingForm';
+import OrgInfoForm from './form/CaseForm';
+import TableCaseHandle from './TableCaseHandle';
+import TableFileCase from './TableFileCase';
+import CaseHandleModal from './CaseHandleModal';
+import ClubSplicing from './ClubSplicing';
+import ClubSplicingModal from './ClubSplicingModal';
 
-const ModifyModal = ({ dispatch, actionRef, loading }) => {
+const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
   const [form] = OrgInfoForm.useForm();
-  const [receivingDetailData, setOrgInfoData] = useState(null);
   const [modifyModalVisible, setModalVisible] = useState(false);
+  const [detailData, setDetailData] = useState(null);
+  const { caseDetailData } = caseMgt;
+  const caseHandleModalRef = useRef({});
+  const clubSplicingModalRef = useRef({});
+  const [infoId, setCaresId] = useState('');
 
   const showModal = items => {
     // 获取详情
-    dispatch({
-      type: 'caseMgt/getDetail',
-      payload: {
-        id: items.receiptId,
-      },
-    });
-    setOrgInfoData(items || null);
-    if (items) form.setFieldsValue({ ...items });
+    if (items && items !== 'undefined') {
+      dispatch({
+        type: 'caseMgt/getDetail',
+        payload: {
+          id: items.caseId,
+        },
+      });
+      dispatch({
+        type: 'caseMgt/tableHandleReload',
+        payload: {
+          id: items.caseId,
+        },
+      });
+      setCaresId(items.caseId);
+      setDetailData(caseDetailData);
+    } else {
+      setCaresId('');
+      setDetailData(null);
+    }
     setModalVisible(true);
   };
 
@@ -40,17 +60,25 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
     form
       .validateFields()
       .then(values => {
+        values.engineeringIds = [values.engineeringIds];
+        values.specialActionIds = [values.specialActionIds];
+        let filesStr = '';
+        if (values.files && values.files.length > 0) {
+          const ids = values.files.map(item => {
+            return item.uid;
+          });
+          filesStr = ids.join(',');
+          delete values.files;
+        }
+        values.fileIds = filesStr;
         return new Promise(resolve => {
           dispatch({
-            type: 'caseMgt/update',
+            type: `caseMgt/${detailData ? 'update' : 'add'}`,
             payload: {
               ...values,
             },
             resolve,
           });
-          setTimeout(() => {
-            setModalVisible(false);
-          }, 2000);
         });
       })
       .then(() => {
@@ -61,22 +89,39 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       });
   };
 
+  const openCaseHandleModal = item => {
+    caseHandleModalRef.current.showModal(item);
+  };
+
+  const openClubSplicingModal = item => {
+    clubSplicingModalRef.current.showModal(item);
+  };
+
   return (
     <Modal
-      title="编辑收文登记"
+      title={detailData ? '案件编辑' : '案件录入'}
       centered
-      width={780}
+      width={1080}
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',
       }}
       visible={modifyModalVisible}
       onOk={handleOk}
-      forceRender
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <OrgInfoForm form={form} orgInfoData={receivingDetailData} />
+      <OrgInfoForm form={form} orgInfoData={caseDetailData} />
+
+      <ClubSplicing id={infoId} openClubSplicingModal={openClubSplicingModal} />
+
+      {infoId ? <TableCaseHandle id={infoId} openCaseHandleModal={openCaseHandleModal} /> : null}
+
+      {infoId ? <TableFileCase id={infoId} orgInfoData={caseDetailData} /> : null}
+
+      <CaseHandleModal actionRef={caseHandleModalRef} id={infoId} />
+
+      <ClubSplicingModal actionRef={clubSplicingModalRef} />
     </Modal>
   );
 };

@@ -21,13 +21,6 @@ const Model = {
     trendsDetailData: {},
     tableRef: {},
     selectedOrgId: undefined, // 选择的组织id
-    DetailModalVisible: false, // 关工组织详情modal visible
-    modifyModalVisible: false, // 关工组织编辑modal visible
-    addModalVisible: false, // 新增关工组织modal visible
-    readModalVisible: false, // 新增关工组织modal visible
-    trendsAddModalVisible: false, // 发布动态modal visible
-    memberModifyModalVisible: false, // 编辑成员modal visible
-    memberAddModalVisible: false, // 新增成员modal visible
   },
   effects: {
     *getReceivingList({ payload, resolve }, { call, put }) {
@@ -132,25 +125,20 @@ const Model = {
         });
       }
     },
-    *update({ payload }, { call, put }) {
+    *update({ payload, resolve }, { call, put }) {
       const response = yield call(updateReceiving, payload);
       if (!response.error) {
-        yield put({
-          type: 'save',
-          payload: {
-            modifyModalVisible: false,
-          },
-        });
+        resolve && resolve(response);
         message.success('收文登记修改成功！');
         yield put({
           type: 'tableReload',
         });
       }
     },
-    *deleteReceiving({ payload }, { call, put }) {
+    *deleteReceiving({ payload, resolve }, { call, put }) {
       const response = yield call(deleteReceiving, payload);
-
       if (!response.error) {
+        resolve && resolve(response);
         message.success('删除成功！');
         yield put({
           type: 'tableReload',
@@ -169,29 +157,24 @@ const Model = {
         type: 'tableReload',
       });
     },
-    *distribute({ payload }, { call, put }) {
+    *distribute({ payload, resolve }, { call, put }) {
       const response = yield call(distribute, payload);
 
       if (!response.error) {
-        yield put({
-          type: 'save',
-          payload: {
-            readModalVisible: false,
-          },
-        });
+        resolve && resolve(response);
         message.success('分发成功！');
         yield put({
           type: 'tableReload',
         });
       }
     },
-    *add({ payload }, { call, put }) {
+    *add({ payload, resolve }, { call, put }) {
       // 先获取编码
       const resCode = yield call(getReceivingCode, {});
       payload.receiptCode = `SW${resCode}`;
-      // console.log(payload,'resCode---5')
       const response = yield call(addReceiving, payload);
       if (!response.error) {
+        resolve && resolve(response);
         message.success('新增收文登记成功！');
         yield put({
           type: 'tableReload',
