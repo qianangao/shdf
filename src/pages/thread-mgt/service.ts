@@ -35,7 +35,7 @@ export async function getClueDetail(params: any) {
  * @param params
  */
 export async function addClue(params: any) {
-  return request(`/clue`, {
+  return request(`/clue1`, {
     method: 'POST',
     data: params,
   });
@@ -45,7 +45,7 @@ export async function addClue(params: any) {
  * @param params
  */
 export async function editClue(params: any) {
-  return request(`/clue/${params.clueId}`, {
+  return request(`/clue1/${params.clueId}`, {
     method: 'PUT',
     data: params,
   });

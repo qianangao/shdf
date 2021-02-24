@@ -1,18 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
 import { Modal } from 'antd';
-import InstitutionForm from './InstitutionForm';
+import BanPublishForm from './banPublishForm';
 
 const ModifyModal = ({ dispatch, actionRef, loading }) => {
-  const [form] = InstitutionForm.useForm();
-  const [detailData, setDetailData] = useState(null);
+  const [form] = BanPublishForm.useForm();
+  const [publicationId, setPublicationId] = useState(undefined);
   const [modalVisible, setModalVisible] = useState(false);
 
-  const showModal = items => {
-    setDetailData(items || null);
-    if (items) form.setFieldsValue({ ...items });
+  const showModal = (id: any) => {
+    setPublicationId(id || undefined);
     setModalVisible(true);
   };
+
+  useEffect(() => {
+    if (publicationId) {
+      getBanPublishDetail(publicationId);
+    }
+  }, [publicationId]);
 
   useEffect(() => {
     if (actionRef && typeof actionRef === 'function') {
@@ -26,7 +31,24 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
 
   const hideModal = () => {
     setModalVisible(false);
+    setPublicationId(undefined);
     form.resetFields();
+  };
+
+  const getBanPublishDetail = (id: any) => {
+    new Promise(resolve => {
+      dispatch({
+        type: 'kdBanPublishMgt/getBanPublishDetail',
+        payload: { publicationId: id },
+        resolve,
+      });
+    })
+      .then(data => {
+        if (data) {
+          form.setFieldsValue(data);
+        }
+      })
+      .catch(_ => {});
   };
 
   const handleOk = () => {
@@ -35,7 +57,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       .then(values => {
         return new Promise(resolve => {
           dispatch({
-            type: `kdBanPublishMgt/${detailData ? 'updateKeyInstiton' : 'addKeyInstiton'}`,
+            type: `kdBanPublishMgt/${publicationId ? 'updateBanPublish' : 'addBanPublish'}`,
             payload: {
               ...values,
             },
@@ -46,14 +68,14 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       .then(() => {
         hideModal();
       })
-      .catch(info => {
+      .catch((info: any) => {
         console.error('Validate Failed:', info);
       });
   };
 
   return (
     <Modal
-      title={detailData ? '编辑机构信息' : '新增重点机构'}
+      title={publicationId ? '非法出版物编辑' : '非法出版物录入'}
       centered
       width="90vw"
       style={{ paddingBottom: 0 }}
@@ -65,7 +87,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <InstitutionForm form={form} />
+      <BanPublishForm form={form} />
     </Modal>
   );
 };

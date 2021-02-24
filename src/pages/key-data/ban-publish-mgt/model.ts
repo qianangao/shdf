@@ -1,30 +1,30 @@
 import { message } from 'antd';
 import { formatPageData } from '@/utils';
 import {
-  getKeyInstitons,
-  getKeyInstitonDetail,
-  addKeyInstiton,
-  updateKeyInstiton,
-  deleteKeyInstiton,
+  getKeyBanPublishList,
+  getBanPublishDetail,
+  addBanPublish,
+  updateBanPublish,
+  deleteBanPublish,
+  authUser,
 } from './service';
 
 const Model = {
   namespace: 'kdBanPublishMgt',
   state: {
-    institonListData: {},
-    fieldListData: {},
+    banPublishListData: {},
+    banPublishDetail: {},
     tableRef: {},
-    fieldTableRef: {},
     selectedOrgId: undefined, // 选择的组织id
   },
   effects: {
-    *getKeyInstitons({ payload, resolve }, { call, put }) {
+    *getKeyBanPublishList({ payload, resolve }, { call, put }) {
       const params = {
         ...payload,
         currentPage: payload.current,
         pageSize: payload.pageSize,
       };
-      const response = yield call(getKeyInstitons, params);
+      const response = yield call(getKeyBanPublishList, params);
 
       if (!response.error) {
         const result = formatPageData(response);
@@ -34,23 +34,29 @@ const Model = {
         yield put({
           type: 'save',
           payload: {
-            institonListData: result,
+            banPublishListData: result,
           },
         });
       }
     },
-    *getKeyInstitonDetail({ payload, resolve }, { call }) {
-      const response = yield call(getKeyInstitonDetail, payload);
+    *getBanPublishDetail({ payload, resolve }, { call, put }) {
+      const response = yield call(getBanPublishDetail, payload);
       if (!response.error) {
         resolve && resolve(response);
+        yield put({
+          type: 'save',
+          payload: {
+            banPublishDetail: response,
+          },
+        });
       }
     },
 
-    *addKeyInstiton({ payload, resolve }, { call, put }) {
-      const response = yield call(addKeyInstiton, payload);
+    *addBanPublish({ payload, resolve }, { call, put }) {
+      const response = yield call(addBanPublish, payload);
       if (!response.error) {
         resolve && resolve(response);
-        message.success('重点机构新增成功！');
+        message.success('非法出版物新增成功！');
 
         yield put({
           type: 'tableReload',
@@ -58,26 +64,37 @@ const Model = {
       }
     },
 
-    *updateKeyInstiton({ payload, resolve }, { call, put }) {
-      const response = yield call(updateKeyInstiton, payload);
+    *updateBanPublish({ payload, resolve }, { call, put }) {
+      const response = yield call(updateBanPublish, payload);
       if (!response.error) {
         resolve && resolve(response);
-        message.success('重点机构信息修改成功！');
+        message.success('非法出版物信息修改成功！');
 
         yield put({
           type: 'tableReload',
         });
       }
     },
-    *deleteKeyInstiton({ payload, resolve }, { call, put }) {
-      const response = yield call(deleteKeyInstiton, payload);
+    *deleteBanPublish({ payload, resolve }, { call, put }) {
+      const response = yield call(deleteBanPublish, payload);
       if (!response.error) {
         resolve && resolve(response);
-        message.success('重点机构删除成功！');
+        message.success('非法出版物删除成功！');
 
         yield put({
           type: 'tableReload',
         });
+      }
+    },
+    *authUser({ payload, resolve }, { call }) {
+      const response = yield call(authUser, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('授权成功！');
+
+        // yield put({
+        //   type: 'tableReload',
+        // });
       }
     },
     *selectOrgChange({ payload }, { put }) {
@@ -96,6 +113,9 @@ const Model = {
   reducers: {
     save(state, { payload }) {
       return { ...state, ...payload };
+    },
+    removeBanPublish(state) {
+      return { ...state, banPublishDetail: {} };
     },
     tableReload(state) {
       const tableRef = state.tableRef || {};

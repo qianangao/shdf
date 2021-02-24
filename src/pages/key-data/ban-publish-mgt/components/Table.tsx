@@ -3,7 +3,7 @@ import { Button, Popconfirm } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 
-const Table = ({ kdBanPublishMgt, openModifyModal, enums, dispatch }) => {
+const Table = ({ kdBanPublishMgt, openModifyModal, openAuthModal, enums, dispatch }) => {
   const { tableRef } = kdBanPublishMgt;
 
   const columns = [
@@ -15,8 +15,8 @@ const Table = ({ kdBanPublishMgt, openModifyModal, enums, dispatch }) => {
       fixed: 'left',
       width: 64,
     },
-    { title: '中文名称', align: 'center', dataIndex: 'orgName' },
-    { title: '作者及编著者', align: 'center', dataIndex: 'orgNameEn' },
+    { title: '中文名称', align: 'center', dataIndex: 'name' },
+    { title: '作者及编著者', align: 'center', dataIndex: 'author' },
     {
       title: '保密级别',
       align: 'center',
@@ -24,26 +24,26 @@ const Table = ({ kdBanPublishMgt, openModifyModal, enums, dispatch }) => {
       valueEnum: enums.subject_secrecy_level,
       hideInTable: true,
     },
-    { title: '出版机构', align: 'center', dataIndex: 'orgCode' },
-    { title: '鉴定机构', align: 'center', dataIndex: 'orgNameEn' },
+    { title: '出版机构', align: 'center', dataIndex: 'organization' },
+    { title: '鉴定机构', align: 'center', dataIndex: 'appraisalInstitution' },
     {
       title: '出版日期',
       align: 'center',
-      dataIndex: 'establishDate',
+      dataIndex: 'publicationDate',
       valueType: 'date',
       hideInSearch: true,
     },
     {
       title: '鉴定日期',
       align: 'center',
-      dataIndex: 'establishDate',
+      dataIndex: 'appraisalDate',
       valueType: 'date',
       hideInSearch: true,
     },
     {
       title: '鉴定类型',
       align: 'center',
-      dataIndex: 'subjectSecrecyLevel',
+      dataIndex: 'appraisalType',
       valueEnum: enums.subject_secrecy_level,
     },
     {
@@ -54,20 +54,20 @@ const Table = ({ kdBanPublishMgt, openModifyModal, enums, dispatch }) => {
       width: 180,
       fixed: 'right',
       render: (dom, data) => [
-        <a key={`${data.orgId}up`} onClick={() => openModifyModal(data)}>
-          编辑
-        </a>,
-        <a key={`${data.orgId}detail`} onClick={() => {}}>
+        <a key={`${data.publicationId}detail`} onClick={() => openModifyModal(data.publicationId)}>
           查看
         </a>,
-        <a key={`${data.orgId}auth`} onClick={() => {}}>
+        <a key={`${data.publicationId}up`} onClick={() => openModifyModal(data.publicationId)}>
+          编辑
+        </a>,
+        <a key={`${data.publicationId}auth`} onClick={() => openAuthModal(data.publicationId)}>
           授权
         </a>,
         <Popconfirm
-          key={`${data.orgId}del`}
-          title="确认删除该重点人物吗？"
+          key={`${data.publicationId}del`}
+          title="确认删除该非法出版物吗？"
           placement="topRight"
-          onConfirm={() => deleteKeyInstiton(data.orgId)}
+          onConfirm={() => deleteBanPublish(data.publicationId)}
         >
           <a>删除</a>
         </Popconfirm>,
@@ -75,30 +75,30 @@ const Table = ({ kdBanPublishMgt, openModifyModal, enums, dispatch }) => {
     },
   ];
 
-  const getKeyInstitons = params =>
+  const getKeyBanPublishList = params =>
     new Promise(resolve => {
       dispatch({
-        type: 'kdBanPublishMgt/getKeyInstitons',
+        type: 'kdBanPublishMgt/getKeyBanPublishList',
         payload: { ...params },
         resolve,
       });
     });
 
-  const deleteKeyInstiton = orgId => {
+  const deleteBanPublish = publicationId => {
     dispatch({
-      type: 'kdBanPublishMgt/deleteKeyInstiton',
-      payload: { orgId },
+      type: 'kdBanPublishMgt/deleteBanPublish',
+      payload: { publicationId },
     });
   };
 
   return (
     <ProTable
-      rowKey="orgId"
+      rowKey="publicationId"
       headerTitle="非法出版物"
       actionRef={tableRef}
       rowSelection={[]}
       scroll={{ x: 'max-content' }}
-      request={async params => getKeyInstitons(params)}
+      request={async params => getKeyBanPublishList(params)}
       toolBarRender={_ => [
         <Button type="primary" onClick={() => openModifyModal()}>
           新增
