@@ -19,7 +19,7 @@ import {
   FeedbackRequestList,
   exportLog,
   addFeedback,
-  // feedbackDetail
+  feedbackDetail,
 } from './service';
 
 const Model = {
@@ -328,9 +328,10 @@ const Model = {
     },
 
     *feedbackDetail({ payload, resolve }, { call, put }) {
-      const response = yield call(feedbackDetail, payload.feedbackLogId);
+      const response = yield call(feedbackDetail, payload);
       if (!response.error) {
         // const result = formatPageData(response);
+
         resolve && resolve(response);
         yield put({
           type: 'save',

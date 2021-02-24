@@ -13,7 +13,7 @@ const EditChildrenTaskForm = ({
   taskId,
   openFeedbackModal,
   openAddModal,
-  FeedbackDetailModal,
+  feedbackDetailModal,
 }) => {
   const feedRef = useRef();
   const formItems = [
@@ -95,7 +95,7 @@ const EditChildrenTaskForm = ({
       name: 'taskProgressList',
       span: 4,
       disabled,
-      render: <TaskProgressTable FeedbackDetailModal={FeedbackDetailModal} />,
+      render: <TaskProgressTable feedbackDetailModal={feedbackDetailModal} />,
     },
   ];
 

@@ -9,7 +9,7 @@ const ModifyModal = ({
   loading,
   openFeedbackModal,
   openAddModal,
-  FeedbackDetailModal,
+  feedbackDetailModal,
 }) => {
   const [form] = EditChildrenTaskForm.useForm();
   const [modalVisible, setModalVisible] = useState(false);
@@ -128,7 +128,7 @@ const ModifyModal = ({
         disabled={disabled}
         openFeedbackModal={openFeedbackModal}
         openAddModal={openAddModal}
-        FeedbackDetailModal={FeedbackDetailModal}
+        feedbackDetailModal={feedbackDetailModal}
       />
     </Modal>
   );

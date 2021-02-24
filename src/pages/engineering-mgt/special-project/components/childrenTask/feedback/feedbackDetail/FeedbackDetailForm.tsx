@@ -14,7 +14,7 @@ const FeedbackDetailForm = ({ form }) => {
     },
     {
       label: '附件列表',
-      name: 'fileInfoList',
+      name: 'fileIds',
       span: 4,
       type: 'upload',
     },

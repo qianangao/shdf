@@ -10,7 +10,7 @@ import ModifyModal from './components/childrenTask/editChildrenTask/ModifyModal'
 import FeedbackModal from './components/childrenTask/feedback/feedbackData/FeedBackModal';
 import FeedbackRequestModal from './components/childrenTask/FeedbackRequestModal';
 import FeedbackDetailModal from './components/childrenTask/feedback/feedbackDetail/FeedbackDetailModal';
-
+// import ChildrenTaskForm from './components/childrenTask/editChildrenTask/EditChildrenTaskForm'
 const SpecialProject = ({ dispatch }) => {
   const modifyRef = useRef({});
   const addSpecialRef = useRef({});
@@ -79,8 +79,9 @@ const SpecialProject = ({ dispatch }) => {
         openFeedbackModal={openFeedbackModal}
         openAddSpecialModal={openAddSpecialModal}
         openFeedbackReqModal={openFeedbackReqModal}
-        feedbackDetailModal={feedbackDetailModal}
+        // feedbackDetailModal={feedbackDetailModal}
       />
+      {/* <ChildrenTaskForm feedbackDetailModal={feedbackDetailModal}/> */}
       <AddchildrenTaskModal actionRef={modifyRef} />
       <SpecialActionModal actionRef={addSpecialRef} />
       {/* <EditModal actionRef={editRef} /> */}
@@ -88,6 +89,7 @@ const SpecialProject = ({ dispatch }) => {
         actionRef={editchildrenRef}
         openFeedbackModal={openFeedbackModal}
         openAddModal={openAddModal}
+        feedbackDetailModal={feedbackDetailModal}
       />
       <FeedbackModal actionRef={feedbackRef} openFeedbackReqModal={openFeedbackReqModal} />
       <DownModal actionRef={downRef} />

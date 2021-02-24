@@ -14,19 +14,31 @@ const FeedbackDetailModal = ({ dispatch, actionRef, loading }) => {
     }
   };
   const updateData = id => {
-    // if (id) {
-    new Promise(resolve => {
-      dispatch({
-        type: 'specialAction/findChildrenTaskDetail',
-        payload: { feedbackLogId: id },
-        resolve,
+    if (id) {
+      new Promise(resolve => {
+        dispatch({
+          type: 'specialAction/feedbackDetail',
+          payload: { feedbackLogId: id },
+          resolve,
+        });
+      }).then(res => {
+        if (res) {
+          const fileInfoList =
+            res.fileInfoList &&
+            res.fileInfoList.map(item => {
+              return {
+                url: item.url,
+                uid: item.fileId,
+                name: item.fileName,
+                status: 'done',
+              };
+            });
+          form.setFieldsValue({ ...res, fileIds: fileInfoList });
+        }
       });
-    }).then(res => {
-      if (res) {
-        form.setFieldsValue({ ...res });
-      }
-    });
-    // }
+    } else {
+      form.setFieldsValue({});
+    }
   };
   useEffect(() => {
     if (actionRef && typeof actionRef === 'function') {
@@ -51,7 +63,7 @@ const FeedbackDetailModal = ({ dispatch, actionRef, loading }) => {
     <Modal
       title="反馈详情"
       centered
-      width="60vw"
+      width="580px"
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',

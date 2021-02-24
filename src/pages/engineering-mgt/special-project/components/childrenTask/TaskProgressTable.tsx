@@ -1,43 +1,48 @@
 import React, { useState, useEffect } from 'react';
-import { Table } from 'antd';
+import { Table, Button } from 'antd';
 // import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 // import AdvancedForm from '@/components/AdvancedForm';
 
-const TaskProgressTable = ({ taskProgressList, FeedbackDetailModal }) => {
+const TaskProgressTable = ({ taskProgressList, head, feedbackDetailModal }) => {
   const [dataSource, setDataSource] = useState([]);
-  // const [selectData, setSelectData] = useState([]);
-  // console.log("taskProgressList",taskProgressList);
-  // console.log("head",head);
+  const [columns, setColumns] = useState([]);
 
   useEffect(() => {
     if (taskProgressList) {
+      setDataSource([]);
       setDataSource([...taskProgressList]);
     }
   }, [taskProgressList]);
 
-  const columns = [
-    {
-      title: '序号',
-      render: (text, render, index) => `${index + 1}`,
-      width: 64,
-      align: 'center',
-      dataIndex: 'id',
-      key: 'id',
-    },
-    {
-      title: '省份/进度',
-      align: 'center',
-      dataIndex: 'province',
-      render: text => <a onClick={() => FeedbackDetailModal(2)}>{text}</a>,
-    },
-    { title: '阶段反馈1', align: 'center', dataIndex: 'stage1', render: text => <a>{text}</a> },
-    { title: '阶段反馈2', align: 'center', dataIndex: 'stage2', render: text => <a>{text}</a> },
-    { title: '阶段反馈3', align: 'center', dataIndex: 'stage3', render: text => <a>{text}</a> },
-    { title: '阶段反馈4', align: 'center', dataIndex: 'stage4', render: text => <a>{text}</a> },
-  ];
+  useEffect(() => {
+    if (head) {
+      const arr = [];
+      Object.keys(head).forEach(function (key) {
+        if (key === 'province') {
+          arr.push({ title: key, dataIndex: key, align: 'center' });
+        } else {
+          arr.push({
+            title: key,
+            dataIndex: key,
+            align: 'center',
+            render: (text, record) => (
+              <a onClick={() => feedbackDetailModal(record[key].id)}>{record[key].label}</a>
+            ),
+          });
+        }
+        setColumns([...columns, ...arr]);
+      });
+    }
+  }, [head]);
 
-  return <Table dataSource={dataSource} columns={columns} rowKey="province" />;
+  return (
+    <>
+      {/* onClick={() => this.exportData()}  */}
+      <Button type="primary">导出</Button>
+      <Table dataSource={dataSource} columns={columns} rowKey="province" />
+    </>
+  );
 };
 
 export default connect(({ specialAction }) => ({

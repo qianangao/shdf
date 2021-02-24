@@ -12,13 +12,11 @@ const Table = ({
   openModifyModal,
   openAddSpecialModal,
   openFeedbackModal,
-  FeedbackDetailModal,
   dispatch,
   enums,
 }) => {
   const { tableRef, actionForm } = specialAction;
   const [form] = ActionDeacription.useForm();
-
   const getChildrenTaskList = params =>
     new Promise(resolve => {
       dispatch({
@@ -79,7 +77,7 @@ const Table = ({
         </a>,
         <a
           key={`${data.taskId}up`}
-          onClick={() => openModifyModal({ id: data.taskId, disabled: false, FeedbackDetailModal })}
+          onClick={() => openModifyModal({ id: data.taskId, disabled: false })}
         >
           {data.taskState === 0 && '修改'}
         </a>,
