@@ -19,7 +19,7 @@ import EditorInput from '../EditorInput';
 const AdvancedFormItem = ({
   enums,
   type,
-  span = 1, // span传 4 占据整行
+  span = 1, // span传 3 占据整行
   visible = true,
   render,
   enumsLabel,
@@ -132,12 +132,7 @@ const AdvancedFormItem = ({
   }
 
   return (
-    <Col
-      span={Math.min(24, 12 * span)}
-      lg={Math.min(24, 12 * span)}
-      xl={Math.min(24, 8 * span)}
-      xxl={Math.min(24, 6 * span)}
-    >
+    <Col span={Math.min(24, 8 * span)} xs={24}>
       <Form.Item {...resField}>{fieldInput}</Form.Item>
     </Col>
   );
