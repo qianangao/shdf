@@ -3,7 +3,7 @@ import { downloadXlsFile } from '@/utils';
 import { getReceivingCode } from '@/pages/synergy-office/receiving-mgt/service';
 import moment from 'moment';
 import {
-  getCaseList,
+  getList,
   getCaseHandleList,
   getCaseDetail,
   del,
@@ -24,37 +24,34 @@ import {
   getSuperviseDetail,
   superviseApproval,
   templateDownload,
-  clueRelation,
   importCase,
   exportCase,
 } from './service';
 
 const Model = {
-  namespace: 'caseMgt',
+  namespace: 'sensitiveEventMgt',
   state: {
-    receivingListData: {},
+    listData: {},
     receivingReadListData: {},
     memberListData: {},
     caseDetailData: {},
     recordDetailData: {},
     authorizeData: {},
-    caseDetailClueList: {},
     caseFileData: {},
     trendsDetailData: {},
     tableRef: {},
     tableHandleRef: {},
-    tableClubRef: {},
     selectedOrgId: undefined,
   },
   effects: {
-    *getCaseList({ payload, resolve }, { call, put }) {
+    *getList({ payload, resolve }, { call, put }) {
       const params = {
         ...payload,
         pageNum: payload.current,
         pageSize: payload.pageSize,
       };
 
-      const response = yield call(getCaseList, params);
+      const response = yield call(getList, params);
 
       if (!response.error) {
         const { records, current, total } = response;
@@ -72,7 +69,7 @@ const Model = {
         yield put({
           type: 'save',
           payload: {
-            receivingListData: result,
+            listData: result,
           },
         });
       }
@@ -154,44 +151,6 @@ const Model = {
           payload: {
             caseDetailData: response,
           },
-        });
-      }
-    },
-    *getClubList({ payload, resolve }, { call, put }) {
-      if (payload.id === '') {
-        resolve && resolve({});
-        return;
-      }
-      const response = yield call(getCaseDetail, payload);
-      if (!response.error) {
-        const { clueList } = response;
-        if (!clueList || clueList == null) {
-          resolve && resolve({});
-        } else {
-          const result = {
-            data: clueList,
-            page: 1,
-            pageSize: 100,
-            success: true,
-            total: clueList.length,
-          };
-          resolve && resolve(result);
-        }
-        yield put({
-          type: 'save',
-          payload: {
-            caseDetailClueList: clueList,
-          },
-        });
-      }
-    },
-    *clueRelation({ payload, resolve }, { call, put }) {
-      const response = yield call(clueRelation, payload);
-      if (!response.error) {
-        resolve && resolve(response);
-        message.success('线索串并联成功！');
-        yield put({
-          type: 'tableClubReload',
         });
       }
     },
@@ -424,13 +383,6 @@ const Model = {
       const tableHandleRef = state.tableHandleRef || {};
       setTimeout(() => {
         tableHandleRef.current && tableHandleRef.current.reloadAndRest();
-      }, 0);
-      return { ...state };
-    },
-    tableClubReload(state) {
-      const tableClubRef = state.tableClubRef || {};
-      setTimeout(() => {
-        tableClubRef.current && tableClubRef.current.reloadAndRest();
       }, 0);
       return { ...state };
     },

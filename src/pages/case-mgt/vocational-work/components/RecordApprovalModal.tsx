@@ -73,7 +73,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
     <Modal
       title="备案审批"
       centered
-      width={780}
+      width={580}
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',

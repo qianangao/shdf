@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'umi';
 import { Modal } from 'antd';
-import CueAssociation from '@/components/CueAssociation';
 import OrgInfoForm from './form/CaseForm';
 import TableCaseHandle from './TableCaseHandle';
 import TableFileCase from './TableFileCase';
@@ -17,10 +16,6 @@ const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
   const caseHandleModalRef = useRef({});
   const clubSplicingModalRef = useRef({});
   const [infoId, setCaresId] = useState('');
-  const cueAssociationRef = useRef({});
-  const openAssociationModal = (item: any, views: any) => {
-    cueAssociationRef.current.showModal(item, views);
-  };
 
   const showModal = items => {
     // 获取详情
@@ -98,33 +93,15 @@ const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
     caseHandleModalRef.current.showModal(item);
   };
 
-  const onSelected = item => {
-    let clubIds = [];
-    if (item && item.length > 0) {
-      const ids = item.map(obj => {
-        return obj.clueId;
-      });
-      clubIds = ids;
-    }
-    if (clubIds) {
-      return new Promise(resolve => {
-        dispatch({
-          type: `caseMgt/clueRelation`,
-          payload: {
-            clubIds,
-            id: infoId,
-          },
-          resolve,
-        });
-      });
-    }
-    return true;
+  const openClubSplicingModal = item => {
+    clubSplicingModalRef.current.showModal(item);
   };
+
   return (
     <Modal
-      title={detailData ? '案件编辑' : '案件录入'}
+      title={detailData ? '敏感事件编辑' : '敏感事件录入'}
       centered
-      width="90vw"
+      width={1080}
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',
@@ -136,7 +113,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
     >
       <OrgInfoForm form={form} orgInfoData={caseDetailData} />
 
-      <ClubSplicing id={infoId} openAssociationModal={openAssociationModal} />
+      <ClubSplicing id={infoId} openClubSplicingModal={openClubSplicingModal} />
 
       {infoId ? <TableCaseHandle id={infoId} openCaseHandleModal={openCaseHandleModal} /> : null}
 
@@ -145,7 +122,6 @@ const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
       <CaseHandleModal actionRef={caseHandleModalRef} id={infoId} />
 
       <ClubSplicingModal actionRef={clubSplicingModalRef} />
-      <CueAssociation actionRef={cueAssociationRef} onSelected={onSelected} />
     </Modal>
   );
 };

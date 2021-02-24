@@ -8,6 +8,13 @@ const routes = {
       redirect: '/sensitive-event-mgt/key-institutions',
       hideInMenu: true,
     },
+    {
+      path: '/sensitive-event-mgt/key-institutions',
+      name: 'sensitive-event-mgt-key-institutions',
+      component: './sensitive-event-mgt/key-institutions',
+      icon: 'setting',
+      remark: '敏感事件',
+    },
   ],
 };
 

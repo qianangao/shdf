@@ -1,18 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
 import { Modal } from 'antd';
-import OrgInfoForm from './form/EvaluateFeedbackForm';
+import CaseHandleForm from './form/CaseHandleForm';
 
-const ModifyModal = ({ dispatch, actionRef, loading }) => {
-  const [form] = OrgInfoForm.useForm();
-  const [applyCaseModalVisible, setModalVisible] = useState(false);
-  const [detailData, setDetailData] = useState(null);
+const ClubSplicingModal = ({ actionRef, dispatch }) => {
+  const [infoId] = useState('');
+  const [form] = CaseHandleForm.useForm();
+  const [clubSplicingModalVisible, setModalVisible] = useState(false);
 
-  const showModal = items => {
-    // 获取详情
-    if (items) {
-      setDetailData(items);
-    }
+  const showModal = () => {
     setModalVisible(true);
   };
 
@@ -20,7 +16,6 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
     if (actionRef && typeof actionRef === 'function') {
       actionRef({ showModal });
     }
-
     if (actionRef && typeof actionRef !== 'function') {
       actionRef.current = { showModal };
     }
@@ -28,17 +23,18 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
 
   const hideModal = () => {
     setModalVisible(false);
-    form.resetFields();
+    // form.resetFields();
   };
 
   const handleOk = () => {
     form
       .validateFields()
       .then(values => {
-        values.id = detailData.caseId;
+        values.engineeringIds = [values.engineeringIds];
+        values.specialActionIds = [values.specialActionIds];
         return new Promise(resolve => {
           dispatch({
-            type: `caseMgt/evaluateFeedback`,
+            type: `caseMgt/addCaseHandle`,
             payload: {
               ...values,
             },
@@ -56,25 +52,21 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
 
   return (
     <Modal
-      title="评价反馈"
+      title="案件办理"
       centered
-      width={580}
+      width="80vw"
       style={{ paddingBottom: 0 }}
-      bodyStyle={{
-        padding: '30px 60px',
-      }}
-      visible={applyCaseModalVisible}
+      visible={clubSplicingModalVisible}
+      destroyOnClose
       onOk={handleOk}
-      forceRender
-      confirmLoading={loading}
       onCancel={hideModal}
+      footer={[]}
     >
-      <OrgInfoForm form={form} />
+      <CaseHandleForm id={infoId} />
     </Modal>
   );
 };
 
-export default connect(({ caseMgt, loading }) => ({
-  caseMgt,
-  loading: loading.models.caseMgt,
-}))(ModifyModal);
+export default connect(({ loading }) => ({
+  loading: loading.models.oaVolunteerTeam,
+}))(ClubSplicingModal);

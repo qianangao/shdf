@@ -4,8 +4,8 @@ import request, { noErrorRequest } from '@/utils/request';
  * 获取收文管理列表
  * @param {*} params
  */
-export async function getCaseList(params) {
-  return request('/shdfCase/list', {
+export async function getList(params) {
+  return request('/sensitiveEvent/list', {
     method: 'POST',
     data: params,
   });
@@ -90,16 +90,6 @@ export async function addCase(params) {
   return request(`/shdfCase/save`, {
     method: 'POST',
     data: params,
-  });
-}
-/**
- * 编辑
- * @param {*} params
- */
-export async function clueRelation(params) {
-  return request(`/shdfCase/clueRelation/${params.id}`, {
-    method: 'POST',
-    data: params.clubIds,
   });
 }
 /**
