@@ -2,39 +2,11 @@ import React from 'react';
 import { Button, Popconfirm } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
-import ActionDeacription from './editAction/ActionDeacription';
-// import { getSpecialActionTree } from '../service';
+import EngineeringDescription from './engineeringInfo/EngineeringDescription';
 
-const Table = ({
-  specialAction,
-  openAddModal,
-  openDownModal,
-  openModifyModal,
-  openAddSpecialModal,
-  openFeedbackModal,
-  dispatch,
-  enums,
-}) => {
-  const { tableRef, actionForm } = specialAction;
-  const [form] = ActionDeacription.useForm();
-  const getChildrenTaskList = params =>
-    new Promise(resolve => {
-      dispatch({
-        type: 'specialAction/getChildrenTaskList',
-        payload: { ...params },
-        resolve,
-      });
-    });
-
-  const confirmDelete = id =>
-    new Promise(resolve => {
-      dispatch({
-        type: 'specialAction/deleteChildrenTaskList',
-        payload: id,
-        resolve,
-      });
-    });
-
+const Table = ({ dictionaryMgt, dispatch, enums, openAddEngineeringModal }) => {
+  const { tableRef } = dictionaryMgt;
+  // engineeringForm
   const columns = [
     {
       title: '序号',
@@ -77,7 +49,7 @@ const Table = ({
         </a>,
         <a
           key={`${data.taskId}up`}
-          onClick={() => openModifyModal({ id: data.taskId, disabled: false })}
+          onClick={() => openModifyModal({ id: data.taskId, disabled: false, FeedbackDetailModal })}
         >
           {data.taskState === 0 && '修改'}
         </a>,
@@ -99,31 +71,40 @@ const Table = ({
     },
   ];
 
+  const getEngineeringList = params =>
+    new Promise(resolve => {
+      dispatch({
+        type: 'dictionaryMgt/getEngineeringList',
+        payload: { ...params },
+        resolve,
+      });
+    });
+
   return (
     <div>
-      <ActionDeacription form={form} openAddSpecialModal={openAddSpecialModal} />
-      {actionForm.actionYear && (
-        <ProTable
-          search={false}
-          rowKey="taskId"
-          headerTitle="子任务"
-          actionRef={tableRef}
-          scroll={{ x: 'max-content' }}
-          request={async params => getChildrenTaskList(params)}
-          toolBarRender={_ => [
-            <Button type="primary" onClick={() => openAddModal({ visible: true })}>
-              新增子任务
-            </Button>,
-          ]}
-          columns={columns}
-        />
-      )}
+      <EngineeringDescription openAddEngineeringModal={openAddEngineeringModal} />
+      {/* { engineeringForm.actionYear && ( */}
+      <ProTable
+        rowKey="taskId"
+        headerTitle="项目任务"
+        search={false}
+        actionRef={tableRef}
+        rowSelection={[]}
+        scroll={{ x: 'max-content' }}
+        request={async params => getEngineeringList(params)}
+        columns={columns}
+        toolBarRender={_ => [
+          <Button type="primary" onClick={() => openAddModal({ visible: true })}>
+            新增任务
+          </Button>,
+        ]}
+      />
+      {/* )} */}
     </div>
   );
 };
 
-export default connect(({ specialAction, global }) => ({
-  // actionForm:specialAction.actionForm,
-  specialAction,
+export default connect(({ dictionaryMgt, global }) => ({
+  dictionaryMgt,
   enums: global.enums,
 }))(Table);

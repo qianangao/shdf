@@ -1,5 +1,4 @@
 import React from 'react';
-import { Radio } from 'antd';
 import AdvancedForm from '@/components/AdvancedForm';
 import { checkPhone, checkEmail, checkTelephone } from '@/utils/validators';
 
@@ -20,12 +19,7 @@ const AddressBookForm = ({ form }) => {
       name: 'gender',
       span: 4,
       rules: [{ required: true, message: '请选择员工性别' }],
-      render: (
-        <Radio.Group>
-          <Radio value={0}>女</Radio>
-          <Radio value={1}>男</Radio>
-        </Radio.Group>
-      ),
+      enumsLabel: 'gender',
     },
     {
       label: '所属部门',

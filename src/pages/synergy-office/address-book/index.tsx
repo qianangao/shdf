@@ -11,7 +11,7 @@ const AddressBook = ({ dispatch }) => {
     dispatch({
       type: 'global/getEnums',
       payload: {
-        names: [],
+        names: ['gender'],
       },
     });
   }, []);
