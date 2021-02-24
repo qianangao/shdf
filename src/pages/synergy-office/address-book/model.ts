@@ -1,6 +1,7 @@
 import { message } from 'antd';
-import { downloadXlsFile } from '@/utils';
+import { downloadExcelFile } from '@/utils';
 import moment from 'moment';
+import { formatPageData } from '@/utils/index';
 import {
   getAddressBook,
   deleteAddressBook,
@@ -28,16 +29,8 @@ const Model = {
       delete params.current;
       const response = yield call(getAddressBook, params);
       if (!response.error) {
-        const result = {
-          data: response.records,
-          page: response.pages,
-          pageSize: payload.pageSize,
-          success: true,
-          total: response.total,
-        };
-
+        const result = formatPageData(response);
         resolve && resolve(result);
-
         yield put({
           type: 'save',
           payload: {
@@ -49,8 +42,8 @@ const Model = {
 
     *getAddressBookDetail({ payload, resolve }, { call }) {
       const response = yield call(getAddressBookDetail, payload);
-
       if (!response.error) {
+        response.gender = response.gender.toString();
         resolve && resolve(response);
       }
     },
@@ -93,14 +86,14 @@ const Model = {
     *templateDownload({ _ }, { call }) {
       const response = yield call(templateDownload);
       if (!response.error) {
-        yield downloadXlsFile(response, `通讯录模板`);
+        yield downloadExcelFile(response, `通讯录模板`);
       }
     },
 
     *exportAddressBook({ payload }, { call }) {
       const response = yield call(exportAddressBook, payload);
       if (!response.error) {
-        yield downloadXlsFile(response, `通讯录列表${moment().format('MM-DD HH:mm:ss')}`);
+        yield downloadExcelFile(response, `通讯录列表${moment().format('MM-DD HH:mm:ss')}`);
       }
     },
 

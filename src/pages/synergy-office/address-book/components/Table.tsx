@@ -1,13 +1,12 @@
 import React, { useRef } from 'react';
-import { Button, Popconfirm, message } from 'antd';
+import { Button, Popconfirm, message, Modal } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 
-const Table = ({ emAddressBook, openModifyModal, dispatch }) => {
+const Table = ({ emAddressBook, openModifyModal, dispatch, enums }) => {
   const { tableRef } = emAddressBook;
   const formRef = useRef();
   const uploadLgbListRef = useRef();
-
   const deleteAddressBook = bookId => {
     dispatch({
       type: 'emAddressBook/deleteAddressBook',
@@ -22,13 +21,7 @@ const Table = ({ emAddressBook, openModifyModal, dispatch }) => {
       align: 'center',
       dataIndex: 'gender',
       hideInSearch: true,
-      render: (dom, data) => (
-        <>
-          {data.gender === 0 && <span>女</span>}
-          {data.gender === 1 && <span>男</span>}
-          {data.gender === 2 && <span>保密</span>}
-        </>
-      ),
+      valueEnum: enums.gender,
     },
     {
       title: '所属部门',
@@ -92,7 +85,20 @@ const Table = ({ emAddressBook, openModifyModal, dispatch }) => {
     })
       .then(res => {
         if (res && res.failure > 0) {
-          message.error(`${res.failure}条数据格式有误，请确认并更正数据后重新导入`);
+          Modal.warning({
+            title: '导入数据格式有误！',
+            width: 640,
+            content: (
+              <div
+                style={{
+                  maxHeight: 400,
+                  overflow: 'auto',
+                }}
+              >
+                {`${res.failure}条数据格式有误，请确认并更正数据后重新导入`}
+              </div>
+            ),
+          });
         }
       })
       .finally(() => {
@@ -158,6 +164,7 @@ const Table = ({ emAddressBook, openModifyModal, dispatch }) => {
   );
 };
 
-export default connect(({ emAddressBook }) => ({
+export default connect(({ emAddressBook, global }) => ({
   emAddressBook,
+  enums: global.enums,
 }))(Table);
