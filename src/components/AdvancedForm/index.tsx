@@ -132,7 +132,7 @@ const AdvancedFormItem = ({
   }
 
   return (
-    <Col span={Math.min(24, 8 * span)} xs={24}>
+    <Col span={Math.min(24, 8 * span)} xs={24} lg={Math.min(24, 8 * span)}>
       <Form.Item {...resField}>{fieldInput}</Form.Item>
     </Col>
   );
