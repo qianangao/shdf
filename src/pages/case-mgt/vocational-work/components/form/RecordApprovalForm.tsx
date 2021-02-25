@@ -23,7 +23,7 @@ const CaseMgt = ({ form, orgInfoData }) => {
   }, [orgInfoData]);
 
   const selectLgbInput = (
-    // 显示老干部信息-公共组件
+    // 显示单位信息-公共组件
     <>
       <Descriptions size="middle" column={1} title="备案申请">
         <Descriptions.Item label="申请时间">{orgInfoData.applyTime}</Descriptions.Item>

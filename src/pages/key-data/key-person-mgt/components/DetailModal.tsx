@@ -53,7 +53,9 @@ const DetailModal = ({ dispatch, actionRef, loading, personDetailData, enums }) 
     >
       <Spin spinning={loading}>
         <Descriptions title="基本信息" column={{ xxl: 4, xl: 3, lg: 2 }}>
-          <Descriptions.Item label="星级">{personDetailData.starLevel}</Descriptions.Item>
+          <Descriptions.Item label="星级">
+            {enums.star_level && enums.star_level[personDetailData.starLevel]}
+          </Descriptions.Item>
           <Descriptions.Item label="中文姓名">{personDetailData.personName}</Descriptions.Item>
           <Descriptions.Item label="英文姓名">{personDetailData.personNameEn}</Descriptions.Item>
           <Descriptions.Item label="外号">{personDetailData.nickname}</Descriptions.Item>

@@ -26,7 +26,7 @@ const DetailInfoForm = ({ form }) => {
     {
       label: '审核意见',
       name: 'auditOpinion',
-      span: 4,
+      span: 3,
       type: 'textarea',
     },
   ];

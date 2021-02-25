@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import { connect } from 'umi';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import Table from './components/Table';
 import ModifyModal from './components/ModifyModal';
 import AuthorizeModal from './components/AuthorizeModal';
@@ -33,7 +32,7 @@ const KeyInstitutions = ({ dispatch }) => {
   };
 
   return (
-    <PageHeaderWrapper>
+    <>
       <Table
         openModifyModal={openModifyModal}
         openDetailModal={openDetailModal}
@@ -42,7 +41,7 @@ const KeyInstitutions = ({ dispatch }) => {
       <ModifyModal actionRef={modifyRef} />
       <DetailModal actionRef={detailRef} />
       <AuthorizeModal actionRef={authRef} />
-    </PageHeaderWrapper>
+    </>
   );
 };
 

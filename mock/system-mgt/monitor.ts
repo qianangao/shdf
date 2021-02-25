@@ -3,14 +3,14 @@ const getMonitorCount = (req, res) => {
     code: 0,
     msg: 'success',
     data: {
-      cadreTotalNum: 278, //当前老干部总人数
+      cadreTotalNum: 278, //当前总人数
       staffTotalNum: 11, //当前工作人员总人数
-      addNum: 8, //当月新增老干部人数
-      cadreActiveNum: null, //当月老干部活跃数
+      addNum: 8, //当月新增人数
+      cadreActiveNum: null, //当月活跃数
       staffActiveNum: 7, //当月工作人员活跃数
       orgTotalNum: 747, //当前系统总单位数
       workLoginNum: 11, //工作人员登陆总数
-      lgbLoginNum: 22, //老干部登陆总数
+      lgbLoginNum: 22, //登陆总数
     },
   });
 };

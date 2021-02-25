@@ -63,7 +63,7 @@ const getRules = (req, res) => {
       {
         id: '01', //id
         parentId: '00', //父菜单id
-        ruleName: '离退休干部', //菜单名称
+        ruleName: '人员', //菜单名称
         routes: [
           //子菜单信息
           {

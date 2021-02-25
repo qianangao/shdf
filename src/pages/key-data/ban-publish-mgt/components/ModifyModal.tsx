@@ -54,12 +54,18 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
   const handleOk = () => {
     form
       .validateFields()
-      .then(values => {
+      .then((values: any) => {
+        const fileIds =
+          values.files &&
+          values.files.map((item: { uid: any }) => {
+            return item.uid;
+          });
         return new Promise(resolve => {
           dispatch({
             type: `kdBanPublishMgt/${publicationId ? 'updateBanPublish' : 'addBanPublish'}`,
             payload: {
               ...values,
+              fileIds,
             },
             resolve,
           });
@@ -81,6 +87,8 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',
+        height: 'calc(95vh - 108px)',
+        overflow: 'auto',
       }}
       visible={modalVisible}
       onOk={handleOk}

@@ -1,4 +1,4 @@
-import request from '@/utils/request';
+import request, { noErrorRequest } from '@/utils/request';
 
 /**
  * 获取非法出版物列表
@@ -62,5 +62,38 @@ export async function authUser(params: any) {
   return request(`/illegal/centralAuth`, {
     method: 'POST',
     data: params,
+  });
+}
+/**
+ * 模板下载
+ * @param params
+ */
+export async function templateDownload() {
+  return noErrorRequest(`/illegal/excel/template`, {
+    method: 'GET',
+    responseType: 'blob',
+  });
+}
+
+/**
+ * 导入文件
+ * @param params
+ */
+export async function importBanPublish(params) {
+  return request(`/illegal/excel/import`, {
+    method: 'POST',
+    data: params,
+  });
+}
+
+/**
+ * 导出文件
+ * @param params
+ */
+export async function exportBanPublish(params) {
+  return noErrorRequest(`/illegal/excel/export`, {
+    method: 'GET',
+    responseType: 'blob',
+    params,
   });
 }

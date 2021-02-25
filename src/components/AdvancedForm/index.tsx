@@ -121,6 +121,8 @@ const AdvancedFormItem = ({
     fieldInput = <UploadInput disabled={disabled} />;
   } else if (type === 'image') {
     fieldInput = <UploadInput type="image" disabled={disabled} />;
+  } else if (type === 'video') {
+    fieldInput = <UploadInput type="video" disabled={disabled} />;
   } else if (type === 'number') {
     fieldInput = <InputNumber disabled={disabled} {...extraProps} />;
   } else if (type === 'textarea') {

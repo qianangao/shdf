@@ -2,6 +2,7 @@ import { connect } from 'umi';
 import { Button, Upload, message, Modal } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { LoadingOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
+import VideoInput from './VideoInput';
 
 /**
  * 上传表单组件
@@ -109,7 +110,7 @@ const UploadInput = ({
       })
         .then(data => {
           setLoading(false);
-          if (data) {
+          if (!data.error) {
             const tempFile = {
               url: data.url,
               uid: data.fileId,
@@ -118,12 +119,29 @@ const UploadInput = ({
             };
             setUpFileList([...upFileList, tempFile]);
             onChange && onChange([...upFileList, tempFile]);
+            message.success('文件上传成功！');
+          } else {
+            const errFile = {
+              url: '',
+              uid: file.uid,
+              name: file.name,
+              status: 'error',
+            };
+            setUpFileList([...upFileList, errFile]);
+            onChange && onChange([...upFileList, errFile]);
+            message.warning('上传文件失败，请重试！');
           }
-
-          message.success('文件上传成功！');
         })
         .catch(_ => {
           setLoading(false);
+          const pFile = {
+            url: '',
+            uid: file.uid,
+            name: file.name,
+            status: 'error',
+          };
+          setUpFileList([...upFileList, pFile]);
+          onChange && onChange([...upFileList, pFile]);
         });
     }
   };
@@ -205,6 +223,9 @@ const UploadInput = ({
         fileList={upFileList}
         listType={type === 'image' ? 'picture-card' : 'text'}
         beforeUpload={beforeUpload}
+        itemRender={(originNode, file, currFileList) => (
+          <VideoInput type={type} originNode={originNode} file={file} fileList={currFileList} />
+        )}
         onPreview={file => {
           type === 'image' ? setPreviewVisible(true) : window.open(file.url);
         }}

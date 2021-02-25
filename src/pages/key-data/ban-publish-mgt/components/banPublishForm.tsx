@@ -1,12 +1,18 @@
 import React from 'react';
 import AdvancedForm from '@/components/AdvancedForm';
 import OrgMultiSelectInput from '@/components/OrgMultiSelectInput';
+import { Descriptions } from 'antd';
 
 const BanPublishForm = ({ form }) => {
   const formItems = [
+    {
+      name: 'baseInfo',
+      span: 3,
+      render: <Descriptions title="基本信息" size="middle" />,
+    },
     { label: 'id', name: 'publicationId', hidden: true },
     { label: '中文名称', name: 'name' },
-    { label: '英文名称', name: 'name_english' },
+    { label: '英文名称', name: 'nameEnglish' },
     {
       label: '作者及编著者',
       name: 'author',
@@ -28,7 +34,7 @@ const BanPublishForm = ({ form }) => {
     },
     { label: '类别', name: 'category', enumsLabel: 'subject_secrecy_level' },
     { label: '关键词', name: 'keyword' },
-    { label: '保密等级', name: 'subjectSecrecyLevel', enumsLabel: 'subject_secrecy_level' },
+    { label: '保密等级', name: 'secrecyLevel', enumsLabel: 'subject_secrecy_level' },
     {
       label: '所属联防工程',
       name: 'actionId',
@@ -44,6 +50,47 @@ const BanPublishForm = ({ form }) => {
       name: 'remarks',
       type: 'textarea',
       rules: [{ required: true, message: '请输入备注说明!' }],
+    },
+    {
+      name: 'identificationResults',
+      span: 3,
+      render: <Descriptions title="鉴定结果" size="middle" />,
+    },
+    {
+      label: '鉴定结构',
+      name: 'appraisalInstitution',
+    },
+    { label: '鉴定类型', name: 'appraisalType', enumsLabel: 'subject_secrecy_level' },
+    {
+      label: '鉴定日期',
+      name: 'appraisalDate',
+      type: 'date',
+    },
+    {
+      label: '鉴定结论',
+      name: 'appraisalConclusion',
+      type: 'textarea',
+    },
+    {
+      label: '特征描述',
+      name: 'featureDescription',
+      type: 'textarea',
+    },
+    {
+      name: 'relevantData',
+      span: 3,
+      render: <Descriptions title="相关资料" size="middle" />,
+    },
+    {
+      label: '相关附件',
+      name: 'files',
+      type: 'upload',
+    },
+    {
+      label: '相关视频',
+      name: 'videos',
+      type: 'video',
+      span: 2,
     },
   ];
 

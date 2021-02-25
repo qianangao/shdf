@@ -21,7 +21,7 @@ const OrgTree = ({ value = '', onChange = null, allInValue = false }) => {
         orgTreeData.push({
           // TEMP 获取用户所在组织id title
           key: tempId,
-          title: 'demo全扫',
+          title: '全国扫黄打非办公室',
         });
 
         setTimeout(() => {
@@ -47,7 +47,7 @@ const OrgTree = ({ value = '', onChange = null, allInValue = false }) => {
           ? {
               // TEMP 获取用户所在组织id title
               key: 'demoid',
-              title: 'demo全扫',
+              title: '全国扫黄打非办公室',
             }
           : 'demoid',
       );
