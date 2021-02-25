@@ -1,13 +1,21 @@
 import React, { useEffect, useRef } from 'react';
 import { connect } from 'umi';
-import EngineeringTreeLayout from './components/TreeComponent/EngineeringTreeLayout';
+import EngineeringTreeLayout from './components/tree-component/EngineeringTreeLayout';
 import Table from './components/Table';
-import AddEngineeringModal from './components/addEngineering/AddEngineeringModal';
-import TempProvinceModal from './components/tempProvince/tempProvinceModal';
+import AddEngineeringModal from './components/add-engineering/AddEngineeringModal';
+import TempProvinceModal from './components/temp-province/tempProvinceModal';
+import AddProjectTaskModal from './components/project-task/add-project-task/AddProjectTaskModal';
+import ModifyProjectTaskModal from './components/project-task/edit-project-task/ModifyProjectTaskModal';
+import FeedbackDetailModal from './components/feedback/feedback-detail/FeedbackDetailModal';
+import FeedbackModal from './components/feedback/feedback-data/FeedbackModal';
 
 const DictionaryMgt = ({ dispatch }) => {
   const addEngineeringRef = useRef({});
   const tempProvinceRef = useRef({});
+  const addProjectTaskRef = useRef({});
+  const editProjectTaskRef = useRef({});
+  const feedbackRef = useRef({});
+  const feedbackDetailRef = useRef({});
 
   useEffect(() => {
     dispatch({
@@ -24,15 +32,39 @@ const DictionaryMgt = ({ dispatch }) => {
   const tempProvinceModel = item => {
     tempProvinceRef.current.showModal(item);
   };
+  const addProjectTaskModal = item => {
+    addProjectTaskRef.current.showModal(item);
+  };
+  const modifyProjectTaskModal = item => {
+    editProjectTaskRef.current.showModal(item);
+  };
+  const feedbackModal = item => {
+    feedbackRef.current.showModal(item);
+  };
+  const feedbackDetailModal = item => {
+    feedbackDetailRef.current.showModal(item);
+  };
 
   return (
     <EngineeringTreeLayout openAddEngineeringModal={openAddEngineeringModal}>
       <Table
         openAddEngineeringModal={openAddEngineeringModal}
         tempProvinceModel={tempProvinceModel}
+        addProjectTaskModal={addProjectTaskModal}
+        modifyProjectTaskModal={modifyProjectTaskModal}
+        feedbackModal={feedbackModal}
       />
       <AddEngineeringModal actionRef={addEngineeringRef} />
       <TempProvinceModal actionRef={tempProvinceRef} />
+      <AddProjectTaskModal actionRef={addProjectTaskRef} />
+      <ModifyProjectTaskModal
+        actionRef={editProjectTaskRef}
+        addProjectTaskModal={addProjectTaskModal}
+        feedbackModal={feedbackModal}
+        feedbackDetailModal={feedbackDetailModal}
+      />
+      <FeedbackModal actionRef={feedbackRef} />
+      <FeedbackDetailModal actionRef={feedbackDetailRef} />
     </EngineeringTreeLayout>
   );
 };

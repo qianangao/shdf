@@ -1,7 +1,7 @@
 import React from 'react';
-import OrgTree from '@/components/OrgTree';
+import EngineeringTree from './engineering-tree/index';
 
-const OrgTreeLayout = ({ children, onOrgSelect }) => {
+const EngineeringTreeLayout = ({ children, openAddEngineeringModal }) => {
   return (
     <section
       style={{
@@ -21,7 +21,7 @@ const OrgTreeLayout = ({ children, onOrgSelect }) => {
           overflow: 'hidden',
         }}
       >
-        <OrgTree onChange={onOrgSelect} />
+        <EngineeringTree openAddEngineeringModal={openAddEngineeringModal} />
       </aside>
       <section style={{ marginLeft: 15, width: '100%', overflow: 'auto' }}>
         <main style={{ overflow: 'initial' }}>{children}</main>
@@ -30,4 +30,4 @@ const OrgTreeLayout = ({ children, onOrgSelect }) => {
   );
 };
 
-export default OrgTreeLayout;
+export default EngineeringTreeLayout;

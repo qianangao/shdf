@@ -52,7 +52,7 @@ const AdvancedFormItem = ({
     fieldInput = render;
   } else if (enumsItems) {
     fieldInput = (
-      <Select disabled={disabled}>
+      <Select disabled={disabled} getPopupContainer={triggerNode => triggerNode.parentElement}>
         {enumsItems &&
           Object.keys(enumsItems).map(key => (
             <Select.Option key={key} value={key}>
@@ -63,7 +63,7 @@ const AdvancedFormItem = ({
     );
   } else if (enumsLabel) {
     fieldInput = (
-      <Select disabled={disabled}>
+      <Select disabled={disabled} getPopupContainer={triggerNode => triggerNode.parentElement}>
         {enums[enumsLabel] &&
           Object.keys(enums[enumsLabel]).map(key => (
             <Select.Option key={key} value={key}>
@@ -79,6 +79,7 @@ const AdvancedFormItem = ({
 
     fieldInput = (
       <DatePicker
+        getPopupContainer={triggerNode => triggerNode.parentElement}
         disabled={disabled}
         style={{ width: '100%' }}
         format="YYYY-MM-DD"

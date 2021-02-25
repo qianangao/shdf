@@ -191,3 +191,12 @@ export async function feedbackDetail(params) {
     params,
   });
 }
+/**
+ *省数据
+ *
+ */
+export async function provinceData() {
+  return request(`/org/deploy`, {
+    method: 'GET',
+  });
+}

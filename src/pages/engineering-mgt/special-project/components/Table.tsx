@@ -2,13 +2,13 @@ import React from 'react';
 import { Button, Popconfirm } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
-import ActionDeacription from './editAction/ActionDeacription';
+import ActionDeacription from './edit-action/ActionDeacription';
 // import { getSpecialActionTree } from '../service';
 
 const Table = ({
   specialAction,
   openAddModal,
-  openDownModal,
+  // openDownModal,
   openModifyModal,
   openAddSpecialModal,
   openFeedbackModal,
@@ -75,9 +75,9 @@ const Table = ({
         >
           {data.taskState === 0 && '修改'}
         </a>,
-        <a key={`${data.taskId}down`} onClick={() => openDownModal()}>
-          {data.taskState === 0 && '下发'}
-        </a>,
+        // <a key={`${data.taskId}down`} onClick={() => openDownModal(data.taskId)}>
+        //   {data.taskState === 0 && '下发'}
+        // </a>,
         <a key={`${data.taskId}back`} onClick={() => openFeedbackModal(data.taskId)}>
           {data.taskState === 2 && '反馈'}
         </a>,

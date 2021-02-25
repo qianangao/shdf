@@ -1,7 +1,13 @@
 import React from 'react';
-import OrgTree from '@/components/OrgTree';
+import ActionTree from './action-tree/index';
 
-const OrgTreeLayout = ({ children, onOrgSelect }) => {
+const ActionTreeLayout = ({
+  children,
+  openAddSpecialModal,
+  onActionSelect,
+  addAnnualAction,
+  addAction,
+}) => {
   return (
     <section
       style={{
@@ -21,7 +27,12 @@ const OrgTreeLayout = ({ children, onOrgSelect }) => {
           overflow: 'hidden',
         }}
       >
-        <OrgTree onChange={onOrgSelect} />
+        <ActionTree
+          onChange={onActionSelect}
+          addAnnualAction={addAnnualAction}
+          addAction={addAction}
+          openAddSpecialModal={openAddSpecialModal}
+        />
       </aside>
       <section style={{ marginLeft: 15, width: '100%', overflow: 'auto' }}>
         <main style={{ overflow: 'initial' }}>{children}</main>
@@ -30,4 +41,4 @@ const OrgTreeLayout = ({ children, onOrgSelect }) => {
   );
 };
 
-export default OrgTreeLayout;
+export default ActionTreeLayout;

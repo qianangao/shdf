@@ -21,6 +21,7 @@ import {
   exportLog,
   addFeedback,
   feedbackDetail,
+  provinceData,
 } from './service';
 
 const Model = {
@@ -39,6 +40,7 @@ const Model = {
     actionForm: {},
     actionId: '',
     taskId: '',
+    taskStatus: '',
     actionTree: [],
     loading: false,
     head: {},
@@ -126,8 +128,10 @@ const Model = {
       }
     },
 
-    *deployChildrenTaskList({ payload, resolve }, { call, put }) {
-      const response = yield call(deployChildrenTaskList, payload);
+    *deployChildrenTaskList({ payload, resolve }, { call, put, select }) {
+      const actionId = yield select(state => state.specialAction.actionId);
+      const taskStatus = yield select(state => state.specialAction.taskStatus);
+      const response = yield call(deployChildrenTaskList, { ...payload, actionId, taskStatus });
       if (!response.error) {
         resolve && resolve(response);
         message.success('下发成功！');
@@ -143,10 +147,10 @@ const Model = {
         response.secrecyLevel += '';
         response.taskState += '';
         resolve && resolve(response);
-
         yield put({
           type: 'save',
           payload: {
+            taskStatus: response.taskState,
             taskId: payload.taskId,
             feedListData: response.feedbackRequireList,
             taskProgressList: response.taskProgressList,
@@ -315,6 +319,12 @@ const Model = {
       const response = yield call(exportLog, { taskId });
       if (!response.error) {
         yield downloadExcelFile(response, `任务进度列表${moment().format('MM-DD HH:mm:ss')}`);
+      }
+    },
+    *provinceData({ resolve }, { call }) {
+      const response = yield call(provinceData);
+      if (!response.error) {
+        resolve && resolve(response);
       }
     },
     *addFeedback({ payload, resolve }, { call, put }) {
