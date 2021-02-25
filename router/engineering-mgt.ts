@@ -8,12 +8,14 @@ const routes = {
       name: 'engineering-mgt-special-project',
       component: './engineering-mgt/special-project',
       remark: '专项工程',
+      icon: 'folder',
     },
     {
       path: '/engineering-mgt/dictionary-mgt',
       name: 'engineering-mgt-dictionary-mgt',
       component: './engineering-mgt/special-project',
       remark: '联防工程',
+      icon: 'folderAdd',
     },
     {
       path: '/engineering-mgt',

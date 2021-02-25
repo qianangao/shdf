@@ -7,20 +7,20 @@ const routes = {
       path: '/synergy-office/receiving-mgt',
       name: 'synergy-office-receiving-mgt',
       component: './synergy-office/receiving-mgt',
-      icon: 'setting',
+      icon: 'reconciliation',
       remark: '收文管理',
     },
     {
       path: '/synergy-office/address-book',
       name: 'synergy-office-address-book',
       component: './synergy-office/address-book',
-      icon: 'setting',
+      icon: 'read',
       remark: '通讯录',
     },
     {
       path: '/synergy-office/announcement-mgt',
       name: 'synergy-office-announcement-mgt',
-      icon: 'setting',
+      icon: 'notification',
       remark: '公告管理',
       routes: [
         {
@@ -34,8 +34,8 @@ const routes = {
           name: 'synergy-office-announcement-mgt/receive-management',
           component: './synergy-office/announcement-mgt/receive-management',
           remark: '接收管理',
-        }
-      ]
+        },
+      ],
     },
     {
       path: '/synergy-office',
