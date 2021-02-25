@@ -11,8 +11,8 @@ const routes = {
       remark: '线索管理',
     },
     {
-      path: '/thread-mgt/thread-mgt0',
-      redirect: '/thread-mgt',
+      path: '/thread-mgt',
+      redirect: '/thread-mgt/thread-mgt0',
       hideInMenu: true,
     },
   ],
