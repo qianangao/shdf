@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Tree, Input } from 'antd';
-import { getAllOrgTree } from '@/services/orgTree';
+// import { getAllOrgTree } from '@/services/orgTree';
 import { transformOrgTreeData } from '@/utils/orgTreeUtil';
 import styles from './index.less';
 
@@ -17,7 +17,7 @@ const OrgMultiSelectInput = ({ value, onChange }) => {
 
   /* TEMP 搜索逻辑预留 */
   // const [searchValue, setSearchValue] = useState('');
-  const [expandedKeys, setExpandedKeys] = useState([]);
+  const [expandedKeys, setExpandedKeys] = useState<any>([]);
   const [checkedKeys, setCheckedKeys] = useState({
     checked: [],
     halfChecked: [],
@@ -56,19 +56,131 @@ const OrgMultiSelectInput = ({ value, onChange }) => {
   // };
 
   useEffect(() => {
-    getAllOrgTree().then(data => {
-      if (data.error) {
-        return;
-      }
+    // temp 对接数据后更新
+    const data: any = [
+      {
+        id: '1000', // id
+        sort: null,
+        organizationName: '全国SHDF办公室', // 单位名称
+        parentEmployerId: '0', // 父单位id
+        parentOrganizationName: null,
+        isLgbMinistry: null,
+        dictOrganizationType: '8adcf7c96a48fae4016a4925f3e3', // 单位性质
+        organizationTelphone: null,
+        dictRank: null,
+        children: [
+          // 子单位信息
+          {
+            id: '2c948a827409c4aa017409c4aa63',
+            sort: null,
+            organizationName: '陕西SHDF办公室',
+            parentEmployerId: '1000',
+            parentOrganizationName: '陕西SHDF',
+            isLgbMinistry: null,
+            dictOrganizationType: '8adcf7c96a48fae4016a4925f3e3',
+            organizationTelphone: null,
+            dictRank: null,
+            children: [
+              {
+                id: '4028b23f738f519401738f321b9',
+                sort: null,
+                organizationName: '西安SHDF办公室',
+                parentEmployerId: '1000',
+                parentOrganizationName: '西安SHDF',
+                isLgbMinistry: null,
+                dictOrganizationType: '8adcf7c96a48fae4016a4925f3e3',
+                organizationTelphone: null,
+                dictRank: null,
+                children: null,
+                isSubunit: null,
+                gmtCreate: '2020-07-27T08:09:15.000+0000',
+                communityAddress: null,
+              },
+              {
+                id: '4028b23f738f519401738f321b0',
+                sort: null,
+                organizationName: '延安SHDF办公室',
+                parentEmployerId: '1001',
+                parentOrganizationName: '延安SHDF',
+                isLgbMinistry: null,
+                dictOrganizationType: '8adcf7c96a48fae4016a4925f3e2',
+                organizationTelphone: null,
+                dictRank: null,
+                children: null,
+                isSubunit: null,
+                gmtCreate: '2020-07-27T08:09:15.000+0000',
+                communityAddress: null,
+              },
+            ],
+            isSubunit: 1,
+            gmtCreate: '2020-08-20T02:48:38.000+0000',
+            communityAddress: null,
+          },
+          {
+            id: '2c948a827409c4aa017409c4aa61',
+            sort: null,
+            organizationName: '四川SHDF办公室',
+            parentEmployerId: '1002',
+            parentOrganizationName: '四川SHDF',
+            isLgbMinistry: null,
+            dictOrganizationType: '8adcf7c96a48fae4016a4925f3e4',
+            organizationTelphone: null,
+            dictRank: null,
+            children: [
+              {
+                id: '4028b23f738f519401738f321b5',
+                sort: null,
+                organizationName: '成都SHDF办公室',
+                parentEmployerId: '1003',
+                parentOrganizationName: '成都SHDF',
+                isLgbMinistry: null,
+                dictOrganizationType: '8adcf7c96a48fae4016a4925f3e6',
+                organizationTelphone: null,
+                dictRank: null,
+                children: null,
+                isSubunit: null,
+                gmtCreate: '2020-07-27T08:09:15.000+0000',
+                communityAddress: null,
+              },
+              {
+                id: '4028b23f738f519401738f321b7',
+                sort: null,
+                organizationName: '广元SHDF办公室',
+                parentEmployerId: '1004',
+                parentOrganizationName: '广元SHDF',
+                isLgbMinistry: null,
+                dictOrganizationType: '8adcf7c96a48fae4016a4925f3e7',
+                organizationTelphone: null,
+                dictRank: null,
+                children: null,
+                isSubunit: null,
+                gmtCreate: '2020-07-27T08:09:15.000+0000',
+                communityAddress: null,
+              },
+            ],
+            isSubunit: 1,
+            gmtCreate: '2020-08-20T02:48:38.000+0000',
+            communityAddress: null,
+          },
+        ],
+        isSubunit: null,
+        gmtCreate: '2018-09-12T10:41:25.000+0000',
+        communityAddress: null,
+      },
+    ];
+    // getAllOrgTree().then(data => {
+    // if (data.error) {
+    //   return;
+    // }
 
-      transformOrgTreeData(data);
-      setMultiOrgTreeData(data);
+    transformOrgTreeData(data);
+    setMultiOrgTreeData(data);
 
-      if (data && data[0]) {
-        setExpandedKeys([data[0].key]);
-        treeItems = getTreeitems(data);
-      }
-    });
+    if (data && data[0]) {
+      setExpandedKeys([data[0].key]);
+      treeItems = getTreeitems(data);
+    }
+    // });
   }, []);
 
   useEffect(() => {
