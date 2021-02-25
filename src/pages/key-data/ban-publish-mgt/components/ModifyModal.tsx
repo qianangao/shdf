@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
-import { Modal } from 'antd';
+import { Modal, Spin } from 'antd';
 import BanPublishForm from './banPublishForm';
 
 const ModifyModal = ({ dispatch, actionRef, loading }) => {
@@ -95,7 +95,9 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <BanPublishForm form={form} />
+      <Spin spinning={loading}>
+        <BanPublishForm form={form} />
+      </Spin>
     </Modal>
   );
 };
