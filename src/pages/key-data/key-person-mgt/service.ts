@@ -69,7 +69,7 @@ export async function authUser(params: any) {
  * @param params
  */
 export async function templateDownload() {
-  return noErrorRequest(`/central/excel/template`, {
+  return noErrorRequest(`/central/person/excel/template`, {
     method: 'GET',
     responseType: 'blob',
   });
@@ -80,7 +80,7 @@ export async function templateDownload() {
  * @param params
  */
 export async function importPerson(params) {
-  return request(`/central/excel/import`, {
+  return request(`/central/person/excel/import`, {
     method: 'POST',
     data: params,
   });
@@ -91,7 +91,7 @@ export async function importPerson(params) {
  * @param params
  */
 export async function exportPerson(params) {
-  return noErrorRequest(`/central/excel/export`, {
+  return noErrorRequest(`/central/person/excel/export`, {
     method: 'GET',
     responseType: 'blob',
     params,

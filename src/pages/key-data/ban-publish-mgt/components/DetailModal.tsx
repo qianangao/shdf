@@ -83,7 +83,7 @@ const DetailModal = ({ dispatch, actionRef, loading, banPublishDetail, enums }) 
             {formatDateStr(banPublishDetail.publicationDate, 'YYYY-MM-DD')}
           </Descriptions.Item>
           <Descriptions.Item label="类别">
-            {enums.blood && enums.blood[banPublishDetail.category]}
+            {enums.illegal_dict && enums.illegal_dict[banPublishDetail.category]}
           </Descriptions.Item>
           <Descriptions.Item label="关键词">{banPublishDetail.keyword}</Descriptions.Item>
           <Descriptions.Item label="保密等级">
@@ -103,7 +103,8 @@ const DetailModal = ({ dispatch, actionRef, loading, banPublishDetail, enums }) 
             {banPublishDetail.appraisalInstitution}
           </Descriptions.Item>
           <Descriptions.Item label="鉴定类型">
-            {enums.political && enums.political[banPublishDetail.appraisalType]}
+            {enums.illegal_appraisalType &&
+              enums.illegal_appraisalType[banPublishDetail.appraisalType]}
           </Descriptions.Item>
           <Descriptions.Item label="鉴定日期">
             {formatDateStr(banPublishDetail.appraisalDate, 'YYYY-MM-DD')}

@@ -52,7 +52,7 @@ const Table = ({
       title: '鉴定类型',
       align: 'center',
       dataIndex: 'appraisalType',
-      valueEnum: enums.subject_secrecy_level,
+      valueEnum: enums.illegal_appraisalType,
     },
     {
       title: '操作',
