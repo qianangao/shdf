@@ -14,6 +14,7 @@ const Table = ({
   addProjectTaskModal,
   tempProvinceModal,
   engineeringForm,
+  downModal,
 }) => {
   const { tableRef } = dictionaryMgt;
 
@@ -74,7 +75,7 @@ const Table = ({
         >
           {data.taskStatus === 0 && '修改'}
         </a>,
-        <a key={`${data.taskId}down`} onClick={() => openDownModal()}>
+        <a key={`${data.taskId}down`} onClick={() => downModal(data.taskId)}>
           {data.taskStatus === 0 && '下发'}
         </a>,
         <a key={`${data.taskId}back`} onClick={() => feedbackModal(data.taskId)}>

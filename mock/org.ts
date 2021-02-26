@@ -16,9 +16,9 @@ const getOrgTree = (req, res) => {
       {
         id: '1' + id, //id
         sort: null,
-        organizationName: '测试单位1', //单位名称
+        organizationName: '陕西省SHDF办公室', //单位名称
         parentEmployerId: id || '1000', //父单位id
-        parentOrganizationName: '省委老干部局', //父单位名称
+        parentOrganizationName: 'SHDF办公室', //父单位名称
         isLgbMinistry: null,
         dictOrganizationType: '8adcf7c96a48fae4016a4925f3e3', //单位性质
         organizationTelphone: null,
@@ -31,11 +31,11 @@ const getOrgTree = (req, res) => {
       {
         id: '2' + id, //id
         sort: 0,
-        organizationName: '测试单位2',
+        organizationName: '河北省SHDF办公室',
         parentEmployerId: id || '1000', //父单位id
-        parentOrganizationName: '省委老干部局',
+        parentOrganizationName: 'SHDF办公室',
         isLgbMinistry: 0,
-        dictOrganizationType: '8adcf7c96a48fae4016a4925f3e3',
+        dictOrganizationType: '8adcf7c96a48fae4016a4925f3e2',
         organizationTelphone: 'string',
         dictRank: 1,
         children: null,
@@ -46,9 +46,9 @@ const getOrgTree = (req, res) => {
       {
         id: '3' + id, //id
         sort: 0,
-        organizationName: '测试单位3',
+        organizationName: '山东省SHDF办公室',
         parentEmployerId: id || '1000', //父单位id
-        parentOrganizationName: '省委老干部局',
+        parentOrganizationName: 'SHDF办公室',
         isLgbMinistry: 0,
         dictOrganizationType: '8adcf7c96a48fae4016a4925f3e3',
         organizationTelphone: 'string',
@@ -200,7 +200,7 @@ const getOrgList = (req, res) => {
           sort: null,
           organizationName: '测试单位1', //单位名称
           parentEmployerId: '1000', //父单位id
-          parentOrganizationName: '省委老干部局', //父单位名称
+          parentOrganizationName: '测试', //父单位名称
           isLgbMinistry: null,
           dictOrganizationType: '8adcf7c96a48fae4016a4925f3e3', //单位性质
           organizationTelphone: null,
@@ -215,7 +215,7 @@ const getOrgList = (req, res) => {
           sort: 0,
           organizationName: '测试单位2',
           parentEmployerId: '1000',
-          parentOrganizationName: '省委老干部局',
+          parentOrganizationName: '测试2',
           isLgbMinistry: 0,
           dictOrganizationType: '8adcf7c96a48fae4016a4925f3e3',
           organizationTelphone: 'string',
@@ -230,7 +230,7 @@ const getOrgList = (req, res) => {
           sort: 0,
           organizationName: '测试单位3',
           parentEmployerId: '1000',
-          parentOrganizationName: '省委老干部局',
+          parentOrganizationName: '测试3',
           isLgbMinistry: 0,
           dictOrganizationType: '8adcf7c96a48fae4016a4925f3e3',
           organizationTelphone: 'string',
@@ -245,7 +245,7 @@ const getOrgList = (req, res) => {
           sort: 0,
           organizationName: '测试单位4',
           parentEmployerId: '1000',
-          parentOrganizationName: '省委老干部局',
+          parentOrganizationName: '测试4',
           isLgbMinistry: 0,
           dictOrganizationType: '8adcf7c96a48fae4016a4925f3e3',
           organizationTelphone: 'string',
@@ -270,7 +270,7 @@ const getOrgItem = (req, res) => {
       sort: 0,
       organizationName: '测试单位4',
       parentEmployerId: '1000',
-      parentOrganizationName: '省委老干部局',
+      parentOrganizationName: '测试单位',
       isLgbMinistry: 0,
       dictOrganizationType: '8adcf7c96a48fae4016a4925f3e3',
       organizationTelphone: 'string',
@@ -290,7 +290,7 @@ for (let i = 0; i < 20; i++) {
   staffInfo.push({
     id: '402883e973e5c2ce0173e5c2ce9' + i, //id
     organizationId: '1000', //单位id
-    realName: '伍仟' + i, //姓名
+    realName: '张三' + i, //姓名
     homeAddressDiy: null,
     dictSex: '8adcf7c96a48fae4016a4925e34b', //性别
     dictNation: '8adcf7c96a48fae4016a49260741', //民族
@@ -299,7 +299,7 @@ for (let i = 0; i < 20; i++) {
     startWorkTime: '2020-08-12', //参加工作时间
     originalUnitAndPosition: '局长' + i, //原工作单位及职务
     dictRetirementLevel: '8adcf7c96a48fae4016a4925f71e', //级别
-    dictRetirementType: '8adcf7c96a48fae4016a4925f601', //离退休类型
+    dictRetirementType: '8adcf7c96a48fae4016a4925f601', //类型
     phonenumber: '1865555555' + i, //电话号码
     dictTreatmentNow: '8adcf7c96a48fae4016a492643c9', //现享受待遇
     spouseName: null,
@@ -307,7 +307,7 @@ for (let i = 0; i < 20; i++) {
     idCard: '440103199003077458', //身份证号
     nowThePipeUnits: '现管单位', //现管单位
     nowThePipeUnitsId: '40fd998a6f42a78d016f45ff33ee', //现管单位id
-    partyName: '离退休党支部', //支部名称
+    partyName: '测试单位', //支部名称
   });
 }
 

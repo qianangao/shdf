@@ -8,6 +8,7 @@ import AddProjectTaskModal from './components/project-task/add-project-task/AddP
 import ModifyProjectTaskModal from './components/project-task/edit-project-task/ModifyProjectTaskModal';
 import FeedbackDetailModal from './components/feedback/feedback-detail/FeedbackDetailModal';
 import FeedbackModal from './components/feedback/feedback-data/FeedbackModal';
+import DownModal from './components/down/DownModal';
 
 const DictionaryMgt = ({ dispatch }) => {
   const addEngineeringRef = useRef({});
@@ -16,6 +17,7 @@ const DictionaryMgt = ({ dispatch }) => {
   const editProjectTaskRef = useRef({});
   const feedbackRef = useRef({});
   const feedbackDetailRef = useRef({});
+  const downRef = useRef({});
 
   useEffect(() => {
     dispatch({
@@ -44,6 +46,9 @@ const DictionaryMgt = ({ dispatch }) => {
   const feedbackDetailModal = item => {
     feedbackDetailRef.current.showModal(item);
   };
+  const downModal = item => {
+    downRef.current.showModal(item);
+  };
 
   return (
     <EngineeringTreeLayout openAddEngineeringModal={openAddEngineeringModal}>
@@ -53,6 +58,7 @@ const DictionaryMgt = ({ dispatch }) => {
         addProjectTaskModal={addProjectTaskModal}
         modifyProjectTaskModal={modifyProjectTaskModal}
         feedbackModal={feedbackModal}
+        downModal={downModal}
       />
       <AddEngineeringModal actionRef={addEngineeringRef} />
       <TempProvinceModal actionRef={tempProvinceRef} />
@@ -65,6 +71,7 @@ const DictionaryMgt = ({ dispatch }) => {
       />
       <FeedbackModal actionRef={feedbackRef} />
       <FeedbackDetailModal actionRef={feedbackDetailRef} />
+      <DownModal actionRef={downRef} />
     </EngineeringTreeLayout>
   );
 };

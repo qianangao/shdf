@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
-import { Modal } from 'antd';
+import { Modal, Spin } from 'antd';
 import BanPublishForm from './banPublishForm';
 
 const ModifyModal = ({ dispatch, actionRef, loading }) => {
@@ -54,12 +54,18 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
   const handleOk = () => {
     form
       .validateFields()
-      .then(values => {
+      .then((values: any) => {
+        const fileIds =
+          values.files &&
+          values.files.map((item: { uid: any }) => {
+            return item.uid;
+          });
         return new Promise(resolve => {
           dispatch({
             type: `kdBanPublishMgt/${publicationId ? 'updateBanPublish' : 'addBanPublish'}`,
             payload: {
               ...values,
+              fileIds,
             },
             resolve,
           });
@@ -81,13 +87,17 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',
+        height: 'calc(95vh - 108px)',
+        overflow: 'auto',
       }}
       visible={modalVisible}
       onOk={handleOk}
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <BanPublishForm form={form} />
+      <Spin spinning={loading}>
+        <BanPublishForm form={form} />
+      </Spin>
     </Modal>
   );
 };

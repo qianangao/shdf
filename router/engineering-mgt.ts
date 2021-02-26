@@ -14,6 +14,7 @@ const routes = {
       name: 'engineering-mgt-dictionary-mgt',
       component: './engineering-mgt/dictionary-mgt',
       remark: '联防工程',
+      icon: 'folderAdd',
     },
     {
       path: '/engineering-mgt',

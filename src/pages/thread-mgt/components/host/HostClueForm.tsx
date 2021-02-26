@@ -6,7 +6,7 @@ const TransferClueForm = ({ form }) => {
   const formItems = [
     {
       name: 'base',
-      span: 4,
+      span: 3,
       render: <Descriptions title="办理信息" size="middle" />,
     },
     {
@@ -42,7 +42,7 @@ const TransferClueForm = ({ form }) => {
       name: 'circulationContent',
       type: 'textarea',
       rules: [{ required: true, message: '请输入工作内容!' }],
-      span: 4,
+      span: 3,
     },
 
     {
@@ -56,7 +56,7 @@ const TransferClueForm = ({ form }) => {
     },
     {
       name: 'other',
-      span: 4,
+      span: 3,
       render: <Descriptions title="其他" size="middle" />,
     },
     {

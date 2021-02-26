@@ -143,7 +143,7 @@ const DetailModal = ({
       <Spin spinning={loading}>
         <Descriptions
           title="线索信息"
-          column={{ xxl: 4, xl: 3, lg: 3 }}
+          column={{ xxl: 3, xl: 3, lg: 3, md: 2, sm: 1, xs: 1 }}
           style={{ marginBottom: 30 }}
         >
           <Descriptions.Item label="线索名称">{clueDetailData.clueName}</Descriptions.Item>
@@ -171,7 +171,7 @@ const DetailModal = ({
             {clueDetailData.relatedPublications}
           </Descriptions.Item>
           <Descriptions.Item label="所属联防工程">{clueDetailData.orgName}</Descriptions.Item>
-          <Descriptions.Item label="线索描述" span={4}>
+          <Descriptions.Item label="线索描述" span={3}>
             <div
               style={{
                 border: '1px solid #f2f2f2',
@@ -184,7 +184,11 @@ const DetailModal = ({
             </div>
           </Descriptions.Item>
         </Descriptions>
-        <Descriptions title="" column={{ xxl: 4, xl: 3, lg: 3 }} style={{ marginBottom: 30 }}>
+        <Descriptions
+          title=""
+          column={{ xxl: 3, xl: 3, lg: 3, md: 2, sm: 1, xs: 1 }}
+          style={{ marginBottom: 30 }}
+        >
           <Descriptions.Item label="被举报对象名字">
             {clueDetailData.reportedObjectName}
           </Descriptions.Item>
@@ -198,7 +202,7 @@ const DetailModal = ({
           <Descriptions.Item label="被举报对象地址">
             {clueDetailData.reportedObjectAddress}
           </Descriptions.Item>
-          <Descriptions.Item label="举报内容" span={4}>
+          <Descriptions.Item label="举报内容" span={3}>
             <div
               style={{
                 border: '1px solid #f2f2f2',

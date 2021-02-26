@@ -282,6 +282,7 @@ const Table = ({
         headerTitle="线索列表"
         actionRef={tableRef}
         scroll={{ x: 'max-content' }}
+        pagination={{ pageSize: 10 }}
         rowSelection={{
           onChange: (keys, rows) => {
             tempSelectData = rows;

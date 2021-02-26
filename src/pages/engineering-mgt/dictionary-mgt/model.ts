@@ -13,6 +13,8 @@ import {
   deleteProjectTask,
   updateProjectTaskList,
   exportLog,
+  deployProjectTaskList,
+  provinceData,
 } from './service';
 
 const Model = {
@@ -195,6 +197,25 @@ const Model = {
             head: response.head,
           },
         });
+      }
+    },
+
+    *deployProjectTaskList({ payload, resolve }, { call, put, select }) {
+      const projectId = yield select(state => state.specialAction.projectId);
+      // const taskStatus = yield select(state => state.specialAction.taskStatus);
+      const response = yield call(deployProjectTaskList, { ...payload, projectId });
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('下发成功！');
+        yield put({
+          type: 'tableReload',
+        });
+      }
+    },
+    *provinceData({ resolve }, { call }) {
+      const response = yield call(provinceData);
+      if (!response.error) {
+        resolve && resolve(response);
       }
     },
 

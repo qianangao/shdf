@@ -23,7 +23,7 @@ const DownModal = ({ dispatch, actionRef, loading }) => {
   useEffect(() => {
     new Promise(resolve => {
       dispatch({
-        type: 'specialAction/provinceData',
+        type: 'dictionaryMgt/provinceData',
         resolve,
       });
     }).then(res => {
@@ -38,10 +38,10 @@ const DownModal = ({ dispatch, actionRef, loading }) => {
   const showModal = Id => {
     setTargetKeys([]);
     if (Id) setId(Id);
-    dispatch({
-      type: 'specialAction/findChildrenTaskDetail',
-      payload: { taskId: Id },
-    });
+    // dispatch({
+    //   type: 'dictionaryMgt/findChildrenTaskDetail',
+    //   payload: { taskId: Id },
+    // });
     setModalVisible(true);
   };
 
@@ -63,7 +63,7 @@ const DownModal = ({ dispatch, actionRef, loading }) => {
     const keys = targetKeys.join(',');
     return new Promise(resolve => {
       dispatch({
-        type: `specialAction/deployChildrenTaskList`,
+        type: `dictionaryMgt/deployProjectTaskList`,
         payload: {
           targetProvince: keys,
           taskId: id,
