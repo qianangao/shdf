@@ -41,6 +41,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, emClueManagement }) => {
                   status: 'done',
                 };
               }),
+            regionObj: { label: data.region, value: data.regionCode },
           };
           form.setFieldsValue(fields);
         }
@@ -82,6 +83,9 @@ const ModifyModal = ({ dispatch, actionRef, loading, emClueManagement }) => {
           values.files.map((item: { uid: any }) => {
             return item.uid;
           });
+        const regionCode = values.regionObj && values.regionObj.value;
+        const region = values.regionObj && values.regionObj.label;
+
         return new Promise(resolve => {
           dispatch({
             type: `emClueManagement/${clueId ? 'editClue' : 'addClues'}`,
@@ -89,6 +93,8 @@ const ModifyModal = ({ dispatch, actionRef, loading, emClueManagement }) => {
               clueId,
               ...values,
               fileIds,
+              regionCode,
+              region,
             },
             resolve,
           });

@@ -86,11 +86,11 @@ const GlobalModel = {
 
       const response = yield call(uploadFile, formData);
 
-      if (!response.error) {
-        resolve && resolve(response);
-      } else {
-        message.warning('上传文件失败，请重试！');
-      }
+      // if (!response.error) {
+      resolve && resolve(response);
+      // } else {
+      //   message.warning('上传文件失败，请重试！');
+      // }
     },
     *refreshDownloadFiles(_, { call, put }) {
       const response = yield call(getDownloadFiles);

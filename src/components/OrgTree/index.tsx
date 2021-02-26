@@ -1,8 +1,60 @@
 import React, { useEffect, useState } from 'react';
 import { Tree } from 'antd';
-import { getOrgTreeById } from '@/services/orgTree';
+// import { getOrgTreeById } from '@/services/orgTree';
 import { transformOrgTreeData, updateTreeData } from '@/utils/orgTreeUtil';
 import styles from './index.less';
+
+// temp 对接数据前临时mock数据
+const getOrgTreeById = ({ id }) => {
+  const data = [
+    {
+      id: `1${id}`, // id
+      sort: null,
+      organizationName: '测试单位1', // 单位名称
+      parentEmployerId: id || '1000', // 父单位id
+      parentOrganizationName: '省委老干部局', // 父单位名称
+      isLgbMinistry: null,
+      dictOrganizationType: '8adcf7c96a48fae4016a4925f3e3', // 单位性质
+      organizationTelphone: null,
+      dictRank: 1, // 单位级别
+      children: null,
+      isSubunit: 1,
+      gmtCreate: null,
+      communityAddress: null,
+    },
+    {
+      id: `2${id}`, // id
+      sort: 0,
+      organizationName: '测试单位2',
+      parentEmployerId: id || '1000', // 父单位id
+      parentOrganizationName: '省委老干部局',
+      isLgbMinistry: 0,
+      dictOrganizationType: '8adcf7c96a48fae4016a4925f3e3',
+      organizationTelphone: 'string',
+      dictRank: 1,
+      children: null,
+      isSubunit: 1,
+      gmtCreate: null,
+      communityAddress: null,
+    },
+    {
+      id: `3${id}`, // id
+      sort: 0,
+      organizationName: '测试单位3',
+      parentEmployerId: id || '1000', // 父单位id
+      parentOrganizationName: '省委老干部局',
+      isLgbMinistry: 0,
+      dictOrganizationType: '8adcf7c96a48fae4016a4925f3e3',
+      organizationTelphone: 'string',
+      dictRank: 1,
+      children: null,
+      isSubunit: 0,
+      gmtCreate: null,
+      communityAddress: null,
+    },
+  ];
+  return Promise.resolve(data);
+};
 
 const OrgTree = ({ value = '', onChange = null, allInValue = false }) => {
   const [orgTreeData, setOrgTreeData] = useState<any>([]);
@@ -21,7 +73,7 @@ const OrgTree = ({ value = '', onChange = null, allInValue = false }) => {
         orgTreeData.push({
           // TEMP 获取用户所在组织id title
           key: tempId,
-          title: 'demo全扫',
+          title: '全国扫黄打非办公室',
         });
 
         setTimeout(() => {
@@ -47,7 +99,7 @@ const OrgTree = ({ value = '', onChange = null, allInValue = false }) => {
           ? {
               // TEMP 获取用户所在组织id title
               key: 'demoid',
-              title: 'demo全扫',
+              title: '全国扫黄打非办公室',
             }
           : 'demoid',
       );

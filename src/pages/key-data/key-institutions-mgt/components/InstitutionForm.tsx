@@ -22,8 +22,8 @@ const InstitutionForm = ({ form }) => {
     {
       label: '所在地区',
       name: 'area',
-      enumsLabel: 'dict_sex',
-      rules: [{ required: true, message: '请选择所在地区!' }],
+      // enumsLabel: 'dict_sex',
+      rules: [{ required: true, message: '请输入所在地区!' }],
     },
     {
       label: '中文地址',

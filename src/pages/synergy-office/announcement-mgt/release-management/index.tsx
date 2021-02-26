@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import { connect } from 'umi';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import Table from './components/Table';
 import ModifyModal from './components/ModifyModal';
 import HandleSituationModal from './components/HandleSituationModal';
@@ -36,7 +35,7 @@ const AnnouncementMgt = ({ dispatch }) => {
   };
 
   return (
-    <PageHeaderWrapper>
+    <>
       <Table
         openModifyModal={openModifyModal}
         handleSituationModal={handleSituationModal}
@@ -47,7 +46,7 @@ const AnnouncementMgt = ({ dispatch }) => {
       <HandleSituationModal actionRef={HandleSituationRef} />
       <CommitExamineModal actionRef={commitExamineRef} />
       <DetailModal actionRef={detailRef} />
-    </PageHeaderWrapper>
+    </>
   );
 };
 

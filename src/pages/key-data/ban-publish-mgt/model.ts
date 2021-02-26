@@ -1,5 +1,6 @@
 import { message } from 'antd';
-import { formatPageData } from '@/utils';
+import { downloadXlsFile, formatPageData } from '@/utils';
+import moment from 'moment';
 import {
   getKeyBanPublishList,
   getBanPublishDetail,
@@ -7,6 +8,9 @@ import {
   updateBanPublish,
   deleteBanPublish,
   authUser,
+  templateDownload,
+  importBanPublish,
+  exportBanPublish,
 } from './service';
 
 const Model = {
@@ -95,6 +99,29 @@ const Model = {
         // yield put({
         //   type: 'tableReload',
         // });
+      }
+    },
+    *templateDownload({ _ }, { call }) {
+      const response = yield call(templateDownload);
+      if (!response.error) {
+        yield downloadXlsFile(response, `非法出版物模板`);
+      }
+    },
+    *exportBanPublish({ payload }, { call }) {
+      const response = yield call(exportBanPublish, payload);
+      if (!response.error) {
+        yield downloadXlsFile(response, `非法出版物${moment().format('YYYYMMDDHHmmss')}`);
+      }
+    },
+    *importBanPublish({ payload, resolve }, { call, put }) {
+      const formData = new FormData();
+      formData.append('file', payload.file);
+      const response = yield call(importBanPublish, formData);
+      if (!response.error) {
+        resolve && resolve(response);
+        yield put({
+          type: 'tableReload',
+        });
       }
     },
     *selectOrgChange({ payload }, { put }) {

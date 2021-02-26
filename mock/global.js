@@ -36,7 +36,7 @@ const getOrgTree = (req, res) => {
         sort: null,
         organizationName: '测试单位1', //单位名称
         parentEmployerId: id || '1000', //父单位id
-        parentOrganizationName: '省委老干部局', //父单位名称
+        parentOrganizationName: '测试单位', //父单位名称
         isLgbMinistry: null,
         dictOrganizationType: '8adcf7c96a48fae4016a4925f3e3', //单位性质
         organizationTelphone: null,
@@ -51,7 +51,7 @@ const getOrgTree = (req, res) => {
         sort: 0,
         organizationName: '测试单位2',
         parentEmployerId: id || '1000', //父单位id
-        parentOrganizationName: '省委老干部局',
+        parentOrganizationName: '测试单位',
         isLgbMinistry: 0,
         dictOrganizationType: '8adcf7c96a48fae4016a4925f3e3',
         organizationTelphone: 'string',
@@ -66,7 +66,7 @@ const getOrgTree = (req, res) => {
         sort: 0,
         organizationName: '测试单位3',
         parentEmployerId: id || '1000', //父单位id
-        parentOrganizationName: '省委老干部局',
+        parentOrganizationName: '测试单位',
         isLgbMinistry: 0,
         dictOrganizationType: '8adcf7c96a48fae4016a4925f3e3',
         organizationTelphone: 'string',
@@ -90,7 +90,7 @@ const searchOrgTree = (req, res) => {
       {
         id: '1000', //id
         sort: null,
-        organizationName: '省委老干部局', //单位名称
+        organizationName: '测试单位', //单位名称
         parentEmployerId: '0', //父单位id
         parentOrganizationName: null,
         isLgbMinistry: null,
@@ -104,7 +104,7 @@ const searchOrgTree = (req, res) => {
             sort: null,
             organizationName: '测试单位',
             parentEmployerId: '1000',
-            parentOrganizationName: '省委老干部局',
+            parentOrganizationName: '测试单位',
             isLgbMinistry: null,
             dictOrganizationType: '8adcf7c96a48fae4016a4925f3e3',
             organizationTelphone: null,
@@ -115,7 +115,7 @@ const searchOrgTree = (req, res) => {
                 sort: null,
                 organizationName: '测试单位1-1',
                 parentEmployerId: '1000',
-                parentOrganizationName: '省委老干部局',
+                parentOrganizationName: '测试单位',
                 isLgbMinistry: null,
                 dictOrganizationType: '8adcf7c96a48fae4016a4925f3e3',
                 organizationTelphone: null,
@@ -135,7 +135,7 @@ const searchOrgTree = (req, res) => {
             sort: null,
             organizationName: '测试单位',
             parentEmployerId: '1000',
-            parentOrganizationName: '省委老干部局',
+            parentOrganizationName: '测试单位',
             isLgbMinistry: null,
             dictOrganizationType: '8adcf7c96a48fae4016a4925f3e3',
             organizationTelphone: null,
@@ -219,7 +219,7 @@ const getExportFiles = (req, res) => {
           fileName: '全部信息20200622101957.xls', //文件名
           fileUrl: 'http://10.92.120.138:9091/attachment/91/d3/40dee3268a3f69246377636cce.xls', //文件地址
           status: 1, //状态 0-导出中，1-可下载，2-导出失败
-          userType: 1, //0-老干部，1-工作人员
+          userType: 1,
         },
       ],
     },
