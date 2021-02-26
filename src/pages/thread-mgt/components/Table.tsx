@@ -206,13 +206,6 @@ const Table = ({
       valueEnum: enums.clue_type_all,
     },
     {
-      title: '保密等级',
-      align: 'center',
-      dataIndex: 'secrecyLevel',
-      hideInTable: true,
-      valueEnum: enums.object_secrecy_level,
-    },
-    {
       title: '操作',
       valueType: 'option',
       align: 'center',
