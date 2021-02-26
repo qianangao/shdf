@@ -43,7 +43,7 @@ const StaffMultiSelectInput = ({ value, enums, getLgbs, dispatch, onChange }) =>
       hideInSearch: true,
     },
     {
-      title: '离退休类型',
+      title: '类型',
       align: 'center',
       dataIndex: 'dictRetirementType',
       valueEnum: enums.dictRetirementType,
@@ -185,7 +185,7 @@ const StaffMultiSelectInput = ({ value, enums, getLgbs, dispatch, onChange }) =>
         </div>
       </section>
       <Modal
-        title="选择老干部"
+        title="选择人员"
         centered
         width="90vw"
         style={{ paddingBottom: 0 }}

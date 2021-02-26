@@ -9,7 +9,7 @@ const AddThreadForm = ({ form }) => {
   const formItems = [
     {
       name: '',
-      span: 4,
+      span: 3,
       render: <Descriptions title="基本信息" size="middle" />,
     },
     {
@@ -68,9 +68,9 @@ const AddThreadForm = ({ form }) => {
     },
     {
       label: '发生地域',
-      name: 'region',
+      name: 'regionObj',
       render: <ProvinceCascaderInput />,
-      // rules: [{ required: true, message: '请选择发生地域!' }],
+      rules: [{ required: true, message: '请选择发生地域!' }],
     },
     {
       label: '相关出版物',
@@ -89,7 +89,7 @@ const AddThreadForm = ({ form }) => {
     },
     {
       name: 'line',
-      span: 4,
+      span: 3,
       render: <Descriptions title="举报信息" size="middle" />,
     },
     {
@@ -120,7 +120,7 @@ const AddThreadForm = ({ form }) => {
       label: '举报内容',
       name: 'reportContent',
       type: 'textarea',
-      span: 4,
+      span: 3,
       rules: [{ min: 0, max: 1000, message: '举报内容长度最多1000字!' }],
     },
     {

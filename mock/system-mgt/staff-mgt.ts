@@ -33,7 +33,7 @@ for (let i = 0; i < 10; i++) {
     isDeleted: null,
     createOrgId: null,
     partyTime: null,
-    department: '市委老干部局', //所属部门
+    department: '测试单位', //所属部门
     fullPart: 0, //专兼职 0 专职 1兼职
     isCommunity: 0, //是否为社区工作人员 0否 1是
     community: null,
@@ -105,7 +105,7 @@ const getStaffInfo = (req, res) => {
       gmtModified: null,
       isDeleted: null,
       createOrgId: null,
-      department: '市委老干部局', //所属部门
+      department: '测试单位', //所属部门
       fullPart: 0, //专兼职 0 专职 1兼职
       isCommunity: 0, //是否为社区工作人员 0否 1是
       community: null,

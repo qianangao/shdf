@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
-import { Modal } from 'antd';
+import { Modal, Spin } from 'antd';
 import InstitutionForm from './InstitutionForm';
 
 const ModifyModal = ({ dispatch, actionRef, loading }) => {
@@ -89,7 +89,9 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <InstitutionForm form={form} />
+      <Spin spinning={loading}>
+        <InstitutionForm form={form} />
+      </Spin>
     </Modal>
   );
 };
