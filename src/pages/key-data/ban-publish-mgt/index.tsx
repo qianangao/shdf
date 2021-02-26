@@ -14,7 +14,7 @@ const KeyInstitutions = ({ dispatch }) => {
     dispatch({
       type: 'global/getEnums',
       payload: {
-        names: ['subject_secrecy_level'],
+        names: ['subject_secrecy_level', 'illegal_dict', 'illegal_appraisalType'],
       },
     });
   }, []);

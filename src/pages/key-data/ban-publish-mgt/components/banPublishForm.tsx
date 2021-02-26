@@ -32,7 +32,7 @@ const BanPublishForm = ({ form }) => {
       type: 'date',
       rules: [{ required: true, message: '请选择出版日期!' }],
     },
-    { label: '类别', name: 'category', enumsLabel: 'subject_secrecy_level' },
+    { label: '类别', name: 'category', enumsLabel: 'illegal_dict' },
     { label: '关键词', name: 'keyword' },
     { label: '保密等级', name: 'secrecyLevel', enumsLabel: 'subject_secrecy_level' },
     {
@@ -60,7 +60,7 @@ const BanPublishForm = ({ form }) => {
       label: '鉴定结构',
       name: 'appraisalInstitution',
     },
-    { label: '鉴定类型', name: 'appraisalType', enumsLabel: 'subject_secrecy_level' },
+    { label: '鉴定类型', name: 'appraisalType', enumsLabel: 'illegal_appraisalType' },
     {
       label: '鉴定日期',
       name: 'appraisalDate',
