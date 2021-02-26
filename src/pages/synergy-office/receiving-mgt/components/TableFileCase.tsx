@@ -23,7 +23,7 @@ const TableFileCase = ({ dispatch, id, caseMgt }) => {
     new Promise(resolve => {
       params.id = id;
       dispatch({
-        type: 'caseMgt/getCaseHandleFile',
+        type: 'receivingMgt/getFileList',
         payload: { ...params },
         resolve,
       });

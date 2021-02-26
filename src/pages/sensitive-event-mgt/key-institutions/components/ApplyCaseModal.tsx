@@ -40,7 +40,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
         values.approvalUser = 7001;
         return new Promise(resolve => {
           dispatch({
-            type: `caseMgt/applyCase`,
+            type: `sensitiveMgt/applyCase`,
             payload: {
               ...values,
             },
@@ -76,7 +76,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
   );
 };
 
-export default connect(({ caseMgt, loading }) => ({
-  caseMgt,
-  loading: loading.models.caseMgt,
+export default connect(({ sensitiveMgt, loading }) => ({
+  sensitiveMgt,
+  loading: loading.models.sensitiveMgt,
 }))(ModifyModal);

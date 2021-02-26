@@ -38,7 +38,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
         values.id = detailData.caseId;
         return new Promise(resolve => {
           dispatch({
-            type: `caseMgt/evaluateFeedback`,
+            type: `sensitiveMgt/evaluateFeedback`,
             payload: {
               ...values,
             },
@@ -74,7 +74,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
   );
 };
 
-export default connect(({ caseMgt, loading }) => ({
-  caseMgt,
-  loading: loading.models.caseMgt,
+export default connect(({ sensitiveMgt, loading }) => ({
+  sensitiveMgt,
+  loading: loading.models.sensitiveMgt,
 }))(ModifyModal);

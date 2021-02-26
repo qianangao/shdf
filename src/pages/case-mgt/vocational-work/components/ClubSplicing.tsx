@@ -3,7 +3,7 @@ import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import { Button } from 'antd';
 
-const TableCaseHandle = ({ dispatch, id, caseMgt, openAssociationModal }) => {
+const TableCaseHandle = ({ dispatch, id, caseMgt, openAssociationModal, isDetail }) => {
   const { tableClubRef } = caseMgt;
   const columns = [
     {
@@ -62,13 +62,15 @@ const TableCaseHandle = ({ dispatch, id, caseMgt, openAssociationModal }) => {
       scroll={{ x: 'max-content' }}
       search={false}
       options={false}
+      toolBarRender={_ => [
+        isDetail === 1 ? null : (
+          <Button type="primary" onClick={() => openAssociationModal()}>
+            线索串并联
+          </Button>
+        ),
+      ]}
       request={async params => getCaseClubList(params)}
       columns={columns}
-      toolBarRender={_ => [
-        <Button type="primary" onClick={() => openAssociationModal()}>
-          线索串并联
-        </Button>,
-      ]}
     />
   );
 };

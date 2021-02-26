@@ -5,11 +5,11 @@ import moment from 'moment';
 import {
   getList,
   getCaseHandleList,
-  getCaseDetail,
+  getDetail,
   del,
   authorize,
   getAuthorize,
-  addCase,
+  add,
   updateCase,
   applyCase,
   addCaseHandle,
@@ -29,12 +29,12 @@ import {
 } from './service';
 
 const Model = {
-  namespace: 'sensitiveEventMgt',
+  namespace: 'sensitiveMgt',
   state: {
     listData: {},
     receivingReadListData: {},
     memberListData: {},
-    caseDetailData: {},
+    detailData: {},
     recordDetailData: {},
     authorizeData: {},
     caseFileData: {},
@@ -142,14 +142,14 @@ const Model = {
       }
     },
     *getDetail({ payload, resolve }, { call, put }) {
-      const response = yield call(getCaseDetail, payload);
+      const response = yield call(getDetail, payload);
 
       if (!response.error) {
         resolve && resolve(response);
         yield put({
           type: 'save',
           payload: {
-            caseDetailData: response,
+            detailData: response,
           },
         });
       }
@@ -200,8 +200,8 @@ const Model = {
     *add({ payload, resolve }, { call, put }) {
       // 先获取编码
       const resCode = yield call(getReceivingCode, {});
-      payload.caseCode = `AJ${resCode}`;
-      const response = yield call(addCase, payload);
+      payload.caseCode = `MS${resCode}`;
+      const response = yield call(add, payload);
       if (!response.error) {
         resolve && resolve(response);
         message.success('新增案件成功！');

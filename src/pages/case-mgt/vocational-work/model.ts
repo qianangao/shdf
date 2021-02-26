@@ -43,6 +43,7 @@ const Model = {
     trendsDetailData: {},
     tableRef: {},
     tableHandleRef: {},
+    tableFileRef: {},
     tableClubRef: {},
     selectedOrgId: undefined,
   },
@@ -260,6 +261,9 @@ const Model = {
         yield put({
           type: 'tableHandleReload',
         });
+        yield put({
+          type: 'tableFileReload',
+        });
       }
     },
     *applyCase({ payload, resolve }, { call, put }) {
@@ -424,6 +428,13 @@ const Model = {
       const tableHandleRef = state.tableHandleRef || {};
       setTimeout(() => {
         tableHandleRef.current && tableHandleRef.current.reloadAndRest();
+      }, 0);
+      return { ...state };
+    },
+    tableFileReload(state) {
+      const tableFileRef = state.tableHandleRef || {};
+      setTimeout(() => {
+        tableFileRef.current && tableFileRef.current.reloadAndRest();
       }, 0);
       return { ...state };
     },

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import AdvancedForm from '@/components/AdvancedForm';
 import { Descriptions } from 'antd';
 
-const CaseMgt = ({ form, orgInfoData }) => {
+const RecordApprovalForm = ({ form, orgInfoData }) => {
   const formItems = [
     {
       label: '备注',
@@ -40,6 +40,6 @@ const CaseMgt = ({ form, orgInfoData }) => {
   return <AdvancedForm form={form} fields={formItems} headerRender={selectLgbInput} />;
 };
 
-CaseMgt.useForm = AdvancedForm.useForm;
+RecordApprovalForm.useForm = AdvancedForm.useForm;
 
-export default CaseMgt;
+export default RecordApprovalForm;

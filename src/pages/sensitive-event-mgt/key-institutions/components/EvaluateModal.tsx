@@ -39,7 +39,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
         values.evaluateLevel = evaluateLevel;
         return new Promise(resolve => {
           dispatch({
-            type: `caseMgt/evaluate`,
+            type: `sensitiveMgt/evaluate`,
             payload: {
               ...values,
             },
@@ -93,7 +93,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
   );
 };
 
-export default connect(({ caseMgt, loading }) => ({
-  caseMgt,
-  loading: loading.models.caseMgt,
+export default connect(({ sensitiveMgt, loading }) => ({
+  sensitiveMgt,
+  loading: loading.models.sensitiveMgt,
 }))(ModifyModal);

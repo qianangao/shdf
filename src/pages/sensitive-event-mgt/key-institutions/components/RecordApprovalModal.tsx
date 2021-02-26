@@ -3,17 +3,17 @@ import { connect } from 'umi';
 import { Button, Modal } from 'antd';
 import OrgInfoForm from './form/RecordApprovalForm';
 
-const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
+const ModifyModal = ({ dispatch, actionRef, loading, sensitiveMgt }) => {
   const [form] = OrgInfoForm.useForm();
   const [recordApprovalModalVisible, setModalVisible] = useState(false);
   const [detailData, setDetailData] = useState(null);
-  const { recordDetailData } = caseMgt;
+  const { recordDetailData } = sensitiveMgt;
   const showModal = items => {
     // 获取详情
     if (items) {
       // 获取详情
       dispatch({
-        type: 'caseMgt/getRecordDetail',
+        type: 'sensitiveMgt/getRecordDetail',
         payload: {
           id: items.caseId,
         },
@@ -45,7 +45,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
         values.approvalResult = type;
         return new Promise(resolve => {
           dispatch({
-            type: `caseMgt/recordApproval`,
+            type: `sensitiveMgt/recordApproval`,
             payload: {
               ...values,
             },
@@ -94,7 +94,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
   );
 };
 
-export default connect(({ caseMgt, loading }) => ({
-  caseMgt,
-  loading: loading.models.caseMgt,
+export default connect(({ sensitiveMgt, loading }) => ({
+  sensitiveMgt,
+  loading: loading.models.sensitiveMgt,
 }))(ModifyModal);

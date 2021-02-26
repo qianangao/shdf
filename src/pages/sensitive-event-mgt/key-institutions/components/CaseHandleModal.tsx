@@ -41,7 +41,7 @@ const CaseHandleModal = ({ actionRef, dispatch, id }) => {
         values.transmitFileIds = filesStr;
         return new Promise(resolve => {
           dispatch({
-            type: `caseMgt/addCaseHandle`,
+            type: `sensitiveMgt/addCaseHandle`,
             payload: {
               ...values,
             },

@@ -34,7 +34,7 @@ const ClubSplicingModal = ({ actionRef, dispatch }) => {
         values.specialActionIds = [values.specialActionIds];
         return new Promise(resolve => {
           dispatch({
-            type: `caseMgt/addCaseHandle`,
+            type: `sensitiveMgt/addCaseHandle`,
             payload: {
               ...values,
             },

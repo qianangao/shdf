@@ -8,34 +8,34 @@ import CaseHandleModal from './CaseHandleModal';
 import ClubSplicing from './ClubSplicing';
 import ClubSplicingModal from './ClubSplicingModal';
 
-const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
+const ModifyModal = ({ dispatch, actionRef, loading, sensitiveMgt }) => {
   const [form] = OrgInfoForm.useForm();
   const [modifyModalVisible, setModalVisible] = useState(false);
-  const [detailData, setDetailData] = useState(null);
-  const { caseDetailData } = caseMgt;
+  const [sensitiveDetailData, setDetailData] = useState(null);
+  const { detailData } = sensitiveMgt;
   const caseHandleModalRef = useRef({});
   const clubSplicingModalRef = useRef({});
-  const [infoId, setCaresId] = useState('');
+  const [infoId, setSensitiveId] = useState('');
 
   const showModal = items => {
     // 获取详情
     if (items && items !== 'undefined') {
       dispatch({
-        type: 'caseMgt/getDetail',
+        type: 'sensitiveMgt/getDetail',
         payload: {
-          id: items.caseId,
+          id: items.eventId,
         },
       });
       dispatch({
-        type: 'caseMgt/tableHandleReload',
+        type: 'sensitiveMgt/tableHandleReload',
         payload: {
-          id: items.caseId,
+          id: items.eventId,
         },
       });
-      setCaresId(items.caseId);
-      setDetailData(caseDetailData);
+      setSensitiveId(items.eventId);
+      setDetailData(detailData);
     } else {
-      setCaresId('');
+      setSensitiveId('');
       setDetailData(null);
     }
     setModalVisible(true);
@@ -73,7 +73,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
         values.fileIds = filesStr;
         return new Promise(resolve => {
           dispatch({
-            type: `caseMgt/${detailData ? 'update' : 'add'}`,
+            type: `sensitiveMgt/${sensitiveDetailData ? 'update' : 'add'}`,
             payload: {
               ...values,
             },
@@ -99,9 +99,9 @@ const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
 
   return (
     <Modal
-      title={detailData ? '敏感事件编辑' : '敏感事件录入'}
+      title={sensitiveDetailData ? '敏感事件编辑' : '敏感事件录入'}
       centered
-      width={1080}
+      width="900vw"
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',
@@ -111,13 +111,13 @@ const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <OrgInfoForm form={form} orgInfoData={caseDetailData} />
+      <OrgInfoForm form={form} orgInfoData={detailData} />
 
       <ClubSplicing id={infoId} openClubSplicingModal={openClubSplicingModal} />
 
       {infoId ? <TableCaseHandle id={infoId} openCaseHandleModal={openCaseHandleModal} /> : null}
 
-      {infoId ? <TableFileCase id={infoId} orgInfoData={caseDetailData} /> : null}
+      {infoId ? <TableFileCase id={infoId} orgInfoData={detailData} /> : null}
 
       <CaseHandleModal actionRef={caseHandleModalRef} id={infoId} />
 
@@ -126,7 +126,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
   );
 };
 
-export default connect(({ caseMgt, loading }) => ({
-  caseMgt,
-  loading: loading.models.caseMgt,
+export default connect(({ sensitiveMgt, loading }) => ({
+  sensitiveMgt,
+  loading: loading.models.sensitiveMgt,
 }))(ModifyModal);

@@ -3,8 +3,8 @@ import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import { Button } from 'antd';
 
-const TableCaseHandle = ({ dispatch, id, caseMgt, openCaseHandleModal }) => {
-  const { tableHandleRef } = caseMgt;
+const TableCaseHandle = ({ dispatch, id, sensitiveMgt, openCaseHandleModal }) => {
+  const { tableHandleRef } = sensitiveMgt;
   const columns = [
     {
       title: '办理阶段',
@@ -43,7 +43,7 @@ const TableCaseHandle = ({ dispatch, id, caseMgt, openCaseHandleModal }) => {
     new Promise(resolve => {
       params.id = id;
       dispatch({
-        type: 'caseMgt/getCaseHandleList',
+        type: 'sensitiveMgt/getCaseHandleList',
         payload: { ...params },
         resolve,
       });
@@ -68,8 +68,8 @@ const TableCaseHandle = ({ dispatch, id, caseMgt, openCaseHandleModal }) => {
   );
 };
 
-export default connect(({ caseMgt, global, loading }) => ({
-  caseMgt,
-  loading: loading.models.caseMgt,
+export default connect(({ sensitiveMgt, global, loading }) => ({
+  sensitiveMgt,
+  loading: loading.models.sensitiveMgt,
   enums: global.enums,
 }))(TableCaseHandle);

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import AdvancedForm from '@/components/AdvancedForm';
 
-const ReceivingForm = ({ form, orgInfoData }) => {
+const ReceivingForm = ({ form, orgInfoData, id }) => {
   const formItems = [
     {
       name: 'receiptId',
@@ -12,7 +12,7 @@ const ReceivingForm = ({ form, orgInfoData }) => {
       name: 'handleType',
       enumsLabel: 'handle_type',
 
-      // rules: [  { required: true, message: '请选择类型!', whitespace: true },  ],
+      rules: [{ required: true, message: '请选择类型!' }],
     },
     {
       label: '来文单位',
@@ -48,13 +48,13 @@ const ReceivingForm = ({ form, orgInfoData }) => {
       label: '紧急程度',
       name: 'urgentLevel',
       enumsLabel: 'urgent_level',
-      // rules: [  { required: true, message: '请选择紧急程度!', whitespace: true },   ],
+      rules: [{ required: true, message: '请选择紧急程度!' }],
     },
     {
       label: '密级',
       name: 'secrecyLevel',
       enumsLabel: 'subject_secrecy_level',
-      // rules: [  { required: true, message: '请选择密级!', whitespace: true }, ],
+      rules: [{ required: true, message: '请选择密级!' }],
     },
     {
       label: '保密期限',
@@ -77,6 +77,7 @@ const ReceivingForm = ({ form, orgInfoData }) => {
     {
       label: '收文编号(系统生成)',
       name: 'receiptCode',
+      visible: !!id,
       disabled: 'true',
     },
 

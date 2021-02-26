@@ -45,8 +45,8 @@ export async function getReceivingCode(params) {
  * 获取详情
  * @param {*} params
  */
-export async function getCaseDetail(params) {
-  return request(`/shdfCase/queryById/${params.id}`, {
+export async function getDetail(params) {
+  return request(`/sensitiveEvent/queryById/${params.id}`, {
     method: 'GET',
     params,
   });
@@ -56,7 +56,7 @@ export async function getCaseDetail(params) {
  * @param {*} params
  */
 export async function authorize(params) {
-  return request(`/shdfCase/empower/${params.id}`, {
+  return request(`/sensitiveEvent/deleteByIds/${params.id}`, {
     method: 'POST',
     data: params.params,
   });
@@ -86,8 +86,8 @@ export async function addCaseHandle(params) {
  * 新增
  * @param {*} params
  */
-export async function addCase(params) {
-  return request(`/shdfCase/save`, {
+export async function add(params) {
+  return request(`/sensitiveEvent/save`, {
     method: 'POST',
     data: params,
   });
@@ -97,7 +97,7 @@ export async function addCase(params) {
  * @param {*} params
  */
 export async function updateCase(params) {
-  return request(`/shdfCase/save`, {
+  return request(`/sensitiveEvent/save`, {
     method: 'POST',
     data: params,
   });

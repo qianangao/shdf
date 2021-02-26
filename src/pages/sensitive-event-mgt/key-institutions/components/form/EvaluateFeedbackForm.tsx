@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import AdvancedForm from '@/components/AdvancedForm';
 
-const CaseMgt = ({ form, orgInfoData }) => {
+const EvaluateEventForm = ({ form, orgInfoData }) => {
   const formItems = [
     {
       label: '反馈内容',
@@ -29,6 +29,6 @@ const CaseMgt = ({ form, orgInfoData }) => {
   return <AdvancedForm form={form} fields={formItems} headerRender={selectLgbInput} />;
 };
 
-CaseMgt.useForm = AdvancedForm.useForm;
+EvaluateEventForm.useForm = AdvancedForm.useForm;
 
-export default CaseMgt;
+export default EvaluateEventForm;

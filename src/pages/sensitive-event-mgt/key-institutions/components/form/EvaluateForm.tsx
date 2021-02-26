@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import AdvancedForm from '@/components/AdvancedForm';
 
-const CaseMgt = ({ form, orgInfoData }) => {
+const EvaluateForm = ({ form, orgInfoData }) => {
   const formItems = [
     {
       label: '总体评价',
@@ -29,6 +29,6 @@ const CaseMgt = ({ form, orgInfoData }) => {
   return <AdvancedForm form={form} fields={formItems} headerRender={selectLgbInput} />;
 };
 
-CaseMgt.useForm = AdvancedForm.useForm;
+EvaluateForm.useForm = AdvancedForm.useForm;
 
-export default CaseMgt;
+export default EvaluateForm;

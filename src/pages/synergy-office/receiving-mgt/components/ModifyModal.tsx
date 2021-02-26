@@ -79,7 +79,11 @@ const ModifyModal = ({ dispatch, actionRef, loading, receivingMgt }) => {
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <OrgInfoForm form={form} orgInfoData={receivingDetailData} />
+      <OrgInfoForm
+        form={form}
+        orgInfoData={receivingDetailData}
+        id={receivingDetailData.receiptId}
+      />
     </Modal>
   );
 };

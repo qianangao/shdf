@@ -120,6 +120,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
     }
     return true;
   };
+  // @ts-ignore
   return (
     <Modal
       title={detailData ? '案件编辑' : '案件录入'}
@@ -134,9 +135,9 @@ const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <OrgInfoForm form={form} orgInfoData={caseDetailData} />
+      <OrgInfoForm form={form} id={infoId} orgInfoData={caseDetailData} />
 
-      <ClubSplicing id={infoId} openAssociationModal={openAssociationModal} />
+      {infoId ? <ClubSplicing id={infoId} openAssociationModal={openAssociationModal} /> : null}
 
       {infoId ? <TableCaseHandle id={infoId} openCaseHandleModal={openCaseHandleModal} /> : null}
 
@@ -145,6 +146,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
       <CaseHandleModal actionRef={caseHandleModalRef} id={infoId} />
 
       <ClubSplicingModal actionRef={clubSplicingModalRef} />
+
       <CueAssociation actionRef={cueAssociationRef} onSelected={onSelected} />
     </Modal>
   );

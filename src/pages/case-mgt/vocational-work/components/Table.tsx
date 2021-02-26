@@ -110,7 +110,16 @@ const Table = ({
       case 1:
         return [Auth, Well];
       case 2:
-        return [Evaluate, EvaluateFeedback];
+        switch (caseData.evaluateState) {
+          case 0:
+            return [Evaluate];
+          case 1:
+            return [EvaluateFeedback];
+          case 2:
+            return [Cat];
+          default:
+            return [Evaluate];
+        }
       default:
         return [Cat, Edit, Delete];
     }
@@ -204,11 +213,13 @@ const Table = ({
       title: '案件类型',
       align: 'center',
       dataIndex: 'caseType',
+      hideInSearch: true,
       valueEnum: enums.case_type,
     },
     {
       title: '案件来源',
       dataIndex: 'caseSource',
+      hideInSearch: true,
     },
     {
       title: '案件地域',
@@ -221,7 +232,6 @@ const Table = ({
       align: 'center',
       dataIndex: 'handleState',
       valueEnum: enums.handle_state,
-      hideInSearch: true,
     },
     {
       title: '办理操作',
@@ -239,7 +249,6 @@ const Table = ({
       valueEnum: enums.case_supervise_state,
       fixed: 'right',
       width: 60,
-      hideInSearch: true,
     },
     {
       title: '备案督办操作',

@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
 import { Modal, Button, Descriptions } from 'antd';
 
-const CaresDetailModal = ({ dispatch, caseMgt, actionRef }) => {
+const CaresDetailModal = ({ dispatch, sensitiveMgt, actionRef }) => {
   const [recordDetailModalVisible, setModalVisible] = useState(false);
-  const { recordDetailData } = caseMgt;
+  const { recordDetailData } = sensitiveMgt;
 
   const showModal = items => {
     // 获取详情
     dispatch({
-      type: 'caseMgt/getRecordDetail',
+      type: 'sensitiveMgt/getRecordDetail',
       payload: {
         id: items.caseId,
       },
@@ -29,7 +29,7 @@ const CaresDetailModal = ({ dispatch, caseMgt, actionRef }) => {
   const hideModal = () => {
     setModalVisible(false);
     dispatch({
-      type: 'caseMgt/save',
+      type: 'sensitiveMgt/save',
       payload: {
         recordDetailData: {},
       },
@@ -65,7 +65,7 @@ const CaresDetailModal = ({ dispatch, caseMgt, actionRef }) => {
   );
 };
 
-export default connect(({ caseMgt, loading }) => ({
-  caseMgt,
-  loading: loading.models.caseMgt,
+export default connect(({ sensitiveMgt, loading }) => ({
+  sensitiveMgt,
+  loading: loading.models.sensitiveMgt,
 }))(CaresDetailModal);

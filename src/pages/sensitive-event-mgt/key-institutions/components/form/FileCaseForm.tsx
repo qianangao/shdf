@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import AdvancedForm from '@/components/AdvancedForm';
 
-const CaseMgt = ({ form, orgInfoData }) => {
+const FileCaseForm = ({ form, orgInfoData }) => {
   const formItems = [
     {
       name: 'caseId',
@@ -24,6 +24,6 @@ const CaseMgt = ({ form, orgInfoData }) => {
   return <AdvancedForm form={form} fields={formItems} />;
 };
 
-CaseMgt.useForm = AdvancedForm.useForm;
+FileCaseForm.useForm = AdvancedForm.useForm;
 
-export default CaseMgt;
+export default FileCaseForm;

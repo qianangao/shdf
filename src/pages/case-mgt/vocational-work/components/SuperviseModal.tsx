@@ -62,7 +62,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       title="督办"
       centered
       width={580}
-      style={{ paddingBottom: 0 }}
+      style={{ paddingBottom: 20 }}
       bodyStyle={{
         padding: '30px 60px',
       }}

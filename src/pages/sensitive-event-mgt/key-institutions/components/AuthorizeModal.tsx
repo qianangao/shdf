@@ -3,17 +3,17 @@ import { connect } from 'umi';
 import { message, Modal } from 'antd';
 import OrgInfoForm from './form/AuthorizeForm';
 
-const AddModal = ({ dispatch, actionRef, loading, caseMgt }) => {
+const AddModal = ({ dispatch, actionRef, loading, sensitiveMgt }) => {
   const [form] = OrgInfoForm.useForm();
   const [orgInfoData, setOrgInfoData] = useState(null);
   const [authorizeModalVisible, setModalVisible] = useState(false);
-  const { authorizeData } = caseMgt;
+  const { authorizeData } = sensitiveMgt;
   const showModal = items => {
     setOrgInfoData(items || null);
 
     // 获取详情
     dispatch({
-      type: 'caseMgt/getAuthorize',
+      type: 'sensitiveMgt/getAuthorize',
       payload: {
         id: items.caseId,
       },
@@ -59,7 +59,7 @@ const AddModal = ({ dispatch, actionRef, loading, caseMgt }) => {
             });
             // console.log(params,'values----0')
             dispatch({
-              type: `caseMgt/authorize`,
+              type: `sensitiveMgt/authorize`,
               payload: {
                 params,
                 id: orgInfoData.caseId,
@@ -97,7 +97,7 @@ const AddModal = ({ dispatch, actionRef, loading, caseMgt }) => {
   );
 };
 
-export default connect(({ caseMgt, loading }) => ({
-  caseMgt,
-  loading: loading.models.caseMgt,
+export default connect(({ sensitiveMgt, loading }) => ({
+  sensitiveMgt,
+  loading: loading.models.sensitiveMgt,
 }))(AddModal);

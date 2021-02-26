@@ -2,8 +2,8 @@ import React from 'react';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 
-const TableFileCase = ({ dispatch, id, caseMgt }) => {
-  const { tableHandleRef } = caseMgt;
+const TableFileCase = ({ dispatch, id, sensitiveMgt }) => {
+  const { tableHandleRef } = sensitiveMgt;
   const columns = [
     {
       title: '文件id',
@@ -23,7 +23,7 @@ const TableFileCase = ({ dispatch, id, caseMgt }) => {
     new Promise(resolve => {
       params.id = id;
       dispatch({
-        type: 'caseMgt/getCaseHandleFile',
+        type: 'sensitiveMgt/getCaseHandleFile',
         payload: { ...params },
         resolve,
       });
@@ -44,8 +44,8 @@ const TableFileCase = ({ dispatch, id, caseMgt }) => {
   );
 };
 
-export default connect(({ caseMgt, global, loading }) => ({
-  caseMgt,
-  loading: loading.models.caseMgt,
+export default connect(({ sensitiveMgt, global, loading }) => ({
+  sensitiveMgt,
+  loading: loading.models.sensitiveMgt,
   enums: global.enums,
 }))(TableFileCase);

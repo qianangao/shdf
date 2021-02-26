@@ -4,7 +4,7 @@ import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 
 const Table = ({
-  sensitiveEventMgt,
+  sensitiveMgt,
   openAuthorizeModal,
   openModifyModal,
   openDetailModal,
@@ -16,11 +16,11 @@ const Table = ({
   enums,
   dispatch,
 }) => {
-  const { tableRef } = sensitiveEventMgt;
+  const { tableRef } = sensitiveMgt;
   const uploadLgbListRef = useRef();
   const del = id => {
     dispatch({
-      type: 'sensitiveEventMgt/del',
+      type: 'sensitiveMgt/del',
       payload: {
         id,
       },
@@ -29,7 +29,7 @@ const Table = ({
 
   const recall = id => {
     dispatch({
-      type: 'sensitiveEventMgt/recall',
+      type: 'sensitiveMgt/recall',
       payload: {
         id,
       },
@@ -37,7 +37,7 @@ const Table = ({
   };
   const completed = id => {
     dispatch({
-      type: 'sensitiveEventMgt/completed',
+      type: 'sensitiveMgt/completed',
       payload: {
         id,
       },
@@ -206,7 +206,7 @@ const Table = ({
   const getList = params =>
     new Promise(resolve => {
       dispatch({
-        type: 'sensitiveEventMgt/getList',
+        type: 'sensitiveMgt/getList',
         payload: { ...params },
         resolve,
       });
@@ -214,7 +214,7 @@ const Table = ({
 
   const templateDownload = () => {
     dispatch({
-      type: 'sensitiveEventMgt/templateDownload',
+      type: 'sensitiveMgt/templateDownload',
     });
   };
 
@@ -223,7 +223,7 @@ const Table = ({
     message.loading({ content: '文件上传中，请稍后……', key: 'importsAddressBook' });
     new Promise(resolve => {
       dispatch({
-        type: 'sensitiveEventMgt/importCase',
+        type: 'sensitiveMgt/importCase',
         payload: {
           file,
           type: 'excel',
@@ -246,7 +246,7 @@ const Table = ({
     // const bookIds = selectedRowKeys.join(',');
     message.loading({ content: '文件导出，请稍后……', key: 'importsAddressBook' });
     dispatch({
-      type: 'sensitiveEventMgt/exportCase',
+      type: 'sensitiveMgt/exportCase',
     });
     message.destroy('error++');
   };
@@ -311,7 +311,7 @@ const Table = ({
   );
 };
 
-export default connect(({ sensitiveEventMgt, global }) => ({
-  sensitiveEventMgt,
+export default connect(({ sensitiveMgt, global }) => ({
+  sensitiveMgt,
   enums: global.enums,
 }))(Table);

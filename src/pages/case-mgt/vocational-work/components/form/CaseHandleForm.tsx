@@ -7,12 +7,12 @@ const CaseHandleForm = ({ form, formData }) => {
     {
       label: '办理阶段',
       name: 'handleStage',
-      enumsLabel: 'case_type',
-      rules: [{ required: true, message: '请输入姓名!', whitespace: true }],
+      rules: [{ required: true, message: '请输入办理阶段!', whitespace: true }],
     },
     {
       label: '经办人',
       name: 'handleAccount',
+      rules: [{ required: true, message: '请输入经办人!', whitespace: true }],
     },
     {
       label: '办理时间',
@@ -22,12 +22,13 @@ const CaseHandleForm = ({ form, formData }) => {
     {
       label: '办理进度',
       name: 'handleProgress',
-      enumsLabel: 'case_type',
+      rules: [{ required: true, message: '请输入办理进度!', whitespace: true }],
     },
     {
       label: '完整案情',
       span: 4,
       name: 'handleContent',
+      rules: [{ required: true, message: '请输入完整案情!', whitespace: true }],
     },
     {
       label: '附件列表',
