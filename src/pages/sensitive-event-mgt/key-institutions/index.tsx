@@ -8,10 +8,6 @@ const AuthorizeModal = React.lazy(() => import('./components/AuthorizeModal'));
 const ApplyCaseModal = React.lazy(() => import('./components/ApplyCaseModal'));
 const RecordDetailModal = React.lazy(() => import('./components/RecordDetailModal'));
 const RecordApprovalModal = React.lazy(() => import('./components/RecordApprovalModal'));
-const ApplySuperviseModal = React.lazy(() => import('./components/ApplySuperviseModal'));
-const SuperviseModal = React.lazy(() => import('./components/SuperviseModal'));
-const SuperviseApprovalModal = React.lazy(() => import('./components/SuperviseApprovalModal'));
-const SuperviseDetailModal = React.lazy(() => import('./components/SuperviseDetailModal'));
 const EvaluateModal = React.lazy(() => import('./components/EvaluateModal'));
 const EvaluateFeedbackModal = React.lazy(() => import('./components/EvaluateFeedbackModal'));
 
@@ -22,10 +18,6 @@ const CaseMgt = ({ dispatch }) => {
   const applyCaseRef = useRef({});
   const recordDetailRef = useRef({});
   const recordApprovalRef = useRef({});
-  const applySuperviseRef = useRef({});
-  const superviseRef = useRef({});
-  const superviseApprovalRef = useRef({});
-  const superviseDetailRef = useRef({});
   const evaluateRef = useRef({});
   const evaluateFeedbackRef = useRef({});
 
@@ -47,7 +39,6 @@ const CaseMgt = ({ dispatch }) => {
           'handle_state',
           'case_supervise_state',
           'importance_level',
-          'charge',
           'handle_type',
         ],
       },
@@ -78,22 +69,6 @@ const CaseMgt = ({ dispatch }) => {
     recordApprovalRef.current.showModal(item);
   };
 
-  const openApplySuperviseModal = item => {
-    applySuperviseRef.current.showModal(item);
-  };
-
-  const openSuperviseModal = item => {
-    superviseRef.current.showModal(item);
-  };
-
-  const openSuperviseApprovalModal = item => {
-    superviseApprovalRef.current.showModal(item);
-  };
-
-  const openSuperviseDetailModal = item => {
-    superviseDetailRef.current.showModal(item);
-  };
-
   const openEvaluateModal = item => {
     evaluateRef.current.showModal(item);
   };
@@ -107,10 +82,6 @@ const CaseMgt = ({ dispatch }) => {
       <Table
         openEvaluateFeedbackModal={openEvaluateFeedbackModal}
         openEvaluateModal={openEvaluateModal}
-        openSuperviseDetailModal={openSuperviseDetailModal}
-        openSuperviseApprovalModal={openSuperviseApprovalModal}
-        openSuperviseModal={openSuperviseModal}
-        openApplySuperviseModal={openApplySuperviseModal}
         openRecordApprovalModifyModal={openRecordApprovalModifyModal}
         openRecordDetailModal={openRecordDetailModal}
         openApplyCaseModal={openApplyCaseModal}
@@ -121,10 +92,6 @@ const CaseMgt = ({ dispatch }) => {
       <Suspense fallback={null}>
         <EvaluateFeedbackModal actionRef={evaluateFeedbackRef} />
         <EvaluateModal actionRef={evaluateRef} />
-        <SuperviseDetailModal actionRef={superviseDetailRef} />
-        <SuperviseApprovalModal actionRef={superviseApprovalRef} />
-        <SuperviseModal actionRef={superviseRef} />
-        <ApplySuperviseModal actionRef={applySuperviseRef} />
         <RecordApprovalModal actionRef={recordApprovalRef} />
         <RecordDetailModal actionRef={recordDetailRef} />
         <ApplyCaseModal actionRef={applyCaseRef} />

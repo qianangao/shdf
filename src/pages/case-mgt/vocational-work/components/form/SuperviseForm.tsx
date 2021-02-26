@@ -5,7 +5,7 @@ import { Descriptions } from 'antd';
 const CaseMgt = ({ form, orgInfoData }) => {
   const formItems = [
     {
-      label: '督办开始时间：',
+      label: '时间：',
       name: 'superviseStart',
       type: 'dateTime',
       rules: [
@@ -14,7 +14,7 @@ const CaseMgt = ({ form, orgInfoData }) => {
       ],
     },
     {
-      label: '督办结束时间：',
+      label: '至',
       name: 'superviseEnd',
       type: 'dateTime',
       rules: [
@@ -47,7 +47,14 @@ const CaseMgt = ({ form, orgInfoData }) => {
     </>
   );
 
-  return <AdvancedForm form={form} fields={formItems} headerRender={selectLgbInput} />;
+  return (
+    <AdvancedForm
+      layout="horizontal"
+      form={form}
+      fields={formItems}
+      headerRender={selectLgbInput}
+    />
+  );
 };
 
 CaseMgt.useForm = AdvancedForm.useForm;

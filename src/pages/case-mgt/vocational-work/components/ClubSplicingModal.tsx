@@ -54,7 +54,7 @@ const ClubSplicingModal = ({ actionRef, dispatch }) => {
     <Modal
       title="案件办理"
       centered
-      width="80vw"
+      width={580}
       style={{ paddingBottom: 0 }}
       visible={clubSplicingModalVisible}
       destroyOnClose

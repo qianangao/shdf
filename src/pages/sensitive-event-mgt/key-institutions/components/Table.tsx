@@ -4,36 +4,23 @@ import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 
 const Table = ({
-  caseMgt,
+  sensitiveMgt,
   openAuthorizeModal,
   openModifyModal,
   openDetailModal,
   openApplyCaseModal,
   openRecordDetailModal,
   openRecordApprovalModifyModal,
-  openApplySuperviseModal,
-  openSuperviseModal,
-  openSuperviseApprovalModal,
-  openSuperviseDetailModal,
   openEvaluateModal,
   openEvaluateFeedbackModal,
   enums,
   dispatch,
 }) => {
-  const { tableRef } = caseMgt;
+  const { tableRef } = sensitiveMgt;
   const uploadLgbListRef = useRef();
   const del = id => {
     dispatch({
-      type: 'caseMgt/del',
-      payload: {
-        id,
-      },
-    });
-  };
-
-  const recallSupervise = id => {
-    dispatch({
-      type: 'caseMgt/recallSupervise',
+      type: 'sensitiveMgt/del',
       payload: {
         id,
       },
@@ -42,7 +29,7 @@ const Table = ({
 
   const recall = id => {
     dispatch({
-      type: 'caseMgt/recall',
+      type: 'sensitiveMgt/recall',
       payload: {
         id,
       },
@@ -50,7 +37,7 @@ const Table = ({
   };
   const completed = id => {
     dispatch({
-      type: 'caseMgt/completed',
+      type: 'sensitiveMgt/completed',
       payload: {
         id,
       },
@@ -110,16 +97,7 @@ const Table = ({
       case 1:
         return [Auth, Well];
       case 2:
-        switch (caseData.evaluateState) {
-          case 0:
-            return [Evaluate];
-          case 1:
-            return [EvaluateFeedback];
-          case 2:
-            return [Cat];
-          default:
-            return [Evaluate];
-        }
+        return [Evaluate, EvaluateFeedback];
       default:
         return [Cat, Edit, Delete];
     }
@@ -151,36 +129,6 @@ const Table = ({
         备案信息
       </a>
     );
-    const ApplySupervise = (
-      <a key={`${caseData.caseId}app_do`} onClick={() => openApplySuperviseModal(caseData)}>
-        申请督办
-      </a>
-    );
-    const Supervise = (
-      <a key={`${caseData.caseId}do`} onClick={() => openSuperviseModal(caseData)}>
-        督办
-      </a>
-    );
-    const SuperviseApproval = (
-      <a key={`${caseData.caseId}pa_do`} onClick={() => openSuperviseApprovalModal(caseData)}>
-        督办审批
-      </a>
-    );
-    const rollbackSupervise = (
-      <Popconfirm
-        key={`${caseData.caseId}re_re`}
-        title="确认撤回？"
-        placement="topRight"
-        onConfirm={() => recallSupervise(caseData.caseId)}
-      >
-        <a>撤回督办</a>
-      </Popconfirm>
-    );
-    const SuperviseDetail = (
-      <a key={`${caseData.caseId}in_do`} onClick={() => openSuperviseDetailModal(caseData)}>
-        督办信息
-      </a>
-    );
 
     switch (caseData.caseSuperviseState) {
       case 0: // 未备案
@@ -190,13 +138,7 @@ const Table = ({
       case 2: // 备案不通过
         return [RecordApproval, RecordDetail];
       case 3: // 已备案
-        return [ApplySupervise, Supervise, RecordDetail];
-      case 4: // 督办审批中
-        return [rollbackSupervise, SuperviseApproval];
-      case 5: // 督办不通过
-        return [SuperviseApproval, SuperviseDetail];
-      case 6: // 督办中
-        return [SuperviseDetail];
+        return [RecordDetail];
       default:
         return [ApplyCase];
     }
@@ -204,27 +146,25 @@ const Table = ({
 
   const columns = [
     {
-      title: '案件名称',
-      dataIndex: 'caseName',
+      title: '敏感事件名称',
+      dataIndex: 'eventName',
       align: 'center',
     },
-    { title: '案件编号', align: 'center', dataIndex: 'caseCode' },
+    { title: '敏感事件编号', align: 'center', dataIndex: 'eventCode' },
     {
-      title: '案件类型',
+      title: '事件类型',
       align: 'center',
-      dataIndex: 'caseType',
-      hideInSearch: true,
+      dataIndex: 'eventType',
       valueEnum: enums.case_type,
     },
     {
-      title: '案件来源',
-      dataIndex: 'caseSource',
-      hideInSearch: true,
+      title: '事件来源',
+      dataIndex: 'eventSource',
     },
     {
-      title: '案件地域',
+      title: '事件地域',
       align: 'center',
-      dataIndex: 'region',
+      dataIndex: 'belongRegional',
       hideInSearch: true,
     },
     {
@@ -232,6 +172,7 @@ const Table = ({
       align: 'center',
       dataIndex: 'handleState',
       valueEnum: enums.handle_state,
+      hideInSearch: true,
     },
     {
       title: '办理操作',
@@ -243,15 +184,16 @@ const Table = ({
       render: (dom, caseData) => createButton(caseData),
     },
     {
-      title: '备案督办状态',
+      title: '备案状态',
       align: 'center',
-      dataIndex: 'caseSuperviseState',
+      dataIndex: 'superviseStatus',
       valueEnum: enums.case_supervise_state,
       fixed: 'right',
       width: 60,
+      hideInSearch: true,
     },
     {
-      title: '备案督办操作',
+      title: '备案操作',
       valueType: 'option',
       align: 'center',
       dataIndex: 'receiptId',
@@ -261,10 +203,10 @@ const Table = ({
     },
   ];
 
-  const getReceivingList = params =>
+  const getList = params =>
     new Promise(resolve => {
       dispatch({
-        type: 'caseMgt/getCaseList',
+        type: 'sensitiveMgt/getList',
         payload: { ...params },
         resolve,
       });
@@ -272,7 +214,7 @@ const Table = ({
 
   const templateDownload = () => {
     dispatch({
-      type: 'caseMgt/templateDownload',
+      type: 'sensitiveMgt/templateDownload',
     });
   };
 
@@ -281,7 +223,7 @@ const Table = ({
     message.loading({ content: '文件上传中，请稍后……', key: 'importsAddressBook' });
     new Promise(resolve => {
       dispatch({
-        type: 'caseMgt/importCase',
+        type: 'sensitiveMgt/importCase',
         payload: {
           file,
           type: 'excel',
@@ -304,7 +246,7 @@ const Table = ({
     // const bookIds = selectedRowKeys.join(',');
     message.loading({ content: '文件导出，请稍后……', key: 'importsAddressBook' });
     dispatch({
-      type: 'caseMgt/exportCase',
+      type: 'sensitiveMgt/exportCase',
     });
     message.destroy('error++');
   };
@@ -313,10 +255,10 @@ const Table = ({
     <ProTable
       actionRef={tableRef}
       rowKey="caseId"
-      headerTitle="案件列表"
+      headerTitle="敏感事件列表"
       rowSelection={[]}
       scroll={{ x: 'max-content' }}
-      request={async params => getReceivingList(params)}
+      request={async params => getList(params)}
       toolBarRender={(_, { selectedRowKeys }) => [
         <Button type="primary" onClick={() => openModifyModal()}>
           新增
@@ -369,7 +311,7 @@ const Table = ({
   );
 };
 
-export default connect(({ caseMgt, global }) => ({
-  caseMgt,
+export default connect(({ sensitiveMgt, global }) => ({
+  sensitiveMgt,
   enums: global.enums,
 }))(Table);

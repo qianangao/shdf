@@ -68,7 +68,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, receivingMgt }) => {
     <Modal
       title="编辑收文登记"
       centered
-      width={780}
+      width="90vw"
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',
@@ -79,7 +79,11 @@ const ModifyModal = ({ dispatch, actionRef, loading, receivingMgt }) => {
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <OrgInfoForm form={form} orgInfoData={receivingDetailData} />
+      <OrgInfoForm
+        form={form}
+        orgInfoData={receivingDetailData}
+        id={receivingDetailData.receiptId}
+      />
     </Modal>
   );
 };

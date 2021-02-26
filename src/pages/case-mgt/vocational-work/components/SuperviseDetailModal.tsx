@@ -38,9 +38,9 @@ const CaresDetailModal = ({ dispatch, caseMgt, actionRef }) => {
 
   return (
     <Modal
-      title="备案信息"
+      title="督办信息"
       centered
-      width="900px"
+      width="900vw"
       style={{ paddingBottom: 0 }}
       visible={recordDetailModalVisible}
       destroyOnClose

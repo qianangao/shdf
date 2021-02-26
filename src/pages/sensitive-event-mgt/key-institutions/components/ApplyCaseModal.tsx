@@ -1,13 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'umi';
 import { Modal } from 'antd';
-import OrgInfoForm from './ReceivingForm';
+import OrgInfoForm from './form/ApplyCaseForm';
 
-const AddModal = ({ dispatch, actionRef, loading, receivingMgt }) => {
+const ModifyModal = ({ dispatch, actionRef, loading }) => {
   const [form] = OrgInfoForm.useForm();
-  const [addModalVisible, setModalVisible] = useState(false);
-  const { receivingDetailData } = receivingMgt;
-  const showModal = () => {
+  const [applyCaseModalVisible, setModalVisible] = useState(false);
+  const [detailData, setDetailData] = useState(null);
+
+  const showModal = items => {
+    // 获取详情
+    if (items) {
+      setDetailData(items);
+    }
     setModalVisible(true);
   };
 
@@ -30,26 +35,17 @@ const AddModal = ({ dispatch, actionRef, loading, receivingMgt }) => {
     form
       .validateFields()
       .then(values => {
+        values.id = detailData.caseId;
+        values.approvalCompany = 7000;
+        values.approvalUser = 7001;
         return new Promise(resolve => {
-          let filesStr = '';
-          if (values.files && values.files.length > 0) {
-            values.files.forEach(item => {
-              filesStr += `${item.uid},`;
-            });
-            filesStr = filesStr.substr(0, filesStr.length - 1);
-          }
-          delete values.files;
-          values.fileIds = filesStr;
           dispatch({
-            type: 'receivingMgt/add',
+            type: `sensitiveMgt/applyCase`,
             payload: {
               ...values,
             },
             resolve,
           });
-          setTimeout(() => {
-            setModalVisible(false);
-          }, 2000);
         });
       })
       .then(() => {
@@ -62,25 +58,25 @@ const AddModal = ({ dispatch, actionRef, loading, receivingMgt }) => {
 
   return (
     <Modal
-      title="收文登记"
+      title="申请备案"
       centered
-      width="90vw"
+      width={780}
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',
       }}
-      visible={addModalVisible}
+      visible={applyCaseModalVisible}
       onOk={handleOk}
       forceRender
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <OrgInfoForm form={form} orgInfoData={receivingDetailData} />
+      <OrgInfoForm form={form} />
     </Modal>
   );
 };
 
-export default connect(({ receivingMgt, loading }) => ({
-  receivingMgt,
-  loading: loading.models.receivingMgt,
-}))(AddModal);
+export default connect(({ sensitiveMgt, loading }) => ({
+  sensitiveMgt,
+  loading: loading.models.sensitiveMgt,
+}))(ModifyModal);

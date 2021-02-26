@@ -2,20 +2,20 @@ import React from 'react';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 
-const TableFileCase = ({ dispatch, id, caseMgt }) => {
-  const { tableFileRef } = caseMgt;
+const TableFileCase = ({ dispatch, id, sensitiveMgt }) => {
+  const { tableHandleRef } = sensitiveMgt;
   const columns = [
     {
-      title: '名称',
-      dataIndex: 'fileName',
+      title: '文件id',
+      dataIndex: 'fileId',
       align: 'center',
       fixed: 'left',
       hideInSearch: true,
     },
     {
-      title: '上传时间',
+      title: '文件名称',
       hideInSearch: true,
-      dataIndex: 'createTime',
+      dataIndex: 'fileName',
     },
   ];
 
@@ -23,7 +23,7 @@ const TableFileCase = ({ dispatch, id, caseMgt }) => {
     new Promise(resolve => {
       params.id = id;
       dispatch({
-        type: 'caseMgt/getCaseHandleFile',
+        type: 'sensitiveMgt/getCaseHandleFile',
         payload: { ...params },
         resolve,
       });
@@ -31,19 +31,21 @@ const TableFileCase = ({ dispatch, id, caseMgt }) => {
 
   return (
     <ProTable
-      actionRef={tableFileRef}
+      actionRef={tableHandleRef}
       rowKey="fileId"
       headerTitle="附件列表"
+      scroll={{ x: 'max-content' }}
       search={false}
       options={false}
+      showHeader={false}
       request={async params => getCaseHandleFile(params)}
       columns={columns}
     />
   );
 };
 
-export default connect(({ caseMgt, global, loading }) => ({
-  caseMgt,
-  loading: loading.models.caseMgt,
+export default connect(({ sensitiveMgt, global, loading }) => ({
+  sensitiveMgt,
+  loading: loading.models.sensitiveMgt,
   enums: global.enums,
 }))(TableFileCase);

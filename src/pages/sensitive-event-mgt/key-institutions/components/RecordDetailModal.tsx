@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
 import { Modal, Button, Descriptions } from 'antd';
 
-const CaresDetailModal = ({ dispatch, caseMgt, actionRef }) => {
+const CaresDetailModal = ({ dispatch, sensitiveMgt, actionRef }) => {
   const [recordDetailModalVisible, setModalVisible] = useState(false);
-  const { recordDetailData } = caseMgt;
+  const { recordDetailData } = sensitiveMgt;
 
   const showModal = items => {
     // 获取详情
     dispatch({
-      type: 'caseMgt/getRecordDetail',
+      type: 'sensitiveMgt/getRecordDetail',
       payload: {
         id: items.caseId,
       },
@@ -29,7 +29,7 @@ const CaresDetailModal = ({ dispatch, caseMgt, actionRef }) => {
   const hideModal = () => {
     setModalVisible(false);
     dispatch({
-      type: 'caseMgt/save',
+      type: 'sensitiveMgt/save',
       payload: {
         recordDetailData: {},
       },
@@ -40,7 +40,7 @@ const CaresDetailModal = ({ dispatch, caseMgt, actionRef }) => {
     <Modal
       title="备案信息"
       centered
-      width="900vw"
+      width="900px"
       style={{ paddingBottom: 0 }}
       visible={recordDetailModalVisible}
       destroyOnClose
@@ -51,10 +51,12 @@ const CaresDetailModal = ({ dispatch, caseMgt, actionRef }) => {
         </Button>,
       ]}
     >
-      <Descriptions size="middle" column={3}>
+      <Descriptions size="middle" column={1}>
         <Descriptions.Item label="申请时间">{recordDetailData.applyTime}</Descriptions.Item>
         <Descriptions.Item label="申请人">{recordDetailData.applyUser}</Descriptions.Item>
         <Descriptions.Item label="申请备注">{recordDetailData.applyRemarks}</Descriptions.Item>
+      </Descriptions>
+      <Descriptions size="middle" column={1}>
         <Descriptions.Item label="审批时间">{recordDetailData.approvalTime}</Descriptions.Item>
         <Descriptions.Item label="审批人">{recordDetailData.approvalUser}</Descriptions.Item>
         <Descriptions.Item label="审批备注">{recordDetailData.approvalOpinion}</Descriptions.Item>
@@ -63,7 +65,7 @@ const CaresDetailModal = ({ dispatch, caseMgt, actionRef }) => {
   );
 };
 
-export default connect(({ caseMgt, loading }) => ({
-  caseMgt,
-  loading: loading.models.caseMgt,
+export default connect(({ sensitiveMgt, loading }) => ({
+  sensitiveMgt,
+  loading: loading.models.sensitiveMgt,
 }))(CaresDetailModal);

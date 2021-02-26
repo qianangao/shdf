@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'umi';
 import { Modal } from 'antd';
-import CueAssociation from '@/components/CueAssociation';
 import OrgInfoForm from './form/CaseForm';
 import TableCaseHandle from './TableCaseHandle';
 import TableFileCase from './TableFileCase';
@@ -9,38 +8,34 @@ import CaseHandleModal from './CaseHandleModal';
 import ClubSplicing from './ClubSplicing';
 import ClubSplicingModal from './ClubSplicingModal';
 
-const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
+const ModifyModal = ({ dispatch, actionRef, loading, sensitiveMgt }) => {
   const [form] = OrgInfoForm.useForm();
   const [modifyModalVisible, setModalVisible] = useState(false);
-  const [detailData, setDetailData] = useState(null);
-  const { caseDetailData } = caseMgt;
+  const [sensitiveDetailData, setDetailData] = useState(null);
+  const { detailData } = sensitiveMgt;
   const caseHandleModalRef = useRef({});
   const clubSplicingModalRef = useRef({});
-  const [infoId, setCaresId] = useState('');
-  const cueAssociationRef = useRef({});
-  const openAssociationModal = (item: any, views: any) => {
-    cueAssociationRef.current.showModal(item, views);
-  };
+  const [infoId, setSensitiveId] = useState('');
 
   const showModal = items => {
     // 获取详情
     if (items && items !== 'undefined') {
       dispatch({
-        type: 'caseMgt/getDetail',
+        type: 'sensitiveMgt/getDetail',
         payload: {
-          id: items.caseId,
+          id: items.eventId,
         },
       });
       dispatch({
-        type: 'caseMgt/tableHandleReload',
+        type: 'sensitiveMgt/tableHandleReload',
         payload: {
-          id: items.caseId,
+          id: items.eventId,
         },
       });
-      setCaresId(items.caseId);
-      setDetailData(caseDetailData);
+      setSensitiveId(items.eventId);
+      setDetailData(detailData);
     } else {
-      setCaresId('');
+      setSensitiveId('');
       setDetailData(null);
     }
     setModalVisible(true);
@@ -78,7 +73,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
         values.fileIds = filesStr;
         return new Promise(resolve => {
           dispatch({
-            type: `caseMgt/${detailData ? 'update' : 'add'}`,
+            type: `sensitiveMgt/${sensitiveDetailData ? 'update' : 'add'}`,
             payload: {
               ...values,
             },
@@ -98,34 +93,15 @@ const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
     caseHandleModalRef.current.showModal(item);
   };
 
-  const onSelected = item => {
-    let clubIds = [];
-    if (item && item.length > 0) {
-      const ids = item.map(obj => {
-        return obj.clueId;
-      });
-      clubIds = ids;
-    }
-    if (clubIds) {
-      return new Promise(resolve => {
-        dispatch({
-          type: `caseMgt/clueRelation`,
-          payload: {
-            clubIds,
-            id: infoId,
-          },
-          resolve,
-        });
-      });
-    }
-    return true;
+  const openClubSplicingModal = item => {
+    clubSplicingModalRef.current.showModal(item);
   };
-  // @ts-ignore
+
   return (
     <Modal
-      title={detailData ? '案件编辑' : '案件录入'}
+      title={sensitiveDetailData ? '敏感事件编辑' : '敏感事件录入'}
       centered
-      width="90vw"
+      width="900vw"
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',
@@ -135,24 +111,22 @@ const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <OrgInfoForm form={form} id={infoId} orgInfoData={caseDetailData} />
+      <OrgInfoForm form={form} orgInfoData={detailData} />
 
-      {infoId ? <ClubSplicing id={infoId} openAssociationModal={openAssociationModal} /> : null}
+      <ClubSplicing id={infoId} openClubSplicingModal={openClubSplicingModal} />
 
       {infoId ? <TableCaseHandle id={infoId} openCaseHandleModal={openCaseHandleModal} /> : null}
 
-      {infoId ? <TableFileCase id={infoId} orgInfoData={caseDetailData} /> : null}
+      {infoId ? <TableFileCase id={infoId} orgInfoData={detailData} /> : null}
 
       <CaseHandleModal actionRef={caseHandleModalRef} id={infoId} />
 
       <ClubSplicingModal actionRef={clubSplicingModalRef} />
-
-      <CueAssociation actionRef={cueAssociationRef} onSelected={onSelected} />
     </Modal>
   );
 };
 
-export default connect(({ caseMgt, loading }) => ({
-  caseMgt,
-  loading: loading.models.caseMgt,
+export default connect(({ sensitiveMgt, loading }) => ({
+  sensitiveMgt,
+  loading: loading.models.sensitiveMgt,
 }))(ModifyModal);

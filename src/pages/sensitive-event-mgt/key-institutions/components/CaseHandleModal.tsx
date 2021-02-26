@@ -41,7 +41,7 @@ const CaseHandleModal = ({ actionRef, dispatch, id }) => {
         values.transmitFileIds = filesStr;
         return new Promise(resolve => {
           dispatch({
-            type: `caseMgt/addCaseHandle`,
+            type: `sensitiveMgt/addCaseHandle`,
             payload: {
               ...values,
             },
@@ -61,7 +61,7 @@ const CaseHandleModal = ({ actionRef, dispatch, id }) => {
     <Modal
       title="案件办理"
       centered
-      width={580}
+      width="80vw"
       style={{ paddingBottom: 0 }}
       visible={caseHandleModalVisible}
       destroyOnClose
