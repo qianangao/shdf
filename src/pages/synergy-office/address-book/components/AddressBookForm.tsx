@@ -19,7 +19,7 @@ const AddressBookForm = ({ form }) => {
       name: 'gender',
       span: 4,
       rules: [{ required: true, message: '请选择员工性别' }],
-      enumsLabel: 'gender',
+      enumsLabel: 'dict_sex',
     },
     {
       label: '所属部门',

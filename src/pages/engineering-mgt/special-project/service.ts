@@ -177,6 +177,7 @@ export async function addFeedback(params) {
 export async function exportLog(params) {
   return noErrorRequest(`/task/export`, {
     method: 'GET',
+    responseType: 'blob',
     params,
   });
 }
@@ -188,5 +189,14 @@ export async function feedbackDetail(params) {
   return request(`/specialFeedbackLog/findFeedbackLog`, {
     method: 'GET',
     params,
+  });
+}
+/**
+ *省数据
+ *
+ */
+export async function provinceData() {
+  return request(`/org/deploy`, {
+    method: 'GET',
   });
 }
