@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useRef, useState } from 'react';
 
 import { connect } from 'umi';
