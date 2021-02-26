@@ -64,7 +64,7 @@ const AddModal = ({ dispatch, actionRef, loading, receivingMgt }) => {
     <Modal
       title="收文登记"
       centered
-      width={780}
+      width="90vw"
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',

@@ -93,7 +93,7 @@ const Model = {
     *exportAddressBook({ payload }, { call }) {
       const response = yield call(exportAddressBook, payload);
       if (!response.error) {
-        yield downloadExcelFile(response, `通讯录列表${moment().format('MM-DD HH:mm:ss')}`);
+        yield downloadXlsFile(response, `通讯录列表${moment().format('MM-DD HH:mm:ss')}`);
       }
     },
 

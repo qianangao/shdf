@@ -21,7 +21,7 @@ const Table = ({ emAddressBook, openModifyModal, dispatch, enums }) => {
       align: 'center',
       dataIndex: 'gender',
       hideInSearch: true,
-      valueEnum: enums.gender,
+      valueEnum: enums.dict_sex,
     },
     {
       title: '所属部门',

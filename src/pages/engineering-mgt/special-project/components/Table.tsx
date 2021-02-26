@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Popconfirm } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
-import ActionDeacription from './editAction/ActionDeacription';
+import ActionDeacription from './edit-action/ActionDeacription';
 // import { getSpecialActionTree } from '../service';
 
 const Table = ({
@@ -45,12 +45,6 @@ const Table = ({
       width: 64,
     },
     { title: '子任务名称', align: 'center', dataIndex: 'taskName', hideInSearch: true },
-    // {
-    //   title: '年度',
-    //   align: 'center',
-    //   dataIndex: 'taskYear',
-    //   hideInSearch: true,
-    // },
     { title: '开始日期', align: 'center', dataIndex: 'startDate', hideInSearch: true },
     { title: '截止日期', align: 'center', dataIndex: 'endDate', hideInSearch: true },
     {
@@ -66,7 +60,7 @@ const Table = ({
       valueType: 'option',
       align: 'center',
       dataIndex: 'id',
-      width: 240,
+      width: 260,
       fixed: 'right',
       render: (dom, data) => [
         <a
@@ -81,7 +75,7 @@ const Table = ({
         >
           {data.taskState === 0 && '修改'}
         </a>,
-        <a key={`${data.taskId}down`} onClick={() => openDownModal()}>
+        <a key={`${data.taskId}down`} onClick={() => openDownModal(data.taskId)}>
           {data.taskState === 0 && '下发'}
         </a>,
         <a key={`${data.taskId}back`} onClick={() => openFeedbackModal(data.taskId)}>

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
 import { Modal, Button, Descriptions } from 'antd';
+import TableFileCase from './TableFileCase';
 
-const CaresDetailModal = ({ dispatch, receivingMgt, actionRef }) => {
+const CaresDetailModal = ({ dispatch, receivingMgt, actionRef, enums }) => {
   const [caresId] = useState('');
 
   const [DetailModalVisible, setModalVisible] = useState(false);
@@ -45,7 +46,7 @@ const CaresDetailModal = ({ dispatch, receivingMgt, actionRef }) => {
     <Modal
       title="收文详情"
       centered
-      width="900px"
+      width="900vw"
       style={{ paddingBottom: 0 }}
       visible={DetailModalVisible}
       destroyOnClose
@@ -56,9 +57,9 @@ const CaresDetailModal = ({ dispatch, receivingMgt, actionRef }) => {
         </Button>,
       ]}
     >
-      <Descriptions size="middle" column={2}>
+      <Descriptions size="middle" column={3}>
         <Descriptions.Item label="办  理  类  型">
-          {receivingDetailData.handleType}
+          {enums.handle_type && enums.handle_type[receivingDetailData.handleType]}
         </Descriptions.Item>
         <Descriptions.Item label="来  文  单  位">{receivingDetailData.docUnit}</Descriptions.Item>
         <Descriptions.Item label="来  文  文  号">{receivingDetailData.docNo}</Descriptions.Item>
@@ -69,10 +70,11 @@ const CaresDetailModal = ({ dispatch, receivingMgt, actionRef }) => {
           {receivingDetailData.envelopeCode}
         </Descriptions.Item>
         <Descriptions.Item label="紧  急  程  度">
-          {receivingDetailData.urgentLevel}
+          {enums.urgent_level && enums.urgent_level[receivingDetailData.urgentLevel]}
         </Descriptions.Item>
         <Descriptions.Item label="密             级">
-          {receivingDetailData.secrecyLevel}
+          {enums.subject_secrecy_level &&
+            enums.subject_secrecy_level[receivingDetailData.secrecyLevel]}
         </Descriptions.Item>
         <Descriptions.Item label="保  密  期  限">
           {receivingDetailData.secrecyDuration}
@@ -94,12 +96,14 @@ const CaresDetailModal = ({ dispatch, receivingMgt, actionRef }) => {
         <Descriptions.Item label="批   示">{receivingDetailData.instructions}</Descriptions.Item>
         {/* <Descriptions.Item label="附   件">{receivingDetailData.fileList}</Descriptions.Item> */}
       </Descriptions>
+      <TableFileCase id={receivingDetailData.receiptId} detailData={receivingDetailData} />
     </Modal>
   );
 };
 
-export default connect(({ receivingMgt, loading }) => ({
+export default connect(({ receivingMgt, loading, global }) => ({
   DetailModalVisible: false,
   receivingMgt,
   loading: loading.models.receivingMgt,
+  enums: global.enums,
 }))(CaresDetailModal);

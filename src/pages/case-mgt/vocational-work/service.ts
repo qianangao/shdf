@@ -96,6 +96,16 @@ export async function addCase(params) {
  * 编辑
  * @param {*} params
  */
+export async function clueRelation(params) {
+  return request(`/shdfCase/clueRelation/${params.id}`, {
+    method: 'POST',
+    data: params.clubIds,
+  });
+}
+/**
+ * 编辑
+ * @param {*} params
+ */
 export async function updateCase(params) {
   return request(`/shdfCase/save`, {
     method: 'POST',

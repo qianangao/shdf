@@ -1,15 +1,15 @@
 import React, { useEffect, useRef } from 'react';
 import { connect } from 'umi';
-import ActionTreeLayout from './components/TreeComponent/ActionTreeLayout';
+import ActionTreeLayout from './components/tree-component/ActionTreeLayout';
 import Table from './components/Table';
-import AddchildrenTaskModal from './components/childrenTask/addChildrenTask/AddchildrenTaskModal';
-import SpecialActionModal from './components/addAction/SpecialActionModal';
+import AddchildrenTaskModal from './components/children-ask/add-children-task/AddchildrenTaskModal';
+import SpecialActionModal from './components/add-action/SpecialActionModal';
 // import EditModal from './components/EditAction/EditModal';
-import DownModal from './components/childrenTask/down/DownModal';
-import ModifyModal from './components/childrenTask/editChildrenTask/ModifyModal';
-import FeedbackModal from './components/childrenTask/feedback/feedbackData/FeedBackModal';
-import FeedbackRequestModal from './components/childrenTask/FeedbackRequestModal';
-import FeedbackDetailModal from './components/childrenTask/feedback/feedbackDetail/FeedbackDetailModal';
+import DownModal from './components/children-ask/down/DownModal';
+import ModifyModal from './components/children-ask/edit-children-task/ModifyModal';
+import FeedbackModal from './components/children-ask/feedback/feedback-data/FeedBackModal';
+import FeedbackRequestModal from './components/children-ask/FeedbackRequestModal';
+import FeedbackDetailModal from './components/children-ask/feedback/feedback-detail/FeedbackDetailModal';
 // import ChildrenTaskForm from './components/childrenTask/editChildrenTask/EditChildrenTaskForm'
 const SpecialProject = ({ dispatch }) => {
   const modifyRef = useRef({});

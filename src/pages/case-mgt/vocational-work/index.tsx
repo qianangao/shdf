@@ -1,6 +1,5 @@
 import React, { Suspense, useEffect, useRef } from 'react';
 import { connect } from 'umi';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import Table from './components/Table';
 
 const ModifyModal = React.lazy(() => import('./components/ModifyModal'));
@@ -48,6 +47,7 @@ const CaseMgt = ({ dispatch }) => {
           'handle_state',
           'case_supervise_state',
           'importance_level',
+          'charge',
           'handle_type',
         ],
       },
@@ -103,7 +103,7 @@ const CaseMgt = ({ dispatch }) => {
   };
 
   return (
-    <PageHeaderWrapper>
+    <>
       <Table
         openEvaluateFeedbackModal={openEvaluateFeedbackModal}
         openEvaluateModal={openEvaluateModal}
@@ -132,7 +132,7 @@ const CaseMgt = ({ dispatch }) => {
         <DetailModal actionRef={detailRef} />
         <AuthorizeModal actionRef={authorizeRef} />
       </Suspense>
-    </PageHeaderWrapper>
+    </>
   );
 };
 

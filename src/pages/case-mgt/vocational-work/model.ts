@@ -24,6 +24,7 @@ import {
   getSuperviseDetail,
   superviseApproval,
   templateDownload,
+  clueRelation,
   importCase,
   exportCase,
 } from './service';
@@ -37,10 +38,13 @@ const Model = {
     caseDetailData: {},
     recordDetailData: {},
     authorizeData: {},
+    caseDetailClueList: {},
     caseFileData: {},
     trendsDetailData: {},
     tableRef: {},
     tableHandleRef: {},
+    tableFileRef: {},
+    tableClubRef: {},
     selectedOrgId: undefined,
   },
   effects: {
@@ -154,6 +158,44 @@ const Model = {
         });
       }
     },
+    *getClubList({ payload, resolve }, { call, put }) {
+      if (payload.id === '') {
+        resolve && resolve({});
+        return;
+      }
+      const response = yield call(getCaseDetail, payload);
+      if (!response.error) {
+        const { clueList } = response;
+        if (!clueList || clueList == null) {
+          resolve && resolve({});
+        } else {
+          const result = {
+            data: clueList,
+            page: 1,
+            pageSize: 100,
+            success: true,
+            total: clueList.length,
+          };
+          resolve && resolve(result);
+        }
+        yield put({
+          type: 'save',
+          payload: {
+            caseDetailClueList: clueList,
+          },
+        });
+      }
+    },
+    *clueRelation({ payload, resolve }, { call, put }) {
+      const response = yield call(clueRelation, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('线索串并联成功！');
+        yield put({
+          type: 'tableClubReload',
+        });
+      }
+    },
     *update({ payload, resolve }, { call, put }) {
       const response = yield call(updateCase, payload);
       if (!response.error) {
@@ -218,6 +260,9 @@ const Model = {
         message.success('新增案件办理成功！');
         yield put({
           type: 'tableHandleReload',
+        });
+        yield put({
+          type: 'tableFileReload',
         });
       }
     },
@@ -383,6 +428,20 @@ const Model = {
       const tableHandleRef = state.tableHandleRef || {};
       setTimeout(() => {
         tableHandleRef.current && tableHandleRef.current.reloadAndRest();
+      }, 0);
+      return { ...state };
+    },
+    tableFileReload(state) {
+      const tableFileRef = state.tableHandleRef || {};
+      setTimeout(() => {
+        tableFileRef.current && tableFileRef.current.reloadAndRest();
+      }, 0);
+      return { ...state };
+    },
+    tableClubReload(state) {
+      const tableClubRef = state.tableClubRef || {};
+      setTimeout(() => {
+        tableClubRef.current && tableClubRef.current.reloadAndRest();
       }, 0);
       return { ...state };
     },

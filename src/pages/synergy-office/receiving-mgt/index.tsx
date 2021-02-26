@@ -1,6 +1,5 @@
 import React, { Suspense, useEffect, useRef } from 'react';
 import { connect } from 'umi';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import Table from './components/Table';
 
 const ModifyModal = React.lazy(() => import('./components/ModifyModal'));
@@ -46,7 +45,7 @@ const ReceivingMgt = ({ dispatch }) => {
   };
 
   return (
-    <PageHeaderWrapper>
+    <>
       <Table
         openModifyModal={openModifyModal}
         openAddModal={openAddModal}
@@ -61,7 +60,7 @@ const ReceivingMgt = ({ dispatch }) => {
         <DetailModal actionRef={detailRef} />
         <DistributeModal actionRef={distributeRef} />
       </Suspense>
-    </PageHeaderWrapper>
+    </>
   );
 };
 

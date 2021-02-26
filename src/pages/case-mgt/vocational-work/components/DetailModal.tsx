@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
 import { Modal, Button, Descriptions } from 'antd';
+import TableFileCase from '@/pages/case-mgt/vocational-work/components/TableFileCase';
+import TableCaseHandle from './TableCaseHandle';
+import ClubSplicing from './ClubSplicing';
 
-const CaresDetailModal = ({ dispatch, caseMgt, actionRef }) => {
+const CaresDetailModal = ({ dispatch, caseMgt, actionRef, enums }) => {
   const [detailModalVisible, setModalVisible] = useState(false);
   const { caseDetailData } = caseMgt;
-
+  const [infoId, setCaresId] = useState('');
   const showModal = items => {
     // 获取详情
     dispatch({
@@ -15,6 +18,7 @@ const CaresDetailModal = ({ dispatch, caseMgt, actionRef }) => {
       },
     });
     setModalVisible(true);
+    setCaresId(items.caseId);
   };
 
   useEffect(() => {
@@ -28,6 +32,7 @@ const CaresDetailModal = ({ dispatch, caseMgt, actionRef }) => {
 
   const hideModal = () => {
     setModalVisible(false);
+
     dispatch({
       type: 'caseMgt/save',
       payload: {
@@ -38,64 +43,95 @@ const CaresDetailModal = ({ dispatch, caseMgt, actionRef }) => {
 
   return (
     <Modal
-      title="收文详情"
+      title="案件详情"
       centered
-      width="900px"
+      width="900vw"
       style={{ paddingBottom: 0 }}
       visible={detailModalVisible}
       destroyOnClose
       onCancel={hideModal}
       footer={[
         <Button type="primary" onClick={hideModal}>
-          确认
+          返回
         </Button>,
       ]}
     >
       <Descriptions size="middle" column={3}>
+        <Descriptions.Item label="报送单位">{caseDetailData.reportCompany}</Descriptions.Item>
+        <Descriptions.Item label="报送时间">{caseDetailData.reportTime}</Descriptions.Item>
         <Descriptions.Item label="案件名称">{caseDetailData.caseName}</Descriptions.Item>
-        <Descriptions.Item label="罪名">{caseDetailData.charge}</Descriptions.Item>
-        <Descriptions.Item label="案件简要">{caseDetailData.brieflyCase}</Descriptions.Item>
         <Descriptions.Item label="案件编号">{caseDetailData.caseCode}</Descriptions.Item>
-        <Descriptions.Item label="案件性质">{caseDetailData.caseNature}</Descriptions.Item>
-        <Descriptions.Item label="案件来源">{caseDetailData.caseSource}</Descriptions.Item>
-        <Descriptions.Item label="重要程度">{caseDetailData.importanceLevel}</Descriptions.Item>
-        <Descriptions.Item label="保密等级">{caseDetailData.secrecyLevel}</Descriptions.Item>
-        <Descriptions.Item label="立案日期">{caseDetailData.registerTime}</Descriptions.Item>
-        <Descriptions.Item label="紧急程度">{caseDetailData.urgentLevel}</Descriptions.Item>
-        <Descriptions.Item label="抓获人数">{caseDetailData.captureNumber}</Descriptions.Item>
-        <Descriptions.Item label="刑事拘留人数">{caseDetailData.detentionNumber}</Descriptions.Item>
-        <Descriptions.Item label="逮捕人数">{caseDetailData.arrestNumber}</Descriptions.Item>
-        <Descriptions.Item label="判处被告人数量">
-          {caseDetailData.defendantNumber}
+        <Descriptions.Item label="线索来源">
+          {enums.case_source && enums.case_source[caseDetailData.caseSource]}
         </Descriptions.Item>
-        <Descriptions.Item label="传播载体形式">{caseDetailData.spreadForm}</Descriptions.Item>
-        <Descriptions.Item label="所属联防工程">{caseDetailData.projectId}</Descriptions.Item>
-        <Descriptions.Item label="平台类型">
-          {caseDetailData.involvedPlatformType}
-        </Descriptions.Item>
-        <Descriptions.Item label="是否网络案件">{caseDetailData.isNetworkCase}</Descriptions.Item>
-        <Descriptions.Item label="专项行动">{caseDetailData.specialActionId}</Descriptions.Item>
-        <Descriptions.Item label="案件查处部门">
+        <Descriptions.Item label="办理部门">
           {caseDetailData.investigationDepartment}
+        </Descriptions.Item>
+        <Descriptions.Item label="重要程度">
+          {enums.importance_level && enums.importance_level[caseDetailData.importanceLevel]}
+        </Descriptions.Item>
+        <Descriptions.Item label="保密等级">
+          {enums.subject_secrecy_level && enums.subject_secrecy_level[caseDetailData.secrecyLevel]}
+        </Descriptions.Item>
+        <Descriptions.Item label="立案时间">{caseDetailData.registerTime}</Descriptions.Item>
+        <Descriptions.Item label="紧急程度">
+          {enums.urgent_level && enums.urgent_level[caseDetailData.urgentLevel]}
+        </Descriptions.Item>
+        <Descriptions.Item label="案件类型">
+          {enums.handle_type && enums.handle_type[caseDetailData.caseType]}
+        </Descriptions.Item>
+        <Descriptions.Item label="案件性质">
+          {enums.case_nature && enums.case_nature[caseDetailData.caseNature]}
+        </Descriptions.Item>
+        <Descriptions.Item label="专项行动">
+          {enums.handle_type && enums.handle_type[caseDetailData.specialActionId]}
+        </Descriptions.Item>
+        <Descriptions.Item label="传播渠道">
+          {enums.spread_channel && enums.spread_channel[caseDetailData.spreadChannel]}
+        </Descriptions.Item>
+        <Descriptions.Item label="传播形式">
+          {enums.spread_form && enums.spread_form[caseDetailData.spreadForm]}
+        </Descriptions.Item>
+        <Descriptions.Item label="涉案平台类型">
+          {enums.involved_platform_type &&
+            enums.involved_platform_type[caseDetailData.involvedPlatformType]}
         </Descriptions.Item>
         <Descriptions.Item label="涉案数量">{caseDetailData.caseNumber}</Descriptions.Item>
         <Descriptions.Item label="涉案金额">{caseDetailData.caseAmount}</Descriptions.Item>
-        <Descriptions.Item label="案件办理阶段">{caseDetailData.caseType}</Descriptions.Item>
-        <Descriptions.Item label="发案公司">{caseDetailData.reportCompany}</Descriptions.Item>
-        <Descriptions.Item label="发案时间">{caseDetailData.reportTime}</Descriptions.Item>
+        <Descriptions.Item label="罪名">
+          {enums.charge && enums.charge[caseDetailData.charge]}
+        </Descriptions.Item>
+        <Descriptions.Item label="刑事拘留人数">{caseDetailData.detentionNumber}</Descriptions.Item>
+        <Descriptions.Item label="抓获人数">{caseDetailData.captureNumber}</Descriptions.Item>
+        <Descriptions.Item label="判处被告人数量">
+          {caseDetailData.defendantNumber}
+        </Descriptions.Item>
+        <Descriptions.Item label="逮捕人数">{caseDetailData.arrestNumber}</Descriptions.Item>
+        <Descriptions.Item label="最高刑期">{caseDetailData.maximumSentence}</Descriptions.Item>
+        <Descriptions.Item label="判处被告单位数量">
+          {caseDetailData.defendantCompanyNumber}
+        </Descriptions.Item>
+
         <Descriptions.Item label="案件地域">{caseDetailData.region}</Descriptions.Item>
       </Descriptions>
+      <ClubSplicing id={infoId} isDetail={1} />
+
       <Descriptions size="middle" column={1}>
-        <Descriptions.Item label="案情描述">{caseDetailData.completeCase}</Descriptions.Item>
+        <Descriptions.Item label="案件简要">{caseDetailData.brieflyCase}</Descriptions.Item>
         <Descriptions.Item label="行政处理结果">{caseDetailData.punishResult}</Descriptions.Item>
         <Descriptions.Item label="案件办理结果">{caseDetailData.sentenceResult}</Descriptions.Item>
         {/* <Descriptions.Item label="附   件">{caseDetailData.fileList}</Descriptions.Item> */}
       </Descriptions>
+
+      <TableCaseHandle id={infoId} isDetail={1} />
+
+      <TableFileCase id={infoId} />
     </Modal>
   );
 };
 
-export default connect(({ caseMgt, loading }) => ({
+export default connect(({ caseMgt, loading, global }) => ({
   caseMgt,
   loading: loading.models.caseMgt,
+  enums: global.enums,
 }))(CaresDetailModal);

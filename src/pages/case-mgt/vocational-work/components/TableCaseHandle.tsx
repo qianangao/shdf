@@ -3,7 +3,7 @@ import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import { Button } from 'antd';
 
-const TableCaseHandle = ({ dispatch, id, caseMgt, openCaseHandleModal }) => {
+const TableCaseHandle = ({ dispatch, id, caseMgt, openCaseHandleModal, isDetail }) => {
   const { tableHandleRef } = caseMgt;
   const columns = [
     {
@@ -54,15 +54,16 @@ const TableCaseHandle = ({ dispatch, id, caseMgt, openCaseHandleModal }) => {
       actionRef={tableHandleRef}
       rowKey="transmitId"
       headerTitle="案件办理"
-      scroll={{ x: 'max-content' }}
       search={false}
       options={false}
       request={async params => getCaseHandleList(params)}
       columns={columns}
       toolBarRender={_ => [
-        <Button type="primary" onClick={() => openCaseHandleModal()}>
-          新增
-        </Button>,
+        isDetail === 1 ? null : (
+          <Button type="primary" onClick={() => openCaseHandleModal()}>
+            新增
+          </Button>
+        ),
       ]}
     />
   );

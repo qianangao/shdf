@@ -4,9 +4,37 @@ import { Modal, List, Button } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
 import ProTable from '@ant-design/pro-table';
 import OrgTree from '@/components/OrgTree';
-import { getStaffList } from '@/services/orgTree';
+// import { getStaffList } from '@/services/orgTree';
 import { formatPageData } from '@/utils';
 import styles from './index.less';
+
+// temp 对接数据前临时mock方案
+const getStaffList = ({ selectedOrgId }) => {
+  const staffInfo = [];
+
+  for (let i = 0; i < 20; i++) {
+    staffInfo.push({
+      id: `402883e973e5c2ce0173e5c2ce9${i}`, // id
+      organizationId: selectedOrgId, // 单位id
+      realName: `伍仟${i}`, // 姓名
+      homeAddressDiy: null,
+      dictSex: '男', // 性别
+      dictNation: '汉', // 民族
+      dateOfBirth: '2020-08-12', // 出生日期
+      dictPoliticalStatus: '党员', // 政治面貌
+      startWorkTime: '2020-08-12', // 参加工作时间
+      originalUnitAndPosition: `局长${i}`, // 原工作单位及职务
+      dictRetirementLevel: '高级', // 级别
+      phonenumber: `1865555555${i}`, // 电话号码
+      spouseName: null,
+      childrenNum: null,
+      idCard: '440103199003077458', // 身份证号
+      nowThePipeUnits: '现管单位', // 现管单位
+    });
+  }
+
+  return Promise.resolve(staffInfo);
+};
 
 let tempSelectData = [];
 
@@ -41,12 +69,6 @@ const StaffMultiSelectInput = ({ value, enums, getLgbs, dispatch, onChange }) =>
       dataIndex: 'dictNation',
       valueEnum: enums.dictNation,
       hideInSearch: true,
-    },
-    {
-      title: '类型',
-      align: 'center',
-      dataIndex: 'dictRetirementType',
-      valueEnum: enums.dictRetirementType,
     },
     {
       title: '出生日期',

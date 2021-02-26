@@ -83,6 +83,28 @@ const Model = {
         });
       }
     },
+    *getFileList({ payload, resolve }, { call }) {
+      if (payload.id === '') {
+        resolve && resolve({});
+        return;
+      }
+      const response = yield call(getReceivingDetail, payload);
+
+      if (!response.error) {
+        const { fileList, current } = response;
+
+        const result = {
+          data: fileList,
+          page: current,
+          pageSize: fileList.length,
+          success: true,
+          total: fileList.length,
+        };
+        resolve && resolve(result);
+      } else {
+        resolve && resolve({});
+      }
+    },
     *getMemberList({ payload, resolve }, { call, put }) {
       const params = {
         ...payload,

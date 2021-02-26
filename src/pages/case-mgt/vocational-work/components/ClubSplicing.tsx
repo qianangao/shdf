@@ -3,12 +3,12 @@ import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import { Button } from 'antd';
 
-const TableCaseHandle = ({ dispatch, id, caseMgt, openClubSplicingModal }) => {
-  const { tableHandleRef } = caseMgt;
+const TableCaseHandle = ({ dispatch, id, caseMgt, openAssociationModal, isDetail }) => {
+  const { tableClubRef } = caseMgt;
   const columns = [
     {
       title: '线索编号',
-      dataIndex: 'recordId',
+      dataIndex: 'clueId',
       align: 'center',
       fixed: 'left',
       hideInSearch: true,
@@ -17,40 +17,40 @@ const TableCaseHandle = ({ dispatch, id, caseMgt, openClubSplicingModal }) => {
       title: '线索名称',
       align: 'center',
       hideInSearch: true,
-      dataIndex: 'receiptId',
+      dataIndex: 'clueName',
     },
     {
       title: '线索类型',
       align: 'center',
       type: 'dateTime',
       hideInSearch: true,
-      dataIndex: 'createTime',
+      dataIndex: 'clueType',
     },
     {
       title: '被举报人',
       align: 'center',
-      dataIndex: 'readingOrg',
+      dataIndex: 'reportName',
       hideInSearch: true,
     },
     {
       title: '被举报机构',
       align: 'center',
-      dataIndex: 'lastUpdateTime',
+      dataIndex: 'reportPostcode',
       hideInSearch: true,
     },
     {
       title: '发生地域',
       align: 'center',
-      dataIndex: 'lastUpdateTime',
+      dataIndex: 'relatedPublications',
       hideInSearch: true,
     },
   ];
 
-  const getCaseHandleList = params =>
+  const getCaseClubList = params =>
     new Promise(resolve => {
       params.id = id;
       dispatch({
-        type: 'caseMgt/getCaseHandleList',
+        type: 'caseMgt/getClubList',
         payload: { ...params },
         resolve,
       });
@@ -58,17 +58,19 @@ const TableCaseHandle = ({ dispatch, id, caseMgt, openClubSplicingModal }) => {
 
   return (
     <ProTable
-      actionRef={tableHandleRef}
+      actionRef={tableClubRef}
       scroll={{ x: 'max-content' }}
       search={false}
       options={false}
-      request={async params => getCaseHandleList(params)}
-      columns={columns}
       toolBarRender={_ => [
-        <Button type="primary" onClick={() => openClubSplicingModal()}>
-          线索串并联
-        </Button>,
+        isDetail === 1 ? null : (
+          <Button type="primary" onClick={() => openAssociationModal()}>
+            线索串并联
+          </Button>
+        ),
       ]}
+      request={async params => getCaseClubList(params)}
+      columns={columns}
     />
   );
 };
