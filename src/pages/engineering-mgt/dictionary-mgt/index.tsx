@@ -9,6 +9,12 @@ import ModifyProjectTaskModal from './components/project-task/edit-project-task/
 import FeedbackDetailModal from './components/feedback/feedback-detail/FeedbackDetailModal';
 import FeedbackModal from './components/feedback/feedback-data/FeedbackModal';
 import DownModal from './components/down/DownModal';
+import { Tabs } from 'antd';
+import AItable from './components/infoAmodify/InfoAnnounceTable';
+import InfoAnModal from './components/infoAmodify/ModifyModal';
+import InfoAnDetailModal from './components/infoAmodify/DetailModifyModal';
+
+const { TabPane } = Tabs;
 
 const DictionaryMgt = ({ dispatch }) => {
   const addEngineeringRef = useRef({});
@@ -18,6 +24,8 @@ const DictionaryMgt = ({ dispatch }) => {
   const feedbackRef = useRef({});
   const feedbackDetailRef = useRef({});
   const downRef = useRef({});
+  const infoAnmodifyRef = useRef({});
+  const infoAnDetailmodifyRef = useRef({});
 
   useEffect(() => {
     dispatch({
@@ -49,17 +57,41 @@ const DictionaryMgt = ({ dispatch }) => {
   const downModal = item => {
     downRef.current.showModal(item);
   };
+  //信息通报
+  const openInfoModifyModal = item => {
+    infoAnmodifyRef.current.showModal(item);
+  };
+  const openDetailModifyModal = item => {
+    infoAnDetailmodifyRef.current.showModal(item);
+  };
 
   return (
     <EngineeringTreeLayout openAddEngineeringModal={openAddEngineeringModal}>
-      <Table
-        openAddEngineeringModal={openAddEngineeringModal}
-        tempProvinceModel={tempProvinceModel}
-        addProjectTaskModal={addProjectTaskModal}
-        modifyProjectTaskModal={modifyProjectTaskModal}
-        feedbackModal={feedbackModal}
-        downModal={downModal}
-      />
+      <Tabs defaultActiveKey="1" type="card" size="large">
+        <TabPane tab="年度工作重点" key="1">
+          <Table
+            openAddEngineeringModal={openAddEngineeringModal}
+            tempProvinceModel={tempProvinceModel}
+            addProjectTaskModal={addProjectTaskModal}
+            modifyProjectTaskModal={modifyProjectTaskModal}
+            feedbackModal={feedbackModal}
+            downModal={downModal}
+          />
+        </TabPane>
+        <TabPane tab="会议管理" key="2"></TabPane>
+        <TabPane tab="工程数据" key="3">
+          {/* <EDtable openModifyModal={openModifyModal} /> */}
+        </TabPane>
+        <TabPane tab="信息通报" key="5">
+          <AItable
+            openModifyModal={openInfoModifyModal}
+            openDetailModifyModal={openDetailModifyModal}
+          />
+        </TabPane>
+      </Tabs>
+      <InfoAnModal actionRef={infoAnmodifyRef} />
+      <InfoAnDetailModal actionRef={infoAnDetailmodifyRef} />
+
       <AddEngineeringModal actionRef={addEngineeringRef} />
       <TempProvinceModal actionRef={tempProvinceRef} />
       <AddProjectTaskModal actionRef={addProjectTaskRef} />
