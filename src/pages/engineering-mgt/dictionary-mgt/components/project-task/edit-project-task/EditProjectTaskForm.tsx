@@ -10,9 +10,8 @@ const EditProjectTaskForm = ({
   form,
   disabled,
   visible,
-  taskId,
   add,
-  feedbackModal,
+  // feedbackModal,
   addProjectTaskModal,
   feedbackDetailModal,
 }) => {
@@ -113,9 +112,9 @@ const EditProjectTaskForm = ({
       title="任务信息"
       extra={
         <>
-          <Button type="primary" onClick={() => feedbackModal(taskId)} style={{ marginRight: 8 }}>
+          {/* <Button type="primary" onClick={() => feedbackModal(taskId)} style={{ marginRight: 8 }}>
             任务反馈
-          </Button>
+          </Button> */}
           <Button type="primary" onClick={() => addProjectTaskModal({ visible: true })}>
             新增子任务
           </Button>

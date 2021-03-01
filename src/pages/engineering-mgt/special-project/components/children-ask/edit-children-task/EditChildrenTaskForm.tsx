@@ -10,8 +10,7 @@ const EditChildrenTaskForm = ({
   form,
   disabled,
   visible,
-  taskId,
-  openFeedbackModal,
+  // openFeedbackModal,
   openAddModal,
   feedbackDetailModal,
 }) => {
@@ -102,13 +101,13 @@ const EditChildrenTaskForm = ({
       title="任务信息"
       extra={
         <>
-          <Button
+          {/* <Button
             type="primary"
             onClick={() => openFeedbackModal(taskId)}
             style={{ marginRight: 8 }}
           >
             任务反馈
-          </Button>
+          </Button> */}
           <Button type="primary" onClick={() => openAddModal({ visible: true })}>
             新增子任务
           </Button>

@@ -4,9 +4,11 @@ import { connect } from 'umi';
 import { Select } from 'antd';
 import { checkPhone } from '@/utils/validators';
 import ProvinceListTable from '../province-list/ProvinceListTable';
+import TempProvinceTable from '../temp-province-list/TempProvinceTable';
 
 const AddEngineeringForm = ({ dispatch, form, visible, add, edit }) => {
   const [tableData, setTableData] = useState([]);
+  const [tempTableData, setTtempTableData] = useState([]);
   const [actionData, setActionData] = useState([]);
   useEffect(() => {
     new Promise(resolve => {
@@ -27,6 +29,9 @@ const AddEngineeringForm = ({ dispatch, form, visible, add, edit }) => {
   }, []);
   const onChange = data => {
     setTableData([...data]);
+  };
+  const onTempChange = data => {
+    setTtempTableData([...data]);
   };
 
   const formItems = [
@@ -158,6 +163,21 @@ const AddEngineeringForm = ({ dispatch, form, visible, add, edit }) => {
           value={tableData}
           add={add}
           edit={edit}
+        />
+      ),
+    },
+    {
+      label: '临时省份列表',
+      name: 'projectTemporaryProvinceEntityList',
+      span: 4,
+      visible: !visible,
+      // rules: [{ required: true, message: '请输入!' }],
+      render: (
+        <TempProvinceTable
+          // visible={visible}
+          add={add}
+          onChange={onTempChange}
+          value={tempTableData}
         />
       ),
     },

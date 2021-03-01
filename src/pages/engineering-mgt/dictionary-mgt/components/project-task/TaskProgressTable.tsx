@@ -32,8 +32,8 @@ const TaskProgressTable = ({ dispatch, taskProgressList, head, feedbackDetailMod
             ),
           });
         }
-        setColumns([...arr]);
       });
+      setColumns([...arr]);
     }
   }, [head]);
 

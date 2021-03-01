@@ -16,10 +16,6 @@ const DownModal = ({ dispatch, actionRef, loading }) => {
     setSelectedKeys([...sourceSelectedKeys, ...targetSelectedKeys]);
   };
 
-  //   const onScroll = (direction, e) => {
-  //     console.log('direction:', direction);
-  //     console.log('target:', e.target);
-  //   };
   useEffect(() => {
     new Promise(resolve => {
       dispatch({

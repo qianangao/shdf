@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
 import { Modal } from 'antd';
-import SummaryFeedbackTable from './feedback/SummaryFeedbackTable';
+import SummaryFeedbackTable from './SummaryFeedbackTable';
 
 const FeedbackRequestModal = ({ actionRef, loading }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -33,7 +33,7 @@ const FeedbackRequestModal = ({ actionRef, loading }) => {
     hideModal();
     // return new Promise(resolve => {
     //   dispatch({
-    //     type: `specialAction/addChildrenTaskList`,
+    //     type: `dictionaryMgt/addFeedback`,
     //     payload: {
     //       ...values,
     //     },

@@ -4,70 +4,38 @@ import { connect } from 'umi';
 import AdvancedForm from '@/components/AdvancedForm';
 import { checkPhone } from '@/utils/validators';
 
-const ProvinceListTable = ({
-  projectProvinceEntityList,
+const TempProvinceTable = ({
+  projectTemporaryProvinceEntityList,
   disabled,
   onChange,
   add = false,
-  edit = false,
   style = {},
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [dataSource, setDataSource] = useState([]);
-  const [flag, setFlag] = useState(false);
 
   useEffect(() => {
-    setFlag(add || edit);
     if (add) {
       setDataSource([]);
     } else {
       setDataSource([]);
-      setDataSource([...projectProvinceEntityList]);
+      setDataSource([...projectTemporaryProvinceEntityList]);
     }
-  }, [projectProvinceEntityList]);
+  }, [projectTemporaryProvinceEntityList]);
 
   const [form] = AdvancedForm.useForm();
   const [id, setId] = useState(1);
 
-  const confirmDelete = ele => {
+  const confirmDelete = ids => {
     const data = dataSource;
     data.forEach(item => {
-      // console.log("item.id",item.id);
-      if (item.id === ele.id || item.provinceId === ele.provinceId) {
-        // const i = getId(data,ele)
-        for (let i = 0; i < data.length; i++) {
-          if (data[i].feedbackId === ele.feedbackId) {
-            data.splice(i, 1);
-          }
-        }
-        // data.splice(i, 1);
+      if (item.id === ids) {
+        data.splice(ids - 1, 1);
         setDataSource([...data]);
-        onChange && onChange([...data]);
       }
     });
   };
 
-  // const getId = (data,ele) =>{
-  //   for(let i= 0;i<data.length;i++){
-  //     if(data[i].provinceId === ele.provinceId){
-  //       return parseInt(i)
-  //     }
-  //   }
-  // }
-  // const handleSelect = ids => {
-  //   const data = dataSource;
-  //   data.forEach(item => {
-  //     if (item.provinceId === ids) {
-  //       const arr = [];
-  //       arr.push(item);
-  //       onChange && onChange(arr);
-  //       dispatch({
-  //         type: `dictionaryMgt/selectProvinceData`,
-  //         payload: arr,
-  //       });
-  //     }
-  //   });
-  // };
   const addFeedback = () => {
     setIsModalVisible(true);
     form.resetFields();
@@ -91,13 +59,19 @@ const ProvinceListTable = ({
 
   const formItems = [
     {
-      label: '成员省份名称',
+      label: '临时省份',
       name: 'provinceCode',
       span: 2,
       rules: [
         { required: true, message: '请输入名称!', whitespace: true },
         { max: 30, message: '长度请小于30位!' },
       ],
+    },
+    {
+      label: '年份',
+      name: 'year',
+      span: 2,
+      rules: [{ required: true, message: '请输入年份!', whitespace: true }],
     },
     {
       label: '联络员',
@@ -128,29 +102,25 @@ const ProvinceListTable = ({
       key: 'id',
     },
     // { title: '序号', align: 'center', dataIndex: 'id', hideInSearch: true },
-    { title: '成员省份', align: 'center', dataIndex: 'provinceCode' },
+    { title: '成员省份名称', align: 'center', dataIndex: 'provinceCode' },
     { title: '联络员', align: 'center', dataIndex: 'contacts' },
     { title: '联系电话', align: 'center', dataIndex: 'contactPhone' },
+    { title: '年份', align: 'center', dataIndex: 'year' },
     {
       title: '操作',
       dataIndex: 'action',
       key: 'action',
-      // visible:false,
-      // (index + 1) || data.provinceId
       render: (dom, data, index) => [
         <Popconfirm
-          title="你确定要删除该成员省份吗？"
-          onConfirm={() => confirmDelete({ id: index + 1, provinceId: data.provinceId })}
+          title="你确定要删除该临时成员省份吗？"
+          onConfirm={() => confirmDelete(index + 1)}
           okText="是"
           cancelText="否"
         >
           <Button type="link" size="small">
-            {flag && '删除'}
+            {add && '删除'}
           </Button>
         </Popconfirm>,
-        // <Button type="link" size="small" onClick={() => handleSelect(data.provinceId)}>
-        //   {select && '选择'}
-        // </Button>,
       ],
     },
   ];
@@ -164,12 +134,12 @@ const ProvinceListTable = ({
         style={{ marginBottom: 8 }}
         disabled={disabled}
       >
-        {flag && '新增'}
+        {add && '新增'}
       </Button>
       {/* )} */}
       <Table dataSource={dataSource} columns={columns} rowKey="provinceId" style={style} />
       <Modal
-        title="成员省份"
+        title="临时成员省份"
         visible={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
@@ -188,5 +158,5 @@ const ProvinceListTable = ({
 };
 
 export default connect(({ dictionaryMgt }) => ({
-  projectProvinceEntityList: dictionaryMgt.projectProvinceEntityList,
-}))(ProvinceListTable);
+  projectTemporaryProvinceEntityList: dictionaryMgt.projectTemporaryProvinceEntityList,
+}))(TempProvinceTable);

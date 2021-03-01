@@ -13,6 +13,7 @@ const FeedbackModal = ({ dispatch, actionRef, loading, openFeedbackReqModal, Fee
     updateData(id);
     setModalVisible(true);
   };
+
   const updateData = id => {
     // if (id) {
     new Promise(resolve => {

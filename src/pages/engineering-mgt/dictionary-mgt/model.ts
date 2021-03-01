@@ -15,6 +15,8 @@ import {
   exportLog,
   deployProjectTaskList,
   provinceData,
+  addFeedback,
+  addTempProvince,
 } from './service';
 
 const Model = {
@@ -27,6 +29,7 @@ const Model = {
     taskId: '',
     engineeringForm: {},
     projectProvinceEntityList: [],
+    projectTemporaryProvinceEntityList: [],
     provinceData: [],
     feedListData: [],
     taskProgressList: [],
@@ -156,6 +159,7 @@ const Model = {
           payload: {
             engineeringForm: response,
             projectProvinceEntityList: response.projectProvinceEntityList,
+            projectTemporaryProvinceEntityList: response.projectTemporaryProvinceEntityList,
           },
         });
       }
@@ -187,6 +191,7 @@ const Model = {
       if (!response.error) {
         response.secrecyLevel += '';
         response.taskStatus += '';
+        response.projectId += '';
         resolve && resolve(response);
         yield put({
           type: 'save',
@@ -201,8 +206,7 @@ const Model = {
     },
 
     *deployProjectTaskList({ payload, resolve }, { call, put, select }) {
-      const projectId = yield select(state => state.specialAction.projectId);
-      // const taskStatus = yield select(state => state.specialAction.taskStatus);
+      const projectId = yield select(state => state.dictionaryMgt.projectId);
       const response = yield call(deployProjectTaskList, { ...payload, projectId });
       if (!response.error) {
         resolve && resolve(response);
@@ -219,11 +223,40 @@ const Model = {
       }
     },
 
+    *selectFeedbackData({ payload }, { put }) {
+      yield put({
+        type: 'save',
+        payload: {
+          FeedbackData: payload,
+        },
+      });
+    },
     *exportLog(_, { call, select }) {
-      const taskId = yield select(state => state.specialAction.taskId);
+      const taskId = yield select(state => state.dictionaryMgt.taskId);
       const response = yield call(exportLog, { taskId });
       if (!response.error) {
         yield downloadExcelFile(response, `任务进度列表${moment().format('MM-DD HH:mm:ss')}`);
+      }
+    },
+
+    *addFeedback({ payload, resolve }, { call, put }) {
+      const response = yield call(addFeedback, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('反馈成功！');
+        yield put({
+          type: 'tableReload',
+        });
+      }
+    },
+    *addTempProvince({ payload, resolve }, { call, put }) {
+      const response = yield call(addTempProvince, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('新增成功！');
+        yield put({
+          type: 'getEngineeringTree',
+        });
       }
     },
 

@@ -3,7 +3,7 @@ import { connect } from 'umi';
 import { Modal } from 'antd';
 import TempProvinceForm from './tempProvinceForm';
 
-const TempProvinceModal = ({ actionRef, loading }) => {
+const TempProvinceModal = ({ dispatch, actionRef, loading, projectId }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [form] = TempProvinceForm.useForm();
 
@@ -32,10 +32,10 @@ const TempProvinceModal = ({ actionRef, loading }) => {
       .then(values => {
         return new Promise(resolve => {
           dispatch({
-            type: `emAddressBook/${detailData ? 'updateAddressBook' : 'addAddressBook'}`,
+            type: 'dictionaryMgt/addTempProvince',
             payload: {
               ...values,
-              bookId: detailData && detailData.toString(),
+              projectId,
             },
             resolve,
           });
@@ -68,6 +68,7 @@ const TempProvinceModal = ({ actionRef, loading }) => {
   );
 };
 
-export default connect(({ loading }) => ({ loading: loading.models.smDictionaryMgt }))(
-  TempProvinceModal,
-);
+export default connect(({ loading, dictionaryMgt }) => ({
+  loading: loading.models.smDictionaryMgt,
+  projectId: dictionaryMgt.projectId,
+}))(TempProvinceModal);

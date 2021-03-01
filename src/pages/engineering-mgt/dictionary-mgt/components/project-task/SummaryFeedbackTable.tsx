@@ -7,7 +7,7 @@ import AdvancedForm from '@/components/AdvancedForm';
 const SummaryFeedbackTable = ({
   dispatch,
   feedListData,
-  disabled,
+  disabled = false,
   onChange,
   select = false,
   add = false,
@@ -15,6 +15,7 @@ const SummaryFeedbackTable = ({
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [dataSource, setDataSource] = useState([]);
+
   useEffect(() => {
     if (edit) {
       setDataSource([]);
@@ -26,15 +27,30 @@ const SummaryFeedbackTable = ({
   const [form] = AdvancedForm.useForm();
   const [id, setId] = useState(1);
 
-  const confirmDelete = ids => {
+  const confirmDelete = ele => {
     const data = dataSource;
     data.forEach(item => {
-      if (item.id === ids) {
-        data.splice(ids - 1, 1);
+      // console.log("item.id",item.id);
+      if (item.id === ele.id || item.feedbackId === ele.feedbackId) {
+        // const i = getId(data,ele)
+        for (let i = 0; i < data.length; i++) {
+          if (data[i].feedbackId === ele.feedbackId) {
+            data.splice(i, 1);
+          }
+        }
         setDataSource([...data]);
+        onChange && onChange([...data]);
       }
     });
   };
+
+  // const getId = (data, ele) =>{
+  //   for(let i= 0;i<data.length;i++){
+  //     if(data[i].feedbackId === ele.feedbackId){
+  //       return parseInt(i)
+  //     }
+  //   }
+  // }
   const handleSelect = ids => {
     const data = dataSource;
     data.forEach(item => {
@@ -43,7 +59,7 @@ const SummaryFeedbackTable = ({
         arr.push(item);
         onChange && onChange(arr);
         dispatch({
-          type: `specialAction/selectFeedbackData`,
+          type: `dictionaryMgt/selectFeedbackData`,
           payload: arr,
         });
       }
@@ -147,11 +163,11 @@ const SummaryFeedbackTable = ({
       render: (dom, data, index) => [
         <Popconfirm
           title="你确定要删除该反馈要求吗？"
-          onConfirm={() => confirmDelete(index + 1)}
+          onConfirm={() => confirmDelete({ id: index + 1, feedbackId: data.feedbackId })}
           okText="是"
           cancelText="否"
         >
-          <Button type="link" size="small">
+          <Button type="link" size="small" disabled={disabled}>
             {/*  disabled={!add} */}
             {add && '删除'}
           </Button>

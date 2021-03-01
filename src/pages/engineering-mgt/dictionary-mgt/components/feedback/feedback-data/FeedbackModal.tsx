@@ -4,7 +4,7 @@ import { Modal } from 'antd';
 import FeedbackForm from './FeedbackForm';
 // import FeedbackTable from './FeedbackTable';
 
-const FeedbackModal = ({ dispatch, actionRef, loading, openFeedbackReqModal, FeedbackData }) => {
+const FeedbackModal = ({ dispatch, actionRef, loading, feedbackRequestModal, FeedbackData }) => {
   const [form] = FeedbackForm.useForm();
   const [modalVisible, setModalVisible] = useState(false);
   const [taskId, setTaskId] = useState('');
@@ -23,7 +23,17 @@ const FeedbackModal = ({ dispatch, actionRef, loading, openFeedbackReqModal, Fee
       });
     }).then(res => {
       if (res) {
-        form.setFieldsValue({ ...res });
+        const fileInfoList =
+          res.fileInfoList &&
+          res.fileInfoList.map(item => {
+            return {
+              url: item.url,
+              uid: item.fileId,
+              name: item.fileName,
+              status: 'done',
+            };
+          });
+        form.setFieldsValue({ ...res, fileIds: fileInfoList });
       }
     });
     // }
@@ -54,7 +64,7 @@ const FeedbackModal = ({ dispatch, actionRef, loading, openFeedbackReqModal, Fee
           });
         return new Promise(resolve => {
           dispatch({
-            type: `specialAction/addFeedback`,
+            type: `dictionaryMgt/addFeedback`,
             payload: {
               ...values,
               fileIds,
@@ -92,12 +102,12 @@ const FeedbackModal = ({ dispatch, actionRef, loading, openFeedbackReqModal, Fee
       onCancel={hideModal}
       zIndex={2000}
     >
-      <FeedbackForm form={form} openFeedbackReqModal={openFeedbackReqModal} />
+      <FeedbackForm form={form} feedbackRequestModal={feedbackRequestModal} />
     </Modal>
   );
 };
 
-export default connect(({ loading, specialAction }) => ({
+export default connect(({ loading, dictionaryMgt }) => ({
   loading: loading.models.smDictionaryMgt,
-  FeedbackData: specialAction.FeedbackData,
+  FeedbackData: dictionaryMgt.FeedbackData,
 }))(FeedbackModal);

@@ -7,7 +7,7 @@ const ModifyModal = ({
   dispatch,
   actionRef,
   loading,
-  openFeedbackModal,
+  // openFeedbackModal,
   openAddModal,
   feedbackDetailModal,
 }) => {
@@ -126,7 +126,7 @@ const ModifyModal = ({
         taskId={id}
         visible={visible}
         disabled={disabled}
-        openFeedbackModal={openFeedbackModal}
+        // openFeedbackModal={openFeedbackModal}
         openAddModal={openAddModal}
         feedbackDetailModal={feedbackDetailModal}
       />

@@ -49,7 +49,7 @@ export async function addEngineering(params: any) {
  */
 export async function editEngineering(params: any) {
   return request(`/unifyProject/updateProjectUnify`, {
-    method: 'POST',
+    method: 'PUT',
     data: params,
   });
 }
@@ -136,5 +136,27 @@ export async function deployProjectTaskList(params) {
 export async function provinceData() {
   return request(`/org/deploy`, {
     method: 'GET',
+  });
+}
+
+/**
+ * 任务反馈新增
+ *
+ */
+export async function addFeedback(params) {
+  return request(`/projectTaskFeedbackLog/addProjectTaskFeedbackLog`, {
+    method: 'POST',
+    data: params,
+  });
+}
+
+/**
+ * 临时省份新增
+ *
+ */
+export async function addTempProvince(params) {
+  return request(`/projectProvince/addProjectProvince`, {
+    method: 'POST',
+    data: params,
   });
 }

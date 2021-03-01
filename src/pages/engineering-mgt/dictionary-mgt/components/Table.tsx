@@ -79,8 +79,7 @@ const Table = ({
           {data.taskStatus === 0 && '下发'}
         </a>,
         <a key={`${data.taskId}back`} onClick={() => feedbackModal(data.taskId)}>
-          {/* {data.taskStatus === 2 && '反馈'} */}
-          反馈
+          {data.taskStatus === 1 && '反馈'}
         </a>,
         <Popconfirm
           title="你确定要删除该反馈要求吗？"

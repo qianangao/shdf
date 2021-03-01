@@ -46,7 +46,6 @@ const TaskProgressTable = ({ dispatch, taskProgressList, head, feedbackDetailMod
   return (
     <>
       <Button type="primary" onClick={() => exportData()}>
-        {' '}
         导出
       </Button>
       <Table dataSource={dataSource} columns={columns} rowKey="province" />

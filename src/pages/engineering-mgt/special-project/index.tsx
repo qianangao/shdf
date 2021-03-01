@@ -87,7 +87,7 @@ const SpecialProject = ({ dispatch }) => {
       {/* <EditModal actionRef={editRef} /> */}
       <ModifyModal
         actionRef={editchildrenRef}
-        openFeedbackModal={openFeedbackModal}
+        // openFeedbackModal={openFeedbackModal}
         openAddModal={openAddModal}
         feedbackDetailModal={feedbackDetailModal}
       />
