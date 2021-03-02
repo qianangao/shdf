@@ -15,6 +15,11 @@ export default {
       changeOrigin: true,
       pathRewrite: { '^': '' },
     },
+    '/shdf-file/': {
+      target: 'http://10.92.119.248:9060/',
+      changeOrigin: true,
+      pathRewrite: { '^': '' },
+    },
   },
   test: {},
   pre: {},
