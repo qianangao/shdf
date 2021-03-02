@@ -3,12 +3,12 @@ import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import { Button } from 'antd';
 
-const TableCaseHandle = ({ dispatch, id, sensitiveMgt, openClubSplicingModal }) => {
-  const { tableHandleRef } = sensitiveMgt;
+const TableCaseHandle = ({ dispatch, id, sensitiveMgt, openAssociationModal, isDetail }) => {
+  const { tableClubRef } = sensitiveMgt;
   const columns = [
     {
       title: '线索编号',
-      dataIndex: 'recordId',
+      dataIndex: 'clueNumber',
       align: 'center',
       fixed: 'left',
       hideInSearch: true,
@@ -17,7 +17,7 @@ const TableCaseHandle = ({ dispatch, id, sensitiveMgt, openClubSplicingModal }) 
       title: '线索名称',
       align: 'center',
       hideInSearch: true,
-      dataIndex: 'receiptId',
+      dataIndex: 'clueName',
     },
     {
       title: '线索类型',
@@ -50,7 +50,7 @@ const TableCaseHandle = ({ dispatch, id, sensitiveMgt, openClubSplicingModal }) 
     new Promise(resolve => {
       params.id = id;
       dispatch({
-        type: 'sensitiveMgt/getCaseHandleList',
+        type: 'sensitiveMgt/getClubList',
         payload: { ...params },
         resolve,
       });
@@ -58,16 +58,18 @@ const TableCaseHandle = ({ dispatch, id, sensitiveMgt, openClubSplicingModal }) 
 
   return (
     <ProTable
-      actionRef={tableHandleRef}
+      actionRef={tableClubRef}
       scroll={{ x: 'max-content' }}
       search={false}
       options={false}
       request={async params => getCaseHandleList(params)}
       columns={columns}
       toolBarRender={_ => [
-        <Button type="primary" onClick={() => openClubSplicingModal()}>
-          线索串并联
-        </Button>,
+        isDetail === 1 ? null : (
+          <Button type="primary" onClick={() => openAssociationModal()}>
+            线索串并联
+          </Button>
+        ),
       ]}
     />
   );

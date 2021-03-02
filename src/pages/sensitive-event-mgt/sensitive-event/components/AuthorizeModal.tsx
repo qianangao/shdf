@@ -15,7 +15,7 @@ const AddModal = ({ dispatch, actionRef, loading, sensitiveMgt }) => {
     dispatch({
       type: 'sensitiveMgt/getAuthorize',
       payload: {
-        id: items.caseId,
+        id: items.eventId,
       },
     });
     setModalVisible(true);
@@ -41,7 +41,6 @@ const AddModal = ({ dispatch, actionRef, loading, sensitiveMgt }) => {
       .validateFields()
       .then(values => {
         return new Promise(resolve => {
-          // 处理数据
           // 请选择你要分发传阅的人
           if (
             !values ||
@@ -53,8 +52,9 @@ const AddModal = ({ dispatch, actionRef, loading, sensitiveMgt }) => {
           } else {
             const params = values.staff.map(item => {
               return {
-                empowerTargetUser: item.id,
-                caseDeptId: 700, // 部门id
+                eventId: orgInfoData.eventId,
+                authTargetUser: item.id,
+                authDeptId: 700, // 部门id
               };
             });
             // console.log(params,'values----0')
@@ -62,7 +62,6 @@ const AddModal = ({ dispatch, actionRef, loading, sensitiveMgt }) => {
               type: `sensitiveMgt/authorize`,
               payload: {
                 params,
-                id: orgInfoData.caseId,
               },
               resolve,
             });

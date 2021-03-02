@@ -39,12 +39,12 @@ const ModifyModal = ({ dispatch, actionRef, loading, receivingMgt }) => {
       .then(values => {
         return new Promise(resolve => {
           let filesStr = '';
-          if (values.files && values.files.length > 0) {
-            const ids = values.files.map(item => {
+          if (values.fileList && values.fileList.length > 0) {
+            const ids = values.fileList.map(item => {
               return item.uid;
             });
             filesStr = ids.join(',');
-            delete values.files;
+            delete values.fileList;
           }
           values.fileIds = filesStr;
           dispatch({

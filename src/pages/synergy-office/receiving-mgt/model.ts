@@ -134,10 +134,20 @@ const Model = {
       }
     },
     *getDetail({ payload, resolve }, { call, put }) {
-      // console.log(payload,'payload---3')
       const response = yield call(getReceivingDetail, payload);
 
       if (!response.error) {
+        const fileList =
+          response.fileList &&
+          response.fileList.map(item => {
+            return {
+              url: item.url,
+              uid: item.fileId,
+              name: item.fileName,
+              status: 'done',
+            };
+          });
+        response.fileList = fileList;
         resolve && resolve(response);
         yield put({
           type: 'save',

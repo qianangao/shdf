@@ -5,6 +5,10 @@ import { Descriptions } from 'antd';
 const ApplyCaseForm = ({ form, orgInfoData }) => {
   const formItems = [
     {
+      name: 'eventId',
+      hidden: true,
+    },
+    {
       label: '备注',
       name: 'applyRemarks',
       span: 4,
