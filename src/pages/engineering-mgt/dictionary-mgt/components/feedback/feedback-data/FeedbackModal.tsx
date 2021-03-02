@@ -14,29 +14,29 @@ const FeedbackModal = ({ dispatch, actionRef, loading, feedbackRequestModal, Fee
     setModalVisible(true);
   };
   const updateData = id => {
-    // if (id) {
-    new Promise(resolve => {
-      dispatch({
-        type: 'dictionaryMgt/projectTaskDetail',
-        payload: { taskId: id },
-        resolve,
+    if (id) {
+      new Promise(resolve => {
+        dispatch({
+          type: 'dictionaryMgt/projectTaskDetail',
+          payload: { taskId: id },
+          resolve,
+        });
+      }).then(res => {
+        if (res) {
+          const fileInfoList =
+            res.fileInfoList &&
+            res.fileInfoList.map(item => {
+              return {
+                url: item.url,
+                uid: item.fileId,
+                name: item.fileName,
+                status: 'done',
+              };
+            });
+          form.setFieldsValue({ ...res, fileIds: fileInfoList });
+        }
       });
-    }).then(res => {
-      if (res) {
-        const fileInfoList =
-          res.fileInfoList &&
-          res.fileInfoList.map(item => {
-            return {
-              url: item.url,
-              uid: item.fileId,
-              name: item.fileName,
-              status: 'done',
-            };
-          });
-        form.setFieldsValue({ ...res, fileIds: fileInfoList });
-      }
-    });
-    // }
+    }
   };
   useEffect(() => {
     if (actionRef && typeof actionRef === 'function') {
@@ -71,9 +71,6 @@ const FeedbackModal = ({ dispatch, actionRef, loading, feedbackRequestModal, Fee
               taskId,
               feedbackId: FeedbackData[0].feedbackId,
               feedbackType: FeedbackData[0].feedbackType,
-              // feedbackContent: FeedbackData[0].feedbackContent,
-              // feedbackDept: FeedbackData[0].feedbackDept,
-              // feedbackPerson: FeedbackData[0].feedbackPerson,
             },
             resolve,
           });
@@ -91,7 +88,7 @@ const FeedbackModal = ({ dispatch, actionRef, loading, feedbackRequestModal, Fee
     <Modal
       title="任务反馈"
       centered
-      width="60vw"
+      width="90vw"
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',

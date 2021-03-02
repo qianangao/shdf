@@ -1,28 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
 import { Modal } from 'antd';
-import EditProjectTaskForm from './EditProjectTaskForm';
+import MeetingForm from './MeetingForm';
 
-const ModifyProjectTaskModal = ({
-  dispatch,
-  actionRef,
-  loading,
-  addProjectTaskModal,
-  feedbackDetailModal,
-}) => {
-  const [form] = EditProjectTaskForm.useForm();
+const MeetingModal = ({ dispatch, actionRef, loading }) => {
+  const [form] = MeetingForm.useForm();
+  const [detailData, setDetailData] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [disabled, setDisabled] = useState(false);
-  const [visible, setVisible] = useState(false);
-  const [id, setId] = useState('');
-  const [add, setAdd] = useState(false);
 
-  const updateData = Id => {
-    if (Id) {
+  const showModal = data => {
+    if (data) {
+      if (data.disabled) setDisabled(data.disabled);
+      if (data.meetingId) {
+        setDetailData(data.meetingId || null);
+        updateData(data.meetingId);
+      }
+    }
+    setModalVisible(true);
+  };
+
+  const updateData = meetingId => {
+    if (meetingId) {
       new Promise(resolve => {
         dispatch({
-          type: 'dictionaryMgt/projectTaskDetail',
-          payload: { taskId: Id },
+          type: 'dictionaryMgt/getMeetingDetail',
+          payload: meetingId.toString(),
           resolve,
         });
       }).then(res => {
@@ -43,23 +46,6 @@ const ModifyProjectTaskModal = ({
     }
   };
 
-  const showModal = item => {
-    if (item.visible) {
-      setVisible(item.visible);
-    }
-    if (item.add) {
-      setAdd(item.add);
-    }
-    if (item.disabled) {
-      setDisabled(true);
-    }
-    if (item.id) {
-      setId(item.id);
-      updateData(item.id);
-    }
-    setModalVisible(true);
-  };
-
   useEffect(() => {
     if (actionRef && typeof actionRef === 'function') {
       actionRef({ showModal });
@@ -72,8 +58,6 @@ const ModifyProjectTaskModal = ({
 
   const hideModal = () => {
     setModalVisible(false);
-    setVisible(false);
-    setDisabled(false);
     form.resetFields();
   };
 
@@ -84,18 +68,18 @@ const ModifyProjectTaskModal = ({
       form
         .validateFields()
         .then(values => {
+          const fileIds =
+            values.fileIds &&
+            values.fileIds.map(item => {
+              return item.uid;
+            });
           return new Promise(resolve => {
-            const fileIds =
-              values.fileIds &&
-              values.fileIds.map(item => {
-                return item.uid;
-              });
             dispatch({
-              type: `dictionaryMgt/updateProjectTaskList`,
+              type: `dictionaryMgt/${detailData ? 'updateMeeting' : 'addMeeting'}`,
               payload: {
                 ...values,
-                taskId: id,
                 fileIds,
+                meetingId: detailData && detailData.toString(),
               },
               resolve,
             });
@@ -112,9 +96,9 @@ const ModifyProjectTaskModal = ({
 
   return (
     <Modal
-      title={disabled ? '查看任务' : '修改任务'}
+      title="会议信息"
       centered
-      width="90vw"
+      width="580px"
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',
@@ -124,19 +108,11 @@ const ModifyProjectTaskModal = ({
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <EditProjectTaskForm
-        form={form}
-        taskId={id}
-        visible={visible}
-        disabled={disabled}
-        add={add}
-        addProjectTaskModal={addProjectTaskModal}
-        feedbackDetailModal={feedbackDetailModal}
-      />
+      <MeetingForm form={form} disabled={disabled} />
     </Modal>
   );
 };
 
 export default connect(({ loading }) => ({
   loading: loading.models.smDictionaryMgt,
-}))(ModifyProjectTaskModal);
+}))(MeetingModal);

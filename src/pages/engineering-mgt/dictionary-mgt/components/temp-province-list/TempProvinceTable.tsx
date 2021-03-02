@@ -101,7 +101,6 @@ const TempProvinceTable = ({
       dataIndex: 'id',
       key: 'id',
     },
-    // { title: '序号', align: 'center', dataIndex: 'id', hideInSearch: true },
     { title: '成员省份名称', align: 'center', dataIndex: 'provinceCode' },
     { title: '联络员', align: 'center', dataIndex: 'contacts' },
     { title: '联系电话', align: 'center', dataIndex: 'contactPhone' },
@@ -127,7 +126,6 @@ const TempProvinceTable = ({
 
   return (
     <div>
-      {/* {visible && ( */}
       <Button
         type="primary"
         onClick={() => addFeedback()}
@@ -136,7 +134,6 @@ const TempProvinceTable = ({
       >
         {add && '新增'}
       </Button>
-      {/* )} */}
       <Table dataSource={dataSource} columns={columns} rowKey="provinceId" style={style} />
       <Modal
         title="临时成员省份"

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
 import { Modal } from 'antd';
 import FeedbackForm from './FeedbackForm';
-// import FeedbackTable from './FeedbackTable';
 
 const FeedbackModal = ({ dispatch, actionRef, loading, openFeedbackReqModal, FeedbackData }) => {
   const [form] = FeedbackForm.useForm();
@@ -15,19 +14,29 @@ const FeedbackModal = ({ dispatch, actionRef, loading, openFeedbackReqModal, Fee
   };
 
   const updateData = id => {
-    // if (id) {
-    new Promise(resolve => {
-      dispatch({
-        type: 'specialAction/findChildrenTaskDetail',
-        payload: { taskId: id },
-        resolve,
+    if (id) {
+      new Promise(resolve => {
+        dispatch({
+          type: 'specialAction/findChildrenTaskDetail',
+          payload: { taskId: id },
+          resolve,
+        });
+      }).then(res => {
+        if (res) {
+          const fileInfoList =
+            res.fileInfoList &&
+            res.fileInfoList.map(item => {
+              return {
+                url: item.url,
+                uid: item.fileId,
+                name: item.fileName,
+                status: 'done',
+              };
+            });
+          form.setFieldsValue({ ...res, fileIds: fileInfoList });
+        }
       });
-    }).then(res => {
-      if (res) {
-        form.setFieldsValue({ ...res });
-      }
-    });
-    // }
+    }
   };
   useEffect(() => {
     if (actionRef && typeof actionRef === 'function') {
@@ -79,7 +88,7 @@ const FeedbackModal = ({ dispatch, actionRef, loading, openFeedbackReqModal, Fee
     <Modal
       title="任务反馈"
       centered
-      width="60vw"
+      width="90vw"
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',

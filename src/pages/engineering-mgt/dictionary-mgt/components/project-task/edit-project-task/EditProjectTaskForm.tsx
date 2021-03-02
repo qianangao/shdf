@@ -4,14 +4,12 @@ import AdvancedForm from '@/components/AdvancedForm';
 // import FeedbackTable from './FeedbackTable';
 import TaskProgressTable from '../TaskProgressTable';
 import SummaryFeedbackTable from '../SummaryFeedbackTable';
-// import SummaryFeedbackTable_2 from '../feedback/SummaryFeedbackTable_2';
 
 const EditProjectTaskForm = ({
   form,
   disabled,
   visible,
   add,
-  // feedbackModal,
   addProjectTaskModal,
   feedbackDetailModal,
 }) => {
@@ -21,7 +19,6 @@ const EditProjectTaskForm = ({
   };
 
   const formItems = [
-    // { label: 'id', name: 'bookId', hidden: true },
     {
       label: '任务名称',
       name: 'taskName',
@@ -89,7 +86,6 @@ const EditProjectTaskForm = ({
           value={tableData}
         />
       ),
-      // render: <SummaryFeedbackTable_2 disabled={disabled} visible={visible} ref={feedRef} value={form.feedbackRequire}/>,
     },
     {
       label: '附件列表',
@@ -112,9 +108,6 @@ const EditProjectTaskForm = ({
       title="任务信息"
       extra={
         <>
-          {/* <Button type="primary" onClick={() => feedbackModal(taskId)} style={{ marginRight: 8 }}>
-            任务反馈
-          </Button> */}
           <Button type="primary" onClick={() => addProjectTaskModal({ visible: true })}>
             新增子任务
           </Button>

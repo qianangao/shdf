@@ -42,13 +42,7 @@ const AddEngineeringForm = ({ dispatch, form, visible, add, edit }) => {
       rules: [{ required: true, message: '请选择工程名称' }],
       visible,
       render: (
-        <Select
-          allowClear
-          // onChange={onChangeAction}
-          // getPopupContainer={triggerNode => {
-          //   return triggerNode.parentNode || document.body;
-          // }}
-        >
+        <Select allowClear>
           {actionData &&
             actionData.map(item => (
               <Select.Option key={item.key} value={item.key}>
@@ -62,7 +56,6 @@ const AddEngineeringForm = ({ dispatch, form, visible, add, edit }) => {
       label: '工程名称',
       name: 'projectName',
       span: 2,
-      // visible: !visible,
       rules: [
         { required: true, message: '请输入工程名称!', whitespace: true },
         { max: 30, message: '长度请小于30位!' },
@@ -75,15 +68,6 @@ const AddEngineeringForm = ({ dispatch, form, visible, add, edit }) => {
       visible: !visible,
       rules: [{ required: true, message: '请输入工程编号!', whitespace: true }],
     },
-    // {
-    //   label: '工程类别',
-    //   name: 'projectType',
-    //   span: 2,
-    //   visible: !visible,
-    //   rules: [
-    //     { required: true, message: '请输入工程类别!', whitespace: true },
-    //   ],
-    // },
     {
       label: '开始日期',
       name: 'startTime',
@@ -127,8 +111,6 @@ const AddEngineeringForm = ({ dispatch, form, visible, add, edit }) => {
       rules: [{ required: true, message: '请选择保密等级' }],
       enumsLabel: 'subject_secrecy_level',
     },
-
-    // { name: 'segmentation', type: 'segmentation' },
     {
       label: '工程描述',
       name: 'describe',
@@ -156,15 +138,7 @@ const AddEngineeringForm = ({ dispatch, form, visible, add, edit }) => {
       span: 4,
       visible: !visible,
       // rules: [{ required: true, message: '请输入!' }],
-      render: (
-        <ProvinceListTable
-          // visible={visible}
-          onChange={onChange}
-          value={tableData}
-          add={add}
-          edit={edit}
-        />
-      ),
+      render: <ProvinceListTable onChange={onChange} value={tableData} add={add} edit={edit} />,
     },
     {
       label: '临时省份列表',
@@ -172,14 +146,7 @@ const AddEngineeringForm = ({ dispatch, form, visible, add, edit }) => {
       span: 4,
       visible: !visible,
       // rules: [{ required: true, message: '请输入!' }],
-      render: (
-        <TempProvinceTable
-          // visible={visible}
-          add={add}
-          onChange={onTempChange}
-          value={tempTableData}
-        />
-      ),
+      render: <TempProvinceTable add={add} onChange={onTempChange} value={tempTableData} />,
     },
     {
       label: '附件列表',

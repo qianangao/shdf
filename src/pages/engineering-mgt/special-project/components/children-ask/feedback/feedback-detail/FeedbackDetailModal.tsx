@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
 import { Modal } from 'antd';
 import FeedbackDetailForm from './FeedbackDetailForm';
-// import FeedbackTable from './FeedbackTable';
 
 const FeedbackDetailModal = ({ dispatch, actionRef, loading }) => {
   const [form] = FeedbackDetailForm.useForm();

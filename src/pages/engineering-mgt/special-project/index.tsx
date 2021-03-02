@@ -74,20 +74,15 @@ const SpecialProject = ({ dispatch }) => {
       <Table
         openAddModal={openAddModal}
         openDownModal={openDownModal}
-        // openEditModal={openEditModal}
         openModifyModal={openModifyModal}
         openFeedbackModal={openFeedbackModal}
         openAddSpecialModal={openAddSpecialModal}
         openFeedbackReqModal={openFeedbackReqModal}
-        // feedbackDetailModal={feedbackDetailModal}
       />
-      {/* <ChildrenTaskForm feedbackDetailModal={feedbackDetailModal}/> */}
       <AddchildrenTaskModal actionRef={modifyRef} />
       <SpecialActionModal actionRef={addSpecialRef} />
-      {/* <EditModal actionRef={editRef} /> */}
       <ModifyModal
         actionRef={editchildrenRef}
-        // openFeedbackModal={openFeedbackModal}
         openAddModal={openAddModal}
         feedbackDetailModal={feedbackDetailModal}
       />

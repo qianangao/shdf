@@ -83,7 +83,7 @@ const DownModal = ({ dispatch, actionRef, loading }) => {
     <Modal
       title="部署任务"
       centered
-      width="40vw"
+      width="580px"
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',

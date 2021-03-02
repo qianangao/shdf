@@ -32,42 +32,18 @@ const ProvinceListTable = ({
   const confirmDelete = ele => {
     const data = dataSource;
     data.forEach(item => {
-      // console.log("item.id",item.id);
       if (item.id === ele.id || item.provinceId === ele.provinceId) {
-        // const i = getId(data,ele)
         for (let i = 0; i < data.length; i++) {
           if (data[i].feedbackId === ele.feedbackId) {
             data.splice(i, 1);
           }
         }
-        // data.splice(i, 1);
         setDataSource([...data]);
         onChange && onChange([...data]);
       }
     });
   };
 
-  // const getId = (data,ele) =>{
-  //   for(let i= 0;i<data.length;i++){
-  //     if(data[i].provinceId === ele.provinceId){
-  //       return parseInt(i)
-  //     }
-  //   }
-  // }
-  // const handleSelect = ids => {
-  //   const data = dataSource;
-  //   data.forEach(item => {
-  //     if (item.provinceId === ids) {
-  //       const arr = [];
-  //       arr.push(item);
-  //       onChange && onChange(arr);
-  //       dispatch({
-  //         type: `dictionaryMgt/selectProvinceData`,
-  //         payload: arr,
-  //       });
-  //     }
-  //   });
-  // };
   const addFeedback = () => {
     setIsModalVisible(true);
     form.resetFields();
@@ -127,7 +103,6 @@ const ProvinceListTable = ({
       dataIndex: 'id',
       key: 'id',
     },
-    // { title: '序号', align: 'center', dataIndex: 'id', hideInSearch: true },
     { title: '成员省份', align: 'center', dataIndex: 'provinceCode' },
     { title: '联络员', align: 'center', dataIndex: 'contacts' },
     { title: '联系电话', align: 'center', dataIndex: 'contactPhone' },
@@ -135,8 +110,6 @@ const ProvinceListTable = ({
       title: '操作',
       dataIndex: 'action',
       key: 'action',
-      // visible:false,
-      // (index + 1) || data.provinceId
       render: (dom, data, index) => [
         <Popconfirm
           title="你确定要删除该成员省份吗？"
@@ -148,16 +121,12 @@ const ProvinceListTable = ({
             {flag && '删除'}
           </Button>
         </Popconfirm>,
-        // <Button type="link" size="small" onClick={() => handleSelect(data.provinceId)}>
-        //   {select && '选择'}
-        // </Button>,
       ],
     },
   ];
 
   return (
     <div>
-      {/* {visible && ( */}
       <Button
         type="primary"
         onClick={() => addFeedback()}
@@ -166,7 +135,6 @@ const ProvinceListTable = ({
       >
         {flag && '新增'}
       </Button>
-      {/* )} */}
       <Table dataSource={dataSource} columns={columns} rowKey="provinceId" style={style} />
       <Modal
         title="成员省份"

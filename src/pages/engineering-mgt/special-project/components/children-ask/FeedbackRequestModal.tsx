@@ -21,7 +21,6 @@ const FeedbackRequestModal = ({ actionRef, loading }) => {
   }, []);
 
   const onChange = () => {
-    // setData([...data])
     hideModal();
   };
 
@@ -31,28 +30,13 @@ const FeedbackRequestModal = ({ actionRef, loading }) => {
 
   const handleOk = () => {
     hideModal();
-    // return new Promise(resolve => {
-    //   dispatch({
-    //     type: `specialAction/addChildrenTaskList`,
-    //     payload: {
-    //       ...values,
-    //     },
-    //     resolve,
-    //   });
-    // })
-    //   .then(() => {
-    //     hideModal();
-    //   })
-    //   .catch(info => {
-    //     console.error('Validate Failed:', info);
-    //   });
   };
 
   return (
     <Modal
       title="选择反馈阶段"
       centered
-      width="60vw"
+      width="90vw"
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',

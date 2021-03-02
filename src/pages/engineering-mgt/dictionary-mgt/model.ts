@@ -1,6 +1,7 @@
 import { message } from 'antd';
 import { formatPageData } from '@/utils/index';
 import { downloadExcelFile } from '@/utils';
+import moment from 'moment';
 import {
   getEngineeringTree,
   getEngineeringList,
@@ -17,6 +18,10 @@ import {
   provinceData,
   addFeedback,
   addTempProvince,
+  getMeetingList,
+  addMeeting,
+  getMeetingDetail,
+  updateMeeting,
 } from './service';
 
 const Model = {
@@ -25,6 +30,7 @@ const Model = {
     engineeringTree: [],
     loading: false,
     tableRef: {},
+    meetingTableRef: {},
     projectId: '',
     taskId: '',
     engineeringForm: {},
@@ -37,6 +43,48 @@ const Model = {
   },
 
   effects: {
+    *getMeetingList({ payload, resolve }, { call }) {
+      const params = {
+        ...payload,
+        pageNum: payload.current ? payload.current : 1,
+        pageSize: payload.pageSize ? payload.pageSize : 20,
+      };
+      delete params.current;
+      const response = yield call(getMeetingList, params);
+      if (!response.error) {
+        const result = formatPageData(response);
+        resolve && resolve(result);
+      }
+    },
+    *getMeetingDetail({ payload, resolve }, { call }) {
+      const response = yield call(getMeetingDetail, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+      }
+    },
+
+    *addMeeting({ payload, resolve }, { call, put }) {
+      const response = yield call(addMeeting, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('新增成功！');
+        yield put({
+          type: 'meetingTableReload',
+        });
+      }
+    },
+
+    *updateMeeting({ payload, resolve }, { call, put }) {
+      const response = yield call(updateMeeting, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('修改成功！');
+        yield put({
+          type: 'meetingTableReload',
+        });
+      }
+    },
+
     *getEngineeringTree({ payload, resolve }, { call, put }) {
       yield put({
         type: 'save',
@@ -126,13 +174,6 @@ const Model = {
       if (!response.error) {
         const result = formatPageData(response);
         resolve && resolve(result);
-        // yield put({
-        // type: 'save',
-        // payload: {
-        //     taskListData: result,
-        //     // projectId: payload.projectId,
-        // },
-        // });
       }
     },
 
@@ -231,6 +272,7 @@ const Model = {
         },
       });
     },
+
     *exportLog(_, { call, select }) {
       const taskId = yield select(state => state.dictionaryMgt.taskId);
       const response = yield call(exportLog, { taskId });
@@ -294,6 +336,14 @@ const Model = {
       setTimeout(() => {
         // tableRef.current.reloadAndRest 刷新并清空，页码也会重置
         tableRef.current && tableRef.current.reloadAndRest();
+      }, 0);
+      return { ...state };
+    },
+    meetingTableReload(state) {
+      const meetingTableRef = state.meetingTableRef || {};
+      setTimeout(() => {
+        // tableRef.current.reloadAndRest 刷新并清空，页码也会重置
+        meetingTableRef.current && meetingTableRef.current.reloadAndRest();
       }, 0);
       return { ...state };
     },

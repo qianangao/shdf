@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Table, Popconfirm, Modal, Radio } from 'antd';
-// import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import AdvancedForm from '@/components/AdvancedForm';
 
@@ -30,9 +29,7 @@ const SummaryFeedbackTable = ({
   const confirmDelete = ele => {
     const data = dataSource;
     data.forEach(item => {
-      // console.log("item.id",item.id);
       if (item.id === ele.id || item.feedbackId === ele.feedbackId) {
-        // const i = getId(data,ele)
         for (let i = 0; i < data.length; i++) {
           if (data[i].feedbackId === ele.feedbackId) {
             data.splice(i, 1);
@@ -44,13 +41,6 @@ const SummaryFeedbackTable = ({
     });
   };
 
-  // const getId = (data, ele) =>{
-  //   for(let i= 0;i<data.length;i++){
-  //     if(data[i].feedbackId === ele.feedbackId){
-  //       return parseInt(i)
-  //     }
-  //   }
-  // }
   const handleSelect = ids => {
     const data = dataSource;
     data.forEach(item => {
@@ -144,7 +134,6 @@ const SummaryFeedbackTable = ({
       dataIndex: 'id',
       key: 'id',
     },
-    // { title: '序号', align: 'center', dataIndex: 'id', hideInSearch: true },
     { title: '名称', align: 'center', dataIndex: 'feedbackName' },
     {
       title: '反馈类型',
@@ -159,7 +148,6 @@ const SummaryFeedbackTable = ({
       title: '操作',
       dataIndex: 'action',
       key: 'action',
-      // visible:false,
       render: (dom, data, index) => [
         <Popconfirm
           title="你确定要删除该反馈要求吗？"
@@ -168,7 +156,6 @@ const SummaryFeedbackTable = ({
           cancelText="否"
         >
           <Button type="link" size="small" disabled={disabled}>
-            {/*  disabled={!add} */}
             {add && '删除'}
           </Button>
         </Popconfirm>,

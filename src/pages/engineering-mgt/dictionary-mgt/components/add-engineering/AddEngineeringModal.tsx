@@ -12,7 +12,6 @@ const AddEngineeringModal = ({ dispatch, actionRef, loading }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [add, setAdd] = useState(false);
   const [edit, setEdit] = useState(false);
-  // const [editVisible, setEditVisible] = useState(true);
 
   const updateData = data => {
     const fileInfoList =
@@ -39,7 +38,6 @@ const AddEngineeringModal = ({ dispatch, actionRef, loading }) => {
       }
       if (item.year) {
         setTitle('重要项目');
-        // setEditVisible(true);
       }
     } else {
       setTitle('工程基本信息');
@@ -103,12 +101,6 @@ const AddEngineeringModal = ({ dispatch, actionRef, loading }) => {
         });
       })
       .then(() => {
-        // dispatch({
-        //   type:'specialAction/getSpecialActionTree',
-        //   payload:{
-        //     actionName: ''
-        //   }
-        // })
         hideModal();
       })
       .catch(info => {
@@ -130,7 +122,6 @@ const AddEngineeringModal = ({ dispatch, actionRef, loading }) => {
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      {/* visible={visible} editVisible={editVisible}  */}
       <AddEngineeringForm form={form} visible={visible} add={add} edit={edit} />
     </Modal>
   );

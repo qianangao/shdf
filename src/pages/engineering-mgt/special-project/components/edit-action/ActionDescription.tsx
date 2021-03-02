@@ -3,7 +3,7 @@ import { Button, Descriptions, Popconfirm, Card, Spin } from 'antd';
 import AdvancedForm from '@/components/AdvancedForm';
 import { connect } from 'umi';
 
-const ActionDeacription = ({ dispatch, form, actionForm, openAddSpecialModal, enums, loading }) => {
+const ActionDescription = ({ dispatch, form, actionForm, openAddSpecialModal, enums, loading }) => {
   const [visible, setVisible] = useState(false);
   useEffect(() => {
     form.setFieldsValue(actionForm);
@@ -97,10 +97,10 @@ const ActionDeacription = ({ dispatch, form, actionForm, openAddSpecialModal, en
   );
 };
 
-ActionDeacription.useForm = AdvancedForm.useForm;
+ActionDescription.useForm = AdvancedForm.useForm;
 
 export default connect(({ specialAction, global }) => ({
   actionForm: specialAction.actionForm,
   enums: global.enums,
-  loading: dictionaryMgt.loading,
-}))(ActionDeacription);
+  loading: specialAction.loading,
+}))(ActionDescription);

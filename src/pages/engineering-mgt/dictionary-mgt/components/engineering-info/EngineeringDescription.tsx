@@ -15,13 +15,11 @@ const EngineeringDescription = ({
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    // form.setFieldsValue(actionForm);
     if (engineeringForm && engineeringForm.startTime) {
       setVisible(true);
     }
     return () => {
       setVisible(false);
-      // form.resetFields();
     };
   }, [engineeringForm]);
 
