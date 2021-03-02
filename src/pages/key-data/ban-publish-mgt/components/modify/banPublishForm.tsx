@@ -38,6 +38,7 @@ const BanPublishForm = ({ form }) => {
     {
       label: '所属联防工程',
       name: 'actionId',
+      hidden: true,
       render: <OrgMultiSelectInput />,
     },
     {
@@ -88,7 +89,7 @@ const BanPublishForm = ({ form }) => {
     },
     {
       label: '相关视频',
-      name: 'videos',
+      name: 'video',
       type: 'video',
       span: 2,
     },

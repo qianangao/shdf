@@ -45,7 +45,31 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
     })
       .then(data => {
         if (data) {
-          form.setFieldsValue(data);
+          const fields = {
+            ...data,
+            files:
+              data.fileInfoList &&
+              data.fileInfoList.map(item => {
+                return {
+                  url: item.url,
+                  uid: item.fileId,
+                  name: item.fileName,
+                  status: 'done',
+                };
+              }),
+            video:
+              data.videoInfoList &&
+              data.videoInfoList.map((item: any) => {
+                return {
+                  url: item.videoUrl,
+                  uid: item.videoId,
+                  name: item.videoName,
+                  keyPointInfo: item.keyPointInfo,
+                  status: 'done',
+                };
+              }),
+          };
+          form.setFieldsValue(fields);
         }
       })
       .catch(_ => {});
@@ -60,12 +84,23 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
           values.files.map((item: { uid: any }) => {
             return item.uid;
           });
+        const videoInfoList =
+          values.video &&
+          values.video.map((item: any) => {
+            return {
+              videoUrl: item.url,
+              videoId: item.uid,
+              videoName: item.name,
+              keyPointInfo: item.keyPointInfo,
+            };
+          });
         return new Promise(resolve => {
           dispatch({
             type: `kdBanPublishMgt/${publicationId ? 'updateBanPublish' : 'addBanPublish'}`,
             payload: {
               ...values,
               fileIds,
+              videoInfoList,
             },
             resolve,
           });

@@ -33,6 +33,7 @@ const UploadInput = ({
         uid: id,
         name: fileName,
         status: 'done',
+        test: 'aaa',
       },
     ]);
   };
@@ -83,6 +84,26 @@ const UploadInput = ({
     }
 
     return isLt50M;
+  };
+
+  const callback = (index, pointList) => {
+    const list = [];
+    upFileList.forEach((item, current) => {
+      if (current === index) {
+        const preFile = {
+          keyPointInfo: pointList,
+          url: item.url,
+          uid: item.uid,
+          name: item.name,
+          status: item.status,
+        };
+        list.push(preFile);
+      } else {
+        list.push(item);
+      }
+    });
+    setUpFileList([...list]);
+    onChange && onChange([...list]);
   };
 
   const uploadFile = file => {
@@ -224,7 +245,13 @@ const UploadInput = ({
         listType={type === 'image' ? 'picture-card' : 'text'}
         beforeUpload={beforeUpload}
         itemRender={(originNode, file, currFileList) => (
-          <VideoInput type={type} originNode={originNode} file={file} fileList={currFileList} />
+          <VideoInput
+            type={type}
+            originNode={originNode}
+            file={file}
+            fileList={currFileList}
+            callback={callback}
+          />
         )}
         onPreview={file => {
           type === 'image' ? setPreviewVisible(true) : window.open(file.url);

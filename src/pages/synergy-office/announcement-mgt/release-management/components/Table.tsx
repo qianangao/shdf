@@ -30,7 +30,7 @@ const Table = ({
     );
     const PUBLISH = (
       <Popconfirm
-        key={`${data.noticeId}del`}
+        key={`${data.noticeId}publish`}
         title="确认发布该公告信息吗？"
         placement="topRight"
         onConfirm={() => publishAnnouncement(data.noticeId)}

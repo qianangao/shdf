@@ -36,6 +36,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
                   status: 'done',
                 };
               }),
+            remindWays: [data.remindWays],
           };
           form.setFieldsValue(fields);
         }
@@ -99,7 +100,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       title={noticeId ? '编辑公告' : '新建公告'}
       centered
       destroyOnClose
-      width={580}
+      width="90vw"
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',
