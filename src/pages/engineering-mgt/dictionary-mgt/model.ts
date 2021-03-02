@@ -20,7 +20,9 @@ import {
   getInfoDetail,
   updateInfoAn,
   releaseInfoAn,
-  getInfoStatistics
+  getInfoStatistics,
+  addEngineData,
+  getEngineList
 } from './service';
 
 const Model = {
@@ -264,7 +266,7 @@ const Model = {
       const params = {
         ...payload,
         currentPage: payload.current,
-        pageSize: payload.pageSize,
+        pageSize:  payload.pageSize==20?10:payload.pageSize,
       };
       const response = yield call(getInfoAnList, params);
 
@@ -274,7 +276,7 @@ const Model = {
         const result = {
           data: records,
           page: current,
-          pageSize: payload.pageSize,
+          pageSize:payload.pageSize==20?10:payload.pageSize,
           success: true,
           total,
         };
@@ -331,34 +333,79 @@ const Model = {
         });
       }
     },
-
+    
 
     // 信息数据统计
     *getInfoStatistics({ payload, resolve }, { call, put }) {
       const params = {
         ...payload,
         currentPage: payload.current,
-        pageSize: payload.pageSize,
+        pageSize: payload.pageSize==20?10:payload.pageSize,
       };
       const response = yield call(getInfoStatistics, params);
-
       if (!response.error) {
         const result = {
           data: response,
           page: 1,
-          pageSize: payload.pageSize,
+          pageSize:payload.pageSize==20?10:payload.pageSize,
           success: true,
           total:response.length
         };
 
         resolve && resolve(result);
 
+        // yield put({
+        //   type: 'save',
+        //   payload: {
+        //     infoStatistics: response,
+        //   },
+        // });
+      }
+    },
+     // 信息数据统计
+     *getInfoStatisticsData({ payload, resolve }, { call }) {
+      const params = {
+        ...payload,
+        currentPage: payload.current,
+        pageSize: payload.pageSize,
+      };
+      const response = yield call(getInfoStatistics, params);
+        resolve && resolve(response);
+      
+    },
+    //=======================================工程数据================================================
+    
+    *addEngineData({ payload, resolve }, { call, put }) {
+      const response = yield call(addEngineData, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('新增成功!');
         yield put({
-          type: 'save',
-          payload: {
-            infoStatistics: result,
-          },
+          type: 'tableReload',
         });
+      }
+    },
+    *getEngineList({ payload, resolve }, { call }) {
+      const params = {
+        ...payload,
+        currentPage: payload.current,
+        pageSize: payload.pageSize,
+
+      };
+      const response = yield call(getEngineList, params);
+
+      if (!response.error) {
+        // const { items, currentPage, totalNum } = response;
+        const { records, current, total } = response;
+        const result = {
+          data: records,
+          page: current,
+          pageSize: payload.pageSize,
+          success: true,
+          total,
+        };
+
+        resolve && resolve(result);
       }
     },
   },

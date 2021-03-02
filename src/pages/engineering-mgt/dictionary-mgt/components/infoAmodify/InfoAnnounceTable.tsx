@@ -3,14 +3,13 @@ import { Button, Modal } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import { Tabs } from 'antd';
-import Bar from '@/components/Charts/Bar/index';
+import Bar from '@/components/Charts/BarChart/index';
 
 const { TabPane } = Tabs;
 
 const Table = ({ dictionaryMgt, openModifyModal, dispatch, openDetailModifyModal }) => {
   const { tableRef } = dictionaryMgt;
   const { tableRef1 } = dictionaryMgt;
-  const { infoStatistics } = dictionaryMgt;
   const deleteReceiving = id => {
     dispatch({
       type: 'receivingMgt/deleteReceiving',
@@ -19,30 +18,26 @@ const Table = ({ dictionaryMgt, openModifyModal, dispatch, openDetailModifyModal
       },
     });
   };
-  const data111 = [
+  let darasouce = [
     {
-      name: 'London',
-      'Jan.': 18.9,
-      'Feb.': 28.8,
-      'Mar.': 39.3,
-      'Apr.': 81.4,
-      May: 47,
-      'Jun.': 20.3,
-      'Jul.': 24,
-      'Aug.': 35.6,
+      name: '信息填报数量',
+      四川省: 1,
+      海南省: 1,
+      陕西: 1,
+      陕西省: 2,
+      青海省: 4,
     },
     {
-      name: 'Berlin',
-      'Jan.': 12.4,
-      'Feb.': 23.2,
-      'Mar.': 34.5,
-      'Apr.': 99.7,
-      May: 52.6,
-      'Jun.': 35.5,
-      'Jul.': 37.4,
-      'Aug.': 42.4,
+      name: '信息发布数量',
+      四川省: 0,
+      海南省: 1,
+      陕西: 5,
+      陕西省: 2,
+      青海省: 1,
     },
   ];
+  let darasouceArr = ['四川省', '海南省', '陕西', '陕西省'];
+
   const columns = [
     {
       title: '序号',
@@ -53,21 +48,6 @@ const Table = ({ dictionaryMgt, openModifyModal, dispatch, openDetailModifyModal
     {
       title: '信息名称',
       dataIndex: 'infoName',
-      // filters: true,
-      // onFilter: true,
-      // valueType: 'select',
-      // valueEnum: {
-      //   all: { text: '全部', status: 'Default' },
-      //   open: {
-      //     text: '未解决',
-      //   },
-      //   closed: {
-      //     text: '已解决',
-      //   },
-      //   processing: {
-      //     text: '解决中',
-      //   },
-      // },
     },
     {
       title: '上报日期',
@@ -90,7 +70,6 @@ const Table = ({ dictionaryMgt, openModifyModal, dispatch, openDetailModifyModal
           };
         },
       },
-      // hideInSearch: true,
     },
     { title: '上报省份', align: 'center', dataIndex: 'reportProvince', hideInSearch: true },
     {
@@ -141,6 +120,7 @@ const Table = ({ dictionaryMgt, openModifyModal, dispatch, openDetailModifyModal
       align: 'center',
     },
   ];
+
   const getReceivingList = params =>
     new Promise(resolve => {
       dispatch({
@@ -165,16 +145,49 @@ const Table = ({ dictionaryMgt, openModifyModal, dispatch, openDetailModifyModal
         resolve,
       });
     });
-
+  const tabChange = params => {
+    if (params == '221a') {
+      new Promise(resolve => {
+        dispatch({
+          type: 'dictionaryMgt/getInfoStatisticsData',
+          payload: { ...params },
+          resolve,
+        });
+      }).then(res => {
+        let arr1 = [
+          {
+            name: '信息填报数量',
+          },
+          {
+            name: '信息发布数量',
+          },
+        ];
+        if (res != {}) {
+          res.forEach(item => {
+            arr1[0][item.reportProvince] = item.informationFillInNum;
+            arr1[1][item.reportProvince] = item.informationReleaseNum;
+          });
+          darasouceArr = res.map(element => {
+            return element.reportProvince;
+          });
+          console.log(
+            '🚀 ~ file: InfoAnnounceTable.tsx ~ line 174 ~ Table ~ darasouceArr',
+            darasouceArr,
+          );
+          darasouce = arr1;
+          console.log('🚀 ~ file: InfoAnnounceTable.tsx ~ line 175 ~ Table ~ darasouce', darasouce);
+        }
+      });
+    }
+  };
   return (
     <div>
-      <Tabs defaultActiveKey="1" type="card" size="large" centered>
-        <TabPane tab="各省信息报送" key="1">
+      <Tabs defaultActiveKey="1a3" type="card" size="large" centered onChange={tabChange}>
+        <TabPane tab="各省信息报送" key="1a3">
           <ProTable
             actionRef={tableRef}
             rowKey="receiptId"
             headerTitle="工程数据"
-            // rowSelection={[]}
             scroll={{ x: 'max-content' }}
             request={async params => getReceivingList(params)}
             toolBarRender={(_, { selectedRowKeys }) => [
@@ -199,22 +212,16 @@ const Table = ({ dictionaryMgt, openModifyModal, dispatch, openDetailModifyModal
             columns={columns}
           />
         </TabPane>
-        <TabPane tab="信息数据统计" key="2">
+        <TabPane tab="信息数据统计" key="221a">
           <ProTable
             actionRef={tableRef1}
             rowKey="receiptId1"
-            // headerTitle="信息数据统计"
-            // rowSelection={[]}
             scroll={{ x: 'max-content' }}
             request={async params => getInfoStatistics(params)}
             columns={columnsStatistics}
           />
-          <Bar data={data111}></Bar>
-          {/* <div style={{ width: '200px', height: '200px' }}>
-            <Chart padding="auto" autoFit height={500} data={data111}>
-              <LineAdvance position="year*value" />
-            </Chart>
-          </div> */}
+          {/* <Bar data={darasouce} darasouceArr={darasouceArr}></Bar> */}
+          <Bar data={darasouce} darasouceArr={darasouceArr}></Bar>
         </TabPane>
       </Tabs>
     </div>

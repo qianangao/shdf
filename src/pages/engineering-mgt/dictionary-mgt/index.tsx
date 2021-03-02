@@ -13,6 +13,8 @@ import { Tabs } from 'antd';
 import AItable from './components/infoAmodify/InfoAnnounceTable';
 import InfoAnModal from './components/infoAmodify/ModifyModal';
 import InfoAnDetailModal from './components/infoAmodify/DetailModifyModal';
+import EngineTable from './components/engineDmodify/engineDmodifyTable';
+import EngineModal from './components/engineDmodify/ModifyModal';
 
 const { TabPane } = Tabs;
 
@@ -26,6 +28,7 @@ const DictionaryMgt = ({ dispatch }) => {
   const downRef = useRef({});
   const infoAnmodifyRef = useRef({});
   const infoAnDetailmodifyRef = useRef({});
+  const engineDmodifyRef = useRef({});
 
   useEffect(() => {
     dispatch({
@@ -64,7 +67,10 @@ const DictionaryMgt = ({ dispatch }) => {
   const openDetailModifyModal = item => {
     infoAnDetailmodifyRef.current.showModal(item);
   };
-
+  //工程数据
+  const openEngineModifyModal = item => {
+    engineDmodifyRef.current.showModal(item);
+  };
   return (
     <EngineeringTreeLayout openAddEngineeringModal={openAddEngineeringModal}>
       <Tabs defaultActiveKey="1" type="card" size="large">
@@ -81,6 +87,7 @@ const DictionaryMgt = ({ dispatch }) => {
         <TabPane tab="会议管理" key="2"></TabPane>
         <TabPane tab="工程数据" key="3">
           {/* <EDtable openModifyModal={openModifyModal} /> */}
+          <EngineTable openModifyModal={openEngineModifyModal} />
         </TabPane>
         <TabPane tab="信息通报" key="5">
           <AItable
@@ -89,6 +96,7 @@ const DictionaryMgt = ({ dispatch }) => {
           />
         </TabPane>
       </Tabs>
+      <EngineModal actionRef={engineDmodifyRef} />
       <InfoAnModal actionRef={infoAnmodifyRef} />
       <InfoAnDetailModal actionRef={infoAnDetailmodifyRef} />
 

@@ -14,7 +14,6 @@ const ModifyModal = ({ dispatch, actionRef, loading, dictionaryMgt }) => {
     updateData(infoId);
     setModalVisible(true);
   };
-
   const updateData = infoId => {
     if (infoId) {
       new Promise(resolve => {
@@ -76,13 +75,12 @@ const ModifyModal = ({ dispatch, actionRef, loading, dictionaryMgt }) => {
           });
         return new Promise(resolve => {
           dispatch({
-            type: `dictionaryMgt/${detailData ? 'updateInfoAn' : 'addInfoAn'}`,
+            type: `dictionaryMgt/addEngineData`,
             payload: {
               ...values,
               fileIds,
               projectId,
               projectPid: '1000',
-              infoId: detailData && detailData.toString(),
             },
             resolve,
           });
@@ -98,7 +96,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, dictionaryMgt }) => {
 
   return (
     <Modal
-      title={detailData ? '编辑报送信息' : '新增报送信息'}
+      title={'新增工程数据'}
       centered
       width="580px"
       style={{ paddingBottom: 0 }}

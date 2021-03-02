@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
 import { Modal, Button, Descriptions } from 'antd';
 
-const ModifyModal = ({ dispatch, dictionaryMgt, actionRef, loading }) => {
+const ModifyModal = ({ dispatch, dictionaryMgt, actionRef }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const { infnAnObj } = dictionaryMgt;
   const showModal = infoId => {

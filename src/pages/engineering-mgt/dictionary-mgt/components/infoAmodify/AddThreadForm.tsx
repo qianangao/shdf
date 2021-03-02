@@ -2,12 +2,6 @@ import React from 'react';
 import AdvancedForm from '@/components/AdvancedForm';
 const AddThreadForm = ({ form }) => {
   const formItems = [
-    // {
-    //   name: '',
-    //   span: 4,
-    //   render: <Descriptions title="基本信息" size="middle" />,
-    // },
-
     {
       label: '信息名称',
       name: 'infoName',
@@ -21,7 +15,6 @@ const AddThreadForm = ({ form }) => {
       label: '信息类型',
       name: 'infoType',
       span: 4,
-      // enumsLabel: 'clue_type',
       rules: [{ required: true, message: '请输入信息类型!' }],
     },
     {

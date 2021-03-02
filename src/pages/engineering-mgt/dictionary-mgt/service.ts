@@ -200,3 +200,24 @@ export async function addInfoAn(params: any) {
     data: params,
   });
 }
+
+/**
+ * 获取工程数据列表
+ * @param params
+ */
+export async function getEngineList(params: any) {
+  return request(`/project-data`, {
+    method: 'GET',
+    params,
+  });
+}
+/**
+ * 新增工程数据
+ * @param params
+ */
+export async function addEngineData(params: any) {
+  return request(`/project-data`, {
+    method: 'POST',
+    data: params,
+  });
+}
