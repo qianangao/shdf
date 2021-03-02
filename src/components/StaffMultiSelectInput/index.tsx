@@ -33,7 +33,13 @@ const getStaffList = ({ selectedOrgId }) => {
     });
   }
 
-  return Promise.resolve(staffInfo);
+  return Promise.resolve({
+    current: 1,
+    size: 10,
+    total: 20,
+    pages: 2,
+    records: staffInfo,
+  });
 };
 
 let tempSelectData = [];
@@ -126,6 +132,7 @@ const StaffMultiSelectInput = ({ value, enums, getLgbs, dispatch, onChange }) =>
         if (data.error) {
           return;
         }
+
         const res = formatPageData(data);
         resolve(res);
       });

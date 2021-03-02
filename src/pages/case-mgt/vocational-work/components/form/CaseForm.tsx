@@ -136,33 +136,41 @@ const CaseMgt = ({ form, id, orgInfoData }) => {
     {
       label: '案件地域',
       name: 'region',
-      span: 4,
       rules: [
         { required: true, message: '请输入发生地域!', whitespace: true },
         { max: 80, message: '发生地域长度请小于80位!', whitespace: true },
       ],
     },
     {
+      name: 'segmentation1',
+      type: 'segmentation',
+    },
+    {
       label: '案情简要',
       name: 'brieflyCase',
-      rules: [{ max: 80, message: '案情简要长度请小于400位!', whitespace: true }],
+      type: 'textarea',
+      span: 2,
+      rules: [{ max: 400, message: '案情简要长度请小于400位!', whitespace: true }],
     },
     {
       label: '行政处理结果',
       name: 'punishResult',
-      span: 1.5,
+      span: 2,
       type: 'textarea',
     },
     {
       label: '案件办理结果',
       name: 'sentenceResult',
-      span: 1.5,
+      span: 2,
       type: 'textarea',
+    },
+    {
+      name: 'segmentation2',
+      type: 'segmentation',
     },
     {
       label: '相关附件',
       name: 'fileIds',
-      span: 4,
       type: 'upload',
     },
   ];
