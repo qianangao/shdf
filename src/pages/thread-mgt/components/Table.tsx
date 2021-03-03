@@ -21,6 +21,7 @@ const Table = ({
   const { tableRef } = emClueManagement;
   const uploadLgbListRef = useRef();
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [associationCue, setAssociationCue] = useState(false);
   const cueAssociationRef = useRef({});
   const openAssociationModal = (item: any, views: any) => {
     cueAssociationRef.current.showModal(item, views);
@@ -169,12 +170,6 @@ const Table = ({
       fixed: 'left',
       width: 64,
     },
-    {
-      title: '权限用户',
-      dataIndex: 'user',
-      align: 'center',
-      hideInTable: true,
-    },
     { title: '线索编号', align: 'center', dataIndex: 'clueNumber' },
     { title: '线索名称', align: 'center', dataIndex: 'clueName' },
     {
@@ -204,13 +199,6 @@ const Table = ({
       align: 'center',
       dataIndex: 'status',
       valueEnum: enums.clue_type_all,
-    },
-    {
-      title: '保密等级',
-      align: 'center',
-      dataIndex: 'secrecyLevel',
-      hideInTable: true,
-      valueEnum: enums.object_secrecy_level,
     },
     {
       title: '操作',
@@ -282,9 +270,9 @@ const Table = ({
         headerTitle="线索列表"
         actionRef={tableRef}
         scroll={{ x: 'max-content' }}
-        pagination={{ pageSize: 10 }}
         rowSelection={{
           onChange: (keys, rows) => {
+            setAssociationCue(keys.length === 1);
             tempSelectData = rows;
             setSelectedRowKeys(keys);
           },
@@ -292,23 +280,22 @@ const Table = ({
         }}
         request={async params => getAllClues(params)}
         toolBarRender={_ => [
-          selectedRowKeys && selectedRowKeys.length && (
-            <Button
-              type="primary"
-              onClick={() => {
-                if (selectedRowKeys.length > 1) {
-                  message.error('只能单条线索串并联');
-                } else {
-                  openAssociationModal(
-                    tempSelectData[0] && tempSelectData[0].clueId,
-                    <AssociationDesc association={tempSelectData[0]} />,
-                  );
-                }
-              }}
-            >
-              线索串并联
-            </Button>
-          ),
+          <Button
+            disabled={!associationCue}
+            type="primary"
+            onClick={() => {
+              if (selectedRowKeys.length > 1) {
+                message.error('只能单条线索串并联');
+              } else {
+                openAssociationModal(
+                  tempSelectData[0] && tempSelectData[0].clueId,
+                  <AssociationDesc association={tempSelectData[0]} />,
+                );
+              }
+            }}
+          >
+            线索串并联
+          </Button>,
           <Button type="primary" onClick={() => openModifyModal()}>
             新增
           </Button>,

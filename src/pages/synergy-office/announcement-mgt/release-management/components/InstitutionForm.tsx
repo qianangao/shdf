@@ -1,6 +1,6 @@
 import React from 'react';
 import AdvancedForm from '@/components/AdvancedForm';
-import { Radio } from 'antd';
+import { Checkbox } from 'antd';
 import StaffMultiSelectInput from '@/components/StaffMultiSelectInput';
 
 const InstitutionForm = ({ form }) => {
@@ -9,7 +9,6 @@ const InstitutionForm = ({ form }) => {
     {
       label: '公告标题',
       name: 'noticeTitle',
-      span: 3,
       rules: [
         { required: true, message: '请输入公告标题!' },
         { max: 40, min: 0, message: '输入文字过长，公告标题不能超过40字' },
@@ -18,7 +17,6 @@ const InstitutionForm = ({ form }) => {
     {
       label: '发布部门',
       name: 'publishDept',
-      span: 3,
       rules: [{ required: true, message: '请输入发布部门!' }],
       initialValue: '全国SHDF办公室',
       disabled: true,
@@ -26,7 +24,6 @@ const InstitutionForm = ({ form }) => {
     {
       label: '密级标识',
       name: 'secrecyLevel',
-      span: 3,
       rules: [{ required: true, message: '请选择密级标识!' }],
       enumsLabel: 'object_secrecy_level',
     },
@@ -51,13 +48,9 @@ const InstitutionForm = ({ form }) => {
     {
       label: '提醒方式',
       name: 'remindWays',
-      initialValue: '1',
       span: 3,
-      render: (
-        <Radio.Group defaultValue="1">
-          <Radio value="1">站内信</Radio>
-        </Radio.Group>
-      ),
+      initialValue: ['1'],
+      render: <Checkbox.Group options={[{ label: '站内信', value: '1' }]} />,
     },
     {
       label: '上传附件',
