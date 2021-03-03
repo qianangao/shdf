@@ -203,3 +203,85 @@ export async function updateMeeting(params: any) {
     data: params,
   });
 }
+/**
+ * 获取信息报送详情
+ * @param params
+ */
+export async function getInfoDetail(params: any) {
+  return request(`/project-information/${params}`, {
+    method: 'GET',
+    params,
+  });
+}
+/**
+ * 修改重点机构信息
+ * @param params
+ */
+export async function updateInfoAn(params: any) {
+  return request(`/project-information`, {
+    method: 'PUT',
+    data: params,
+  });
+}
+/**
+ * 发布重点机构信息
+ * @param params
+ */
+export async function releaseInfoAn(params: any) {
+  return request(`/project-information/release`, {
+    method: 'PUT',
+    data: params,
+  });
+}
+
+/**
+ * 获取信息报送详情
+ * @param params
+ */
+export async function getInfoStatistics(params: any) {
+  return request(`/project-information/statistics`, {
+    method: 'GET',
+    params,
+  });
+}
+/**
+ * 获取通报列表
+ * @param params
+ */
+export async function getInfoAnList(params: any) {
+  return request(`/project-information`, {
+    method: 'GET',
+    params,
+  });
+}
+/**
+ * 新增信息报送
+ * @param params
+ */
+export async function addInfoAn(params: any) {
+  return request(`/project-information`, {
+    method: 'POST',
+    data: params,
+  });
+}
+
+/**
+ * 获取工程数据列表
+ * @param params
+ */
+export async function getEngineList(params: any) {
+  return request(`/project-data`, {
+    method: 'GET',
+    params,
+  });
+}
+/**
+ * 新增工程数据
+ * @param params
+ */
+export async function addEngineData(params: any) {
+  return request(`/project-data`, {
+    method: 'POST',
+    data: params,
+  });
+}

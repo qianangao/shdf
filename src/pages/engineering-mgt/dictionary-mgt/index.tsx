@@ -4,15 +4,20 @@ import TypeSelectLayout from '@/layouts/TypeSelectLayout';
 import EngineeringTreeLayout from './components/tree-component/EngineeringTreeLayout';
 import Table from './components/Table';
 import AddEngineeringModal from './components/add-engineering/AddEngineeringModal';
+import TempProvinceModal from './components/temp-province/tempProvinceModal';
 import AddProjectTaskModal from './components/project-task/add-project-task/AddProjectTaskModal';
 import ModifyProjectTaskModal from './components/project-task/edit-project-task/ModifyProjectTaskModal';
 import FeedbackDetailModal from './components/feedback/feedback-detail/FeedbackDetailModal';
 import FeedbackModal from './components/feedback/feedback-data/FeedbackModal';
 import DownModal from './components/down/DownModal';
 import FeedbackRequestModal from './components/project-task/FeedbackRequestModal';
-import TempProvinceModal from './components/temp-province/tempProvinceModal';
 import MeetingTable from './components/conference-management/MeetingTable';
 import MeetingModal from './components/conference-management/conference-info/MeetingModal';
+import AItable from './components/infoAmodify/InfoAnnounceTable';
+import InfoAnModal from './components/infoAmodify/ModifyModal';
+import InfoAnDetailModal from './components/infoAmodify/DetailModifyModal';
+import EngineTable from './components/engineDmodify/engineDmodifyTable';
+import EngineModal from './components/engineDmodify/ModifyModal';
 
 const DictionaryMgt = ({ dispatch }) => {
   const addEngineeringRef = useRef({});
@@ -32,6 +37,9 @@ const DictionaryMgt = ({ dispatch }) => {
     { label: '工程数据', id: 'engineeringData' },
     { label: '信息通报', id: 'Communications' },
   ];
+  const infoAnmodifyRef = useRef({});
+  const infoAnDetailmodifyRef = useRef({});
+  const engineDmodifyRef = useRef({});
 
   useEffect(() => {
     dispatch({
@@ -41,11 +49,9 @@ const DictionaryMgt = ({ dispatch }) => {
       },
     });
   }, []);
-
   const onTabChange = id => {
     setTableType(id);
   };
-
   const openAddEngineeringModal = item => {
     addEngineeringRef.current.showModal(item);
   };
@@ -67,13 +73,23 @@ const DictionaryMgt = ({ dispatch }) => {
   const downModal = item => {
     downRef.current.showModal(item);
   };
+  //信息通报
+  const openInfoModifyModal = item => {
+    infoAnmodifyRef.current.showModal(item);
+  };
+  const openDetailModifyModal = item => {
+    infoAnDetailmodifyRef.current.showModal(item);
+  };
+  //工程数据
+  const openEngineModifyModal = item => {
+    engineDmodifyRef.current.showModal(item);
+  };
   const feedbackRequestModal = item => {
     feedbackRequestRef.current.showModal(item);
   };
   const meetingModal = item => {
     meetingRef.current.showModal(item);
   };
-
   return (
     <EngineeringTreeLayout openAddEngineeringModal={openAddEngineeringModal}>
       <TypeSelectLayout tabs={tabs} onTabChange={onTabChange}>
@@ -88,6 +104,18 @@ const DictionaryMgt = ({ dispatch }) => {
           />
         )}
         {tableType === 'conferenceManagement' && <MeetingTable meetingModal={meetingModal} />}
+        {tableType === 'engineeringData' && <EngineTable openModifyModal={openEngineModifyModal} />}
+        {tableType === 'Communications' && (
+          <AItable
+            openModifyModal={openInfoModifyModal}
+            openDetailModifyModal={openDetailModifyModal}
+          />
+        )}
+
+        <EngineModal actionRef={engineDmodifyRef} />
+        <InfoAnModal actionRef={infoAnmodifyRef} />
+        <InfoAnDetailModal actionRef={infoAnDetailmodifyRef} />
+
         <AddEngineeringModal actionRef={addEngineeringRef} />
         <TempProvinceModal actionRef={tempProvinceRef} />
         <AddProjectTaskModal actionRef={addProjectTaskRef} />

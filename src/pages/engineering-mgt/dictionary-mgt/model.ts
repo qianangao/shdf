@@ -22,6 +22,14 @@ import {
   addMeeting,
   getMeetingDetail,
   updateMeeting,
+  getInfoAnList,
+  addInfoAn,
+  getInfoDetail,
+  updateInfoAn,
+  releaseInfoAn,
+  getInfoStatistics,
+  addEngineData,
+  getEngineList
 } from './service';
 
 const Model = {
@@ -40,6 +48,9 @@ const Model = {
     feedListData: [],
     taskProgressList: [],
     head: [],
+    infoAnListData:{},
+    infoStatistics:{},
+    infnAnObj:{}
   },
 
   effects: {
@@ -312,6 +323,12 @@ const Model = {
       yield put({
         type: 'queryEngineeringData',
       });
+   yield put({
+        type: 'getEngineList',
+      });
+      yield put({
+        type: 'getInfoStatistics',
+      });
       yield put({
         type: 'tableReload',
       });
@@ -325,6 +342,159 @@ const Model = {
         },
       });
     },
+     //=============================================信息报送========================================
+     *getInfoAnList({ payload, resolve }, { call, put ,select}) {
+      const projectId = yield select(state => state.dictionaryMgt.projectId);
+      const params = {
+        ...payload,
+        currentPage: payload==undefined?1:payload.current,
+        pageSize:payload==undefined?10:payload.pageSize,
+        projectId
+      };
+  
+      const response = yield call(getInfoAnList, params);
+      if (!response.error) {
+        // const { items, currentPage, totalNum } = response;
+        const { records, current, total } = response;
+        const result = {
+          data: records,
+          page: current,
+          pageSize:10,
+          success: true,
+          total,
+        };
+
+        resolve && resolve(result);
+
+        yield put({
+          type: 'save',
+          payload: {
+            infoAnListData: result,
+          },
+        });
+      }
+    },
+    *addInfoAn({ payload, resolve }, { call, put }) {
+      const response = yield call(addInfoAn, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('新增成功!');
+        yield put({
+          type: 'tableReload',
+        });
+      }
+    },
+    *getInfoDetail({ payload, resolve }, { call, put}) {
+      const response = yield call(getInfoDetail, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        yield put({
+          type: 'save',
+          payload: {
+            infnAnObj: response,
+          },
+        });
+      }
+    },
+    *updateInfoAn({ payload, resolve }, { call, put }) {
+      const response = yield call(updateInfoAn, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('修改成功！');
+        yield put({
+          type: 'tableReload',
+        });
+      }
+    },
+    *releaseInfoAn({ payload, resolve }, { call, put }) {
+      const response = yield call(releaseInfoAn, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('发布成功！');
+        yield put({
+          type: 'tableReload',
+        });
+      }
+    },
+    
+
+    // 信息数据统计
+    *getInfoStatistics({ payload, resolve }, { call, put,select }) {
+      const projectId = yield select(state => state.dictionaryMgt.projectId);
+      const params = {
+        ...payload,
+        currentPage: 1,
+        pageSize: 10,
+        projectId
+      };
+      const response = yield call(getInfoStatistics, params);
+      if (!response.error) {
+        const result = {
+          data: response,
+          page: 1,
+          pageSize:10,
+          success: true,
+          total:response.length
+        };
+
+        resolve && resolve(result);
+
+        // yield put({
+        //   type: 'save',
+        //   payload: {
+        //     infoStatistics: response,
+        //   },
+        // });
+      }
+    },
+     // 信息数据统计
+     *getInfoStatisticsData({ payload, resolve }, { call }) {
+      const params = {
+        ...payload,
+        currentPage: payload.current,
+        pageSize: payload.pageSize,
+      };
+      const response = yield call(getInfoStatistics, params);
+        resolve && resolve(response);
+      
+    },
+    //=======================================工程数据================================================
+    
+    *addEngineData({ payload, resolve }, { call, put }) {
+      const response = yield call(addEngineData, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('新增成功!');
+        yield put({
+          type: 'tableReload',
+        });
+      }
+    },
+    *getEngineList({ payload, resolve }, { call ,put,select}) {
+      console.log('🚀 ~ file: model.ts ~ line 399 ~ *getEngineList ~ payload', payload)
+      const projectId = yield select(state => state.dictionaryMgt.projectId);
+      const params = {
+        ...payload,
+        currentPage: payload==undefined?1:payload.current,
+        pageSize:payload==undefined?10:payload.pageSize,
+        projectId
+      };
+      const response = yield call(getEngineList, params);
+
+      if (!response.error) {
+        // const { items, currentPage, totalNum } = response;
+        const { records, current, total } = response;
+        const result = {
+          data: records,
+          page: current,
+          pageSize:10,
+          success: true,
+          total,
+        };
+
+        resolve && resolve(result);
+      }
+    }
   },
 
   reducers: {
