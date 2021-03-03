@@ -4,11 +4,10 @@ import { Row } from 'antd';
 import AddressBookForm from './components/AddThreadForm';
 
 const Count = ({ dispatch }) => {
-  const [form] = AddressBookForm.useForm();
   useEffect(() => {}, []);
   return (
     <Row gutter={[16, 16]}>
-      <AddressBookForm form={form} />
+      <AddressBookForm />
     </Row>
   );
 };

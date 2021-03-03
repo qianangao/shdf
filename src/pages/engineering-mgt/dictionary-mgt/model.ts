@@ -40,6 +40,7 @@ const Model = {
     tableRef: {},
     meetingTableRef: {},
     projectId: '',
+    projectPid:'null',
     taskId: '',
     engineeringForm: {},
     projectProvinceEntityList: [],
@@ -318,12 +319,13 @@ const Model = {
         type: 'save',
         payload: {
           projectId: payload.projectId,
+          projectPid:payload.projectPid
         },
       });
       yield put({
         type: 'queryEngineeringData',
       });
-   yield put({
+      yield put({
         type: 'getEngineList',
       });
       yield put({
@@ -345,11 +347,13 @@ const Model = {
      //=============================================信息报送========================================
      *getInfoAnList({ payload, resolve }, { call, put ,select}) {
       const projectId = yield select(state => state.dictionaryMgt.projectId);
+      const projectPid = yield select(state => state.dictionaryMgt.projectPid);
       const params = {
         ...payload,
         currentPage: payload==undefined?1:payload.current,
         pageSize:payload==undefined?10:payload.pageSize,
-        projectId
+        projectId,
+        projectPid
       };
   
       const response = yield call(getInfoAnList, params);
@@ -421,11 +425,13 @@ const Model = {
     // 信息数据统计
     *getInfoStatistics({ payload, resolve }, { call, put,select }) {
       const projectId = yield select(state => state.dictionaryMgt.projectId);
+      const projectPid = yield select(state => state.dictionaryMgt.projectPid);
       const params = {
         ...payload,
         currentPage: 1,
         pageSize: 10,
-        projectId
+        projectId,
+        projectPid
       };
       const response = yield call(getInfoStatistics, params);
       if (!response.error) {
@@ -448,11 +454,12 @@ const Model = {
       }
     },
      // 信息数据统计
-     *getInfoStatisticsData({ payload, resolve }, { call }) {
+     *getInfoStatisticsData({ payload, resolve }, { call,put,select  }) {
+      const projectId = yield select(state => state.dictionaryMgt.projectId);
+      const projectPid = yield select(state => state.dictionaryMgt.projectPid);
       const params = {
-        ...payload,
-        currentPage: payload.current,
-        pageSize: payload.pageSize,
+        projectId,
+        projectPid
       };
       const response = yield call(getInfoStatistics, params);
         resolve && resolve(response);
@@ -471,13 +478,14 @@ const Model = {
       }
     },
     *getEngineList({ payload, resolve }, { call ,put,select}) {
-      console.log('🚀 ~ file: model.ts ~ line 399 ~ *getEngineList ~ payload', payload)
       const projectId = yield select(state => state.dictionaryMgt.projectId);
+      const projectPid = yield select(state => state.dictionaryMgt.projectPid);
       const params = {
         ...payload,
         currentPage: payload==undefined?1:payload.current,
         pageSize:payload==undefined?10:payload.pageSize,
-        projectId
+        projectId,
+        projectPid
       };
       const response = yield call(getEngineList, params);
 

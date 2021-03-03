@@ -81,7 +81,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, dictionaryMgt }) => {
               ...values,
               fileIds,
               projectId,
-              projectPid: '1000',
+              projectPid: dictionaryMgt.projectPid ? dictionaryMgt.projectPid : '10001',
               infoId: detailData && detailData.toString(),
             },
             resolve,
