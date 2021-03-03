@@ -28,6 +28,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
 
   const hideModal = () => {
     setModalVisible(false);
+    setDetailData(null);
     form.resetFields();
   };
 
@@ -35,9 +36,6 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
     form
       .validateFields()
       .then(values => {
-        values.id = detailData.caseId;
-        values.approvalCompany = 7000;
-        values.approvalUser = 7001;
         return new Promise(resolve => {
           dispatch({
             type: `sensitiveMgt/applyCase`,
@@ -60,7 +58,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
     <Modal
       title="申请备案"
       centered
-      width={780}
+      width={580}
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',
@@ -71,7 +69,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <OrgInfoForm form={form} />
+      <OrgInfoForm form={form} orgInfoData={detailData} />
     </Modal>
   );
 };

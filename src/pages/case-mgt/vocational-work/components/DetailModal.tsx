@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
 import { Modal, Button, Descriptions } from 'antd';
-import TableFileCase from '@/pages/case-mgt/vocational-work/components/TableFileCase';
+import TableFileCase from './TableFileCase';
 import TableCaseHandle from './TableCaseHandle';
 import ClubSplicing from './ClubSplicing';
 
@@ -39,6 +39,25 @@ const CaresDetailModal = ({ dispatch, caseMgt, actionRef, enums }) => {
         caseDetailData: {},
       },
     });
+  };
+
+  const fileList = files => {
+    if (files && files.length > 0) {
+      const views = files.map(item => {
+        return (
+          <a href={item.url} style={{ display: 'block' }}>
+            {item.name}
+          </a>
+        );
+      });
+
+      return (
+        <Descriptions.Item label="附件列表" span={3}>
+          <div style={{ marginBottom: 20 }}>{views}</div>
+        </Descriptions.Item>
+      );
+    }
+    return <div style={{ marginBottom: 20 }} />;
   };
 
   return (
@@ -114,14 +133,15 @@ const CaresDetailModal = ({ dispatch, caseMgt, actionRef, enums }) => {
 
         <Descriptions.Item label="案件地域">{caseDetailData.region}</Descriptions.Item>
       </Descriptions>
-      <ClubSplicing id={infoId} isDetail={1} />
 
       <Descriptions size="middle" column={1}>
         <Descriptions.Item label="案件简要">{caseDetailData.brieflyCase}</Descriptions.Item>
         <Descriptions.Item label="行政处理结果">{caseDetailData.punishResult}</Descriptions.Item>
         <Descriptions.Item label="案件办理结果">{caseDetailData.sentenceResult}</Descriptions.Item>
         {/* <Descriptions.Item label="附   件">{caseDetailData.fileList}</Descriptions.Item> */}
+        {fileList(caseDetailData.fileList)}
       </Descriptions>
+      <ClubSplicing id={infoId} isDetail={1} />
 
       <TableCaseHandle id={infoId} isDetail={1} />
 

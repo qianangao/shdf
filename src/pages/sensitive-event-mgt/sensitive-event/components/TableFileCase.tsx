@@ -3,19 +3,19 @@ import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 
 const TableFileCase = ({ dispatch, id, sensitiveMgt }) => {
-  const { tableHandleRef } = sensitiveMgt;
+  const { tableFileRef } = sensitiveMgt;
   const columns = [
     {
-      title: '文件id',
-      dataIndex: 'fileId',
+      title: '名称',
+      dataIndex: 'fileName',
       align: 'center',
       fixed: 'left',
       hideInSearch: true,
     },
     {
-      title: '文件名称',
+      title: '上传时间',
       hideInSearch: true,
-      dataIndex: 'fileName',
+      dataIndex: 'createTime',
     },
   ];
 
@@ -31,13 +31,12 @@ const TableFileCase = ({ dispatch, id, sensitiveMgt }) => {
 
   return (
     <ProTable
-      actionRef={tableHandleRef}
+      actionRef={tableFileRef}
       rowKey="fileId"
       headerTitle="附件列表"
       scroll={{ x: 'max-content' }}
       search={false}
       options={false}
-      showHeader={false}
       request={async params => getCaseHandleFile(params)}
       columns={columns}
     />

@@ -18,6 +18,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
   const clubSplicingModalRef = useRef({});
   const [infoId, setCaresId] = useState('');
   const cueAssociationRef = useRef({});
+  const [caseType, setCaseType] = useState('');
   const openAssociationModal = (item: any, views: any) => {
     cueAssociationRef.current.showModal(item, views);
   };
@@ -38,9 +39,11 @@ const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
         },
       });
       setCaresId(items.caseId);
+      setCaseType(items.caseType);
       setDetailData(caseDetailData);
     } else {
       setCaresId('');
+      setCaseType('0');
       setDetailData(null);
     }
     setModalVisible(true);
@@ -65,17 +68,19 @@ const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
     form
       .validateFields()
       .then(values => {
-        values.engineeringIds = [values.engineeringIds];
-        values.specialActionIds = [values.specialActionIds];
+        values.specialActionIds = values.specialActionIds ? [values.specialActionIds] : [];
+
         let filesStr = '';
-        if (values.files && values.files.length > 0) {
-          const ids = values.files.map(item => {
+        if (values.fileList && values.fileList.length > 0) {
+          const ids = values.fileList.map(item => {
             return item.uid;
           });
           filesStr = ids.join(',');
-          delete values.files;
         }
         values.fileIds = filesStr;
+        delete values.fileList;
+        values.regionCode = values.regionObj ? values.regionObj.value : null;
+        values.region = values.regionObj ? values.regionObj.label : null;
         return new Promise(resolve => {
           dispatch({
             type: `caseMgt/${detailData ? 'update' : 'add'}`,
@@ -120,7 +125,13 @@ const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
     }
     return true;
   };
-  // @ts-ignore
+
+  const onFieldsChange = item => {
+    if (item[0].name[0] === 'caseType') {
+      setCaseType(item[0].value);
+    }
+  };
+
   return (
     <Modal
       title={detailData ? '案件编辑' : '案件录入'}
@@ -135,7 +146,13 @@ const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <OrgInfoForm form={form} id={infoId} orgInfoData={caseDetailData} />
+      <OrgInfoForm
+        form={form}
+        id={infoId}
+        orgInfoData={caseDetailData}
+        caseType={caseType}
+        onFieldsChange={onFieldsChange}
+      />
 
       {infoId ? <ClubSplicing id={infoId} openAssociationModal={openAssociationModal} /> : null}
 

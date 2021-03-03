@@ -8,7 +8,7 @@ const TableCaseHandle = ({ dispatch, id, caseMgt, openAssociationModal, isDetail
   const columns = [
     {
       title: '线索编号',
-      dataIndex: 'clueId',
+      dataIndex: 'clueNumber',
       align: 'center',
       fixed: 'left',
       hideInSearch: true,

@@ -5,13 +5,13 @@ const routes = {
   routes: [
     {
       path: '/sensitive-event-mgt',
-      redirect: '/sensitive-event-mgt/key-institutions',
+      redirect: '/sensitive-event-mgt/sensitive-event',
       hideInMenu: true,
     },
     {
-      path: '/sensitive-event-mgt/key-institutions',
-      name: 'sensitive-event-mgt-key-institutions',
-      component: './sensitive-event-mgt/key-institutions',
+      path: '/sensitive-event-mgt/sensitive-event',
+      name: 'sensitive-event-mgt-sensitive-event',
+      component: './sensitive-event-mgt/sensitive-event',
       icon: 'setting',
       remark: '敏感事件',
     },

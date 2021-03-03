@@ -109,7 +109,7 @@ const ReceivingForm = ({ form, orgInfoData, id }) => {
     },
     {
       label: '附件',
-      name: 'files',
+      name: 'fileList',
       span: 4,
       type: 'upload',
     },

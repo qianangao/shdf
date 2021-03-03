@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
 import { Modal, Button, Descriptions } from 'antd';
-import TableFileCase from './TableFileCase';
 
 const CaresDetailModal = ({ dispatch, receivingMgt, actionRef, enums }) => {
   const [caresId] = useState('');
@@ -40,6 +39,25 @@ const CaresDetailModal = ({ dispatch, receivingMgt, actionRef, enums }) => {
 
   const hideModal = () => {
     setModalVisible(false);
+  };
+
+  const fileList = files => {
+    if (files && files.length > 0) {
+      const views = files.map(item => {
+        return (
+          <a href={item.url} style={{ display: 'block' }}>
+            {item.name}
+          </a>
+        );
+      });
+
+      return (
+        <Descriptions.Item label="附件列表" span={3}>
+          <div style={{ marginBottom: 20 }}>{views}</div>
+        </Descriptions.Item>
+      );
+    }
+    return <div style={{ marginBottom: 20 }} />;
   };
 
   return (
@@ -95,8 +113,8 @@ const CaresDetailModal = ({ dispatch, receivingMgt, actionRef, enums }) => {
         <Descriptions.Item label="备    注">{receivingDetailData.remarks}</Descriptions.Item>
         <Descriptions.Item label="批   示">{receivingDetailData.instructions}</Descriptions.Item>
         {/* <Descriptions.Item label="附   件">{receivingDetailData.fileList}</Descriptions.Item> */}
+        {fileList(receivingDetailData.fileList)}
       </Descriptions>
-      <TableFileCase id={receivingDetailData.receiptId} detailData={receivingDetailData} />
     </Modal>
   );
 };
