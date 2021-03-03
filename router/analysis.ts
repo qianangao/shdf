@@ -8,6 +8,13 @@ const routes = {
       redirect: '/analysis/key-institutions',
       hideInMenu: true,
     },
+    {
+      path: '/analysis/statistics',
+      name: 'analysis-statistics',
+      component: './analysis/statistics',
+      remark: '统计分析',
+      icon: 'folder',
+    },
   ],
 };
 
