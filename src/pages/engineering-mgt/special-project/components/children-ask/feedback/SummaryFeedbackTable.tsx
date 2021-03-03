@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Table, Popconfirm, Modal, Radio } from 'antd';
-// import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import AdvancedForm from '@/components/AdvancedForm';
 
@@ -127,7 +126,6 @@ const SummaryFeedbackTable = ({
       dataIndex: 'id',
       key: 'id',
     },
-    // { title: '序号', align: 'center', dataIndex: 'id', hideInSearch: true },
     { title: '名称', align: 'center', dataIndex: 'feedbackName' },
     {
       title: '反馈类型',
@@ -142,7 +140,6 @@ const SummaryFeedbackTable = ({
       title: '操作',
       dataIndex: 'action',
       key: 'action',
-      // visible:false,
       render: (dom, data, index) => [
         <Popconfirm
           title="你确定要删除该反馈要求吗？"
@@ -151,7 +148,6 @@ const SummaryFeedbackTable = ({
           cancelText="否"
         >
           <Button type="link" size="small">
-            {/*  disabled={!add} */}
             {add && '删除'}
           </Button>
         </Popconfirm>,

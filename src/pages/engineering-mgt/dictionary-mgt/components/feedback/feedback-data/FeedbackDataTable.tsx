@@ -24,7 +24,12 @@ const FeedbackTableData = ({ FeedbackData }) => {
     },
     // { title: '序号', align: 'center', dataIndex: 'id', hideInSearch: true },
     { title: '名称', align: 'center', dataIndex: 'feedbackName' },
-    { title: '反馈类型', align: 'center', dataIndex: 'feedbackType' },
+    {
+      title: '反馈类型',
+      align: 'center',
+      dataIndex: 'feedbackType',
+      render: text => <span>{text === 0 ? '总反馈' : '阶段反馈'}</span>,
+    },
     { title: '开始日期', align: 'center', dataIndex: 'startDate' },
     { title: '截止日期', align: 'center', dataIndex: 'endDate' },
     { title: '反馈要求', align: 'center', dataIndex: 'feedbackRequire' },
@@ -33,7 +38,7 @@ const FeedbackTableData = ({ FeedbackData }) => {
   return <Table dataSource={dataSource} columns={columns} rowKey="taskId" />;
 };
 
-export default connect(({ specialAction }) => ({
-  FeedbackData: specialAction.FeedbackData,
-  specialAction,
+export default connect(({ dictionaryMgt }) => ({
+  FeedbackData: dictionaryMgt.FeedbackData,
+  dictionaryMgt,
 }))(FeedbackTableData);

@@ -1,28 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
 import { Modal } from 'antd';
-import EditChildrenTaskForm from './EditChildrenTaskForm';
+import MeetingForm from './MeetingForm';
 
-const ModifyModal = ({
-  dispatch,
-  actionRef,
-  loading,
-  // openFeedbackModal,
-  openAddModal,
-  feedbackDetailModal,
-}) => {
-  const [form] = EditChildrenTaskForm.useForm();
+const MeetingModal = ({ dispatch, actionRef, loading }) => {
+  const [form] = MeetingForm.useForm();
+  const [detailData, setDetailData] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [disabled, setDisabled] = useState(false);
-  const [visible, setVisible] = useState(false);
-  const [id, setId] = useState('');
 
-  const updateData = Id => {
-    if (Id) {
+  const showModal = data => {
+    if (data) {
+      if (data.disabled) setDisabled(data.disabled);
+      if (data.meetingId) {
+        setDetailData(data.meetingId || null);
+        updateData(data.meetingId);
+      }
+    }
+    setModalVisible(true);
+  };
+
+  const updateData = meetingId => {
+    if (meetingId) {
       new Promise(resolve => {
         dispatch({
-          type: 'specialAction/findChildrenTaskDetail',
-          payload: { taskId: Id },
+          type: 'dictionaryMgt/getMeetingDetail',
+          payload: meetingId.toString(),
           resolve,
         });
       }).then(res => {
@@ -43,20 +46,6 @@ const ModifyModal = ({
     }
   };
 
-  const showModal = item => {
-    if (item.visible) {
-      setVisible(item.visible);
-    }
-    if (item.disabled) {
-      setDisabled(true);
-    }
-    if (item.id) {
-      setId(item.id);
-      updateData(item.id);
-    }
-    setModalVisible(true);
-  };
-
   useEffect(() => {
     if (actionRef && typeof actionRef === 'function') {
       actionRef({ showModal });
@@ -69,8 +58,6 @@ const ModifyModal = ({
 
   const hideModal = () => {
     setModalVisible(false);
-    setVisible(false);
-    setDisabled(false);
     form.resetFields();
   };
 
@@ -81,18 +68,18 @@ const ModifyModal = ({
       form
         .validateFields()
         .then(values => {
+          const fileIds =
+            values.fileIds &&
+            values.fileIds.map(item => {
+              return item.uid;
+            });
           return new Promise(resolve => {
-            const fileIds =
-              values.fileIds &&
-              values.fileIds.map(item => {
-                return item.uid;
-              });
             dispatch({
-              type: `specialAction/${id ? 'updateChildrenTaskList' : 'addChildrenTaskList'}`,
+              type: `dictionaryMgt/${detailData ? 'updateMeeting' : 'addMeeting'}`,
               payload: {
                 ...values,
-                taskId: id,
                 fileIds,
+                meetingId: detailData && detailData.toString(),
               },
               resolve,
             });
@@ -109,9 +96,9 @@ const ModifyModal = ({
 
   return (
     <Modal
-      title={disabled ? '查看任务' : '修改任务'}
+      title="会议信息"
       centered
-      width="90vw"
+      width="580px"
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',
@@ -121,19 +108,11 @@ const ModifyModal = ({
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <EditChildrenTaskForm
-        form={form}
-        taskId={id}
-        visible={visible}
-        disabled={disabled}
-        // openFeedbackModal={openFeedbackModal}
-        openAddModal={openAddModal}
-        feedbackDetailModal={feedbackDetailModal}
-      />
+      <MeetingForm form={form} disabled={disabled} />
     </Modal>
   );
 };
 
 export default connect(({ loading }) => ({
   loading: loading.models.smDictionaryMgt,
-}))(ModifyModal);
+}))(MeetingModal);

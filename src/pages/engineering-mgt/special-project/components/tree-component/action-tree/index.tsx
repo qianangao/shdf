@@ -1,17 +1,11 @@
-/* eslint-disable */
 import React, { useEffect, useState } from 'react';
 import { Tree, Button, Row, Col, Input, Spin } from 'antd';
 import { connect } from 'umi';
-// import { getSpecialActionTree } from '../../../model';
 import styles from './index.less';
 
 const ActionTree = ({ openAddSpecialModal, dispatch, actionTree, loading }) => {
-  // const { treeRef } = specialAction;
-  // const [actionTreeData, setActionTreeData] = useState<any>([]);
   const [expandedKeys, setExpandedKeys] = useState<any>([]);
   const [selectedKeys, setSelectedKeys] = useState<any>([]);
-  // const [loadedKeys, setLoadedKeys] = useState<any>([]);
-  // const [loading, setLoading] = useState(false);
 
   const getTreeData = (actionName = '') => {
     dispatch({
@@ -31,6 +25,7 @@ const ActionTree = ({ openAddSpecialModal, dispatch, actionTree, loading }) => {
   const actionExpandHandler = node => {
     setExpandedKeys(node);
   };
+
   const actionSelectHandler = (keys, { node }) => {
     const actionId = node.key;
     dispatch({
@@ -71,8 +66,6 @@ const ActionTree = ({ openAddSpecialModal, dispatch, actionTree, loading }) => {
       <Spin spinning={loading}>
         <Tree
           treeData={actionTree}
-          // actionRef={treeRef}
-          // loadData={actionLoadDataHandler}
           onSelect={actionSelectHandler}
           selectedKeys={selectedKeys}
           onExpand={actionExpandHandler}

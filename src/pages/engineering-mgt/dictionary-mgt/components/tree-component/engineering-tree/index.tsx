@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Tree, Button, Row, Col, Input, Spin } from 'antd';
 import { connect } from 'umi';
-// import { getSpecialActionTree } from '../../../model';
 import styles from './index.less';
 
 const EngineeringTree = ({ dispatch, engineeringTree, loading, openAddEngineeringModal }) => {

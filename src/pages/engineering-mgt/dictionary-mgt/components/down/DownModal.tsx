@@ -16,10 +16,6 @@ const DownModal = ({ dispatch, actionRef, loading }) => {
     setSelectedKeys([...sourceSelectedKeys, ...targetSelectedKeys]);
   };
 
-  //   const onScroll = (direction, e) => {
-  //     console.log('direction:', direction);
-  //     console.log('target:', e.target);
-  //   };
   useEffect(() => {
     new Promise(resolve => {
       dispatch({
@@ -38,10 +34,6 @@ const DownModal = ({ dispatch, actionRef, loading }) => {
   const showModal = Id => {
     setTargetKeys([]);
     if (Id) setId(Id);
-    // dispatch({
-    //   type: 'dictionaryMgt/findChildrenTaskDetail',
-    //   payload: { taskId: Id },
-    // });
     setModalVisible(true);
   };
 
@@ -83,7 +75,7 @@ const DownModal = ({ dispatch, actionRef, loading }) => {
     <Modal
       title="部署任务"
       centered
-      width="40vw"
+      width="580px"
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',
@@ -100,11 +92,9 @@ const DownModal = ({ dispatch, actionRef, loading }) => {
         selectedKeys={selectedKeys}
         onChange={onChange}
         onSelectChange={onSelectChange}
-        //   onScroll={onScroll}
         render={item => item.title}
         oneWay
       />
-      {/* <ProvinceCascaderInput/> */}
     </Modal>
   );
 };

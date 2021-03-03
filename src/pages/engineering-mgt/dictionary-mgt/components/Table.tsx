@@ -37,12 +37,6 @@ const Table = ({
       width: 64,
     },
     { title: '子任务名称', align: 'center', dataIndex: 'taskName', hideInSearch: true },
-    // {
-    //   title: '年度',
-    //   align: 'center',
-    //   dataIndex: 'taskYear',
-    //   hideInSearch: true,
-    // },
     { title: '开始日期', align: 'center', dataIndex: 'startDate', hideInSearch: true },
     { title: '截止日期', align: 'center', dataIndex: 'endDate', hideInSearch: true },
     {
@@ -79,8 +73,7 @@ const Table = ({
           {data.taskStatus === 0 && '下发'}
         </a>,
         <a key={`${data.taskId}back`} onClick={() => feedbackModal(data.taskId)}>
-          {/* {data.taskStatus === 2 && '反馈'} */}
-          反馈
+          {data.taskStatus === 1 && '反馈'}
         </a>,
         <Popconfirm
           title="你确定要删除该反馈要求吗？"

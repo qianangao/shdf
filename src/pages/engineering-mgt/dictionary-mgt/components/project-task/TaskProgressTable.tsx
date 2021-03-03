@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Button } from 'antd';
-// import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
-// import AdvancedForm from '@/components/AdvancedForm';
 
 const TaskProgressTable = ({ dispatch, taskProgressList, head, feedbackDetailModal }) => {
   const [dataSource, setDataSource] = useState([]);
@@ -32,8 +30,8 @@ const TaskProgressTable = ({ dispatch, taskProgressList, head, feedbackDetailMod
             ),
           });
         }
-        setColumns([...arr]);
       });
+      setColumns([...arr]);
     }
   }, [head]);
 

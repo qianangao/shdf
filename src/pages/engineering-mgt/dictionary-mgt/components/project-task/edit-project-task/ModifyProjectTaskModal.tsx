@@ -7,7 +7,6 @@ const ModifyProjectTaskModal = ({
   dispatch,
   actionRef,
   loading,
-  feedbackModal,
   addProjectTaskModal,
   feedbackDetailModal,
 }) => {
@@ -131,7 +130,6 @@ const ModifyProjectTaskModal = ({
         visible={visible}
         disabled={disabled}
         add={add}
-        feedbackModal={feedbackModal}
         addProjectTaskModal={addProjectTaskModal}
         feedbackDetailModal={feedbackDetailModal}
       />

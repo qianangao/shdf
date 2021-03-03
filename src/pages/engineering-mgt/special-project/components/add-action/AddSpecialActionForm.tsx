@@ -7,7 +7,6 @@ const AddSpecialActionForm = ({ dispatch, form, visible, editVisible }) => {
   const [actionList, setActionList] = useState([]);
   const [actionData, setActionData] = useState([]);
   const [historyData, setHistoryData] = useState([]);
-  // const [idVisible, setIdVisible] = useState(true);
 
   useEffect(() => {
     new Promise(resolve => {
@@ -64,13 +63,7 @@ const AddSpecialActionForm = ({ dispatch, form, visible, editVisible }) => {
       rules: [{ required: true, message: '请选择行动名称' }],
       visible: editVisible && visible,
       render: (
-        <Select
-          allowClear
-          onChange={onChangeAction}
-          // getPopupContainer={triggerNode => {
-          //   return triggerNode.parentNode || document.body;
-          // }}
-        >
+        <Select allowClear onChange={onChangeAction}>
           {actionData &&
             actionData.map(item => (
               <Select.Option key={item.key} value={item.key}>
@@ -86,13 +79,7 @@ const AddSpecialActionForm = ({ dispatch, form, visible, editVisible }) => {
       span: 2,
       visible: editVisible && visible,
       render: (
-        <Select
-          allowClear
-          onChange={onChangehistory}
-          // getPopupContainer={triggerNode => {
-          //   return triggerNode.parentNode || document.body;
-          // }}
-        >
+        <Select allowClear onChange={onChangehistory}>
           {historyData &&
             historyData.map(item => (
               <Select.Option key={item.key} value={item.key}>

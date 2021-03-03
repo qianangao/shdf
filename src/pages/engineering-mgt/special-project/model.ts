@@ -29,14 +29,12 @@ const Model = {
   state: {
     tableRef: {},
     feedDetailTableRef: {},
-    // treeRef: {},
     taskListData: {},
     feedListData: [],
     taskProgressList: [],
     feedData: {},
     FeedbackData: [],
     feedbackDetailData: [],
-    // historyInfo: [],
     actionForm: {},
     actionId: '',
     taskId: '',
@@ -44,7 +42,6 @@ const Model = {
     actionTree: [],
     loading: false,
     head: {},
-    // actionList: [],
   },
   effects: {
     *getChildrenTaskList({ payload, resolve }, { call, put, select }) {
@@ -64,12 +61,8 @@ const Model = {
           type: 'save',
           payload: {
             taskListData: result,
-            // actionId: payload.actionId,
           },
         });
-        // yield put({
-        //   type: 'tableReload',
-        // });
       }
     },
 
@@ -93,12 +86,6 @@ const Model = {
       if (!response.error) {
         resolve && resolve(response);
         message.success('新增成功！');
-        // yield put({
-        //   type: 'save',
-        //   payload: {
-        //     taskListData: response,
-        //   },
-        // });
         yield put({
           type: 'tableReload',
         });
@@ -165,9 +152,6 @@ const Model = {
       if (!response.error) {
         resolve && resolve(response);
         message.success('新增成功！');
-        // yield put({
-        //   type: 'feedTableReload',
-        // });
       }
     },
     *deleteFeedbackRequest({ payload, resolve }, { call }) {
@@ -175,9 +159,6 @@ const Model = {
       if (!response.error) {
         resolve && resolve(response);
         message.success('删除成功！');
-        // yield put({
-        //   type: 'feedTableReload',
-        // });
       }
     },
 
@@ -258,6 +239,7 @@ const Model = {
       const response = yield call(deleteSpecialAction, payload);
       if (!response.error) {
         resolve && resolve(response);
+        message.success('删除成功！');
         yield put({
           type: 'save',
           payload: {
@@ -341,14 +323,11 @@ const Model = {
     *feedbackDetail({ payload, resolve }, { call, put }) {
       const response = yield call(feedbackDetail, payload);
       if (!response.error) {
-        // const result = formatPageData(response);
-
         resolve && resolve(response);
         yield put({
           type: 'save',
           payload: {
             feedbackDetailData: response,
-            // actionId: payload.actionId,
           },
         });
       }
@@ -372,14 +351,6 @@ const Model = {
       setTimeout(() => {
         // tableRef.current.reloadAndRest 刷新并清空，页码也会重置
         tableRef.current && tableRef.current.reloadAndRest();
-      }, 0);
-      return { ...state };
-    },
-    feedTableReload(state) {
-      const feedTableRef = state.feedTableRef || {};
-      setTimeout(() => {
-        // tableRef.current.reloadAndRest 刷新并清空，页码也会重置
-        feedTableRef.current && feedTableRef.current.reloadAndRest();
       }, 0);
       return { ...state };
     },
