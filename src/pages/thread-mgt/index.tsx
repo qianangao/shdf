@@ -33,6 +33,7 @@ const ClueManagement = ({ dispatch }) => {
           'clue_importance',
           'clue_oplog_type',
           'clue_type_all',
+          'dict_sex',
         ],
       },
     });

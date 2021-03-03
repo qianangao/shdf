@@ -65,9 +65,20 @@ const DetailModal = ({
     if (files && files.length > 0) {
       const views = files.map(item => {
         return (
-          <a href={item.url} style={{ display: 'block' }}>
-            {item.fileName}
-          </a>
+          <div style={{ display: 'block', whiteSpace: 'nowrap', width: '100%' }}>
+            {' '}
+            <a
+              href={item.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ display: 'inline-block', width: '70%', paddingBottom: 5 }}
+            >
+              {item.fileName}
+            </a>
+            <div style={{ width: '30%', display: 'inline-block', textAlign: 'center' }}>
+              {formatDateStr(item.createTime, 'YYYY年MM月DD日 HH:mm')}
+            </div>
+          </div>
         );
       });
 
@@ -142,7 +153,7 @@ const DetailModal = ({
     >
       <Spin spinning={loading}>
         <Descriptions
-          title="线索信息"
+          title="基本信息"
           column={{ xxl: 3, xl: 3, lg: 3, md: 2, sm: 1, xs: 1 }}
           style={{ marginBottom: 30 }}
         >
@@ -170,25 +181,21 @@ const DetailModal = ({
           <Descriptions.Item label="相关出版物">
             {clueDetailData.relatedPublications}
           </Descriptions.Item>
-          <Descriptions.Item label="所属联防工程">{clueDetailData.orgName}</Descriptions.Item>
           <Descriptions.Item label="线索描述" span={3}>
-            <div
-              style={{
-                border: '1px solid #f2f2f2',
-                padding: '5px 10px',
-                width: '100%',
-                minHeight: 80,
-              }}
-            >
-              {clueDetailData.clueRemarks}
-            </div>
+            {clueDetailData.clueRemarks}
           </Descriptions.Item>
         </Descriptions>
         <Descriptions
-          title=""
+          title="举报信息"
           column={{ xxl: 3, xl: 3, lg: 3, md: 2, sm: 1, xs: 1 }}
           style={{ marginBottom: 30 }}
         >
+          <Descriptions.Item label="举报人姓名">{clueDetailData.reportName}</Descriptions.Item>
+          <Descriptions.Item label="举报人性别">{clueDetailData.reportSex}</Descriptions.Item>
+          <Descriptions.Item label="举报人地址">{clueDetailData.reportAddress}</Descriptions.Item>
+          <Descriptions.Item label="举报人邮箱">{clueDetailData.reportMailbox}</Descriptions.Item>
+          <Descriptions.Item label="举报人电话">{clueDetailData.reportPhone}</Descriptions.Item>
+          <Descriptions.Item label="举报人邮编">{clueDetailData.reportPostcode}</Descriptions.Item>
           <Descriptions.Item label="被举报对象名字">
             {clueDetailData.reportedObjectName}
           </Descriptions.Item>
@@ -203,25 +210,9 @@ const DetailModal = ({
             {clueDetailData.reportedObjectAddress}
           </Descriptions.Item>
           <Descriptions.Item label="举报内容" span={3}>
-            <div
-              style={{
-                border: '1px solid #f2f2f2',
-                padding: '5px 10px',
-                width: '100%',
-                minHeight: 80,
-              }}
-            >
-              {clueDetailData.reportContent}
-            </div>
+            {clueDetailData.reportContent}
           </Descriptions.Item>
-
-          <Descriptions.Item label="举报人姓名">{clueDetailData.reportName}</Descriptions.Item>
-          <Descriptions.Item label="举报人性别">{clueDetailData.reportSex}</Descriptions.Item>
-          <Descriptions.Item label="举报人地址">{clueDetailData.reportAddress}</Descriptions.Item>
-          <Descriptions.Item label="举报人邮箱">{clueDetailData.reportMailbox}</Descriptions.Item>
-          <Descriptions.Item label="举报人电话">{clueDetailData.reportPhone}</Descriptions.Item>
-          <Descriptions.Item label="举报人邮编">{clueDetailData.reportPostcode}</Descriptions.Item>
-          <Descriptions.Item label="是否公开">
+          <Descriptions.Item label="是否公开" span={3}>
             {clueDetailData.open === 0 ? '否' : '是'}
           </Descriptions.Item>
           {fileList(clueDetailData.fileList)}

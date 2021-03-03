@@ -25,13 +25,6 @@ const Table = ({
     },
     { title: '中文名称', align: 'center', dataIndex: 'name' },
     { title: '作者及编著者', align: 'center', dataIndex: 'author' },
-    {
-      title: '保密级别',
-      align: 'center',
-      dataIndex: 'subjectSecrecyLevel',
-      valueEnum: enums.subject_secrecy_level,
-      hideInTable: true,
-    },
     { title: '出版机构', align: 'center', dataIndex: 'organization' },
     { title: '鉴定机构', align: 'center', dataIndex: 'appraisalInstitution' },
     {

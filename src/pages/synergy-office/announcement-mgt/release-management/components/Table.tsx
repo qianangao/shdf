@@ -30,7 +30,7 @@ const Table = ({
     );
     const PUBLISH = (
       <Popconfirm
-        key={`${data.noticeId}del`}
+        key={`${data.noticeId}publish`}
         title="确认发布该公告信息吗？"
         placement="topRight"
         onConfirm={() => publishAnnouncement(data.noticeId)}
@@ -127,11 +127,11 @@ const Table = ({
     },
 
     { title: '公告标题', align: 'center', dataIndex: 'noticeTitle' },
-    { title: '发布人', align: 'center', dataIndex: 'lastUpdateUser' },
+    { title: '发布人', align: 'center', dataIndex: 'publishUser' },
     {
-      title: '保存时间',
+      title: '发布时间',
       align: 'center',
-      dataIndex: 'lastUpdateTime',
+      dataIndex: 'publishTime',
       valueType: 'dateTime',
       hideInSearch: true,
     },
