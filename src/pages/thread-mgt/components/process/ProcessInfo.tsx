@@ -101,15 +101,26 @@ const ProcessInfo = ({ dispatch, clueId, circulationId, processListData, enums, 
     if (files && files.length > 0) {
       const views = files.map(item => {
         return (
-          <a href={item.url} style={{ display: 'block' }}>
-            {item.fileName}
-          </a>
+          <div style={{ display: 'block', whiteSpace: 'nowrap', width: '60%' }}>
+            {' '}
+            <a
+              href={item.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ display: 'inline-block', width: '70%', paddingBottom: 5 }}
+            >
+              {item.fileName}
+            </a>
+            <div style={{ width: '30%', display: 'inline-block', textAlign: 'center' }}>
+              {formatDateStr(item.createTime, 'YYYY年MM月DD日 HH:mm')}
+            </div>
+          </div>
         );
       });
 
-      return <div style={{ marginBottom: 10 }}>{views}</div>;
+      return <div style={{ marginBottom: 10, marginTop: 10 }}>{views}</div>;
     }
-    return <div style={{ marginBottom: 10 }} />;
+    return <div style={{ marginBottom: 10, marginTop: 10 }} />;
   };
 
   return (

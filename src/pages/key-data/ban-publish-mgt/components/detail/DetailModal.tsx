@@ -41,13 +41,24 @@ const DetailModal = ({ dispatch, actionRef, loading, banPublishDetail, enums }) 
     hideModal();
   };
 
-  const fileList = (files: { url: string | undefined; fileName: React.ReactNode }[]) => {
+  const fileList = (files: any[]) => {
     if (files && files.length > 0) {
-      const views = files.map((item: { url: string | undefined; fileName: React.ReactNode }) => {
+      const views = files.map(item => {
         return (
-          <a href={item.url} style={{ display: 'block' }}>
-            {item.fileName}
-          </a>
+          <div style={{ display: 'block', whiteSpace: 'nowrap', width: '60%' }}>
+            {' '}
+            <a
+              href={item.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ display: 'inline-block', width: '70%', paddingBottom: 5 }}
+            >
+              {item.fileName}
+            </a>
+            <div style={{ width: '30%', display: 'inline-block', textAlign: 'center' }}>
+              {formatDateStr(item.createTime, 'YYYY年MM月DD日 HH:mm')}
+            </div>
+          </div>
         );
       });
 
@@ -132,7 +143,8 @@ const DetailModal = ({ dispatch, actionRef, loading, banPublishDetail, enums }) 
               border: 'solid 1px #eee',
               marginBottom: 15,
               padding: '3px 8px',
-              width: '70%',
+              width: '100%',
+              minWidth: 400,
               alignItems: 'center',
             }}
           >
@@ -142,13 +154,13 @@ const DetailModal = ({ dispatch, actionRef, loading, banPublishDetail, enums }) 
             ref={ref}
             playing={playing}
             url={item.videoUrl}
-            width="70%"
+            width="100%"
             height={240}
             controls
           />
           {item.keyPointInfo && item.keyPointInfo.length > 0 && (
             <ProTable
-              style={{ width: '70%' }}
+              style={{ width: '100%' }}
               search={false}
               rowSelection={false}
               options={false}
@@ -165,7 +177,7 @@ const DetailModal = ({ dispatch, actionRef, loading, banPublishDetail, enums }) 
     });
 
     return (
-      <Descriptions.Item label="相关附件" span={2}>
+      <Descriptions.Item label="相关视频" span={1}>
         <div style={{ marginBottom: 20 }}>{views}</div>
       </Descriptions.Item>
     );
@@ -203,11 +215,10 @@ const DetailModal = ({ dispatch, actionRef, loading, banPublishDetail, enums }) 
             {enums.illegal_dict && enums.illegal_dict[banPublishDetail.category]}
           </Descriptions.Item>
           <Descriptions.Item label="关键词">{banPublishDetail.keyword}</Descriptions.Item>
-          <Descriptions.Item label="保密等级">
+          <Descriptions.Item label="保密等级" span={2}>
             {enums.subject_secrecy_level &&
               enums.subject_secrecy_level[banPublishDetail.secrecyLevel]}
           </Descriptions.Item>
-          <Descriptions.Item label="所属联防工程">{banPublishDetail.actionId}</Descriptions.Item>
           <Descriptions.Item label="简介说明" span={3}>
             {banPublishDetail.description}
           </Descriptions.Item>
@@ -235,7 +246,7 @@ const DetailModal = ({ dispatch, actionRef, loading, banPublishDetail, enums }) 
         </Descriptions>
         {((banPublishDetail.fileInfoList && banPublishDetail.fileInfoList.length > 0) ||
           (banPublishDetail.videoInfoList && banPublishDetail.videoInfoList.length > 0)) && (
-          <Descriptions title="相关资料" column={{ xxl: 3, xl: 3, lg: 3, md: 1, sm: 1, xs: 1 }}>
+          <Descriptions title="相关资料" column={1}>
             {fileList(banPublishDetail.fileInfoList)}
             {banPublishDetail.videoInfoList.length > 0 && videoList(banPublishDetail.videoInfoList)}
           </Descriptions>

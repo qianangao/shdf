@@ -36,7 +36,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
                   status: 'done',
                 };
               }),
-            remindWays: [data.remindWays],
+            remindWays: data.remindWays && data.remindWays.split(','),
           };
           form.setFieldsValue(fields);
         }
@@ -75,6 +75,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
           values.files.map((item: { uid: any }) => {
             return item.uid;
           });
+        const remindWays = values.remindWays ? values.remindWays.join(',') : '';
         return new Promise(resolve => {
           dispatch({
             type: `soAnnouncementMgt/${noticeId ? 'updateAnnouncement' : 'addAnnouncement'}`,
@@ -82,6 +83,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
               ...values,
               includeFile: form.getFieldValue(['files']) ? 1 : 0,
               fileIds,
+              remindWays,
             },
             resolve,
           });

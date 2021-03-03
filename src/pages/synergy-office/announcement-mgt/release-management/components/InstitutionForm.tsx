@@ -49,12 +49,8 @@ const InstitutionForm = ({ form }) => {
       label: '提醒方式',
       name: 'remindWays',
       span: 3,
-      render: (
-        <Checkbox.Group options={[{ label: '站内信', value: '1' }]} />
-        // <Radio.Group defaultValue="1">
-        //   <Radio value="1">站内信</Radio>
-        // </Radio.Group>
-      ),
+      initialValue: ['1'],
+      render: <Checkbox.Group options={[{ label: '站内信', value: '1' }]} />,
     },
     {
       label: '上传附件',

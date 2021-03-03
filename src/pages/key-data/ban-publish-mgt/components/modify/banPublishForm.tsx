@@ -36,6 +36,10 @@ const BanPublishForm = ({ form }) => {
     { label: '关键词', name: 'keyword' },
     { label: '保密等级', name: 'secrecyLevel', enumsLabel: 'subject_secrecy_level' },
     {
+      name: 'line1',
+      type: 'segmentation',
+    },
+    {
       label: '所属联防工程',
       name: 'actionId',
       hidden: true,

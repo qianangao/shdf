@@ -21,6 +21,7 @@ const Table = ({
   const { tableRef } = emClueManagement;
   const uploadLgbListRef = useRef();
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [associationCue, setAssociationCue] = useState(false);
   const cueAssociationRef = useRef({});
   const openAssociationModal = (item: any, views: any) => {
     cueAssociationRef.current.showModal(item, views);
@@ -271,6 +272,7 @@ const Table = ({
         scroll={{ x: 'max-content' }}
         rowSelection={{
           onChange: (keys, rows) => {
+            setAssociationCue(keys.length === 1);
             tempSelectData = rows;
             setSelectedRowKeys(keys);
           },
@@ -279,6 +281,7 @@ const Table = ({
         request={async params => getAllClues(params)}
         toolBarRender={_ => [
           <Button
+            disabled={!associationCue}
             type="primary"
             onClick={() => {
               if (selectedRowKeys.length > 1) {
