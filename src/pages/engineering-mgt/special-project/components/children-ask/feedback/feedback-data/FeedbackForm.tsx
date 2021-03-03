@@ -2,13 +2,10 @@ import React from 'react';
 import { Button } from 'antd';
 import { connect } from 'umi';
 import AdvancedForm from '@/components/AdvancedForm';
-// import FeedbackTable from './FeedbackTable'
-// import TaskProgressTable from './TaskProgressTable'
 import FeedbackDataTable from './FeedbackDataTable';
 
 const FeedbackForm = ({ form, openFeedbackReqModal, FeedbackData }) => {
   const formItems = [
-    // { label: '任务ID', name: 'taskId', hiddenInTable: true },
     {
       label: '任务名称',
       name: 'taskName',
@@ -51,7 +48,7 @@ const FeedbackForm = ({ form, openFeedbackReqModal, FeedbackData }) => {
     },
     {
       label: '附件列表',
-      name: 'fileTds',
+      name: 'fileIds',
       span: 4,
       type: 'upload',
     },
@@ -66,7 +63,6 @@ const FeedbackForm = ({ form, openFeedbackReqModal, FeedbackData }) => {
       name: 'specialTaskFeedbackList',
       span: 4,
       render: <FeedbackDataTable value={FeedbackData} />,
-      // render: <SummaryFeedbackTable_2 disabled={disabled} visible={visible} ref={feedRef} value={form.feedbackRequire}/>,
     },
   ];
 

@@ -15,7 +15,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, sensitiveMgt }) => {
       dispatch({
         type: 'sensitiveMgt/getRecordDetail',
         payload: {
-          id: items.caseId,
+          id: items.eventId,
         },
       });
       setDetailData(items);
@@ -41,7 +41,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, sensitiveMgt }) => {
     form
       .validateFields()
       .then(values => {
-        values.id = detailData.caseId;
+        values.id = detailData.eventId;
         values.approvalResult = type;
         return new Promise(resolve => {
           dispatch({
@@ -73,7 +73,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, sensitiveMgt }) => {
     <Modal
       title="备案审批"
       centered
-      width={780}
+      width={580}
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',

@@ -5,14 +5,13 @@ import AddEngineeringForm from './AddEngineeringForm';
 
 const AddEngineeringModal = ({ dispatch, actionRef, loading }) => {
   const [form] = AddEngineeringForm.useForm();
-  // const [detailData, setDetailData] = useState(null);
+  const [detailData, setDetailData] = useState(null);
   const [title, setTitle] = useState('');
   const [titles, setTitles] = useState('');
   const [visible, setVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [add, setAdd] = useState(false);
   const [edit, setEdit] = useState(false);
-  // const [editVisible, setEditVisible] = useState(true);
 
   const updateData = data => {
     const fileInfoList =
@@ -25,6 +24,7 @@ const AddEngineeringModal = ({ dispatch, actionRef, loading }) => {
           status: 'done',
         };
       });
+
     form.setFieldsValue({ ...data, fileIds: fileInfoList });
   };
 
@@ -38,14 +38,13 @@ const AddEngineeringModal = ({ dispatch, actionRef, loading }) => {
       }
       if (item.year) {
         setTitle('重要项目');
-        // setEditVisible(true);
       }
     } else {
       setTitle('工程基本信息');
     }
-    // setDetailData(item || null);
+    setDetailData(item || null);
     if (item) {
-      if (item.year || item.engineeringForm.startTime) setVisible(true);
+      if (item.year || (item.engineeringForm && item.engineeringForm.startTime)) setVisible(true);
       if (item.engineeringForm) updateData(item.engineeringForm);
     }
     setModalVisible(true);
@@ -72,7 +71,7 @@ const AddEngineeringModal = ({ dispatch, actionRef, loading }) => {
 
   const hideModal = () => {
     setModalVisible(false);
-    // setDetailData(null);
+    setDetailData(null);
     setVisible(false);
     setTitle('');
     form.resetFields();
@@ -88,9 +87,9 @@ const AddEngineeringModal = ({ dispatch, actionRef, loading }) => {
             values.fileIds.map(item => {
               return item.uid;
             });
-          // if (detailData && detailData.engineeringForm) {
-          //   values.actionId = detailData.engineeringForm.actionId;
-          // }
+          if (detailData && detailData.engineeringForm) {
+            values.projectId = detailData.engineeringForm.projectId;
+          }
           dispatch({
             type: `dictionaryMgt/${titles}`,
             payload: {
@@ -102,12 +101,6 @@ const AddEngineeringModal = ({ dispatch, actionRef, loading }) => {
         });
       })
       .then(() => {
-        // dispatch({
-        //   type:'specialAction/getSpecialActionTree',
-        //   payload:{
-        //     actionName: ''
-        //   }
-        // })
         hideModal();
       })
       .catch(info => {
@@ -129,7 +122,6 @@ const AddEngineeringModal = ({ dispatch, actionRef, loading }) => {
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      {/* visible={visible} editVisible={editVisible}  */}
       <AddEngineeringForm form={form} visible={visible} add={add} edit={edit} />
     </Modal>
   );

@@ -1,14 +1,18 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'umi';
+import TypeSelectLayout from '@/layouts/TypeSelectLayout';
 import EngineeringTreeLayout from './components/tree-component/EngineeringTreeLayout';
 import Table from './components/Table';
 import AddEngineeringModal from './components/add-engineering/AddEngineeringModal';
-import TempProvinceModal from './components/temp-province/tempProvinceModal';
 import AddProjectTaskModal from './components/project-task/add-project-task/AddProjectTaskModal';
 import ModifyProjectTaskModal from './components/project-task/edit-project-task/ModifyProjectTaskModal';
 import FeedbackDetailModal from './components/feedback/feedback-detail/FeedbackDetailModal';
 import FeedbackModal from './components/feedback/feedback-data/FeedbackModal';
 import DownModal from './components/down/DownModal';
+import FeedbackRequestModal from './components/project-task/FeedbackRequestModal';
+import TempProvinceModal from './components/temp-province/tempProvinceModal';
+import MeetingTable from './components/conference-management/MeetingTable';
+import MeetingModal from './components/conference-management/conference-info/MeetingModal';
 
 const DictionaryMgt = ({ dispatch }) => {
   const addEngineeringRef = useRef({});
@@ -18,6 +22,16 @@ const DictionaryMgt = ({ dispatch }) => {
   const feedbackRef = useRef({});
   const feedbackDetailRef = useRef({});
   const downRef = useRef({});
+  const feedbackRequestRef = useRef({});
+  const meetingRef = useRef({});
+  const [tableType, setTableType] = useState('annualWork');
+
+  const tabs = [
+    { label: '年度工作重点', id: 'annualWork' },
+    { label: '会议管理', id: 'conferenceManagement' },
+    { label: '工程数据', id: 'engineeringData' },
+    { label: '信息通报', id: 'Communications' },
+  ];
 
   useEffect(() => {
     dispatch({
@@ -28,10 +42,14 @@ const DictionaryMgt = ({ dispatch }) => {
     });
   }, []);
 
+  const onTabChange = id => {
+    setTableType(id);
+  };
+
   const openAddEngineeringModal = item => {
     addEngineeringRef.current.showModal(item);
   };
-  const tempProvinceModel = item => {
+  const tempProvinceModal = item => {
     tempProvinceRef.current.showModal(item);
   };
   const addProjectTaskModal = item => {
@@ -49,29 +67,41 @@ const DictionaryMgt = ({ dispatch }) => {
   const downModal = item => {
     downRef.current.showModal(item);
   };
+  const feedbackRequestModal = item => {
+    feedbackRequestRef.current.showModal(item);
+  };
+  const meetingModal = item => {
+    meetingRef.current.showModal(item);
+  };
 
   return (
     <EngineeringTreeLayout openAddEngineeringModal={openAddEngineeringModal}>
-      <Table
-        openAddEngineeringModal={openAddEngineeringModal}
-        tempProvinceModel={tempProvinceModel}
-        addProjectTaskModal={addProjectTaskModal}
-        modifyProjectTaskModal={modifyProjectTaskModal}
-        feedbackModal={feedbackModal}
-        downModal={downModal}
-      />
-      <AddEngineeringModal actionRef={addEngineeringRef} />
-      <TempProvinceModal actionRef={tempProvinceRef} />
-      <AddProjectTaskModal actionRef={addProjectTaskRef} />
-      <ModifyProjectTaskModal
-        actionRef={editProjectTaskRef}
-        addProjectTaskModal={addProjectTaskModal}
-        feedbackModal={feedbackModal}
-        feedbackDetailModal={feedbackDetailModal}
-      />
-      <FeedbackModal actionRef={feedbackRef} />
-      <FeedbackDetailModal actionRef={feedbackDetailRef} />
-      <DownModal actionRef={downRef} />
+      <TypeSelectLayout tabs={tabs} onTabChange={onTabChange}>
+        {tableType === 'annualWork' && (
+          <Table
+            openAddEngineeringModal={openAddEngineeringModal}
+            tempProvinceModal={tempProvinceModal}
+            addProjectTaskModal={addProjectTaskModal}
+            modifyProjectTaskModal={modifyProjectTaskModal}
+            feedbackModal={feedbackModal}
+            downModal={downModal}
+          />
+        )}
+        {tableType === 'conferenceManagement' && <MeetingTable meetingModal={meetingModal} />}
+        <AddEngineeringModal actionRef={addEngineeringRef} />
+        <TempProvinceModal actionRef={tempProvinceRef} />
+        <AddProjectTaskModal actionRef={addProjectTaskRef} />
+        <ModifyProjectTaskModal
+          actionRef={editProjectTaskRef}
+          addProjectTaskModal={addProjectTaskModal}
+          feedbackDetailModal={feedbackDetailModal}
+        />
+        <FeedbackModal actionRef={feedbackRef} feedbackRequestModal={feedbackRequestModal} />
+        <FeedbackDetailModal actionRef={feedbackDetailRef} />
+        <DownModal actionRef={downRef} />
+        <FeedbackRequestModal actionRef={feedbackRequestRef} />
+        <MeetingModal actionRef={meetingRef} />
+      </TypeSelectLayout>
     </EngineeringTreeLayout>
   );
 };

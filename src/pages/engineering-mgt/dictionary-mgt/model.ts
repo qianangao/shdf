@@ -1,6 +1,7 @@
 import { message } from 'antd';
 import { formatPageData } from '@/utils/index';
 import { downloadExcelFile } from '@/utils';
+import moment from 'moment';
 import {
   getEngineeringTree,
   getEngineeringList,
@@ -15,6 +16,12 @@ import {
   exportLog,
   deployProjectTaskList,
   provinceData,
+  addFeedback,
+  addTempProvince,
+  getMeetingList,
+  addMeeting,
+  getMeetingDetail,
+  updateMeeting,
 } from './service';
 
 const Model = {
@@ -23,10 +30,12 @@ const Model = {
     engineeringTree: [],
     loading: false,
     tableRef: {},
+    meetingTableRef: {},
     projectId: '',
     taskId: '',
     engineeringForm: {},
     projectProvinceEntityList: [],
+    projectTemporaryProvinceEntityList: [],
     provinceData: [],
     feedListData: [],
     taskProgressList: [],
@@ -34,6 +43,48 @@ const Model = {
   },
 
   effects: {
+    *getMeetingList({ payload, resolve }, { call }) {
+      const params = {
+        ...payload,
+        pageNum: payload.current ? payload.current : 1,
+        pageSize: payload.pageSize ? payload.pageSize : 20,
+      };
+      delete params.current;
+      const response = yield call(getMeetingList, params);
+      if (!response.error) {
+        const result = formatPageData(response);
+        resolve && resolve(result);
+      }
+    },
+    *getMeetingDetail({ payload, resolve }, { call }) {
+      const response = yield call(getMeetingDetail, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+      }
+    },
+
+    *addMeeting({ payload, resolve }, { call, put }) {
+      const response = yield call(addMeeting, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('新增成功！');
+        yield put({
+          type: 'meetingTableReload',
+        });
+      }
+    },
+
+    *updateMeeting({ payload, resolve }, { call, put }) {
+      const response = yield call(updateMeeting, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('修改成功！');
+        yield put({
+          type: 'meetingTableReload',
+        });
+      }
+    },
+
     *getEngineeringTree({ payload, resolve }, { call, put }) {
       yield put({
         type: 'save',
@@ -123,13 +174,6 @@ const Model = {
       if (!response.error) {
         const result = formatPageData(response);
         resolve && resolve(result);
-        // yield put({
-        // type: 'save',
-        // payload: {
-        //     taskListData: result,
-        //     // projectId: payload.projectId,
-        // },
-        // });
       }
     },
 
@@ -156,6 +200,7 @@ const Model = {
           payload: {
             engineeringForm: response,
             projectProvinceEntityList: response.projectProvinceEntityList,
+            projectTemporaryProvinceEntityList: response.projectTemporaryProvinceEntityList,
           },
         });
       }
@@ -187,6 +232,7 @@ const Model = {
       if (!response.error) {
         response.secrecyLevel += '';
         response.taskStatus += '';
+        response.projectId += '';
         resolve && resolve(response);
         yield put({
           type: 'save',
@@ -201,8 +247,7 @@ const Model = {
     },
 
     *deployProjectTaskList({ payload, resolve }, { call, put, select }) {
-      const projectId = yield select(state => state.specialAction.projectId);
-      // const taskStatus = yield select(state => state.specialAction.taskStatus);
+      const projectId = yield select(state => state.dictionaryMgt.projectId);
       const response = yield call(deployProjectTaskList, { ...payload, projectId });
       if (!response.error) {
         resolve && resolve(response);
@@ -219,11 +264,41 @@ const Model = {
       }
     },
 
+    *selectFeedbackData({ payload }, { put }) {
+      yield put({
+        type: 'save',
+        payload: {
+          FeedbackData: payload,
+        },
+      });
+    },
+
     *exportLog(_, { call, select }) {
-      const taskId = yield select(state => state.specialAction.taskId);
+      const taskId = yield select(state => state.dictionaryMgt.taskId);
       const response = yield call(exportLog, { taskId });
       if (!response.error) {
         yield downloadExcelFile(response, `任务进度列表${moment().format('MM-DD HH:mm:ss')}`);
+      }
+    },
+
+    *addFeedback({ payload, resolve }, { call, put }) {
+      const response = yield call(addFeedback, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('反馈成功！');
+        yield put({
+          type: 'tableReload',
+        });
+      }
+    },
+    *addTempProvince({ payload, resolve }, { call, put }) {
+      const response = yield call(addTempProvince, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('新增成功！');
+        yield put({
+          type: 'getEngineeringTree',
+        });
       }
     },
 
@@ -261,6 +336,14 @@ const Model = {
       setTimeout(() => {
         // tableRef.current.reloadAndRest 刷新并清空，页码也会重置
         tableRef.current && tableRef.current.reloadAndRest();
+      }, 0);
+      return { ...state };
+    },
+    meetingTableReload(state) {
+      const meetingTableRef = state.meetingTableRef || {};
+      setTimeout(() => {
+        // tableRef.current.reloadAndRest 刷新并清空，页码也会重置
+        meetingTableRef.current && meetingTableRef.current.reloadAndRest();
       }, 0);
       return { ...state };
     },

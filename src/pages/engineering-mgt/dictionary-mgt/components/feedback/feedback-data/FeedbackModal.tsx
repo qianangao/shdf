@@ -4,7 +4,7 @@ import { Modal } from 'antd';
 import FeedbackForm from './FeedbackForm';
 // import FeedbackTable from './FeedbackTable';
 
-const FeedbackModal = ({ dispatch, actionRef, loading, openFeedbackReqModal, FeedbackData }) => {
+const FeedbackModal = ({ dispatch, actionRef, loading, feedbackRequestModal, FeedbackData }) => {
   const [form] = FeedbackForm.useForm();
   const [modalVisible, setModalVisible] = useState(false);
   const [taskId, setTaskId] = useState('');
@@ -14,19 +14,29 @@ const FeedbackModal = ({ dispatch, actionRef, loading, openFeedbackReqModal, Fee
     setModalVisible(true);
   };
   const updateData = id => {
-    // if (id) {
-    new Promise(resolve => {
-      dispatch({
-        type: 'dictionaryMgt/projectTaskDetail',
-        payload: { taskId: id },
-        resolve,
+    if (id) {
+      new Promise(resolve => {
+        dispatch({
+          type: 'dictionaryMgt/projectTaskDetail',
+          payload: { taskId: id },
+          resolve,
+        });
+      }).then(res => {
+        if (res) {
+          const fileInfoList =
+            res.fileInfoList &&
+            res.fileInfoList.map(item => {
+              return {
+                url: item.url,
+                uid: item.fileId,
+                name: item.fileName,
+                status: 'done',
+              };
+            });
+          form.setFieldsValue({ ...res, fileIds: fileInfoList });
+        }
       });
-    }).then(res => {
-      if (res) {
-        form.setFieldsValue({ ...res });
-      }
-    });
-    // }
+    }
   };
   useEffect(() => {
     if (actionRef && typeof actionRef === 'function') {
@@ -54,16 +64,13 @@ const FeedbackModal = ({ dispatch, actionRef, loading, openFeedbackReqModal, Fee
           });
         return new Promise(resolve => {
           dispatch({
-            type: `specialAction/addFeedback`,
+            type: `dictionaryMgt/addFeedback`,
             payload: {
               ...values,
               fileIds,
               taskId,
               feedbackId: FeedbackData[0].feedbackId,
               feedbackType: FeedbackData[0].feedbackType,
-              // feedbackContent: FeedbackData[0].feedbackContent,
-              // feedbackDept: FeedbackData[0].feedbackDept,
-              // feedbackPerson: FeedbackData[0].feedbackPerson,
             },
             resolve,
           });
@@ -81,7 +88,7 @@ const FeedbackModal = ({ dispatch, actionRef, loading, openFeedbackReqModal, Fee
     <Modal
       title="任务反馈"
       centered
-      width="60vw"
+      width="90vw"
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',
@@ -92,12 +99,12 @@ const FeedbackModal = ({ dispatch, actionRef, loading, openFeedbackReqModal, Fee
       onCancel={hideModal}
       zIndex={2000}
     >
-      <FeedbackForm form={form} openFeedbackReqModal={openFeedbackReqModal} />
+      <FeedbackForm form={form} feedbackRequestModal={feedbackRequestModal} />
     </Modal>
   );
 };
 
-export default connect(({ loading, specialAction }) => ({
+export default connect(({ loading, dictionaryMgt }) => ({
   loading: loading.models.smDictionaryMgt,
-  FeedbackData: specialAction.FeedbackData,
+  FeedbackData: dictionaryMgt.FeedbackData,
 }))(FeedbackModal);

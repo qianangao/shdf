@@ -38,7 +38,6 @@ const ProjectTaskForm = ({ form }) => {
       rules: [{ required: true, message: '请选择截止日期!' }],
       type: 'date',
     },
-    // { name: 'segmentation', type: 'segmentation' },
     {
       label: '任务描述',
       name: 'taskContent',

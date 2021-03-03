@@ -8,7 +8,6 @@ const AddchildrenTaskModal = ({ dispatch, actionRef, loading, specialAction }) =
   const [form] = ChildrenTaskForm.useForm();
   const [modalVisible, setModalVisible] = useState(false);
   const [visible, setVisible] = useState(false);
-  // const [feedbackData, setFeedbackData] = useState([]);
 
   const showModal = item => {
     if (item.visible) {

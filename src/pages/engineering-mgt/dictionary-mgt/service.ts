@@ -49,7 +49,7 @@ export async function addEngineering(params: any) {
  */
 export async function editEngineering(params: any) {
   return request(`/unifyProject/updateProjectUnify`, {
-    method: 'POST',
+    method: 'PUT',
     data: params,
   });
 }
@@ -136,5 +136,70 @@ export async function deployProjectTaskList(params) {
 export async function provinceData() {
   return request(`/org/deploy`, {
     method: 'GET',
+  });
+}
+
+/**
+ * 任务反馈新增
+ *
+ */
+export async function addFeedback(params) {
+  return request(`/projectTaskFeedbackLog/addProjectTaskFeedbackLog`, {
+    method: 'POST',
+    data: params,
+  });
+}
+
+/**
+ * 临时省份新增
+ *
+ */
+export async function addTempProvince(params) {
+  return request(`/projectProvince/addProjectProvince`, {
+    method: 'POST',
+    data: params,
+  });
+}
+
+/**
+ * 获取会议列表
+ * @param params
+ */
+export async function getMeetingList(params: any) {
+  return request(`/projectMeeting//findMeetingList`, {
+    method: 'GET',
+    params,
+  });
+}
+
+/**
+ * 获取会议数据详情
+ * @param params
+ */
+export async function getMeetingDetail(params) {
+  return request(`/projectMeeting/${params}`, {
+    method: 'GET',
+  });
+}
+
+/**
+ * 新增会议
+ * @param params
+ */
+export async function addMeeting(params: any) {
+  return request(`/projectMeeting/addMeeting`, {
+    method: 'POST',
+    data: params,
+  });
+}
+
+/**
+ * 修改会议
+ * @param params
+ */
+export async function updateMeeting(params: any) {
+  return request(`/projectMeeting/updateMeeting`, {
+    method: 'PUT',
+    data: params,
   });
 }

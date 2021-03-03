@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import AdvancedForm from '@/components/AdvancedForm';
+import ProvinceCascaderInput from '@/components/ProvinceCascaderInput';
 
-const CaseMgt = ({ form, id, orgInfoData }) => {
+const CaseMgt = ({ form, id, orgInfoData, caseType, onFieldsChange }) => {
   const formItems = [
     {
       name: 'caseId',
@@ -67,7 +68,7 @@ const CaseMgt = ({ form, id, orgInfoData }) => {
     {
       label: '案件类型',
       name: 'caseType',
-      enumsLabel: 'handle_type',
+      enumsLabel: 'case_type',
       rules: [{ required: true, message: '请选择案件办理阶段!', whitespace: true }],
     },
     {
@@ -108,38 +109,43 @@ const CaseMgt = ({ form, id, orgInfoData }) => {
       label: '罪名',
       name: 'charge',
       enumsLabel: 'charge',
+      visible: caseType !== '1',
     },
     {
       label: '刑事拘留人数',
       name: 'detentionNumber',
+      visible: caseType !== '1',
     },
     {
       label: '抓获人数',
       name: 'captureNumber',
+      visible: caseType !== '1',
     },
     {
       label: '判处被告人数量',
       name: 'defendantNumber',
+      visible: caseType !== '1',
     },
     {
       label: '逮捕人数',
       name: 'arrestNumber',
+      visible: caseType !== '1',
     },
     {
       label: '最高刑期',
       name: 'maximumSentence',
+      visible: caseType !== '1',
     },
     {
       label: '判处被告单位数量',
       name: 'defendantCompanyNumber',
+      visible: caseType !== '1',
     },
     {
       label: '案件地域',
-      name: 'region',
-      rules: [
-        { required: true, message: '请输入发生地域!', whitespace: true },
-        { max: 80, message: '发生地域长度请小于80位!', whitespace: true },
-      ],
+      name: 'regionObj',
+      render: <ProvinceCascaderInput />,
+      rules: [{ required: true, message: '请输入发生地域!' }],
     },
     {
       name: 'segmentation1',
@@ -170,7 +176,7 @@ const CaseMgt = ({ form, id, orgInfoData }) => {
     },
     {
       label: '相关附件',
-      name: 'fileIds',
+      name: 'fileList',
       type: 'upload',
     },
   ];
@@ -186,7 +192,14 @@ const CaseMgt = ({ form, id, orgInfoData }) => {
     <></>
   );
 
-  return <AdvancedForm form={form} fields={formItems} footerRender={selectLgbInput} />;
+  return (
+    <AdvancedForm
+      form={form}
+      fields={formItems}
+      footerRender={selectLgbInput}
+      onFieldsChange={onFieldsChange}
+    />
+  );
 };
 
 CaseMgt.useForm = AdvancedForm.useForm;

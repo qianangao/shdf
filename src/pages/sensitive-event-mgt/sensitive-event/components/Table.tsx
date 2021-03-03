@@ -11,18 +11,17 @@ const Table = ({
   openApplyCaseModal,
   openRecordDetailModal,
   openRecordApprovalModifyModal,
-  openEvaluateModal,
-  openEvaluateFeedbackModal,
   enums,
   dispatch,
 }) => {
   const { tableRef } = sensitiveMgt;
   const uploadLgbListRef = useRef();
   const del = id => {
+    const param = [id];
     dispatch({
       type: 'sensitiveMgt/del',
       payload: {
-        id,
+        param,
       },
     });
   };
@@ -45,59 +44,48 @@ const Table = ({
   };
   const createButton = caseData => {
     const Cat = (
-      <a key={`${caseData.caseId}cat`} onClick={() => openDetailModal(caseData)}>
+      <a key={`${caseData.eventId}cat`} onClick={() => openDetailModal(caseData)}>
         查看
       </a>
     );
     const Edit = (
-      <a key={`${caseData.caseId}up`} onClick={() => openModifyModal(caseData)}>
+      <a key={`${caseData.eventId}up`} onClick={() => openModifyModal(caseData)}>
         编辑
       </a>
     );
     const Delete = (
       <Popconfirm
-        key={`${caseData.caseId}del`}
+        key={`${caseData.eventId}del`}
         title="确认删除？"
         placement="topRight"
-        onConfirm={() => del(caseData.caseId)}
+        onConfirm={() => del(caseData.eventId)}
       >
         <a>删除</a>
       </Popconfirm>
     );
     const Auth = (
-      <a key={`${caseData.caseId}role`} onClick={() => openAuthorizeModal(caseData)}>
+      <a key={`${caseData.eventId}role`} onClick={() => openAuthorizeModal(caseData)}>
         授权
       </a>
     );
     const Well = (
       <Popconfirm
-        key={`${caseData.caseId}re_re`}
+        key={`${caseData.eventId}re_re`}
         title="确认办结？"
         placement="topRight"
-        onConfirm={() => completed(caseData.caseId)}
+        onConfirm={() => completed(caseData.eventId)}
       >
         <a>办结</a>
       </Popconfirm>
     );
 
-    const Evaluate = (
-      <a key={`${caseData.caseId}eval`} onClick={() => openEvaluateModal(caseData)}>
-        评价
-      </a>
-    );
-
-    const EvaluateFeedback = (
-      <a key={`${caseData.caseId}ev_ba`} onClick={() => openEvaluateFeedbackModal(caseData)}>
-        评价反馈
-      </a>
-    );
-    switch (caseData.handleState) {
+    switch (caseData.handleStatus) {
       case 0:
         return [Cat, Edit, Delete];
       case 1:
         return [Auth, Well];
       case 2:
-        return [Evaluate, EvaluateFeedback];
+        return [Cat];
       default:
         return [Cat, Edit, Delete];
     }
@@ -105,32 +93,32 @@ const Table = ({
 
   const createSuperviseButton = caseData => {
     const ApplyCase = (
-      <a key={`${caseData.caseId}app_re`} onClick={() => openApplyCaseModal(caseData)}>
+      <a key={`${caseData.eventId}app_re`} onClick={() => openApplyCaseModal(caseData)}>
         申请备案
       </a>
     );
     const Recall = (
       <Popconfirm
-        key={`${caseData.caseId}re_re`}
+        key={`${caseData.eventId}re_re`}
         title="确认撤回？"
         placement="topRight"
-        onConfirm={() => recall(caseData.caseId)}
+        onConfirm={() => recall(caseData.eventId)}
       >
         <a>撤回备案</a>
       </Popconfirm>
     );
     const RecordApproval = (
-      <a key={`${caseData.caseId}re_app`} onClick={() => openRecordApprovalModifyModal(caseData)}>
+      <a key={`${caseData.eventId}re_app`} onClick={() => openRecordApprovalModifyModal(caseData)}>
         备案审批
       </a>
     );
     const RecordDetail = (
-      <a key={`${caseData.caseId}in_re`} onClick={() => openRecordDetailModal(caseData)}>
+      <a key={`${caseData.eventId}in_re`} onClick={() => openRecordDetailModal(caseData)}>
         备案信息
       </a>
     );
 
-    switch (caseData.caseSuperviseState) {
+    switch (caseData.superviseStatus) {
       case 0: // 未备案
         return [ApplyCase];
       case 1: // 备案审批中
@@ -170,7 +158,7 @@ const Table = ({
     {
       title: '办理状态',
       align: 'center',
-      dataIndex: 'handleState',
+      dataIndex: 'handleStatus',
       valueEnum: enums.handle_state,
       hideInSearch: true,
     },
@@ -178,7 +166,7 @@ const Table = ({
       title: '办理操作',
       valueType: 'option',
       align: 'center',
-      dataIndex: 'caseId',
+      dataIndex: 'eventId',
       width: 180,
       fixed: 'right',
       render: (dom, caseData) => createButton(caseData),
@@ -189,7 +177,7 @@ const Table = ({
       dataIndex: 'superviseStatus',
       valueEnum: enums.case_supervise_state,
       fixed: 'right',
-      width: 60,
+      width: 80,
       hideInSearch: true,
     },
     {
@@ -254,7 +242,7 @@ const Table = ({
   return (
     <ProTable
       actionRef={tableRef}
-      rowKey="caseId"
+      rowKey="eventId"
       headerTitle="敏感事件列表"
       rowSelection={[]}
       scroll={{ x: 'max-content' }}

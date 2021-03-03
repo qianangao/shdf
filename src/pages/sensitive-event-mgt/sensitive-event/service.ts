@@ -16,7 +16,7 @@ export async function getList(params) {
  * @param {*} params
  */
 export async function getCaseHandleList(params) {
-  return request(`/shdfCase/caseTansmitList/${params.id}`, {
+  return request(`/sensitiveEvent/sensitiveEventHandleList/${params.id}`, {
     method: 'POST',
     data: params,
   });
@@ -26,7 +26,7 @@ export async function getCaseHandleList(params) {
  * @param {*} params
  */
 export async function getAuthorize(params) {
-  return request(`/shdfCase/queryEmpowerByCaseId/${params.id}`, {
+  return request(`/sensitiveEvent/querySensitiveAuthByEventId/${params.id}`, {
     method: 'GET',
     params,
   });
@@ -56,7 +56,7 @@ export async function getDetail(params) {
  * @param {*} params
  */
 export async function authorize(params) {
-  return request(`/sensitiveEvent/deleteByIds/${params.id}`, {
+  return request(`/sensitiveEvent/saveSensitiveAuth`, {
     method: 'POST',
     data: params.params,
   });
@@ -67,9 +67,9 @@ export async function authorize(params) {
  * @param {*} params
  */
 export async function del(params) {
-  return request(`/shdfCase/deleteById/${params.id}`, {
+  return request(`/sensitiveEvent/deleteByIds`, {
     method: 'DELETE',
-    data: params,
+    data: params.param,
   });
 }
 /**
@@ -77,7 +77,7 @@ export async function del(params) {
  * @param {*} params
  */
 export async function addCaseHandle(params) {
-  return request(`/shdfCase/saveCaseTansmit/${params.id}`, {
+  return request(`/sensitiveEvent/saveSensitiveEventHandle`, {
     method: 'POST',
     data: params,
   });
@@ -107,7 +107,7 @@ export async function updateCase(params) {
  * @param {*} params
  */
 export async function applyCase(params) {
-  return request(`/shdfCase/applyApproval/${params.id}`, {
+  return request(`/sensitiveEvent/applyApproval`, {
     method: 'POST',
     data: params,
   });
@@ -117,7 +117,7 @@ export async function applyCase(params) {
  * @param {*} params
  */
 export async function recall(params) {
-  return request(`/shdfCase/caseWithdraw/${params.id}`, {
+  return request(`/sensitiveEvent/sensitiveEventWithdraw/${params.id}`, {
     method: 'GET',
     params,
   });
@@ -127,7 +127,7 @@ export async function recall(params) {
  * @param {*} params
  */
 export async function recordApproval(params) {
-  return request(`/shdfCase/caseApproval/${params.id}`, {
+  return request(`/sensitiveEvent/sensitiveEventApproval/${params.id}`, {
     method: 'POST',
     data: params,
   });
@@ -137,9 +137,19 @@ export async function recordApproval(params) {
  * @param {*} params
  */
 export async function getRecordDetail(params) {
-  return request(`/shdfCase/queryRecordById/${params.id}`, {
+  return request(`/sensitiveEvent/queryRecordById/${params.id}`, {
     method: 'GET',
     params,
+  });
+}
+/**
+ * 编辑
+ * @param {*} params
+ */
+export async function clueRelation(params) {
+  return request(`/sensitiveEvent/clueRelation/${params.id}`, {
+    method: 'POST',
+    data: params.clubIds,
   });
 }
 /**
@@ -157,7 +167,7 @@ export async function supervise(params) {
  * @param {*} params
  */
 export async function completed(params) {
-  return request(`/shdfCase/caseFinish/${params.id}`, {
+  return request(`/sensitiveEvent/sensitiveEventFinish/${params.id}`, {
     method: 'GET',
     params,
   });
@@ -193,16 +203,6 @@ export async function recallSupervise(params) {
   });
 }
 /**
- * 编辑
- * @param {*} params
- */
-export async function superviseApproval(params) {
-  return request(`/shdfCase/superviseApproval/${params.id}`, {
-    method: 'POST',
-    data: params,
-  });
-}
-/**
  * 获取详情
  * @param {*} params
  */
@@ -217,7 +217,7 @@ export async function getSuperviseDetail(params) {
  * @param params
  */
 export async function templateDownload() {
-  return noErrorRequest(`/case/excel/template`, {
+  return noErrorRequest(`/sensitiveEvent/excel/template`, {
     method: 'GET',
     responseType: 'blob',
   });
@@ -228,7 +228,7 @@ export async function templateDownload() {
  * @param params
  */
 export async function importCase(params) {
-  return request(`/case/excel/import`, {
+  return request(`/sensitiveEvent/excel/import`, {
     method: 'POST',
     data: params,
   });
@@ -239,7 +239,7 @@ export async function importCase(params) {
  * @param params
  */
 export async function exportCase(params) {
-  return noErrorRequest(`/case/excel/export`, {
+  return noErrorRequest(`/sensitiveEvent/excel/export`, {
     method: 'GET',
     responseType: 'blob',
     params,

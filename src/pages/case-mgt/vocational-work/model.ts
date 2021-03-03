@@ -149,6 +149,17 @@ const Model = {
       const response = yield call(getCaseDetail, payload);
 
       if (!response.error) {
+        response.fileList =
+          response.fileList &&
+          response.fileList.map(item => {
+            return {
+              url: item.url,
+              uid: item.fileId,
+              name: item.fileName,
+              status: 'done',
+            };
+          });
+        response.regionObj = { label: response.region, value: response.regionCode };
         resolve && resolve(response);
         yield put({
           type: 'save',
@@ -432,7 +443,7 @@ const Model = {
       return { ...state };
     },
     tableFileReload(state) {
-      const tableFileRef = state.tableHandleRef || {};
+      const tableFileRef = state.tableFileRef || {};
       setTimeout(() => {
         tableFileRef.current && tableFileRef.current.reloadAndRest();
       }, 0);
