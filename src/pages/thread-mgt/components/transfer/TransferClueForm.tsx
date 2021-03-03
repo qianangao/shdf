@@ -26,18 +26,6 @@ const TransferClueForm = ({ form }) => {
       name: 'clueNumber',
       disabled: true,
     },
-    {
-      label: '主办单位',
-      name: 'sourceUnit',
-      initialValue: '全国SHDF办公室',
-      disabled: true,
-    },
-    {
-      label: '主办人',
-      name: 'sourceDealUser',
-      initialValue: '张三',
-      disabled: true,
-    },
     // {
     //   name: 'line1',
     //   type: 'segmentation',
@@ -65,7 +53,7 @@ const TransferClueForm = ({ form }) => {
       name: 'circulationContent',
       type: 'textarea',
       rules: [{ required: true, message: '请输入转办要求!' }],
-      span: 3,
+      span: 2,
     },
   ];
   return <AdvancedForm form={form} fields={formItems} />;

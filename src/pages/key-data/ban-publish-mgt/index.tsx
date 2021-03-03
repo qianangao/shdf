@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import { connect } from 'umi';
 import Table from './components/Table';
-import ModifyModal from './components/ModifyModal';
+import ModifyModal from './components/modify/ModifyModal';
 import AuthorizeModal from './components/AuthorizeModal';
-import DetailModal from './components/DetailModal';
+import DetailModal from './components/detail/DetailModal';
 
 const KeyInstitutions = ({ dispatch }) => {
   const modifyRef = useRef({});

@@ -1,7 +1,6 @@
 import React from 'react';
-import { Radio, Descriptions } from 'antd';
+import { Descriptions } from 'antd';
 import AdvancedForm from '@/components/AdvancedForm';
-import OrgMultiSelectInput from '@/components/OrgMultiSelectInput';
 import ProvinceCascaderInput from '@/components/ProvinceCascaderInput';
 import { checkEmail, checkPhone, checkPost } from '@/utils/validators';
 
@@ -75,53 +74,24 @@ const AddThreadForm = ({ form }) => {
     {
       label: '相关出版物',
       name: 'relatedPublications',
+      type: 'textarea',
     },
-    {
-      label: '所属联防工程',
-      name: 'orgName',
-      render: <OrgMultiSelectInput />,
-    },
+    // {
+    //   label: '所属联防工程',
+    //   name: 'orgName',
+    //   render: <OrgMultiSelectInput />,
+    // },
     {
       label: '线索描述',
       name: 'clueRemarks',
       type: 'textarea',
+      span: 2,
       rules: [{ min: 0, max: 300, message: '线索描述长度最多300字!' }],
     },
     {
       name: 'line',
       span: 3,
       render: <Descriptions title="举报信息" size="middle" />,
-    },
-    {
-      label: '被举报对象名字',
-      name: 'reportedObjectName',
-      rules: [{ min: 0, max: 30, message: '姓名长度最多30字!' }],
-    },
-    {
-      label: '被举报对象类型',
-      name: 'reportedObjectType',
-      enumsLabel: 'clue_reported_object_type',
-    },
-    {
-      label: '被举报对象电话',
-      name: 'reportedObjectPhone',
-      rules: [
-        {
-          validator: checkPhone,
-        },
-      ],
-    },
-    {
-      label: '被举报对象地址',
-      name: 'reportedObjectAddress',
-      rules: [{ min: 0, max: 100, message: '地址长度最多100字!' }],
-    },
-    {
-      label: '举报内容',
-      name: 'reportContent',
-      type: 'textarea',
-      span: 3,
-      rules: [{ min: 0, max: 1000, message: '举报内容长度最多1000字!' }],
     },
     {
       label: '举报人姓名',
@@ -131,12 +101,7 @@ const AddThreadForm = ({ form }) => {
     {
       label: '举报人性别',
       name: 'reportSex',
-      render: (
-        <Radio.Group>
-          <Radio value="0">女</Radio>
-          <Radio value="1">男</Radio>
-        </Radio.Group>
-      ),
+      enumsLabel: 'dict_sex',
     },
     {
       label: '举报人地址',
@@ -169,6 +134,38 @@ const AddThreadForm = ({ form }) => {
           validator: checkPost,
         },
       ],
+    },
+    {
+      label: '被举报对象名字',
+      name: 'reportedObjectName',
+      rules: [{ min: 0, max: 30, message: '姓名长度最多30字!' }],
+    },
+    {
+      label: '被举报对象类型',
+      name: 'reportedObjectType',
+      enumsLabel: 'clue_reported_object_type',
+    },
+    {
+      label: '被举报对象电话',
+      name: 'reportedObjectPhone',
+      rules: [
+        {
+          validator: checkPhone,
+        },
+      ],
+    },
+    {
+      label: '被举报对象地址',
+      name: 'reportedObjectAddress',
+      type: 'textarea',
+      rules: [{ min: 0, max: 100, message: '地址长度最多100字!' }],
+    },
+    {
+      label: '举报内容',
+      name: 'reportContent',
+      type: 'textarea',
+      span: 2,
+      rules: [{ min: 0, max: 1000, message: '举报内容长度最多1000字!' }],
     },
     {
       label: '是否公开',

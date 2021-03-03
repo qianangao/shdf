@@ -36,6 +36,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
                   status: 'done',
                 };
               }),
+            remindWays: data.remindWays && data.remindWays.split(','),
           };
           form.setFieldsValue(fields);
         }
@@ -74,6 +75,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
           values.files.map((item: { uid: any }) => {
             return item.uid;
           });
+        const remindWays = values.remindWays ? values.remindWays.join(',') : '';
         return new Promise(resolve => {
           dispatch({
             type: `soAnnouncementMgt/${noticeId ? 'updateAnnouncement' : 'addAnnouncement'}`,
@@ -81,6 +83,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
               ...values,
               includeFile: form.getFieldValue(['files']) ? 1 : 0,
               fileIds,
+              remindWays,
             },
             resolve,
           });
@@ -99,7 +102,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       title={noticeId ? '编辑公告' : '新建公告'}
       centered
       destroyOnClose
-      width={580}
+      width="90vw"
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',
