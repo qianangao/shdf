@@ -249,6 +249,12 @@ const Model = {
         type: 'queryEngineeringData',
       });
       yield put({
+        type: 'getEngineList',
+      });
+      yield put({
+        type: 'getInfoStatistics',
+      });
+      yield put({
         type: 'tableReload',
       });
     },
@@ -262,21 +268,23 @@ const Model = {
       });
     },
      //=============================================信息报送========================================
-     *getInfoAnList({ payload, resolve }, { call, put }) {
+     *getInfoAnList({ payload, resolve }, { call, put ,select}) {
+      const projectId = yield select(state => state.dictionaryMgt.projectId);
       const params = {
         ...payload,
-        currentPage: payload.current,
-        pageSize:  payload.pageSize==20?10:payload.pageSize,
+        currentPage: payload==undefined?1:payload.current,
+        pageSize:payload==undefined?10:payload.pageSize,
+        projectId
       };
+  
       const response = yield call(getInfoAnList, params);
-
       if (!response.error) {
         // const { items, currentPage, totalNum } = response;
         const { records, current, total } = response;
         const result = {
           data: records,
           page: current,
-          pageSize:payload.pageSize==20?10:payload.pageSize,
+          pageSize:10,
           success: true,
           total,
         };
@@ -336,18 +344,20 @@ const Model = {
     
 
     // 信息数据统计
-    *getInfoStatistics({ payload, resolve }, { call, put }) {
+    *getInfoStatistics({ payload, resolve }, { call, put,select }) {
+      const projectId = yield select(state => state.dictionaryMgt.projectId);
       const params = {
         ...payload,
-        currentPage: payload.current,
-        pageSize: payload.pageSize==20?10:payload.pageSize,
+        currentPage: 1,
+        pageSize: 10,
+        projectId
       };
       const response = yield call(getInfoStatistics, params);
       if (!response.error) {
         const result = {
           data: response,
           page: 1,
-          pageSize:payload.pageSize==20?10:payload.pageSize,
+          pageSize:10,
           success: true,
           total:response.length
         };
@@ -385,12 +395,14 @@ const Model = {
         });
       }
     },
-    *getEngineList({ payload, resolve }, { call }) {
+    *getEngineList({ payload, resolve }, { call ,put,select}) {
+      console.log('🚀 ~ file: model.ts ~ line 399 ~ *getEngineList ~ payload', payload)
+      const projectId = yield select(state => state.dictionaryMgt.projectId);
       const params = {
         ...payload,
-        currentPage: payload.current,
-        pageSize: payload.pageSize,
-
+        currentPage: payload==undefined?1:payload.current,
+        pageSize:payload==undefined?10:payload.pageSize,
+        projectId
       };
       const response = yield call(getEngineList, params);
 
@@ -400,7 +412,7 @@ const Model = {
         const result = {
           data: records,
           page: current,
-          pageSize: payload.pageSize,
+          pageSize:10,
           success: true,
           total,
         };

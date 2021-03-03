@@ -15,14 +15,18 @@ import {
 } from 'bizcharts';
 import React, { Component } from 'react';
 import DataSet from '@antv/data-set';
-
+import { connect } from 'umi';
 import Debounce from 'lodash.debounce';
 import autoHeight from '../autoHeight';
 import styles from '../index.less';
-
+connect(({ dictionaryMgt, global }) => ({
+  dictionaryMgt,
+}));
 class Bar extends Component {
   state = {
     autoHideXLabels: false,
+    darasouceArr: [],
+    darasouce: [],
   };
 
   root = undefined;
@@ -61,6 +65,36 @@ class Bar extends Component {
     window.addEventListener('resize', this.resize, {
       passive: true,
     });
+    const { dispatch } = this.props;
+    new Promise(resolve => {
+      dispatch({
+        type: 'dictionaryMgt/getInfoStatisticsData',
+        payload: { current: 1, pageSize: 10 },
+        resolve,
+      });
+    }).then(res => {
+      let arr1 = [
+        {
+          name: '信息填报数量',
+        },
+        {
+          name: '信息发布数量',
+        },
+      ];
+      if (res != {}) {
+        res.forEach(item => {
+          arr1[0][item.reportProvince] = item.informationFillInNum;
+          arr1[1][item.reportProvince] = item.informationReleaseNum;
+        });
+        let darasouceArr1 = res.map(element => {
+          return element.reportProvince;
+        });
+        this.setState({
+          darasouceArr: darasouceArr1,
+          darasouce: arr1,
+        });
+      }
+    });
   }
 
   componentWillUnmount() {
@@ -91,14 +125,15 @@ class Bar extends Component {
     } = this.props;
     const { autoHideXLabels } = this.state;
     const ds = new DataSet();
-    const dv = ds.createView().source(data);
+    const dv = ds.createView().source(this.state.darasouce);
+
     dv.transform({
       type: 'fold',
-      fields: darasouceArr,
+      fields: this.state.darasouceArr,
       // 展开字段集
-      key: '月份',
+      key: '省份',
       // key字段
-      value: '月均降雨量', // value字段
+      value: '数量', // value字段
     });
     const scale = {
       x: {
@@ -117,49 +152,9 @@ class Bar extends Component {
         ref={this.handleRoot}
       >
         <div ref={this.handleRef}>
-          {/* <Chart
-            scale={scale}
-            height={title ? height - 41 : height}
-            forceFit
-            data={data}
-            padding={padding || 'auto'}
-            {...events}
-          >
-            {!!title && <span className={styles.chartTitle}>{title}</span>}
-            <Axis
-              name="x"
-              title={false}
-              label={autoHideXLabels ? undefined : {}}
-              tickLine={autoHideXLabels ? undefined : {}}
-            />
-            <Axis name="y" min={0} />
-            {showLegend && <Legend position="right" />}
-            <Tooltip
-              showTitle={false}
-              crosshairs={false}
-              crosshairs={{
-                type: 'y',
-              }}
-            />
-            <Geom
-              type="interval"
-              position="x*y"
-              color={color}
-              active={active}
-              adjust={[
-                {
-                  type: 'dodge',
-                  marginRatio: 1 / 32,
-                },
-              ]}
-              style={{
-                cursor: active ? 'pointer' : 'default',
-              }}
-            />
-          </Chart> */}
           <Chart height={400} data={dv} forceFit>
-            <Axis name="月份" />
-            <Axis name="月均降雨量" />
+            <Axis name="省份" />
+            <Axis name="数量" />
             <Legend />
             <Tooltip
               crosshairs={{
@@ -168,7 +163,7 @@ class Bar extends Component {
             />
             <Geom
               type="interval"
-              position="月份*月均降雨量"
+              position="省份*数量"
               color={'name'}
               adjust={[
                 {

@@ -18,25 +18,6 @@ const Table = ({ dictionaryMgt, openModifyModal, dispatch, openDetailModifyModal
       },
     });
   };
-  let darasouce = [
-    {
-      name: '信息填报数量',
-      四川省: 1,
-      海南省: 1,
-      陕西: 1,
-      陕西省: 2,
-      青海省: 4,
-    },
-    {
-      name: '信息发布数量',
-      四川省: 0,
-      海南省: 1,
-      陕西: 5,
-      陕西省: 2,
-      青海省: 1,
-    },
-  ];
-  let darasouceArr = ['四川省', '海南省', '陕西', '陕西省'];
 
   const columns = [
     {
@@ -147,37 +128,6 @@ const Table = ({ dictionaryMgt, openModifyModal, dispatch, openDetailModifyModal
     });
   const tabChange = params => {
     if (params == '221a') {
-      new Promise(resolve => {
-        dispatch({
-          type: 'dictionaryMgt/getInfoStatisticsData',
-          payload: { ...params },
-          resolve,
-        });
-      }).then(res => {
-        let arr1 = [
-          {
-            name: '信息填报数量',
-          },
-          {
-            name: '信息发布数量',
-          },
-        ];
-        if (res != {}) {
-          res.forEach(item => {
-            arr1[0][item.reportProvince] = item.informationFillInNum;
-            arr1[1][item.reportProvince] = item.informationReleaseNum;
-          });
-          darasouceArr = res.map(element => {
-            return element.reportProvince;
-          });
-          console.log(
-            '🚀 ~ file: InfoAnnounceTable.tsx ~ line 174 ~ Table ~ darasouceArr',
-            darasouceArr,
-          );
-          darasouce = arr1;
-          console.log('🚀 ~ file: InfoAnnounceTable.tsx ~ line 175 ~ Table ~ darasouce', darasouce);
-        }
-      });
     }
   };
   return (
@@ -220,8 +170,7 @@ const Table = ({ dictionaryMgt, openModifyModal, dispatch, openDetailModifyModal
             request={async params => getInfoStatistics(params)}
             columns={columnsStatistics}
           />
-          {/* <Bar data={darasouce} darasouceArr={darasouceArr}></Bar> */}
-          <Bar data={darasouce} darasouceArr={darasouceArr}></Bar>
+          <Bar dispatch={dispatch}></Bar>
         </TabPane>
       </Tabs>
     </div>

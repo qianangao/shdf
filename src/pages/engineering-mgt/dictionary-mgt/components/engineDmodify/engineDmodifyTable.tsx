@@ -13,28 +13,13 @@ const Table = ({ dictionaryMgt, openModifyModal, dispatch }) => {
       valueType: 'index',
       width: 80,
     },
-    { title: '上报省份', align: 'center', dataIndex: 'reportProvince', hideInSearch: true },
+    { title: '上报省份', align: 'center', dataIndex: 'reportProvince' },
     {
       title: '上报日期',
       align: 'center',
       dataIndex: 'reportDate',
       valueType: 'date',
       hideInSearch: true,
-    },
-    {
-      title: '上报日期',
-      align: 'center',
-      dataIndex: 'reportDate',
-      valueType: 'dateRange',
-      hideInTable: true,
-      search: {
-        transform: value => {
-          return {
-            reportDateStart: value[0],
-            reportDateEnd: value[1],
-          };
-        },
-      },
     },
     {
       title: '宣传品数量',
@@ -60,25 +45,6 @@ const Table = ({ dictionaryMgt, openModifyModal, dispatch }) => {
       dataIndex: 'illegalPublicationNumber',
       hideInSearch: true,
     },
-    // {
-    //   title: '操作',
-    //   valueType: 'option',
-    //   align: 'center',
-    //   dataIndex: 'id',
-    //   width: 180,
-    //   fixed: 'right',
-    //   render: (dom, data) => [
-    //     <a key={`${data.infoId}up`} onClick={() => openDetailModifyModal(data.infoId)}>
-    //       查看
-    //     </a>,
-    //     <a key={`${data.infoId}up`} onClick={() => openModifyModal(data.infoId)}>
-    //       编辑
-    //     </a>,
-    //     <a key={`${data.infoId}up`} onClick={() => releaseInfoAn(data.infoId)}>
-    //       {data.infoPublish == 0 ? '发布' : ''}
-    //     </a>,
-    //   ],
-    // },
   ];
   useEffect(() => {
     if (dictionaryMgt.projectId) {
