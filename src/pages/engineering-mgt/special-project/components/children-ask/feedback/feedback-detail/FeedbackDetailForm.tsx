@@ -1,8 +1,5 @@
 import React from 'react';
-
 import AdvancedForm from '@/components/AdvancedForm';
-// import FeedbackTable from './FeedbackTable'
-// import TaskProgressTable from './TaskProgressTable'
 
 const FeedbackDetailForm = ({ form }) => {
   const formItems = [

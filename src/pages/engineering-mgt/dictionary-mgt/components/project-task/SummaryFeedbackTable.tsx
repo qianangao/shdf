@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Table, Popconfirm, Modal, Radio } from 'antd';
-// import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import AdvancedForm from '@/components/AdvancedForm';
 
 const SummaryFeedbackTable = ({
   dispatch,
   feedListData,
-  disabled,
+  disabled = false,
   onChange,
   select = false,
   add = false,
@@ -15,6 +14,7 @@ const SummaryFeedbackTable = ({
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [dataSource, setDataSource] = useState([]);
+
   useEffect(() => {
     if (edit) {
       setDataSource([]);
@@ -26,15 +26,21 @@ const SummaryFeedbackTable = ({
   const [form] = AdvancedForm.useForm();
   const [id, setId] = useState(1);
 
-  const confirmDelete = ids => {
+  const confirmDelete = ele => {
     const data = dataSource;
     data.forEach(item => {
-      if (item.id === ids) {
-        data.splice(ids - 1, 1);
+      if (item.id === ele.id || item.feedbackId === ele.feedbackId) {
+        for (let i = 0; i < data.length; i++) {
+          if (data[i].feedbackId === ele.feedbackId) {
+            data.splice(i, 1);
+          }
+        }
         setDataSource([...data]);
+        onChange && onChange([...data]);
       }
     });
   };
+
   const handleSelect = ids => {
     const data = dataSource;
     data.forEach(item => {
@@ -43,7 +49,7 @@ const SummaryFeedbackTable = ({
         arr.push(item);
         onChange && onChange(arr);
         dispatch({
-          type: `specialAction/selectFeedbackData`,
+          type: `dictionaryMgt/selectFeedbackData`,
           payload: arr,
         });
       }
@@ -128,7 +134,6 @@ const SummaryFeedbackTable = ({
       dataIndex: 'id',
       key: 'id',
     },
-    // { title: '序号', align: 'center', dataIndex: 'id', hideInSearch: true },
     { title: '名称', align: 'center', dataIndex: 'feedbackName' },
     {
       title: '反馈类型',
@@ -143,16 +148,14 @@ const SummaryFeedbackTable = ({
       title: '操作',
       dataIndex: 'action',
       key: 'action',
-      // visible:false,
       render: (dom, data, index) => [
         <Popconfirm
           title="你确定要删除该反馈要求吗？"
-          onConfirm={() => confirmDelete(index + 1)}
+          onConfirm={() => confirmDelete({ id: index + 1, feedbackId: data.feedbackId })}
           okText="是"
           cancelText="否"
         >
-          <Button type="link" size="small">
-            {/*  disabled={!add} */}
+          <Button type="link" size="small" disabled={disabled}>
             {add && '删除'}
           </Button>
         </Popconfirm>,

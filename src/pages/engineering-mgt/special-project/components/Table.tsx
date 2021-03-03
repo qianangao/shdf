@@ -2,8 +2,7 @@ import React from 'react';
 import { Button, Popconfirm } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
-import ActionDeacription from './edit-action/ActionDeacription';
-// import { getSpecialActionTree } from '../service';
+import ActionDescription from './edit-action/ActionDescription';
 
 const Table = ({
   specialAction,
@@ -16,7 +15,7 @@ const Table = ({
   enums,
 }) => {
   const { tableRef, actionForm } = specialAction;
-  const [form] = ActionDeacription.useForm();
+  const [form] = ActionDescription.useForm();
   const getChildrenTaskList = params =>
     new Promise(resolve => {
       dispatch({
@@ -79,7 +78,7 @@ const Table = ({
           {data.taskState === 0 && '下发'}
         </a>,
         <a key={`${data.taskId}back`} onClick={() => openFeedbackModal(data.taskId)}>
-          {data.taskState === 2 && '反馈'}
+          {data.taskState === 1 && '反馈'}
         </a>,
         <Popconfirm
           title="你确定要删除该反馈要求吗？"
@@ -95,7 +94,7 @@ const Table = ({
 
   return (
     <div>
-      <ActionDeacription form={form} openAddSpecialModal={openAddSpecialModal} />
+      <ActionDescription form={form} openAddSpecialModal={openAddSpecialModal} />
       {actionForm.actionYear && (
         <ProTable
           search={false}
@@ -117,7 +116,6 @@ const Table = ({
 };
 
 export default connect(({ specialAction, global }) => ({
-  // actionForm:specialAction.actionForm,
   specialAction,
   enums: global.enums,
 }))(Table);

@@ -3,9 +3,10 @@ import { connect } from 'umi';
 import { Modal } from 'antd';
 import CaseHandleForm from './form/CaseHandleForm';
 
-const CaseHandleModal = ({ actionRef, dispatch, id }) => {
+const ClubSplicingModal = ({ actionRef, dispatch }) => {
+  const [infoId] = useState('');
   const [form] = CaseHandleForm.useForm();
-  const [caseHandleModalVisible, setModalVisible] = useState(false);
+  const [clubSplicingModalVisible, setModalVisible] = useState(false);
 
   const showModal = () => {
     setModalVisible(true);
@@ -29,16 +30,8 @@ const CaseHandleModal = ({ actionRef, dispatch, id }) => {
     form
       .validateFields()
       .then(values => {
-        values.id = id;
-        let filesStr = '';
-        if (values.transmitFiles && values.transmitFiles.length > 0) {
-          const ids = values.transmitFiles.map(item => {
-            return item.uid;
-          });
-          filesStr = ids.join(',');
-          delete values.transmitFiles;
-        }
-        values.transmitFileIds = filesStr;
+        values.engineeringIds = [values.engineeringIds];
+        values.specialActionIds = [values.specialActionIds];
         return new Promise(resolve => {
           dispatch({
             type: `sensitiveMgt/addCaseHandle`,
@@ -59,20 +52,21 @@ const CaseHandleModal = ({ actionRef, dispatch, id }) => {
 
   return (
     <Modal
-      title="案件办理"
+      title="线索串并联"
       centered
-      width="80vw"
+      width={580}
       style={{ paddingBottom: 0 }}
-      visible={caseHandleModalVisible}
+      visible={clubSplicingModalVisible}
       destroyOnClose
       onOk={handleOk}
       onCancel={hideModal}
+      footer={[]}
     >
-      <CaseHandleForm form={form} />
+      <CaseHandleForm id={infoId} />
     </Modal>
   );
 };
 
 export default connect(({ loading }) => ({
   loading: loading.models.oaVolunteerTeam,
-}))(CaseHandleModal);
+}))(ClubSplicingModal);

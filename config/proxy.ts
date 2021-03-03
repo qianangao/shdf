@@ -10,7 +10,8 @@ export default {
     '/shdf/': {
       // target: 'http://10.92.120.127:8877/',
       // target: 'http://10.92.119.56:8877/',
-      target: 'http://10.92.119.243:8877/',
+      //target: 'http://10.92.119.13:8877/',
+       target: 'http://10.92.119.243:8877/',
       // target: 'http://10.92.119.248:8877/',
       changeOrigin: true,
       pathRewrite: { '^': '' },

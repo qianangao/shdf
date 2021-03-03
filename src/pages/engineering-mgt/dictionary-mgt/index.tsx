@@ -1,5 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'umi';
+import TypeSelectLayout from '@/layouts/TypeSelectLayout';
 import EngineeringTreeLayout from './components/tree-component/EngineeringTreeLayout';
 import Table from './components/Table';
 import AddEngineeringModal from './components/add-engineering/AddEngineeringModal';
@@ -9,14 +10,14 @@ import ModifyProjectTaskModal from './components/project-task/edit-project-task/
 import FeedbackDetailModal from './components/feedback/feedback-detail/FeedbackDetailModal';
 import FeedbackModal from './components/feedback/feedback-data/FeedbackModal';
 import DownModal from './components/down/DownModal';
-import { Tabs } from 'antd';
+import FeedbackRequestModal from './components/project-task/FeedbackRequestModal';
+import MeetingTable from './components/conference-management/MeetingTable';
+import MeetingModal from './components/conference-management/conference-info/MeetingModal';
 import AItable from './components/infoAmodify/InfoAnnounceTable';
 import InfoAnModal from './components/infoAmodify/ModifyModal';
 import InfoAnDetailModal from './components/infoAmodify/DetailModifyModal';
 import EngineTable from './components/engineDmodify/engineDmodifyTable';
 import EngineModal from './components/engineDmodify/ModifyModal';
-
-const { TabPane } = Tabs;
 
 const DictionaryMgt = ({ dispatch }) => {
   const addEngineeringRef = useRef({});
@@ -26,6 +27,16 @@ const DictionaryMgt = ({ dispatch }) => {
   const feedbackRef = useRef({});
   const feedbackDetailRef = useRef({});
   const downRef = useRef({});
+  const feedbackRequestRef = useRef({});
+  const meetingRef = useRef({});
+  const [tableType, setTableType] = useState('annualWork');
+
+  const tabs = [
+    { label: '年度工作重点', id: 'annualWork' },
+    { label: '会议管理', id: 'conferenceManagement' },
+    { label: '工程数据', id: 'engineeringData' },
+    { label: '信息通报', id: 'Communications' },
+  ];
   const infoAnmodifyRef = useRef({});
   const infoAnDetailmodifyRef = useRef({});
   const engineDmodifyRef = useRef({});
@@ -38,11 +49,13 @@ const DictionaryMgt = ({ dispatch }) => {
       },
     });
   }, []);
-
+  const onTabChange = id => {
+    setTableType(id);
+  };
   const openAddEngineeringModal = item => {
     addEngineeringRef.current.showModal(item);
   };
-  const tempProvinceModel = item => {
+  const tempProvinceModal = item => {
     tempProvinceRef.current.showModal(item);
   };
   const addProjectTaskModal = item => {
@@ -71,47 +84,52 @@ const DictionaryMgt = ({ dispatch }) => {
   const openEngineModifyModal = item => {
     engineDmodifyRef.current.showModal(item);
   };
+  const feedbackRequestModal = item => {
+    feedbackRequestRef.current.showModal(item);
+  };
+  const meetingModal = item => {
+    meetingRef.current.showModal(item);
+  };
   return (
     <EngineeringTreeLayout openAddEngineeringModal={openAddEngineeringModal}>
-      <Tabs defaultActiveKey="1" type="card" size="large">
-        <TabPane tab="年度工作重点" key="1">
+      <TypeSelectLayout tabs={tabs} onTabChange={onTabChange}>
+        {tableType === 'annualWork' && (
           <Table
             openAddEngineeringModal={openAddEngineeringModal}
-            tempProvinceModel={tempProvinceModel}
+            tempProvinceModal={tempProvinceModal}
             addProjectTaskModal={addProjectTaskModal}
             modifyProjectTaskModal={modifyProjectTaskModal}
             feedbackModal={feedbackModal}
             downModal={downModal}
           />
-        </TabPane>
-        <TabPane tab="会议管理" key="2"></TabPane>
-        <TabPane tab="工程数据" key="3">
-          {/* <EDtable openModifyModal={openModifyModal} /> */}
-          <EngineTable openModifyModal={openEngineModifyModal} />
-        </TabPane>
-        <TabPane tab="信息通报" key="5">
+        )}
+        {tableType === 'conferenceManagement' && <MeetingTable meetingModal={meetingModal} />}
+        {tableType === 'engineeringData' && <EngineTable openModifyModal={openEngineModifyModal} />}
+        {tableType === 'Communications' && (
           <AItable
             openModifyModal={openInfoModifyModal}
             openDetailModifyModal={openDetailModifyModal}
           />
-        </TabPane>
-      </Tabs>
-      <EngineModal actionRef={engineDmodifyRef} />
-      <InfoAnModal actionRef={infoAnmodifyRef} />
-      <InfoAnDetailModal actionRef={infoAnDetailmodifyRef} />
+        )}
 
-      <AddEngineeringModal actionRef={addEngineeringRef} />
-      <TempProvinceModal actionRef={tempProvinceRef} />
-      <AddProjectTaskModal actionRef={addProjectTaskRef} />
-      <ModifyProjectTaskModal
-        actionRef={editProjectTaskRef}
-        addProjectTaskModal={addProjectTaskModal}
-        feedbackModal={feedbackModal}
-        feedbackDetailModal={feedbackDetailModal}
-      />
-      <FeedbackModal actionRef={feedbackRef} />
-      <FeedbackDetailModal actionRef={feedbackDetailRef} />
-      <DownModal actionRef={downRef} />
+        <EngineModal actionRef={engineDmodifyRef} />
+        <InfoAnModal actionRef={infoAnmodifyRef} />
+        <InfoAnDetailModal actionRef={infoAnDetailmodifyRef} />
+
+        <AddEngineeringModal actionRef={addEngineeringRef} />
+        <TempProvinceModal actionRef={tempProvinceRef} />
+        <AddProjectTaskModal actionRef={addProjectTaskRef} />
+        <ModifyProjectTaskModal
+          actionRef={editProjectTaskRef}
+          addProjectTaskModal={addProjectTaskModal}
+          feedbackDetailModal={feedbackDetailModal}
+        />
+        <FeedbackModal actionRef={feedbackRef} feedbackRequestModal={feedbackRequestModal} />
+        <FeedbackDetailModal actionRef={feedbackDetailRef} />
+        <DownModal actionRef={downRef} />
+        <FeedbackRequestModal actionRef={feedbackRequestRef} />
+        <MeetingModal actionRef={meetingRef} />
+      </TypeSelectLayout>
     </EngineeringTreeLayout>
   );
 };

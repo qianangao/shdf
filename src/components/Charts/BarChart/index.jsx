@@ -81,7 +81,7 @@ class Bar extends Component {
           name: '信息发布数量',
         },
       ];
-      if (res != {}) {
+      if (res instanceof Array) {
         res.forEach(item => {
           arr1[0][item.reportProvince] = item.informationFillInNum;
           arr1[1][item.reportProvince] = item.informationReleaseNum;

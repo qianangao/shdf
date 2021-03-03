@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
 import { Modal } from 'antd';
-import SummaryFeedbackTable from './feedback/SummaryFeedbackTable';
+import SummaryFeedbackTable from './SummaryFeedbackTable';
 
 const FeedbackRequestModal = ({ actionRef, loading }) => {
   const [modalVisible, setModalVisible] = useState(false);

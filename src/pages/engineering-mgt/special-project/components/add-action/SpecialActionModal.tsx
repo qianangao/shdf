@@ -91,14 +91,7 @@ const SpecialActionModal = ({ dispatch, actionRef, loading }) => {
             values.actionId = detailData.actionForm.actionId;
           }
           dispatch({
-            type: `specialAction/${
-              titles
-              // detailData
-              //   ? detailData.actionForm
-              //     ? 'editSpecialAction'
-              //     : 'addAnnualSpecialAction'
-              //   : 'addSpecialAction'
-            }`,
+            type: `specialAction/${titles}`,
             payload: {
               ...values,
               fileIds,
@@ -108,12 +101,6 @@ const SpecialActionModal = ({ dispatch, actionRef, loading }) => {
         });
       })
       .then(() => {
-        // dispatch({
-        //   type:'specialAction/getSpecialActionTree',
-        //   payload:{
-        //     actionName: ''
-        //   }
-        // })
         hideModal();
       })
       .catch(info => {

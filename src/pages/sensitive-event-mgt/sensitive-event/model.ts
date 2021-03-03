@@ -22,9 +22,9 @@ import {
   evaluate,
   recallSupervise,
   getSuperviseDetail,
-  superviseApproval,
   templateDownload,
   importCase,
+  clueRelation,
   exportCase,
 } from './service';
 
@@ -41,6 +41,8 @@ const Model = {
     trendsDetailData: {},
     tableRef: {},
     tableHandleRef: {},
+    tableClubRef: {},
+    tableFileRef: {},
     selectedOrgId: undefined,
   },
   effects: {
@@ -70,6 +72,34 @@ const Model = {
           type: 'save',
           payload: {
             listData: result,
+          },
+        });
+      }
+    },
+    *getClubList({ payload, resolve }, { call, put }) {
+      if (payload.id === '') {
+        resolve && resolve({});
+        return;
+      }
+      const response = yield call(getDetail, payload);
+      if (!response.error) {
+        const { clueList } = response;
+        if (!clueList || clueList == null) {
+          resolve && resolve({});
+        } else {
+          const result = {
+            data: clueList,
+            page: 1,
+            pageSize: 100,
+            success: true,
+            total: clueList.length,
+          };
+          resolve && resolve(result);
+        }
+        yield put({
+          type: 'save',
+          payload: {
+            caseDetailClueList: clueList,
           },
         });
       }
@@ -145,6 +175,17 @@ const Model = {
       const response = yield call(getDetail, payload);
 
       if (!response.error) {
+        response.fileList =
+          response.fileList &&
+          response.fileList.map(item => {
+            return {
+              url: item.url,
+              uid: item.fileId,
+              name: item.fileName,
+              status: 'done',
+            };
+          });
+        response.regionObj = { label: response.region, value: response.regionCode };
         resolve && resolve(response);
         yield put({
           type: 'save',
@@ -218,6 +259,19 @@ const Model = {
         message.success('新增案件办理成功！');
         yield put({
           type: 'tableHandleReload',
+        });
+        yield put({
+          type: 'tableFileReload',
+        });
+      }
+    },
+    *clueRelation({ payload, resolve }, { call, put }) {
+      const response = yield call(clueRelation, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('线索串并联成功！');
+        yield put({
+          type: 'tableClubReload',
         });
       }
     },
@@ -320,17 +374,6 @@ const Model = {
         });
       }
     },
-    *superviseApproval({ payload, resolve }, { call, put }) {
-      // 先获取编码
-      const response = yield call(superviseApproval, payload);
-      if (!response.error) {
-        resolve && resolve(response);
-        message.success('督办审批成功！');
-        yield put({
-          type: 'tableReload',
-        });
-      }
-    },
     *getSuperviseDetail({ payload, resolve }, { call, put }) {
       const response = yield call(getSuperviseDetail, payload);
 
@@ -383,6 +426,20 @@ const Model = {
       const tableHandleRef = state.tableHandleRef || {};
       setTimeout(() => {
         tableHandleRef.current && tableHandleRef.current.reloadAndRest();
+      }, 0);
+      return { ...state };
+    },
+    tableFileReload(state) {
+      const tableFileRef = state.tableFileRef || {};
+      setTimeout(() => {
+        tableFileRef.current && tableFileRef.current.reloadAndRest();
+      }, 0);
+      return { ...state };
+    },
+    tableClubReload(state) {
+      const tableClubRef = state.tableClubRef || {};
+      setTimeout(() => {
+        tableClubRef.current && tableClubRef.current.reloadAndRest();
       }, 0);
       return { ...state };
     },

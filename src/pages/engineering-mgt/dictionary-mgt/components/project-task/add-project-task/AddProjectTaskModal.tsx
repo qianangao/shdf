@@ -7,13 +7,7 @@ const AddProjectTaskModal = ({ dispatch, actionRef, loading, dictionaryMgt }) =>
   const [projectId, setProjectId] = useState('');
   const [form] = ProjectTaskForm.useForm();
   const [modalVisible, setModalVisible] = useState(false);
-  // const [visible, setVisible] = useState(false);
-  // const [feedbackData, setFeedbackData] = useState([]);
-
   const showModal = () => {
-    // if (item && item.visible) {
-    //   setVisible(item.visible);
-    // }
     setModalVisible(true);
   };
 

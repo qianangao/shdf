@@ -1,47 +1,49 @@
 import React, { useEffect } from 'react';
 import AdvancedForm from '@/components/AdvancedForm';
+import ProvinceCascaderInput from '@/components/ProvinceCascaderInput';
 
-const CaseForm = ({ form, orgInfoData }) => {
+const CaseForm = ({ form, orgInfoData, id, caseType, onFieldsChange }) => {
   const formItems = [
     {
-      name: 'caseId',
+      name: 'eventId',
       hidden: true,
     },
     {
       label: '报送单位',
-      name: 'caseName',
-      rules: [{ required: true, message: '请输入案件名称!', whitespace: true }],
+      name: 'reportUnit',
+      rules: [{ required: true, message: '请输入报送单位!', whitespace: true }],
     },
     {
       label: '报送时间',
-      name: 'charge',
-      rules: [{ required: true, message: '请输入罪名!', whitespace: true }],
+      name: 'reportTime',
+      type: 'dateTime',
+      rules: [{ required: true, message: '请选择送报时间!' }],
     },
     {
       label: '敏感事件名称',
-      name: 'brieflyCase',
-      rules: [{ max: 80, message: '案情简要长度请小于400位!', whitespace: true }],
+      name: 'eventName',
+      rules: [{ required: true, message: '请输入敏感事件名称!', whitespace: true }],
     },
     {
       label: '敏感事件编号(系统生成)',
       disabled: 'true',
-      name: 'caseCode',
+      name: 'eventCode',
+      visible: !!id,
     },
     {
       label: '线索来源',
-      name: 'caseNature',
-      enumsLabel: 'case_nature',
+      name: 'eventSource',
+      enumsLabel: 'case_source',
       rules: [{ required: true, message: '请输入案件性质!', whitespace: true }],
     },
     {
       label: '办理部门',
-      name: 'caseSource',
-      enumsLabel: 'case_source',
-      rules: [{ required: true, message: '请输入案件来源!', whitespace: true }],
+      name: 'investigateDept',
+      rules: [{ required: true, message: '请输入办理部门!', whitespace: true }],
     },
     {
       label: '重要程度',
-      name: 'importanceLevel',
+      name: 'importantDegree',
       enumsLabel: 'importance_level',
       rules: [{ required: true, message: '请输入重要程度!', whitespace: true }],
     },
@@ -53,31 +55,37 @@ const CaseForm = ({ form, orgInfoData }) => {
     },
     {
       label: '立案日期',
-      name: 'registerTime',
+      name: 'createTime',
       type: 'dateTime',
-      // rules: [  { required: true, message: '请选择密级!', whitespace: true }, ],
+      rules: [{ required: true, message: '请选择立案日期!' }],
     },
     {
       label: '紧急程度',
-      name: 'urgentLevel',
+      name: 'urgencyDegree',
       enumsLabel: 'urgent_level',
       rules: [{ required: true, message: '请输入紧急程度!', whitespace: true }],
     },
     {
       label: '案件类型',
-      name: 'captureNumber',
+      name: 'eventType',
+      enumsLabel: 'case_type',
+      rules: [{ required: true, message: '请选择案件办理阶段!', whitespace: true }],
     },
     {
       label: '案件性质',
-      name: 'detentionNumber',
+      name: 'eventNature',
+      enumsLabel: 'case_nature',
+      rules: [{ required: true, message: '请输入案件性质!', whitespace: true }],
     },
     {
       label: '专项行动',
-      name: 'arrestNumber',
+      name: 'specialActionIds',
+      enumsLabel: 'handle_type',
     },
     {
       label: '传播渠道',
-      name: 'defendantNumber',
+      name: 'spreadWay',
+      enumsLabel: 'spread_channel',
     },
     {
       label: '传播形式',
@@ -87,9 +95,8 @@ const CaseForm = ({ form, orgInfoData }) => {
     },
     {
       label: '涉案平台类型',
-      name: 'involvedPlatformType',
+      name: 'platformType',
       enumsLabel: 'involved_platform_type',
-      rules: [{ required: true, message: '请选择涉案平台!', whitespace: true }],
     },
     {
       label: '涉案数量',
@@ -101,77 +108,64 @@ const CaseForm = ({ form, orgInfoData }) => {
     },
     {
       label: '抓获人数',
-      name: 'caseNumber',
+      name: 'capturePersonNum',
+      visible: caseType !== '1',
     },
     {
       label: '刑事拘留人数',
-      name: 'caseNumber',
+      name: 'detainPersonNum',
+      visible: caseType !== '1',
     },
     {
       label: '逮捕人数',
-      name: 'caseNumber',
+      name: 'arrestPersonNum',
+      visible: caseType !== '1',
     },
     {
       label: '判处被告人数量',
-      name: 'caseNumber',
-    },
-    {
-      label: '所属联防工程',
-      name: 'engineeringIds',
-      enumsLabel: 'handle_type',
-      rules: [{ required: true, message: '请选择所属联防工程!', whitespace: true }],
+      name: 'defendantPersonNum',
+      visible: caseType !== '1',
     },
     {
       label: '判处被告单位数量',
-      name: 'engineeringIds',
-      enumsLabel: 'handle_type',
-      rules: [{ required: true, message: '请选择所属联防工程!', whitespace: true }],
+      name: 'defendantUnitNum',
+      visible: caseType !== '1',
     },
     {
       label: '最高刑期',
-      name: 'engineeringIds',
-      enumsLabel: 'handle_type',
-      rules: [{ required: true, message: '请选择所属联防工程!', whitespace: true }],
+      name: 'highestPrisonTerm',
+      visible: caseType !== '1',
     },
     {
       label: '发生地域',
-      name: 'region',
-      span: 4,
-      rules: [
-        { required: true, message: '请输入发生地域!', whitespace: true },
-        { max: 80, message: '发生地域长度请小于80位!', whitespace: true },
-      ],
+      name: 'regionObj',
+      render: <ProvinceCascaderInput />,
+      rules: [{ required: true, message: '请输入地域!' }],
     },
     {
-      label: '案情描述',
-      name: 'completeCase',
+      label: '简要案情',
+      name: 'briefCase',
       span: 4,
       type: 'textarea',
-      rules: [{ max: 400, message: '案情描述长度请小于400位!', whitespace: true }],
+      rules: [{ max: 400, message: '简要案情长度请小于400位!', whitespace: true }],
     },
     {
       label: '行政处理结果',
       name: 'punishResult',
-      span: 1.5,
+      span: 4,
       type: 'textarea',
-      rules: [
-        { message: '请输入行政处理结果!', whitespace: true },
-        { max: 80, message: '单位名称长度请小于80位!', whitespace: true },
-      ],
+      rules: [{ max: 80, message: '单位名称长度请小于80位!', whitespace: true }],
     },
     {
       label: '案件办理结果',
-      name: 'sentenceResult',
-      span: 1.5,
+      name: 'convictionsResult',
+      span: 4,
       type: 'textarea',
-      rules: [
-        { message: '请输入案件办理结果!', whitespace: true },
-        { max: 80, message: '单位名称长度请小于80位!', whitespace: true },
-      ],
+      rules: [{ max: 80, message: '单位名称长度请小于80位!', whitespace: true }],
     },
     {
       label: '相关附件',
-      name: 'fileIds',
+      name: 'fileList',
       span: 4,
       type: 'upload',
     },
@@ -188,7 +182,14 @@ const CaseForm = ({ form, orgInfoData }) => {
     <></>
   );
 
-  return <AdvancedForm form={form} fields={formItems} footerRender={selectLgbInput} />;
+  return (
+    <AdvancedForm
+      form={form}
+      fields={formItems}
+      footerRender={selectLgbInput}
+      onFieldsChange={onFieldsChange}
+    />
+  );
 };
 
 CaseForm.useForm = AdvancedForm.useForm;
