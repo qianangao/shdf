@@ -5,7 +5,7 @@ const routes = {
   routes: [
     {
       path: '/analysis',
-      redirect: '/analysis/key-institutions',
+      redirect: '/analysis/statistics',
       hideInMenu: true,
     },
     {

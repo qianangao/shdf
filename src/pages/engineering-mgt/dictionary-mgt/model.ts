@@ -350,15 +350,14 @@ const Model = {
       const projectPid = yield select(state => state.dictionaryMgt.projectPid);
       const params = {
         ...payload,
-        currentPage: payload==undefined?1:payload.current,
-        pageSize:payload==undefined?10:payload.pageSize,
+        currentPage: payload===undefined?1:payload.current,
+        pageSize:payload===undefined?10:payload.pageSize,
         projectId,
         projectPid
       };
   
       const response = yield call(getInfoAnList, params);
       if (!response.error) {
-        // const { items, currentPage, totalNum } = response;
         const { records, current, total } = response;
         const result = {
           data: records,
@@ -423,7 +422,7 @@ const Model = {
     
 
     // 信息数据统计
-    *getInfoStatistics({ payload, resolve }, { call, put,select }) {
+    *getInfoStatistics({ payload, resolve }, { call,select }) {
       const projectId = yield select(state => state.dictionaryMgt.projectId);
       const projectPid = yield select(state => state.dictionaryMgt.projectPid);
       const params = {
@@ -444,17 +443,10 @@ const Model = {
         };
 
         resolve && resolve(result);
-
-        // yield put({
-        //   type: 'save',
-        //   payload: {
-        //     infoStatistics: response,
-        //   },
-        // });
       }
     },
      // 信息数据统计
-     *getInfoStatisticsData({ payload, resolve }, { call,put,select  }) {
+     *getInfoStatisticsData({  resolve }, { call,select  }) {
       const projectId = yield select(state => state.dictionaryMgt.projectId);
       const projectPid = yield select(state => state.dictionaryMgt.projectPid);
       const params = {
@@ -477,20 +469,19 @@ const Model = {
         });
       }
     },
-    *getEngineList({ payload, resolve }, { call ,put,select}) {
+    *getEngineList({ payload, resolve }, { call ,select}) {
       const projectId = yield select(state => state.dictionaryMgt.projectId);
       const projectPid = yield select(state => state.dictionaryMgt.projectPid);
       const params = {
         ...payload,
-        currentPage: payload==undefined?1:payload.current,
-        pageSize:payload==undefined?10:payload.pageSize,
+        currentPage: payload===undefined?1:payload.current,
+        pageSize:payload===undefined?10:payload.pageSize,
         projectId,
         projectPid
       };
       const response = yield call(getEngineList, params);
 
       if (!response.error) {
-        // const { items, currentPage, totalNum } = response;
         const { records, current, total } = response;
         const result = {
           data: records,

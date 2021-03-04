@@ -56,9 +56,8 @@ const Table = ({ dictionaryMgt, openModifyModal, dispatch }) => {
       dispatch({
         type: 'dictionaryMgt/getEngineList',
         payload: {
+          ...params,
           projectId,
-          projectPid: '1000',
-          year: '2021',
         },
         resolve,
       });
