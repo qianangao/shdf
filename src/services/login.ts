@@ -18,7 +18,7 @@ export async function accountLogin(params) {
  */
 export async function accountLogout(params) {
   return request('/logout', {
-    method: 'POST',
+    method: 'GET',
     // prefix: BASE_URL,
     data: params,
   });
