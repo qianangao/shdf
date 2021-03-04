@@ -36,7 +36,7 @@ const ModifyModal = ({ dispatch, dictionaryMgt, actionRef }) => {
 
   return (
     <Modal
-      title={'信息详情'}
+      title="信息详情"
       centered
       width="580px"
       style={{ paddingBottom: 0 }}

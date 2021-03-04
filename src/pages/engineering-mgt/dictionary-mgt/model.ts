@@ -344,7 +344,7 @@ const Model = {
         },
       });
     },
-     //=============================================信息报送========================================
+     //= ============================================信息报送========================================
      *getInfoAnList({ payload, resolve }, { call, put ,select}) {
       const projectId = yield select(state => state.dictionaryMgt.projectId);
       const projectPid = yield select(state => state.dictionaryMgt.projectPid);
@@ -457,7 +457,7 @@ const Model = {
         resolve && resolve(response);
       
     },
-    //=======================================工程数据================================================
+    //= ======================================工程数据================================================
     
     *addEngineData({ payload, resolve }, { call, put }) {
       const response = yield call(addEngineData, payload);

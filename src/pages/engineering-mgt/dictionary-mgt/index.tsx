@@ -84,14 +84,14 @@ const DictionaryMgt = ({ dispatch, dictionaryMgt }) => {
   const downModal = item => {
     downRef.current.showModal(item);
   };
-  //信息通报
+  // 信息通报
   const openInfoModifyModal = item => {
     infoAnmodifyRef.current.showModal(item);
   };
   const openDetailModifyModal = item => {
     infoAnDetailmodifyRef.current.showModal(item);
   };
-  //工程数据
+  // 工程数据
   const openEngineModifyModal = item => {
     engineDmodifyRef.current.showModal(item);
   };
@@ -103,7 +103,7 @@ const DictionaryMgt = ({ dispatch, dictionaryMgt }) => {
   };
   return (
     <EngineeringTreeLayout openAddEngineeringModal={openAddEngineeringModal}>
-      {projectPid == 'null' ? (
+      {projectPid === 'null' ? (
         <TypeSelectLayout tabs={tabs} onTabChange={onTabChange}>
           {tableType === 'annualWork' && (
             <Table

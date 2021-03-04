@@ -1,8 +1,8 @@
 import React from 'react';
-import { Button, Modal } from 'antd';
+import { Button, Modal, Tabs } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
-import { Tabs } from 'antd';
+
 import Bar from '@/components/Charts/BarChart/index';
 
 const { TabPane } = Tabs;
@@ -10,6 +10,14 @@ const { TabPane } = Tabs;
 const Table = ({ dictionaryMgt, openModifyModal, dispatch, openDetailModifyModal }) => {
   const { tableRef } = dictionaryMgt;
   const { tableRef1 } = dictionaryMgt;
+  const releaseInfoAn = params =>
+    new Promise(resolve => {
+      dispatch({
+        type: 'dictionaryMgt/releaseInfoAn',
+        payload: { id: params },
+        resolve,
+      });
+    });
   const deleteReceiving = id => {
     dispatch({
       type: 'receivingMgt/deleteReceiving',
@@ -57,7 +65,7 @@ const Table = ({ dictionaryMgt, openModifyModal, dispatch, openDetailModifyModal
       title: '是否发布',
       align: 'center',
       hideInSearch: true,
-      render: (dom, data) => [<span>{data.infoPublish == 0 ? '未发布' : '已发布'}</span>],
+      render: (dom, data) => [<span>{data.infoPublish === 0 ? '未发布' : '已发布'}</span>],
     },
     {
       title: '操作',
@@ -74,7 +82,7 @@ const Table = ({ dictionaryMgt, openModifyModal, dispatch, openDetailModifyModal
           编辑
         </a>,
         <a key={`${data.infoId}up`} onClick={() => releaseInfoAn(data.infoId)}>
-          {data.infoPublish == 0 ? '发布' : ''}
+          {data.infoPublish === 0 ? '发布' : ''}
         </a>,
       ],
     },
@@ -118,21 +126,10 @@ const Table = ({ dictionaryMgt, openModifyModal, dispatch, openDetailModifyModal
         resolve,
       });
     });
-  const releaseInfoAn = params =>
-    new Promise(resolve => {
-      dispatch({
-        type: 'dictionaryMgt/releaseInfoAn',
-        payload: { id: params },
-        resolve,
-      });
-    });
-  const tabChange = params => {
-    if (params == '221a') {
-    }
-  };
+
   return (
     <div>
-      <Tabs defaultActiveKey="1a3" type="card" size="large" centered onChange={tabChange}>
+      <Tabs defaultActiveKey="1a3" type="card" size="large" centered>
         <TabPane tab="各省信息报送" key="1a3">
           <ProTable
             actionRef={tableRef}
@@ -170,7 +167,7 @@ const Table = ({ dictionaryMgt, openModifyModal, dispatch, openDetailModifyModal
             request={async params => getInfoStatistics(params)}
             columns={columnsStatistics}
           />
-          <Bar dispatch={dispatch}></Bar>
+          <Bar dispatch={dispatch} />
         </TabPane>
       </Tabs>
     </div>

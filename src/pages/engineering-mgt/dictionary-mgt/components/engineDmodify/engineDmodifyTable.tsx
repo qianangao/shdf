@@ -71,9 +71,9 @@ const Table = ({ dictionaryMgt, openModifyModal, dispatch }) => {
         headerTitle="工程数据"
         scroll={{ x: 'max-content' }}
         request={async params => getReceivingList(params)}
-        toolBarRender={(_, {}) => [
+        toolBarRender={() => [
           <Button type="primary" onClick={() => openModifyModal()}>
-            {dictionaryMgt.projectPid != 'null' ? '新增' : ''}
+            {dictionaryMgt.projectPid !== 'null' ? '新增' : ''}
           </Button>,
         ]}
         columns={columns}

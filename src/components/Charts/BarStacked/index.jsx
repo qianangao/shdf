@@ -19,14 +19,13 @@ import { connect } from 'umi';
 import Debounce from 'lodash.debounce';
 import autoHeight from '../autoHeight';
 import styles from '../index.less';
-connect(({ dictionaryMgt, global }) => ({
+connect(({ statistical, global }) => ({
   dictionaryMgt,
 }));
 class Bar extends Component {
   state = {
     autoHideXLabels: false,
-    darasouceArr: [],
-    darasouce: [],
+    datasouce: [],
   };
 
   root = undefined;
@@ -66,40 +65,67 @@ class Bar extends Component {
       passive: true,
     });
     const { dispatch } = this.props;
-    return;
     new Promise(resolve => {
       dispatch({
-        type: 'dictionaryMgt/getInfoStatisticsData',
-        payload: { current: 1, pageSize: 10 },
+        type: 'statistical/getAnaStatistics',
+        payload: {
+          analysisType: 1, //统计类型 1案件  2线索  3非法出版物 4敏感事件
+          startTime: '', //时间区间-开始时间
+          endTime: '', //时间区间-结束时间
+          source: '1', //来源
+          handleState: 1, //办理状态 0、办理中 1、已超时 2、已办结
+          importanceLevel: '1', //重要程度 0一般  1重要
+          regionCode: '100000', //选择地域
+          urgentLevel: '1', //紧急程度
+          specialActionIds: [
+            //专项行动ID
+            123,
+            456,
+          ],
+        },
         resolve,
       });
     }).then(res => {
-      let arr1 = [
-        {
-          name: '信息填报数量',
-        },
-        {
-          name: '信息发布数量',
-        },
-      ];
-      if (res instanceof Array) {
-        res.forEach(item => {
-          arr1[0][item.reportProvince] = item.informationFillInNum;
-          arr1[1][item.reportProvince] = item.informationReleaseNum;
-        });
-        let darasouceArr1 = res.map(element => {
-          return element.reportProvince;
-        });
-        this.setState({
-          darasouceArr: darasouceArr1,
-          darasouce: arr1,
-        });
+      let beforeData = res;
+      let tempArr = [];
+      let afterData = [];
+      let type = ['政治性', '民族宗教', '淫秽色情', '三假', '涉幼', '侵权盗版', '非法出版'];
+      for (let i = 0; i < beforeData.length; i++) {
+        if (tempArr.indexOf(beforeData[i]['地域']) === -1) {
+          afterData.push({
+            name: beforeData[i]['地域'],
+            origin: [beforeData[i]],
+          });
+          tempArr.push(beforeData[i]['地域']);
+        } else {
+          for (let j = 0; j < afterData.length; j++) {
+            if (afterData[j].name == beforeData[i]['地域']) {
+              afterData[j].origin.push(beforeData[i]);
+              break;
+            }
+          }
+        }
       }
+
+      afterData.forEach(item => {
+        item.origin.forEach(ele => {
+          item[ele.name] = ele['数量'];
+        });
+      });
+      console.log(afterData);
+      // console.log(tempArr);
+      this.setState({
+        datasouce: afterData,
+      });
+      return;
     });
   }
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.resize);
+    this.setState = (state, callback) => {
+      return;
+    };
   }
 
   handleRoot = n => {
@@ -123,6 +149,7 @@ class Bar extends Component {
       events,
       darasouceArr,
     } = this.props;
+    const typeList = ['政治性', '民族宗教', '淫秽色情', '三假', '涉幼', '侵权盗版', '非法出版'];
     const data = [
       {
         State: 'WY',
@@ -157,16 +184,16 @@ class Bar extends Component {
     ];
     const { autoHideXLabels } = this.state;
     const ds = new DataSet();
-    const dv = ds.createView().source(data);
+    const dv = ds.createView().source(this.state.datasouce);
     dv.transform({
       type: 'fold',
-      fields: ['小于5岁', '5至13岁', '14至17岁'],
+      fields: typeList,
       // 展开字段集
       key: '年龄段',
       // key字段
       value: '人口数量',
       // value字段
-      retains: ['State'], // 保留字段集，默认为除fields以外的所有字段
+      retains: ['name'], // 保留字段集，默认为除fields以外的所有字段
     });
 
     return (
@@ -182,14 +209,14 @@ class Bar extends Component {
             <Legend />
             <Coord transpose />
             <Axis
-              name="State"
+              name="name"
               label={{
                 offset: 12,
               }}
             />
             <Axis name="人口数量" />
             <Tooltip />
-            <Geom type="intervalStack" position="State*人口数量" color={'年龄段'} />
+            <Geom type="intervalStack" position="name*人口数量" color={'年龄段'} />
           </Chart>
         </div>
       </div>
