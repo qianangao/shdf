@@ -123,44 +123,53 @@ const ModifyModal = ({ dispatch, actionRef, loading, announcementData, enums }) 
       switch (status) {
         case -3:
           return [
-            <Descriptions.Item label="审核人">{announcementData.secrecyLevel}</Descriptions.Item>,
-
-            <Descriptions.Item label="审核时间">{announcementData.secrecyLevel}</Descriptions.Item>,
-
-            <Descriptions.Item label="发布人">{announcementData.secrecyLevel}</Descriptions.Item>,
-
-            <Descriptions.Item label="发布时间">{announcementData.secrecyLevel}</Descriptions.Item>,
-
-            <Descriptions.Item label="撤回人">{announcementData.secrecyLevel}</Descriptions.Item>,
-
-            <Descriptions.Item label="撤回时间">{announcementData.secrecyLevel}</Descriptions.Item>,
+            <Descriptions title="审核信息" column={{ xxl: 3, xl: 3, lg: 3, md: 2, sm: 2, xs: 1 }}>
+              <Descriptions.Item label="审核人">{announcementData.secrecyLevel}</Descriptions.Item>
+              <Descriptions.Item label="审核时间">
+                {announcementData.secrecyLevel}
+              </Descriptions.Item>
+              <Descriptions.Item label="发布人">{announcementData.secrecyLevel}</Descriptions.Item>
+              <Descriptions.Item label="发布时间">
+                {announcementData.secrecyLevel}
+              </Descriptions.Item>
+              <Descriptions.Item label="撤回人">{announcementData.secrecyLevel}</Descriptions.Item>
+              <Descriptions.Item label="撤回时间">
+                {announcementData.secrecyLevel}
+              </Descriptions.Item>
+            </Descriptions>,
           ];
         case -1:
         case 3:
           return [
-            <Descriptions.Item label="审核人">{announcementData.secrecyLevel}</Descriptions.Item>,
-
-            <Descriptions.Item label="审核时间">{announcementData.secrecyLevel}</Descriptions.Item>,
-
-            <Descriptions.Item label="审核状态">{announcementData.secrecyLevel}</Descriptions.Item>,
-
-            <Descriptions.Item label="审核意见" span={3}>
-              {announcementData.secrecyLevel}
-            </Descriptions.Item>,
+            <Descriptions title="审核信息" column={{ xxl: 3, xl: 3, lg: 3, md: 2, sm: 2, xs: 1 }}>
+              <Descriptions.Item label="审核人">{announcementData.secrecyLevel}</Descriptions.Item>
+              <Descriptions.Item label="审核时间">
+                {announcementData.secrecyLevel}
+              </Descriptions.Item>
+              <Descriptions.Item label="审核状态">
+                {announcementData.secrecyLevel}
+              </Descriptions.Item>
+              <Descriptions.Item label="审核意见" span={3}>
+                {announcementData.secrecyLevel}
+              </Descriptions.Item>
+            </Descriptions>,
           ];
         case 7:
           return [
-            <Descriptions.Item label="审核人">{announcementData.secrecyLevel}</Descriptions.Item>,
-
-            <Descriptions.Item label="审核时间">{announcementData.secrecyLevel}</Descriptions.Item>,
-
-            <Descriptions.Item label="发布人">{announcementData.secrecyLevel}</Descriptions.Item>,
-
-            <Descriptions.Item label="发布时间">{announcementData.secrecyLevel}</Descriptions.Item>,
-
-            <Descriptions.Item label="关闭人">{announcementData.secrecyLevel}</Descriptions.Item>,
-
-            <Descriptions.Item label="关闭时间">{announcementData.secrecyLevel}</Descriptions.Item>,
+            <Descriptions title="审核信息" column={{ xxl: 3, xl: 3, lg: 3, md: 2, sm: 2, xs: 1 }}>
+              <Descriptions.Item label="审核人">{announcementData.secrecyLevel}</Descriptions.Item>,
+              <Descriptions.Item label="审核时间">
+                {announcementData.secrecyLevel}
+              </Descriptions.Item>
+              <Descriptions.Item label="发布人">{announcementData.secrecyLevel}</Descriptions.Item>
+              <Descriptions.Item label="发布时间">
+                {announcementData.secrecyLevel}
+              </Descriptions.Item>
+              <Descriptions.Item label="关闭人">{announcementData.secrecyLevel}</Descriptions.Item>
+              <Descriptions.Item label="关闭时间">
+                {announcementData.secrecyLevel}
+              </Descriptions.Item>
+            </Descriptions>,
           ];
         default:
           return [];
@@ -186,7 +195,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, announcementData, enums }) 
       onCancel={hideModal}
     >
       <Spin spinning={loading}>
-        <Descriptions title="基本信息" column={{ xxl: 4, xl: 3, lg: 2 }}>
+        <Descriptions title="基本信息" column={{ xxl: 3, xl: 3, lg: 3, md: 2, sm: 2, xs: 1 }}>
           <Descriptions.Item label="公告标题" span={3}>
             {announcementData.noticeTitle}
           </Descriptions.Item>
@@ -211,12 +220,12 @@ const ModifyModal = ({ dispatch, actionRef, loading, announcementData, enums }) 
             />
           </Descriptions.Item>
           {fileList(announcementData.files)}
-          {createItem()}
         </Descriptions>
+        {createItem()}
         {type === 'publish' && status === 7 && (
           <Descriptions
             title="公告处理信息"
-            column={{ xxl: 4, xl: 3, lg: 2 }}
+            column={{ xxl: 3, xl: 3, lg: 3, md: 2, sm: 2, xs: 1 }}
             style={{ marginTop: 30 }}
           >
             <Descriptions.Item label="保密等级">{announcementData.secrecyLevel}</Descriptions.Item>

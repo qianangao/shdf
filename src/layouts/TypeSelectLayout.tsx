@@ -6,13 +6,13 @@ import styles from './index.less';
  * TypeSelectLayout
  * @param tabs 传值则展示tab切换，不传隐藏
  */
-const TypeSelectLayout = ({ children, tabs = [], onTabChange, style = {} }) => {
+const TypeSelectLayout = ({ children, tabs = [], onTabChange, style = {}, type }) => {
   const onTabChangeHander = id => {
     onTabChange && onTabChange(id);
   };
 
   const TabView = (
-    <Tabs onChange={onTabChangeHander}>
+    <Tabs onChange={onTabChangeHander} type={type}>
       {tabs && tabs.map(item => <Tabs.TabPane tab={item.label} key={item.id} />)}
     </Tabs>
   );
