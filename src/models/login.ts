@@ -26,21 +26,21 @@ const Model = {
         return;
       }
 
-      if (response.token) {
+      if (response.userId) {
         // 储存用户token
-        setCookie(TOKEN_KEY, response.token);
+        setCookie(TOKEN_KEY, response.userId);
         setAuthority(response.authorityList);
 
         requestConfig.extendOptions({
           headers: {
-            token: response.token,
+            token: response.userId,
           },
         });
 
         yield put({
           type: 'save',
           payload: {
-            token: response.token,
+            token: response.userId,
             status: undefined,
           },
         });
@@ -48,7 +48,7 @@ const Model = {
         // 存储用户信息
         yield put({
           type: 'user/saveUserInfo',
-          payload: response.userInfo,
+          payload: response,
         });
 
         // 判断是否有已打开页面
@@ -78,7 +78,6 @@ const Model = {
             return;
           }
         }
-
         yield history.replace(/* redirect || */ '/');
       }
     },

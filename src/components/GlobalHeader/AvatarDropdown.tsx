@@ -61,11 +61,11 @@ class AvatarDropdown extends React.Component {
       </Menu>
     );
 
-    return userInfo && userInfo.name ? (
+    return userInfo && userInfo.username ? (
       <HeaderDropdown overlay={menuHeaderDropdown}>
         <span className={`${styles.action} ${styles.account}`}>
           <FontIcon className={styles.avatar} type="touxiang" />
-          <span className={styles.name}>{userInfo.name}</span>
+          <span className={styles.name}>{userInfo.username}</span>
         </span>
       </HeaderDropdown>
     ) : (
