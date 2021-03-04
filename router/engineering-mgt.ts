@@ -11,9 +11,9 @@ const routes = {
       icon: 'folder',
     },
     {
-      path: '/engineering-mgt/dictionary-mgt',
-      name: 'engineering-mgt-dictionary-mgt',
-      component: './engineering-mgt/dictionary-mgt',
+      path: '/engineering-mgt/joint-defense-engineering',
+      name: 'engineering-mgt-joint-defense-engineering',
+      component: './engineering-mgt/joint-defense-engineering',
       remark: '联防工程',
       icon: 'folderAdd',
     },

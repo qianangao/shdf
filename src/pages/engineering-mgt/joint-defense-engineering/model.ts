@@ -49,6 +49,13 @@ const Model = {
         pageNum: payload.current ? payload.current : 1,
         pageSize: payload.pageSize ? payload.pageSize : 20,
       };
+
+      const { startTime } = params;
+
+      if (startTime && startTime.length === 2) {
+        params.startTime = moment(startTime[0]).format('YYYY-MM-DD');
+        params.endTime = moment(startTime[1]).format('YYYY-MM-DD');
+      }
       delete params.current;
       const response = yield call(getMeetingList, params);
       if (!response.error) {
@@ -59,6 +66,7 @@ const Model = {
     *getMeetingDetail({ payload, resolve }, { call }) {
       const response = yield call(getMeetingDetail, payload);
       if (!response.error) {
+        response.secrecyLevel += '';
         resolve && resolve(response);
       }
     },

@@ -8,12 +8,13 @@ const MeetingModal = ({ dispatch, actionRef, loading }) => {
   const [detailData, setDetailData] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [disabled, setDisabled] = useState(false);
+  // const [files, setFiles] = useState([]);
 
   const showModal = data => {
     if (data) {
       if (data.disabled) setDisabled(data.disabled);
       if (data.meetingId) {
-        setDetailData(data.meetingId || null);
+        setDetailData(data.meetingId);
         updateData(data.meetingId);
       }
     }
@@ -40,6 +41,14 @@ const MeetingModal = ({ dispatch, actionRef, loading }) => {
                 status: 'done',
               };
             });
+          // const file  =
+          // res.fileInfoList &&
+          // res.fileInfoList.map(item => {
+          //   return item.fileId
+          // });
+          // console.log("file",file);
+
+          // setFiles([...file])
           form.setFieldsValue({ ...res, fileIds: fileInfoList });
         }
       });
@@ -58,9 +67,19 @@ const MeetingModal = ({ dispatch, actionRef, loading }) => {
 
   const hideModal = () => {
     setModalVisible(false);
+    setDisabled(false);
     form.resetFields();
   };
 
+  // const  newArr = A.filter(function (item) {
+
+  // const getNewArr =(a,b) =>{
+  //   a.filter((item)=> {
+  //     return b.every( (item1) => {
+  //         return item != item1;
+  //     })
+  // })
+  // }
   const handleOk = () => {
     if (disabled) {
       hideModal();
@@ -68,11 +87,17 @@ const MeetingModal = ({ dispatch, actionRef, loading }) => {
       form
         .validateFields()
         .then(values => {
+          //  const removeFileIds = []
           const fileIds =
             values.fileIds &&
             values.fileIds.map(item => {
               return item.uid;
             });
+          // console.log("fileIds",fileIds);
+
+          // removeFileIds = getNewArr(files,fileIds)
+          // console.log("removeFileIds",removeFileIds);
+          // if(detailData) values.removeFileIds = removeFileIds
           return new Promise(resolve => {
             dispatch({
               type: `dictionaryMgt/${detailData ? 'updateMeeting' : 'addMeeting'}`,
