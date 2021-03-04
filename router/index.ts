@@ -25,7 +25,7 @@ const router = [
             name: 'login',
             path: '/white/login',
             remark: '登录',
-            component: './user/login',
+            component: './User/login',
           },
         ],
       },

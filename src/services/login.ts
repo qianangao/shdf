@@ -5,9 +5,9 @@ import request, { noErrorRequest, BASE_URL } from '@/utils/request';
  */
 export async function accountLogin(params) {
   // TODO 更新登录类型字段
-  return request('/login?appMark=PC', {
+  return request('/login', {
     method: 'POST',
-    prefix: BASE_URL,
+    // prefix: BASE_URL,
     data: params,
   });
 }
@@ -19,7 +19,7 @@ export async function accountLogin(params) {
 export async function accountLogout(params) {
   return request('/logout', {
     method: 'POST',
-    prefix: BASE_URL,
+    // prefix: BASE_URL,
     data: params,
   });
 }
