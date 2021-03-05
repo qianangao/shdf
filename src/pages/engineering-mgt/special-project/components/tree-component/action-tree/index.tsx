@@ -6,14 +6,19 @@ import styles from './index.less';
 const ActionTree = ({ openAddSpecialModal, dispatch, actionTree, loading }) => {
   const [expandedKeys, setExpandedKeys] = useState<any>([]);
   const [selectedKeys, setSelectedKeys] = useState<any>([]);
-
   const getTreeData = (actionName = '') => {
-    dispatch({
-      type: 'specialAction/getSpecialActionTree',
-      payload: { actionName },
+    new Promise(resolve => {
+      dispatch({
+        type: 'specialAction/getSpecialActionTree',
+        payload: { actionName },
+        resolve,
+      });
+    }).then(res => {
+      const arr = [];
+      arr.push(res[0].key);
+      setSelectedKeys([...arr]);
     });
   };
-
   useEffect(() => {
     getTreeData();
   }, []);
@@ -32,7 +37,6 @@ const ActionTree = ({ openAddSpecialModal, dispatch, actionTree, loading }) => {
       type: 'specialAction/getListTable',
       payload: { actionId },
     });
-
     if (!keys[0]) return;
     setSelectedKeys(keys);
   };
@@ -64,13 +68,17 @@ const ActionTree = ({ openAddSpecialModal, dispatch, actionTree, loading }) => {
         onSearch={actionSearchHander}
       />
       <Spin spinning={loading}>
-        <Tree
-          treeData={actionTree}
-          onSelect={actionSelectHandler}
-          selectedKeys={selectedKeys}
-          onExpand={actionExpandHandler}
-          expandedKeys={expandedKeys}
-        />
+        {actionTree && actionTree.length ? (
+          <Tree
+            treeData={actionTree}
+            onSelect={actionSelectHandler}
+            selectedKeys={selectedKeys}
+            onExpand={actionExpandHandler}
+            expandedKeys={expandedKeys}
+          />
+        ) : (
+          <></>
+        )}
       </Spin>
     </div>
   );

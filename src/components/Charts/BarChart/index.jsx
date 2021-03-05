@@ -1,25 +1,12 @@
-import {
-  G2,
-  Chart,
-  Geom,
-  Axis,
-  Tooltip,
-  Coord,
-  Label,
-  Legend,
-  View,
-  Guide,
-  Shape,
-  Facet,
-  Util,
-} from 'bizcharts';
+import { Chart, Geom, Axis, Tooltip, Legend } from 'bizcharts';
 import React, { Component } from 'react';
 import DataSet from '@antv/data-set';
 import { connect } from 'umi';
 import Debounce from 'lodash.debounce';
 import autoHeight from '../autoHeight';
 import styles from '../index.less';
-connect(({ dictionaryMgt, global }) => ({
+
+connect(({ dictionaryMgt }) => ({
   dictionaryMgt,
 }));
 class Bar extends Component {
@@ -73,7 +60,7 @@ class Bar extends Component {
         resolve,
       });
     }).then(res => {
-      let arr1 = [
+      const arr1 = [
         {
           name: '信息填报数量',
         },
@@ -86,7 +73,7 @@ class Bar extends Component {
           arr1[0][item.reportProvince] = item.informationFillInNum;
           arr1[1][item.reportProvince] = item.informationReleaseNum;
         });
-        let darasouceArr1 = res.map(element => {
+        const darasouceArr1 = res.map(element => {
           return element.reportProvince;
         });
         this.setState({
@@ -110,39 +97,17 @@ class Bar extends Component {
   };
 
   render() {
-    const {
-      height = 1,
-      title,
-      forceFit = true,
-      datagroup,
-      color = 'rgba(24, 144, 255, 0.85)',
-      showLegend,
-      padding,
-      active,
-      events,
-      darasouceArr,
-      data,
-    } = this.props;
-    const { autoHideXLabels } = this.state;
+    const { height = 1 } = this.props;
     const ds = new DataSet();
     const dv = ds.createView().source(this.state.darasouce);
 
     dv.transform({
       type: 'fold',
       fields: this.state.darasouceArr,
-      // 展开字段集
       key: '省份',
-      // key字段
-      value: '数量', // value字段
+      value: '数量',
     });
-    const scale = {
-      x: {
-        type: 'cat',
-      },
-      y: {
-        min: 0,
-      },
-    };
+
     return (
       <div
         className={styles.chart}
@@ -164,7 +129,7 @@ class Bar extends Component {
             <Geom
               type="interval"
               position="省份*数量"
-              color={'name'}
+              color="name"
               adjust={[
                 {
                   type: 'dodge',

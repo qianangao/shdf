@@ -6,7 +6,7 @@ import { checkPhone } from '@/utils/validators';
 import ProvinceListTable from '../province-list/ProvinceListTable';
 import TempProvinceTable from '../temp-province-list/TempProvinceTable';
 
-const AddEngineeringForm = ({ dispatch, form, visible, add, edit }) => {
+const AddEngineeringForm = ({ dispatch, form, visible, add, edit, editVisible }) => {
   const [tableData, setTableData] = useState([]);
   const [tempTableData, setTtempTableData] = useState([]);
   const [actionData, setActionData] = useState([]);
@@ -40,7 +40,7 @@ const AddEngineeringForm = ({ dispatch, form, visible, add, edit }) => {
       name: 'projectId',
       span: 2,
       rules: [{ required: true, message: '请选择工程名称' }],
-      visible,
+      visible: visible && editVisible,
       render: (
         <Select allowClear>
           {actionData &&

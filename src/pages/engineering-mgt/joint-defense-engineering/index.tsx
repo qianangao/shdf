@@ -28,7 +28,7 @@ import InfoAnDetailModal from './components/infoAmodify/DetailModifyModal';
 import EngineTable from './components/engineDmodify/engineDmodifyTable';
 import EngineModal from './components/engineDmodify/ModifyModal';
 
-const DictionaryMgt = ({ dispatch, dictionaryMgt }) => {
+const JointDefenseEngineering = ({ dispatch, dictionaryMgt }) => {
   const addEngineeringRef = useRef({});
   const tempProvinceRef = useRef({});
   const addProjectTaskRef = useRef({});
@@ -44,8 +44,8 @@ const DictionaryMgt = ({ dispatch, dictionaryMgt }) => {
   const institutionDetailRef = useRef({});
   const personDetailRef = useRef({});
   const [tableType, setTableType] = useState('annualWork');
+  const { projectPid, projectId } = dictionaryMgt;
   const [accountTableType, setAccountTableType] = useState('checkDirectory');
-  const { projectPid } = dictionaryMgt.dictionaryMgt;
 
   const tabYears = [
     { label: '年度工作重点', id: 'annualWork' },
@@ -77,6 +77,11 @@ const DictionaryMgt = ({ dispatch, dictionaryMgt }) => {
       },
     });
   }, []);
+  useEffect(() => {
+    setTableType('annualWork');
+    setAccountTableType('checkDirectory');
+  }, [projectId]);
+
   const onTabChange = id => {
     setTableType(id);
   };
@@ -145,7 +150,7 @@ const DictionaryMgt = ({ dispatch, dictionaryMgt }) => {
   return (
     <EngineeringTreeLayout openAddEngineeringModal={openAddEngineeringModal}>
       {projectPid === 'null' ? (
-        <TypeSelectLayout tabs={tabs} onTabChange={onTabChange}>
+        <TypeSelectLayout tabs={tabs} onTabChange={onTabChange} activeKey={tableType}>
           {tableType === 'annualWork' && (
             <Table
               openAddEngineeringModal={openAddEngineeringModal}
@@ -160,7 +165,7 @@ const DictionaryMgt = ({ dispatch, dictionaryMgt }) => {
             <EngineTable openModifyModal={openEngineModifyModal} />
           )}
           {tableType === 'engineeringAccount' && (
-            <TypeSelectLayout tabs={AccountTabs} onTabChange={onAccountTabChange}>
+            <TypeSelectLayout tabs={AccountTabs} onTabChange={onAccountTabChange} activeKey={accountTableType}>
               {accountTableType === 'checkDirectory' && (
                 <BanPublishTable
                   relevancyModal={relevancyModal}
@@ -192,7 +197,7 @@ const DictionaryMgt = ({ dispatch, dictionaryMgt }) => {
           )}
         </TypeSelectLayout>
       ) : (
-        <TypeSelectLayout tabs={tabYears} onTabChange={onTabChangeyear}>
+        <TypeSelectLayout tabs={tabYears} onTabChange={onTabChangeyear} activeKey={tableType}>
           {tableType === 'annualWork' && (
             <Table
               openAddEngineeringModal={openAddEngineeringModal}
@@ -217,7 +222,6 @@ const DictionaryMgt = ({ dispatch, dictionaryMgt }) => {
           )}
         </TypeSelectLayout>
       )}
-
       <EngineModal actionRef={engineDmodifyRef} />
       <InfoAnModal actionRef={infoAnmodifyRef} />
       <InfoAnDetailModal actionRef={infoAnDetailmodifyRef} />
@@ -244,6 +248,6 @@ const DictionaryMgt = ({ dispatch, dictionaryMgt }) => {
   );
 };
 
-export default connect(dictionaryMgt => ({
+export default connect(({ dictionaryMgt }) => ({
   dictionaryMgt,
-}))(DictionaryMgt);
+}))(JointDefenseEngineering);
