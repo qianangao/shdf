@@ -14,7 +14,7 @@ import TempProvinceModal from './components/temp-province/tempProvinceModal';
 import MeetingTable from './components/conference-management/MeetingTable';
 import MeetingModal from './components/conference-management/conference-info/MeetingModal';
 
-const DictionaryMgt = ({ dispatch }) => {
+const JointDefenseEngineering = ({ dispatch }) => {
   const addEngineeringRef = useRef({});
   const tempProvinceRef = useRef({});
   const addProjectTaskRef = useRef({});
@@ -26,7 +26,7 @@ const DictionaryMgt = ({ dispatch }) => {
   const meetingRef = useRef({});
   const [tableType, setTableType] = useState('annualWork');
 
-  const tabs = [
+  const tabYears = [
     { label: '年度工作重点', id: 'annualWork' },
     { label: '会议管理', id: 'conferenceManagement' },
     { label: '工程数据', id: 'engineeringData' },
@@ -76,7 +76,7 @@ const DictionaryMgt = ({ dispatch }) => {
 
   return (
     <EngineeringTreeLayout openAddEngineeringModal={openAddEngineeringModal}>
-      <TypeSelectLayout tabs={tabs} onTabChange={onTabChange}>
+      <TypeSelectLayout tabs={tabYears} onTabChange={onTabChange}>
         {tableType === 'annualWork' && (
           <Table
             openAddEngineeringModal={openAddEngineeringModal}
@@ -106,4 +106,4 @@ const DictionaryMgt = ({ dispatch }) => {
   );
 };
 
-export default connect(() => ({}))(DictionaryMgt);
+export default connect(() => ({}))(JointDefenseEngineering);
