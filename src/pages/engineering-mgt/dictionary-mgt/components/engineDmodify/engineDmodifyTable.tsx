@@ -56,9 +56,8 @@ const Table = ({ dictionaryMgt, openModifyModal, dispatch }) => {
       dispatch({
         type: 'dictionaryMgt/getEngineList',
         payload: {
+          ...params,
           projectId,
-          projectPid: '1000',
-          year: '2021',
         },
         resolve,
       });
@@ -72,9 +71,9 @@ const Table = ({ dictionaryMgt, openModifyModal, dispatch }) => {
         headerTitle="工程数据"
         scroll={{ x: 'max-content' }}
         request={async params => getReceivingList(params)}
-        toolBarRender={(_, {}) => [
+        toolBarRender={() => [
           <Button type="primary" onClick={() => openModifyModal()}>
-            新增
+            {dictionaryMgt.projectPid !== 'null' ? '新增' : ''}
           </Button>,
         ]}
         columns={columns}

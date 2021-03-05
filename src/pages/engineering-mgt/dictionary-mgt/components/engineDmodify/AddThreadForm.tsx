@@ -1,5 +1,6 @@
 import React from 'react';
 import AdvancedForm from '@/components/AdvancedForm';
+
 const AddThreadForm = ({ form }) => {
   const formItems = [
     {

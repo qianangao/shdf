@@ -36,7 +36,7 @@ const ModifyModal = ({ dispatch, dictionaryMgt, actionRef }) => {
 
   return (
     <Modal
-      title={'信息详情'}
+      title="信息详情"
       centered
       width="580px"
       style={{ paddingBottom: 0 }}
@@ -56,7 +56,7 @@ const ModifyModal = ({ dispatch, dictionaryMgt, actionRef }) => {
         <Descriptions.Item label="信息名称">{infnAnObj.infoName}</Descriptions.Item>
         <Descriptions.Item label="上报省份">{infnAnObj.reportProvince}</Descriptions.Item>
         <Descriptions.Item label="是否发布">
-          {infnAnObj.infoPublish == 0 ? '未发布' : '已发布'}
+          {infnAnObj.infoPublish === 0 ? '未发布' : '已发布'}
         </Descriptions.Item>
         <Descriptions.Item label="上报日期">{infnAnObj.reportDate}</Descriptions.Item>
       </Descriptions>

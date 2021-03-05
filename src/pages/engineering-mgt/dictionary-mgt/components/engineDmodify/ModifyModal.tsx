@@ -8,12 +8,6 @@ const ModifyModal = ({ dispatch, actionRef, loading, dictionaryMgt }) => {
   const [projectId, setProjectId] = useState('');
   const [detailData, setDetailData] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-
-  const showModal = infoId => {
-    setDetailData(infoId || null);
-    updateData(infoId);
-    setModalVisible(true);
-  };
   const updateData = infoId => {
     if (infoId) {
       new Promise(resolve => {
@@ -41,6 +35,11 @@ const ModifyModal = ({ dispatch, actionRef, loading, dictionaryMgt }) => {
         }
       });
     }
+  };
+  const showModal = infoId => {
+    setDetailData(infoId || null);
+    updateData(infoId);
+    setModalVisible(true);
   };
 
   useEffect(() => {
@@ -80,7 +79,8 @@ const ModifyModal = ({ dispatch, actionRef, loading, dictionaryMgt }) => {
               ...values,
               fileIds,
               projectId,
-              projectPid: '1000',
+              detailData,
+              projectPid: dictionaryMgt.projectPid ? dictionaryMgt.projectPid : '10001',
             },
             resolve,
           });
@@ -96,7 +96,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, dictionaryMgt }) => {
 
   return (
     <Modal
-      title={'新增工程数据'}
+      title="新增工程数据"
       centered
       width="580px"
       style={{ paddingBottom: 0 }}
