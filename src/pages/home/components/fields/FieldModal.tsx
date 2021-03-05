@@ -3,16 +3,14 @@ import { connect } from 'umi';
 import { Button, Modal } from 'antd';
 import FieldTable from './FieldTable';
 import FieldModifyModal from './FieldModifyModal';
-import FieldAddModifyModal from './FieldAddModifyModal';
 
 const FieldModal = ({ actionRef }) => {
   const [modifyModalVisible, setModalVisible] = useState(false);
   const [dictData, setDictData] = useState({});
 
   const fieldRef = useRef({});
-  const fieldAddRef = useRef({});
 
-  const showModal = (items: React.SetStateAction<{}>) => {
+  const showModal = items => {
     setDictData(items);
     setModalVisible(true);
   };
@@ -36,16 +34,12 @@ const FieldModal = ({ actionRef }) => {
     fieldRef.current.showModal(item);
   };
 
-  const openAddFieldModal = item => {
-    fieldAddRef.current.showModal(item);
-  };
-
   return (
     <Modal
       title="维护"
       centered
       style={{ paddingBottom: 0 }}
-      width="90vw"
+      width="900px"
       bodyStyle={{
         height: 'calc(75vh - 108px)',
         overflow: 'auto',
@@ -59,13 +53,8 @@ const FieldModal = ({ actionRef }) => {
       ]}
       onCancel={hideModal}
     >
-      <FieldTable
-        dictData={dictData}
-        openFieldModal={openFieldModal}
-        openAddFieldModal={openAddFieldModal}
-      />
+      <FieldTable dictData={dictData} openFieldModal={openFieldModal} />
       <FieldModifyModal actionRef={fieldRef} />
-      <FieldAddModifyModal actionRef={fieldAddRef} />
     </Modal>
   );
 };

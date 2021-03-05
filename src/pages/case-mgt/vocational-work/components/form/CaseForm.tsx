@@ -155,19 +155,19 @@ const CaseMgt = ({ form, id, orgInfoData, caseType, onFieldsChange }) => {
       label: '案情简要',
       name: 'brieflyCase',
       type: 'textarea',
-      span: 2,
+      span: 4,
       rules: [{ max: 400, message: '案情简要长度请小于400位!', whitespace: true }],
     },
     {
       label: '行政处理结果',
       name: 'punishResult',
-      span: 2,
+      span: 4,
       type: 'textarea',
     },
     {
       label: '案件办理结果',
       name: 'sentenceResult',
-      span: 2,
+      span: 4,
       type: 'textarea',
     },
     {

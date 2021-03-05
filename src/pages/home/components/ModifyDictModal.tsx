@@ -6,15 +6,8 @@ import DictionaryForm from './DictionaryForm';
 const ModifyDictModal = ({ dispatch, actionRef, loading }) => {
   const [form] = DictionaryForm.useForm();
   const [modifyModalVisible, setModalVisible] = useState(false);
-  const [detailDictData, setDictDetailData] = useState({});
 
-  const showModal = items => {
-    if (items && items !== 'undefined') {
-      setDictDetailData(items);
-    } else {
-      setDictDetailData({});
-      form.resetFields();
-    }
+  const showModal = () => {
     setModalVisible(true);
   };
 
@@ -30,7 +23,7 @@ const ModifyDictModal = ({ dispatch, actionRef, loading }) => {
 
   const hideModal = () => {
     setModalVisible(false);
-    // form.resetFields();
+    form.resetFields();
   };
 
   const handleOk = () => {
@@ -39,7 +32,7 @@ const ModifyDictModal = ({ dispatch, actionRef, loading }) => {
       .then(values => {
         return new Promise(resolve => {
           dispatch({
-            type: `smDictionaryMgt/${detailDictData ? 'updateType' : 'addType'}`,
+            type: `smDictionaryMgt/addDict`,
             payload: {
               ...values,
             },
@@ -57,7 +50,7 @@ const ModifyDictModal = ({ dispatch, actionRef, loading }) => {
 
   return (
     <Modal
-      title={`${detailDictData ? '修改类型' : '新增类型'}`}
+      title="新增字典"
       centered
       style={{ paddingBottom: 0 }}
       bodyStyle={{
@@ -68,12 +61,11 @@ const ModifyDictModal = ({ dispatch, actionRef, loading }) => {
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <DictionaryForm form={form} orgInfoData={detailDictData} />
+      <DictionaryForm form={form} />
     </Modal>
   );
 };
 
-export default connect(({ smDictionaryMgt, loading }) => ({
-  smDictionaryMgt,
+export default connect(({ loading }) => ({
   loading: loading.models.smDictionaryMgt,
 }))(ModifyDictModal);

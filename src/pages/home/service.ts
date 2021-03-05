@@ -1,6 +1,36 @@
 import request from '@/utils/request';
 
 /**
+ * 获取收文管理列表
+ * @param {*} params
+ */
+export async function getReceivingList(params) {
+  return request('/home/findHome', {
+    method: 'GET',
+    params,
+  });
+}
+/**
+ * 获取收文管理列表
+ * @param {*} params
+ */
+export async function getNoticeList(params) {
+  return request('/home/findHome', {
+    method: 'GET',
+    params,
+  });
+}
+/**
+ * 获取收文管理列表
+ * @param {*} params
+ */
+export async function getAgencyList(params) {
+  return request('/home/findHome', {
+    method: 'GET',
+    params,
+  });
+}
+/**
  * 通知公告-列表
  * @param {*} params
  */

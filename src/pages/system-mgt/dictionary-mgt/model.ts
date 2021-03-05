@@ -3,9 +3,10 @@ import {
   addDict,
   deleteDicts,
   getDictList,
-  addField,
-  updateField,
-  deleteFields,
+  addType,
+  updateDict,
+  updateType,
+  deleteTypes,
   getFieldList,
 } from './service';
 
@@ -13,6 +14,7 @@ const Model = {
   namespace: 'smDictionaryMgt',
   state: {
     dictListData: {},
+    dictDetailData: {},
     fieldListData: {},
     tableRef: {},
     fieldTableRef: {},
@@ -25,7 +27,18 @@ const Model = {
         message.success('字典信息新增成功！');
 
         yield put({
-          type: 'tableReload',
+          type: 'fieldTableReload',
+        });
+      }
+    },
+    *updateDict({ payload, resolve }, { call, put }) {
+      const response = yield call(updateDict, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('字段信息修改成功！');
+
+        yield put({
+          type: 'fieldTableReload',
         });
       }
     },
@@ -36,27 +49,27 @@ const Model = {
         message.success('字典信息删除成功！');
 
         yield put({
-          type: 'tableReload',
+          type: 'fieldTableReload',
         });
       }
     },
     *getDictList({ payload, resolve }, { call, put }) {
       const params = {
         ...payload,
-        currentPage: payload.current,
+        pageNum: payload.current,
         pageSize: payload.pageSize,
       };
       const response = yield call(getDictList, params);
 
       if (!response.error) {
-        const { items, currentPage, totalNum } = response;
+        const { dictInfoList, currentPage, total } = response;
 
         const result = {
-          data: items,
+          data: dictInfoList,
           page: currentPage,
           pageSize: payload.pageSize,
           success: true,
-          total: totalNum,
+          total,
         };
 
         resolve && resolve(result);
@@ -69,50 +82,58 @@ const Model = {
         });
       }
     },
-
-    *addField({ payload, resolve }, { call, put }) {
-      const response = yield call(addField, payload);
+    *addType({ payload, resolve }, { call, put }) {
+      const response = yield call(addType, payload);
       if (!response.error) {
         resolve && resolve(response);
         message.success('字段信息新增成功！');
 
         yield put({
-          type: 'fieldTableReload',
+          type: 'tableReload',
         });
       }
     },
 
-    *updateField({ payload, resolve }, { call, put }) {
-      const response = yield call(updateField, payload);
+    *updateType({ payload, resolve }, { call, put }) {
+      const response = yield call(updateType, payload);
       if (!response.error) {
         resolve && resolve(response);
         message.success('字段信息修改成功！');
 
         yield put({
-          type: 'fieldTableReload',
+          type: 'tableReload',
         });
       }
     },
-    *deleteFields({ payload, resolve }, { call, put }) {
-      const response = yield call(deleteFields, payload);
+    *deleteTypes({ payload, resolve }, { call, put }) {
+      const response = yield call(deleteTypes, payload);
       if (!response.error) {
         resolve && resolve(response);
         message.success('字段信息删除成功！');
 
         yield put({
-          type: 'fieldTableReload',
+          type: 'tableReload',
         });
       }
     },
     *getFieldList({ payload, resolve }, { call, put }) {
-      const response = yield call(getFieldList, payload);
+      const params = {
+        ...payload,
+        pageNum: payload.current,
+        pageSize: payload.pageSize,
+      };
+      const response = yield call(getFieldList, params);
 
       if (!response.error) {
-        const result = {
-          data: response,
-          success: true,
-        };
+        const { dictInfoList, currentPage, total } = response;
 
+        const result = {
+          data: dictInfoList,
+          page: currentPage,
+          pageSize: payload.pageSize,
+          success: true,
+          total,
+        };
         resolve && resolve(result);
 
         yield put({
