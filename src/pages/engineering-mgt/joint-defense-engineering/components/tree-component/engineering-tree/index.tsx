@@ -6,11 +6,17 @@ import styles from './index.less';
 const EngineeringTree = ({ dispatch, engineeringTree, loading, openAddEngineeringModal }) => {
   const [expandedKeys, setExpandedKeys] = useState<any>([]);
   const [selectedKeys, setSelectedKeys] = useState<any>([]);
-
   const getTreeData = (projectName = '') => {
-    dispatch({
-      type: 'dictionaryMgt/getEngineeringTree',
-      payload: { projectName },
+    new Promise(resolve => {
+      dispatch({
+        type: 'dictionaryMgt/getEngineeringTree',
+        payload: { projectName },
+        resolve,
+      });
+    }).then(res => {
+      const arr = [];
+      arr.push(res[0].key);
+      setSelectedKeys([...arr]);
     });
   };
 
@@ -62,13 +68,17 @@ const EngineeringTree = ({ dispatch, engineeringTree, loading, openAddEngineerin
         onSearch={engineeringSearchHandler}
       />
       <Spin spinning={loading}>
-        <Tree
-          treeData={engineeringTree}
-          onSelect={engineeringSelectHandler}
-          selectedKeys={selectedKeys}
-          onExpand={actionExpandHandler}
-          expandedKeys={expandedKeys}
-        />
+        {engineeringTree && engineeringTree.length ? (
+          <Tree
+            treeData={engineeringTree}
+            onSelect={engineeringSelectHandler}
+            selectedKeys={selectedKeys}
+            onExpand={actionExpandHandler}
+            expandedKeys={expandedKeys}
+          />
+        ) : (
+          <></>
+        )}
       </Spin>
     </div>
   );

@@ -12,6 +12,7 @@ const AddEngineeringModal = ({ dispatch, actionRef, loading }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [add, setAdd] = useState(false);
   const [edit, setEdit] = useState(false);
+  const [editVisible, setEditVisible] = useState(true);
 
   const updateData = data => {
     const fileInfoList =
@@ -31,9 +32,11 @@ const AddEngineeringModal = ({ dispatch, actionRef, loading }) => {
   const showModal = item => {
     if (item) {
       if (item.add) {
+        setEditVisible(true);
         setAdd(true);
       }
       if (item.edit) {
+        setEditVisible(edit);
         setEdit(true);
       }
       if (item.year) {
@@ -122,7 +125,13 @@ const AddEngineeringModal = ({ dispatch, actionRef, loading }) => {
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <AddEngineeringForm form={form} visible={visible} add={add} edit={edit} />
+      <AddEngineeringForm
+        form={form}
+        visible={visible}
+        add={add}
+        edit={edit}
+        editVisible={editVisible}
+      />
     </Modal>
   );
 };

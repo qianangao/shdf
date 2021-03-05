@@ -27,7 +27,15 @@ const MeetingTable = ({ dictionaryMgt, meetingModal, dispatch }) => {
       title: '会议日期',
       align: 'center',
       dataIndex: 'startTime',
-      // valueType:'dateRange'
+      valueType: 'date',
+      hideInSearch: true,
+    },
+    {
+      title: '会议日期',
+      align: 'center',
+      dataIndex: 'startTime',
+      valueType: 'dateRange',
+      hideInTable: true,
     },
     { title: '举办单位', align: 'center', dataIndex: 'organizer', hideInSearch: true },
     {
@@ -44,7 +52,7 @@ const MeetingTable = ({ dictionaryMgt, meetingModal, dispatch }) => {
         >
           查看
         </a>,
-        <a key={`${data.meetingId}up`} onClick={() => meetingModal(data.meetingId)}>
+        <a key={`${data.meetingId}up`} onClick={() => meetingModal({ meetingId: data.meetingId })}>
           编辑
         </a>,
       ],
@@ -66,7 +74,7 @@ const MeetingTable = ({ dictionaryMgt, meetingModal, dispatch }) => {
         rowKey="meetingId"
         headerTitle="会议信息"
         actionRef={meetingTableRef}
-        rowSelection={[]}
+        // rowSelection={[]}
         scroll={{ x: 'max-content' }}
         request={async params => getMeetingList(params)}
         toolBarRender={_ => [
