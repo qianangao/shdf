@@ -27,9 +27,10 @@ const EngineeringTree = ({ dispatch, engineeringTree, loading, openAddEngineerin
   };
   const engineeringSelectHandler = (keys, { node }) => {
     const projectId = node.key;
+    const projectPid = node.pid;
     dispatch({
       type: 'dictionaryMgt/getListTable',
-      payload: { projectId },
+      payload: { projectId, projectPid },
     });
     if (!keys[0]) return;
     setSelectedKeys(keys);

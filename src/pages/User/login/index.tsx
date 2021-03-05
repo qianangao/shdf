@@ -1,13 +1,12 @@
 import { Alert, Checkbox } from 'antd';
 import React, { useState } from 'react';
 import { connect } from 'umi';
-import md from 'utility';
 import CryptoJS from 'crypto-js';
 import LoginForm from './components/Login';
 
 import styles from './style.less';
 
-const { Tab, UserName, Password, VerificationCode, Submit } = LoginForm;
+const { Tab, UserName, Password, Submit } = LoginForm;
 
 const LoginMessage = ({ content }) => (
   <Alert
@@ -24,7 +23,6 @@ const Login = props => {
   const { userLogin = {}, submitting } = props;
   const { status, type: loginType } = userLogin;
   const [autoLogin, setAutoLogin] = useState(true);
-  const [type, setType] = useState('account');
 
   const handleSubmit = values => {
     const { dispatch } = props;
@@ -43,15 +41,15 @@ const Login = props => {
     dispatch({
       type: 'login/login',
       payload: {
-        username: values.username ? encrypt(values.username) : '',
-        password: values.password ? md.md5(values.password) : '',
+        username: values.username ? values.username : encrypt(values.username),
+        password: values.password, // ? md.md5(values.password) : '',
         verifyCode: values.verifyCode,
       },
     });
   };
   return (
     <div className={styles.main}>
-      <LoginForm activeKey={type} onTabChange={setType} onSubmit={handleSubmit}>
+      <LoginForm activeKey="account" onSubmit={handleSubmit}>
         <Tab key="account" tab="账户密码登录">
           {status === 'error' && loginType === 'account' && !submitting && (
             <LoginMessage content="账户或密码错误" />
@@ -74,16 +72,6 @@ const Login = props => {
               {
                 required: true,
                 message: '请输入密码！',
-              },
-            ]}
-          />
-          <VerificationCode
-            name="verifyCode"
-            placeholder="请输入验证码"
-            rules={[
-              {
-                required: true,
-                message: '请输入验证码！',
               },
             ]}
           />

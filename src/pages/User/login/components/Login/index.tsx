@@ -35,10 +35,10 @@ const Login: LoginType = props => {
   const { className } = props;
   const [tabs, setTabs] = useState<string[]>([]);
   const [active, setActive] = useState({});
-  const [type, setType] = useState({
+  const type = {
     value: props.activeKey,
     onChange: props.onTabChange,
-  });
+  };
   const TabChildren: React.ReactComponentElement<typeof LoginTab>[] = [];
   const otherChildren: React.ReactElement<unknown>[] = [];
   React.Children.forEach(
@@ -87,15 +87,7 @@ const Login: LoginType = props => {
         >
           {tabs.length ? (
             <React.Fragment>
-              <Tabs
-                destroyInactiveTabPane
-                animated={false}
-                className={styles.tabs}
-                activeKey={activeKey}
-                onChange={activeKey => {
-                  setType(activeKey);
-                }}
-              >
+              <Tabs destroyInactiveTabPane animated={false} className={styles.tabs}>
                 {TabChildren}
               </Tabs>
               {otherChildren}
