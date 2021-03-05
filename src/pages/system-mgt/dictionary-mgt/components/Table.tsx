@@ -1,33 +1,51 @@
 import React from 'react';
-import { Button, Modal } from 'antd';
+import { Button, Modal, Popconfirm } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 
-const Table = ({ smDictionaryMgt, openMaintainModal, openAddDictModal, dispatch }) => {
+const Table = ({ smDictionaryMgt, openModifyModal, openMaintainModal, dispatch }) => {
   const { tableRef } = smDictionaryMgt;
+
+  const deleteDict = id => {
+    dispatch({
+      type: 'receivingMgt/deleteReceiving',
+      payload: {
+        id,
+      },
+    });
+  };
 
   const columns = [
     {
-      title: '序号',
-      dataIndex: 'index',
-      valueType: 'index',
+      title: '字典代码',
+      dataIndex: 'dictTypeCode',
       align: 'center',
-      fixed: 'left',
       width: 64,
     },
-    { title: '字典名称', align: 'center', dataIndex: 'name' },
-    { title: '字段类型', align: 'center', dataIndex: 'chineseName', hideInSearch: true },
+    { title: '类型名称', align: 'center', dataIndex: 'dictTypeName' },
+    { title: '备注', align: 'center', dataIndex: 'dictTypeDesc', hideInSearch: true },
     {
       title: '操作',
       valueType: 'option',
       align: 'center',
-      dataIndex: 'id',
-      width: 180,
+      dataIndex: 'receiptId',
+      width: 220,
       fixed: 'right',
-      render: (dom, orgData) => [
-        <a key={`${orgData.id}up`} onClick={() => openMaintainModal(orgData)}>
+      render: (dom: any, receivingData: { receiptId: any }) => [
+        <a key={`${receivingData.receiptId}up`} onClick={() => openModifyModal(receivingData)}>
+          修改
+        </a>,
+        <a key={`${receivingData.receiptId}up`} onClick={() => openMaintainModal(receivingData)}>
           维护
         </a>,
+        <Popconfirm
+          key={`${receivingData.receiptId}del`}
+          title="确认删除？"
+          placement="topRight"
+          onConfirm={() => deleteDict(receivingData.receiptId)}
+        >
+          <a>删除</a>
+        </Popconfirm>,
       ],
     },
   ];
@@ -57,7 +75,7 @@ const Table = ({ smDictionaryMgt, openMaintainModal, openAddDictModal, dispatch 
       scroll={{ x: 'max-content' }}
       request={async params => getDictList(params)}
       toolBarRender={(_, { selectedRowKeys }) => [
-        <Button type="primary" onClick={() => openAddDictModal()}>
+        <Button type="primary" onClick={() => openModifyModal()}>
           新增
         </Button>,
         selectedRowKeys && selectedRowKeys.length && (

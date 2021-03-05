@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import { connect } from 'umi';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import Table from './components/Table';
 import ModifyDictModal from './components/ModifyDictModal';
 import FieldModal from './components/fields/FieldModal';
@@ -19,8 +18,8 @@ const DictionaryMgt = ({ dispatch }) => {
     });
   }, []);
 
-  const openAddDictModal = () => {
-    modifyDictRef.current.showModal();
+  const openModifyModal = item => {
+    modifyDictRef.current.showModal(item);
   };
 
   const openMaintainModal = item => {
@@ -28,11 +27,11 @@ const DictionaryMgt = ({ dispatch }) => {
   };
 
   return (
-    <PageHeaderWrapper>
-      <Table openAddDictModal={openAddDictModal} openMaintainModal={openMaintainModal} />
+    <>
+      <Table openModifyModal={openModifyModal} openMaintainModal={openMaintainModal} />
       <ModifyDictModal actionRef={modifyDictRef} />
       <FieldModal actionRef={fieldRef} />
-    </PageHeaderWrapper>
+    </>
   );
 };
 

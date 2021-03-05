@@ -91,13 +91,6 @@ const ReceivingForm = ({ form, orgInfoData, id }) => {
       ],
     },
     {
-      label: '备注',
-      name: 'remarks',
-      span: 4,
-      type: 'textarea',
-      rules: [{ max: 400, message: '备注长度请小于400位!', whitespace: true }],
-    },
-    {
       label: '批示',
       name: 'instructions',
       span: 4,
@@ -106,6 +99,13 @@ const ReceivingForm = ({ form, orgInfoData, id }) => {
         { message: '请输入批示!', whitespace: true },
         { max: 80, message: '单位名称长度请小于80位!', whitespace: true },
       ],
+    },
+    {
+      label: '备注',
+      name: 'remarks',
+      span: 4,
+      type: 'textarea',
+      rules: [{ max: 400, message: '备注长度请小于400位!', whitespace: true }],
     },
     {
       label: '附件',
