@@ -77,11 +77,16 @@ const Model = {
       }
     },
     *getClubList({ payload, resolve }, { call, put }) {
+      const params = {
+        ...payload,
+        pageNum: payload.current,
+        pageSize: 5,
+      };
       if (payload.id === '') {
         resolve && resolve({});
         return;
       }
-      const response = yield call(getDetail, payload);
+      const response = yield call(getDetail, params);
       if (!response.error) {
         const { clueList } = response;
         if (!clueList || clueList == null) {
@@ -90,7 +95,7 @@ const Model = {
           const result = {
             data: clueList,
             page: 1,
-            pageSize: 100,
+            pageSize: payload.pageSize,
             success: true,
             total: clueList.length,
           };
@@ -108,7 +113,7 @@ const Model = {
       const params = {
         ...payload,
         pageNum: payload.current,
-        pageSize: payload.pageSize,
+        pageSize: 5,
       };
       if (payload.id === '') {
         resolve && resolve({});

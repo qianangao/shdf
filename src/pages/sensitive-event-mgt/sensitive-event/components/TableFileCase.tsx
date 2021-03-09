@@ -37,6 +37,7 @@ const TableFileCase = ({ dispatch, id, sensitiveMgt }) => {
       scroll={{ x: 'max-content' }}
       search={false}
       options={false}
+      pagination={false}
       request={async params => getCaseHandleFile(params)}
       columns={columns}
     />

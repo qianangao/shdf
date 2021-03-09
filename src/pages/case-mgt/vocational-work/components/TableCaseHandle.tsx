@@ -56,6 +56,7 @@ const TableCaseHandle = ({ dispatch, id, caseMgt, openCaseHandleModal, isDetail 
       headerTitle="案件办理"
       search={false}
       options={false}
+      pagination={false}
       request={async params => getCaseHandleList(params)}
       columns={columns}
       toolBarRender={_ => [

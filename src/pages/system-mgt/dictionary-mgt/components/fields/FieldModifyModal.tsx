@@ -3,16 +3,22 @@ import { connect } from 'umi';
 import { Modal } from 'antd';
 import FieldForm from './FieldForm';
 
-const DictionaryModifyModal = ({ dispatch, actionRef, loading }) => {
+const DictionaryModifyModal = ({ dispatch, actionRef, dictTypeId, loading }) => {
   const [form] = FieldForm.useForm();
   const [modifyModalVisible, setModalVisible] = useState(false);
-  const [fieldData, setFieldData] = useState({});
-  const [id, setId] = useState({});
+  const [fieldData, setFieldData] = useState(null);
+  const [id, setId] = useState(null);
 
   const showModal = items => {
     setModalVisible(true);
-    setId(items.dictId);
-    setFieldData(items);
+    if (items && items !== 'undefined') {
+      setId(items.dictId);
+      setFieldData(items);
+    } else {
+      setId(null);
+      form.resetFields();
+      setFieldData(null);
+    }
   };
 
   useEffect(() => {
@@ -35,11 +41,15 @@ const DictionaryModifyModal = ({ dispatch, actionRef, loading }) => {
     form
       .validateFields()
       .then(values => {
+        // if(dictTypeId){
+
+        // }
         return new Promise(resolve => {
           dispatch({
-            type: `smDictionaryMgt/updateDict`,
+            type: `smDictionaryMgt/${id ? 'updateDict' : 'addDict'}`,
             payload: {
               ...values,
+              dictTypeId,
             },
             resolve,
           });
@@ -67,7 +77,7 @@ const DictionaryModifyModal = ({ dispatch, actionRef, loading }) => {
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <FieldForm form={form} data={fieldData} id={id} />
+      <FieldForm form={form} dictData={fieldData} id={id} />
     </Modal>
   );
 };

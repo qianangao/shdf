@@ -36,6 +36,7 @@ const TableFileCase = ({ dispatch, id, caseMgt }) => {
       headerTitle="附件列表"
       search={false}
       options={false}
+      pagination={false}
       request={async params => getCaseHandleFile(params)}
       columns={columns}
     />

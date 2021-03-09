@@ -111,7 +111,11 @@ const CaresDetailModal = ({ dispatch, receivingMgt, actionRef, enums }) => {
           {receivingDetailData.receiptTitle}
         </Descriptions.Item>
         <Descriptions.Item label="备    注">{receivingDetailData.remarks}</Descriptions.Item>
-        <Descriptions.Item label="批   示">{receivingDetailData.instructions}</Descriptions.Item>
+      </Descriptions>
+      <Descriptions size="middle" column={1}>
+        <Descriptions.Item label="批   示">
+          <div dangerouslySetInnerHTML={{ __html: receivingDetailData.instructions }} />
+        </Descriptions.Item>
         {/* <Descriptions.Item label="附   件">{receivingDetailData.fileList}</Descriptions.Item> */}
         {fileList(receivingDetailData.fileList)}
       </Descriptions>

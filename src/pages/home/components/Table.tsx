@@ -2,9 +2,7 @@ import React from 'react';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 
-const Table = ({ smDictionaryMgt, dispatch }) => {
-  const { tableRef } = smDictionaryMgt;
-
+const Table = ({ dispatch }) => {
   const columns = [
     {
       title: '业务类型',
@@ -16,10 +14,14 @@ const Table = ({ smDictionaryMgt, dispatch }) => {
     { title: '开始时间', align: 'center', dataIndex: 'startTime' },
   ];
 
-  const getAgencyList = () =>
+  const getAgencyList = params =>
     new Promise(resolve => {
       dispatch({
         type: 'home/getAgencyList',
+        payload: {
+          ...params,
+          pageSize: 10,
+        },
         resolve,
       });
     });
@@ -28,17 +30,16 @@ const Table = ({ smDictionaryMgt, dispatch }) => {
     <ProTable
       rowKey="id"
       headerTitle="待办"
-      actionRef={tableRef}
       size="small"
       search={false}
+      pagination={{ simple: true }}
       request={async params => getAgencyList(params)}
-      pagination={false}
       columns={columns}
     />
   );
 };
 
-export default connect(({ smDictionaryMgt, global }) => ({
-  smDictionaryMgt,
+export default connect(({ home, global }) => ({
+  home,
   enums: global.enums,
 }))(Table);

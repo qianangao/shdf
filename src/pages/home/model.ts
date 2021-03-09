@@ -32,15 +32,21 @@ const Model = {
     *getReceivingList({ payload, resolve }, { call, put }) {
       const params = {
         ...payload,
+        pageNum: payload.current,
+        pageSize: payload.pageSize,
       };
+
       const response = yield call(getReceivingList, params);
 
       if (!response.error) {
-        const { receiptList } = response;
+        const { records, current, total } = response;
 
         const result = {
-          data: receiptList,
+          data: records,
+          page: current,
+          pageSize: payload.pageSize,
           success: true,
+          total,
         };
 
         resolve && resolve(result);
@@ -56,16 +62,21 @@ const Model = {
     *getAgencyList({ payload, resolve }, { call, put }) {
       const params = {
         ...payload,
+        pageNum: payload.current,
+        pageSize: payload.pageSize,
       };
 
       const response = yield call(getAgencyList, params);
 
       if (!response.error) {
-        const { toDoList } = response;
+        const { items, current, total } = response;
 
         const result = {
-          data: toDoList,
+          data: items,
+          page: current,
+          pageSize: payload.pageSize,
           success: true,
+          total,
         };
 
         resolve && resolve(result);
@@ -81,16 +92,21 @@ const Model = {
     *getNoticeList({ payload, resolve }, { call, put }) {
       const params = {
         ...payload,
+        pageNum: payload.current,
+        pageSize: payload.pageSize,
       };
 
       const response = yield call(getNoticeList, params);
 
       if (!response.error) {
-        const { noticeList } = response;
+        const { records, current, total } = response;
 
         const result = {
-          data: noticeList,
+          data: records,
+          page: current,
+          pageSize: payload.pageSize,
           success: true,
+          total,
         };
 
         resolve && resolve(result);
