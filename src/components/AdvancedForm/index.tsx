@@ -31,7 +31,6 @@ const AdvancedFormItem = ({
   ...resField
 }) => {
   let fieldInput = <Input disabled={disabled} />;
-
   if (!visible) {
     return null;
   }
@@ -131,7 +130,7 @@ const AdvancedFormItem = ({
   } else if (type === 'editor') {
     fieldInput = <EditorInput disabled={disabled} />;
   } else {
-    fieldInput = <Input disabled={disabled} />;
+    fieldInput = <Input disabled={disabled} {...extraProps} />;
   }
 
   return (
