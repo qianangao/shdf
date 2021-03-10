@@ -20,7 +20,6 @@ const Table = ({ dispatch }) => {
         type: 'home/getAgencyList',
         payload: {
           ...params,
-          pageSize: 10,
         },
         resolve,
       });
@@ -33,7 +32,7 @@ const Table = ({ dispatch }) => {
       size="small"
       search={false}
       options={false}
-      pagination={{ simple: true }}
+      pagination={{ simple: true, defaultPageSize: 10 }}
       request={async params => getAgencyList(params)}
       columns={columns}
     />

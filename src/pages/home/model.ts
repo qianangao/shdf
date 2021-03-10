@@ -69,14 +69,14 @@ const Model = {
       const response = yield call(getAgencyList, params);
 
       if (!response.error) {
-        const { items, current, total } = response;
+        const { items, current, totalCount } = response;
 
         const result = {
           data: items,
           page: current,
           pageSize: payload.pageSize,
           success: true,
-          total,
+          total: totalCount,
         };
 
         resolve && resolve(result);
