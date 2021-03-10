@@ -1,9 +1,9 @@
 import React from 'react';
-import { Button, Popconfirm, Modal } from 'antd';
+import { Button, Popconfirm } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 
-const Table = ({ smRoleMgt, openModifyModal, dispatch }) => {
+const Table = ({ smRoleMgt, modifyRoleModal, authorityModal, dispatch }) => {
   const { tableRef } = smRoleMgt;
 
   const columns = [
@@ -15,31 +15,36 @@ const Table = ({ smRoleMgt, openModifyModal, dispatch }) => {
       fixed: 'left',
       width: 64,
     },
-    { title: '角色名称', align: 'center', dataIndex: 'roleName' },
-    { title: '角色描述', align: 'center', dataIndex: 'remark' },
+    { title: '角色名称', align: 'center', dataIndex: 'name' },
+    { title: '角色描述', align: 'center', dataIndex: 'remark', hideInSearch: true },
     {
       title: '操作',
       valueType: 'option',
       align: 'center',
       dataIndex: 'id',
-      width: 180,
+      width: 240,
       fixed: 'right',
       render: (dom, roleData) => [
-        roleData.isEdit === 1 && (
-          <a key={`${roleData.id}up`} onClick={() => openModifyModal(roleData)}>
-            编辑
-          </a>
-        ),
-        roleData.isEdit === 1 && (
-          <Popconfirm
-            key={`${roleData.id}del`}
-            title="确认删除该角色吗？该操作不可恢复"
-            placement="topRight"
-            onConfirm={() => deleteRoles([roleData.id])}
-          >
-            <a>删除</a>
-          </Popconfirm>
-        ),
+        // roleData.onlyRead && (
+        <a key={`${roleData.id}up`} onClick={() => modifyRoleModal(roleData.roleId)}>
+          修改
+        </a>,
+
+        //   <a key={`${roleData.id}deal`} onClick={() => assginModal(roleData.roleId)}>
+        //   分配用户
+        // </a>,
+        <Popconfirm
+          key={`${roleData.id}del`}
+          title="确认删除该角色吗？该操作不可恢复"
+          placement="topRight"
+          onConfirm={() => deleteRoles(roleData.roleId)}
+        >
+          <a>删除</a>
+        </Popconfirm>,
+        // ),
+        <a key={`${roleData.id}manag`} onClick={() => authorityModal(roleData.roleId)}>
+          权限管理
+        </a>,
       ],
     },
   ];
@@ -64,30 +69,16 @@ const Table = ({ smRoleMgt, openModifyModal, dispatch }) => {
 
   return (
     <ProTable
-      rowKey="id"
+      rowKey="roleId"
       headerTitle="角色信息"
       actionRef={tableRef}
       rowSelection={[]}
       scroll={{ x: 'max-content' }}
       request={async params => getRoleList(params)}
-      toolBarRender={(_, { selectedRowKeys }) => [
-        <Button type="primary" onClick={() => openModifyModal()}>
+      toolBarRender={_ => [
+        <Button type="primary" onClick={() => modifyRoleModal()}>
           新增
         </Button>,
-        selectedRowKeys && selectedRowKeys.length && (
-          <Button
-            onClick={() => {
-              Modal.confirm({
-                title: '确认删除所选择单位？该操作不可恢复',
-                onOk: () => {
-                  deleteRoles(selectedRowKeys);
-                },
-              });
-            }}
-          >
-            批量删除
-          </Button>
-        ),
       ]}
       columns={columns}
     />
