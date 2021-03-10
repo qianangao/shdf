@@ -6,13 +6,13 @@ import DictionaryForm from './DictionaryForm';
 const ModifyDictModal = ({ dispatch, actionRef, loading }) => {
   const [form] = DictionaryForm.useForm();
   const [modifyModalVisible, setModalVisible] = useState(false);
-  const [detailDictData, setDictDetailData] = useState({});
+  const [detailDictData, setDictDetailData] = useState(null);
 
   const showModal = items => {
     if (items && items !== 'undefined') {
       setDictDetailData(items);
     } else {
-      setDictDetailData({});
+      setDictDetailData(null);
       form.resetFields();
     }
     setModalVisible(true);

@@ -17,6 +17,12 @@ const CaresDetailModal = ({ dispatch, caseMgt, actionRef, enums }) => {
         id: items.caseId,
       },
     });
+    dispatch({
+      type: 'caseMgt/getCaseHandleFile',
+      payload: {
+        id: items.caseId,
+      },
+    });
     setModalVisible(true);
     setCaresId(items.caseId);
   };
@@ -144,7 +150,6 @@ const CaresDetailModal = ({ dispatch, caseMgt, actionRef, enums }) => {
       <ClubSplicing id={infoId} isDetail={1} />
 
       <TableCaseHandle id={infoId} isDetail={1} />
-
       <TableFileCase id={infoId} />
     </Modal>
   );

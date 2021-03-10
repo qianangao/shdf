@@ -1,14 +1,14 @@
 import request from '@/utils/request';
 // 查询字典信息  queryType: dict
 export async function getDictList(params) {
-  return request(`/dict`, {
+  return request(`/dict/getDictfield`, {
     method: 'GET',
     params,
   });
 }
 // 编辑字段信息 params：remarks、code
 export async function updateDict(params) {
-  return request('/dict/dictUpdate', {
+  return request('/dict', {
     method: 'PUT',
     data: params,
   });
@@ -22,15 +22,15 @@ export async function addDict(params) {
 }
 // 删除字典信息  params：ids
 export async function deleteDicts(params) {
-  return request(`/dict/deleteDict`, {
+  return request(`/dict`, {
     method: 'DELETE',
-    data: params,
+    data: params.ids,
   });
 }
 
 // 根据chineseName查询字段信息  params：chineseName、queryType
-export async function getFieldList(params) {
-  return request(`/dict`, {
+export async function getTypeList(params) {
+  return request(`/dict/getDictTypeList`, {
     method: 'GET',
     params,
   });
@@ -57,6 +57,6 @@ export async function updateType(params) {
 export async function deleteTypes(params) {
   return request(`/dict/deleteDictType`, {
     method: 'DELETE',
-    data: params,
+    data: params.ids,
   });
 }

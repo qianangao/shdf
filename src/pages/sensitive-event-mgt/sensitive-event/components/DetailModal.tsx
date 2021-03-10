@@ -18,6 +18,12 @@ const CaresDetailModal = ({ dispatch, sensitiveMgt, actionRef, enums }) => {
         id: items.eventId,
       },
     });
+    dispatch({
+      type: 'caseMgt/getCaseHandleFile',
+      payload: {
+        id: items.eventId,
+      },
+    });
     setModalVisible(true);
     setCaresId(items.eventId);
   };

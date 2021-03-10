@@ -62,6 +62,7 @@ const TableCaseHandle = ({ dispatch, id, caseMgt, openAssociationModal, isDetail
       scroll={{ x: 'max-content' }}
       search={false}
       options={false}
+      pagination={{ pageSizeOptions: ['5'], defaultPageSize: 5, simple: true }}
       toolBarRender={_ => [
         isDetail === 1 ? null : (
           <Button type="primary" onClick={() => openAssociationModal()}>
