@@ -1,21 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
 import { Modal } from 'antd';
-import DictionaryForm from './DictionaryForm';
+import FieldForm from './FieldForm';
 
-const ModifyDictModal = ({ dispatch, actionRef, loading }) => {
-  const [form] = DictionaryForm.useForm();
+const DictionaryModifyModal = ({ dispatch, actionRef, loading }) => {
+  const [form] = FieldForm.useForm();
   const [modifyModalVisible, setModalVisible] = useState(false);
-  const [detailDictData, setDictDetailData] = useState({});
+  const [fieldData, setFieldData] = useState({});
+  const [type, setType] = useState('add');
 
   const showModal = items => {
-    if (items && items !== 'undefined') {
-      setDictDetailData(items);
-    } else {
-      setDictDetailData({});
-      form.resetFields();
-    }
     setModalVisible(true);
+    setFieldData(items);
+    setType(items.remarks ? 'update' : 'add');
   };
 
   useEffect(() => {
@@ -30,7 +27,8 @@ const ModifyDictModal = ({ dispatch, actionRef, loading }) => {
 
   const hideModal = () => {
     setModalVisible(false);
-    // form.resetFields();
+    setFieldData({});
+    form.resetFields();
   };
 
   const handleOk = () => {
@@ -39,7 +37,7 @@ const ModifyDictModal = ({ dispatch, actionRef, loading }) => {
       .then(values => {
         return new Promise(resolve => {
           dispatch({
-            type: `smDictionaryMgt/${detailDictData ? 'updateType' : 'addType'}`,
+            type: `smDictionaryMgt/${type}Field`,
             payload: {
               ...values,
             },
@@ -57,7 +55,7 @@ const ModifyDictModal = ({ dispatch, actionRef, loading }) => {
 
   return (
     <Modal
-      title={`${detailDictData ? '修改类型' : '新增类型'}`}
+      title={type === 'add' ? '新增字段' : '编辑字段信息'}
       centered
       style={{ paddingBottom: 0 }}
       bodyStyle={{
@@ -65,15 +63,15 @@ const ModifyDictModal = ({ dispatch, actionRef, loading }) => {
       }}
       visible={modifyModalVisible}
       onOk={handleOk}
+      forceRender
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <DictionaryForm form={form} orgInfoData={detailDictData} />
+      <FieldForm form={form} data={fieldData} />
     </Modal>
   );
 };
 
-export default connect(({ smDictionaryMgt, loading }) => ({
-  smDictionaryMgt,
+export default connect(({ loading }) => ({
   loading: loading.models.smDictionaryMgt,
-}))(ModifyDictModal);
+}))(DictionaryModifyModal);

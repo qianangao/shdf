@@ -285,3 +285,102 @@ export async function addEngineData(params: any) {
     data: params,
   });
 }
+
+/**
+ * 查堵目录列表
+ * @param params
+ */
+export async function getEngineeringBanPublishList(params: any) {
+  return request(`/engineering-relation/illegal/relation`, {
+    method: 'GET',
+    params,
+  });
+}
+
+/**
+ * 可关联非法出版物
+ * @param params
+ */
+export async function getRelevancyBanPublishList(params: any) {
+  return request(`/engineering-relation/illegal/relevancy`, {
+    method: 'GET',
+    params,
+  });
+}
+
+/**
+ * 工程关联人员列表
+ * @param params
+ */
+export async function getEngineeringKeyPersonList(params: any) {
+  return request(`/engineering-relation/person/relation`, {
+    method: 'GET',
+    params,
+  });
+}
+
+/**
+ * 可关联人员列表
+ * @param params
+ */
+export async function getRelevancyPersonList(params: any) {
+  return request(`/engineering-relation/person/relevancy`, {
+    method: 'GET',
+    params,
+  });
+}
+
+/**
+ * 工程关联机构列表
+ * @param params
+ */
+export async function getEngineeringKeyInstitutionsList(params: any) {
+  return request(`/engineering-relation/org/relation`, {
+    method: 'GET',
+    params,
+  });
+}
+
+/**
+ * 可关联机构列表
+ * @param params
+ */
+export async function getRelevancyInstitutionsList(params: any) {
+  return request(`/engineering-relation/org/relevancy`, {
+    method: 'GET',
+    params,
+  });
+}
+
+/**
+ * 工程关联线索列表
+ * @param params
+ */
+export async function getEngineeringClueList(params: any) {
+  return request(`/engineering-relation/clue/relation`, {
+    method: 'GET',
+    params,
+  });
+}
+
+/**
+ * 可关联线索列表
+ * @param params
+ */
+export async function getRelevancyClueList(params: any) {
+  return request(`/engineering-relation/clue/relevancy`, {
+    method: 'GET',
+    params,
+  });
+}
+
+/**
+ * 关联数据
+ * @param params
+ */
+export async function relationEngineering(params: any) {
+  return request(`/engineering-relation/relation`, {
+    method: 'POST',
+    params,
+  });
+}

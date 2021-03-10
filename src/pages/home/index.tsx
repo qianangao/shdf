@@ -1,13 +1,27 @@
-import { Row } from 'antd';
+import { Layout } from 'antd';
 import React, { useEffect } from 'react';
 import { connect } from 'umi';
+import Table from './components/Table';
+import TableNotice from './components/TableNotice';
+import TableReceiving from './components/TableReceiving';
+
+const { Sider, Content } = Layout;
 
 const Home = () => {
   useEffect(() => {}, []);
 
   return (
     <>
-      <Row gutter={[16, 16]}>home</Row>
+      <Layout>
+        <Sider width={640} style={{ marginRight: 10 }} theme="light">
+          <Table />
+        </Sider>
+        <Content>
+          <TableNotice />
+          <Content style={{ width: 300, height: 10 }} />
+          <TableReceiving style={{ marginTop: 10 }} />
+        </Content>
+      </Layout>
     </>
   );
 };

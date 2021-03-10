@@ -22,6 +22,15 @@ import {
   addMeeting,
   getMeetingDetail,
   updateMeeting,
+  getEngineeringBanPublishList,
+  getRelevancyBanPublishList,
+  relationEngineering,
+  getEngineeringKeyPersonList,
+  getRelevancyPersonList,
+  getEngineeringKeyInstitutionsList,
+  getRelevancyInstitutionsList,
+  getEngineeringClueList,
+  getRelevancyClueList,
   getInfoAnList,
   addInfoAn,
   getInfoDetail,
@@ -75,6 +84,110 @@ const Model = {
         resolve && resolve(result);
       }
     },
+    *getEngineeringBanPublishList({ payload, resolve }, { call }) {
+      const params = {
+        ...payload,
+        pageNum: payload.current ? payload.current : 1,
+        pageSize: payload.pageSize ? payload.pageSize : 20,
+      };
+      delete params.current;
+      const response = yield call(getEngineeringBanPublishList, params);
+      if (!response.error) {
+        const result = formatPageData(response);
+        resolve && resolve(result);
+      }
+    },
+    *getRelevancyBanPublishList({ payload, resolve }, { call }) {
+      const params = {
+        ...payload,
+        pageNum: payload.current ? payload.current : 1,
+        pageSize: payload.pageSize ? payload.pageSize : 20,
+      };
+      delete params.current;
+      const response = yield call(getRelevancyBanPublishList, params);
+      if (!response.error) {
+        const result = formatPageData(response);
+        resolve && resolve(result);
+      }
+    },
+    *getEngineeringKeyPersonList({ payload, resolve }, { call }) {
+      const params = {
+        ...payload,
+        pageNum: payload.current ? payload.current : 1,
+        pageSize: payload.pageSize ? payload.pageSize : 20,
+      };
+      delete params.current;
+      const response = yield call(getEngineeringKeyPersonList, params);
+      if (!response.error) {
+        const result = formatPageData(response);
+        resolve && resolve(result);
+      }
+    },
+    *getRelevancyPersonList({ payload, resolve }, { call }) {
+      const params = {
+        ...payload,
+        pageNum: payload.current ? payload.current : 1,
+        pageSize: payload.pageSize ? payload.pageSize : 20,
+      };
+      delete params.current;
+      const response = yield call(getRelevancyPersonList, params);
+      if (!response.error) {
+        const result = formatPageData(response);
+        resolve && resolve(result);
+      }
+    },
+    *getEngineeringKeyInstitutionsList({ payload, resolve }, { call }) {
+      const params = {
+        ...payload,
+        pageNum: payload.current ? payload.current : 1,
+        pageSize: payload.pageSize ? payload.pageSize : 20,
+      };
+      delete params.current;
+      const response = yield call(getEngineeringKeyInstitutionsList, params);
+      if (!response.error) {
+        const result = formatPageData(response);
+        resolve && resolve(result);
+      }
+    },
+    *getRelevancyInstitutionsList({ payload, resolve }, { call }) {
+      const params = {
+        ...payload,
+        pageNum: payload.current ? payload.current : 1,
+        pageSize: payload.pageSize ? payload.pageSize : 20,
+      };
+      delete params.current;
+      const response = yield call(getRelevancyInstitutionsList, params);
+      if (!response.error) {
+        const result = formatPageData(response);
+        resolve && resolve(result);
+      }
+    },
+    *getEngineeringClueList({ payload, resolve }, { call }) {
+      const params = {
+        ...payload,
+        pageNum: payload.current ? payload.current : 1,
+        pageSize: payload.pageSize ? payload.pageSize : 20,
+      };
+      delete params.current;
+      const response = yield call(getEngineeringClueList, params);
+      if (!response.error) {
+        const result = formatPageData(response);
+        resolve && resolve(result);
+      }
+    },
+    *getRelevancyClueList({ payload, resolve }, { call }) {
+      const params = {
+        ...payload,
+        pageNum: payload.current ? payload.current : 1,
+        pageSize: payload.pageSize ? payload.pageSize : 20,
+      };
+      delete params.current;
+      const response = yield call(getRelevancyClueList, params);
+      if (!response.error) {
+        const result = formatPageData(response);
+        resolve && resolve(result);
+      }
+    },
     *getMeetingDetail({ payload, resolve }, { call }) {
       const response = yield call(getMeetingDetail, payload);
       if (!response.error) {
@@ -82,7 +195,16 @@ const Model = {
         resolve && resolve(response);
       }
     },
-
+    *relationEngineering({ payload, resolve }, { call, put }) {
+      const response = yield call(relationEngineering, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('数据关联成功！');
+        yield put({
+          type: 'tableReload',
+        });
+      }
+    },
     *addMeeting({ payload, resolve }, { call, put }) {
       const response = yield call(addMeeting, payload);
       if (!response.error) {

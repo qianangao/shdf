@@ -7,12 +7,12 @@ const DictionaryModifyModal = ({ dispatch, actionRef, loading }) => {
   const [form] = FieldForm.useForm();
   const [modifyModalVisible, setModalVisible] = useState(false);
   const [fieldData, setFieldData] = useState({});
-  const [type, setType] = useState('add');
+  const [id, setId] = useState({});
 
   const showModal = items => {
     setModalVisible(true);
+    setId(items.dictId);
     setFieldData(items);
-    setType(items.remarks ? 'update' : 'add');
   };
 
   useEffect(() => {
@@ -37,7 +37,7 @@ const DictionaryModifyModal = ({ dispatch, actionRef, loading }) => {
       .then(values => {
         return new Promise(resolve => {
           dispatch({
-            type: `smDictionaryMgt/${type}Field`,
+            type: `smDictionaryMgt/updateDict`,
             payload: {
               ...values,
             },
@@ -55,7 +55,7 @@ const DictionaryModifyModal = ({ dispatch, actionRef, loading }) => {
 
   return (
     <Modal
-      title={type === 'add' ? '新增字段' : '编辑字段信息'}
+      title="编辑字段信息"
       centered
       style={{ paddingBottom: 0 }}
       bodyStyle={{
@@ -67,7 +67,7 @@ const DictionaryModifyModal = ({ dispatch, actionRef, loading }) => {
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <FieldForm form={form} data={fieldData} />
+      <FieldForm form={form} data={fieldData} id={id} />
     </Modal>
   );
 };

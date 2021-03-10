@@ -73,7 +73,7 @@ const Table = ({
           修改
         </a>,
         <a key={`${receivingData.receiptId}read`} onClick={() => openReadListModal(receivingData)}>
-          处理情况
+          阅读情况
         </a>,
         <a key={`${receivingData.receiptId}dis`} onClick={() => openDistributeModal(receivingData)}>
           分发

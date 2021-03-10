@@ -1,4 +1,7 @@
 import {
+  getAgencyList,
+  getNoticeList,
+  getReceivingList,
   noticeAnnouncementList,
   elegantDemeanorList,
   pictureList,
@@ -26,6 +29,80 @@ const Model = {
     detailElderlyPolicyData: {},
   },
   effects: {
+    *getReceivingList({ payload, resolve }, { call, put }) {
+      const params = {
+        ...payload,
+      };
+      const response = yield call(getReceivingList, params);
+
+      if (!response.error) {
+        const { receiptList } = response;
+
+        const result = {
+          data: receiptList,
+          success: true,
+        };
+
+        resolve && resolve(result);
+
+        yield put({
+          type: 'save',
+          payload: {
+            receivingListData: result,
+          },
+        });
+      }
+    },
+    *getAgencyList({ payload, resolve }, { call, put }) {
+      const params = {
+        ...payload,
+      };
+
+      const response = yield call(getAgencyList, params);
+
+      if (!response.error) {
+        const { toDoList } = response;
+
+        const result = {
+          data: toDoList,
+          success: true,
+        };
+
+        resolve && resolve(result);
+
+        yield put({
+          type: 'save',
+          payload: {
+            receivingListData: result,
+          },
+        });
+      }
+    },
+    *getNoticeList({ payload, resolve }, { call, put }) {
+      const params = {
+        ...payload,
+      };
+
+      const response = yield call(getNoticeList, params);
+
+      if (!response.error) {
+        const { noticeList } = response;
+
+        const result = {
+          data: noticeList,
+          success: true,
+        };
+
+        resolve && resolve(result);
+
+        yield put({
+          type: 'save',
+          payload: {
+            receivingListData: result,
+          },
+        });
+      }
+    },
     *noticeAnnouncementList({ payload, resolve }, { call, put }) {
       const response = yield call(noticeAnnouncementList, payload);
 
