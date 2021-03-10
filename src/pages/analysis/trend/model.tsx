@@ -6,7 +6,7 @@ import {
 } from './service';
 
 const Model = {
-  namespace: 'statistical',
+  namespace: 'trendStatistics',
   state: {
     loading: false,
     specialAction: [],
@@ -23,7 +23,7 @@ const Model = {
         resolve && resolve(response);
       }
     },
-    *getTrendStatistics({ payload, resolve }, { call }) {
+    *getTrendStatistics({ payload, resolve }, { call, put }) {
       const params = {
         ...payload,
       };

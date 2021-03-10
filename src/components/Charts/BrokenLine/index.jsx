@@ -1,6 +1,5 @@
-import { Chart, Geom, Axis, Tooltip, Coord, Legend } from 'bizcharts';
+import { Chart, Geom, Axis, Tooltip, Legend } from 'bizcharts';
 import React, { Component } from 'react';
-import DataSet from '@antv/data-set';
 import { connect } from 'umi';
 import Debounce from 'lodash.debounce';
 import autoHeight from '../autoHeight';
@@ -65,36 +64,42 @@ class Bar extends Component {
   };
 
   render() {
-    const typeList = ['政治性', '民族宗教', '淫秽色情', '三假', '涉幼', '侵权盗版', '非法出版'];
-    const ds = new DataSet();
     const { chartData } = this.props;
-    if (chartData === [] || chartData.length === 0) {
-      return <div> </div>;
-    }
-    const dv = ds.createView().source(chartData);
-    dv.transform({
-      type: 'fold',
-      fields: typeList,
-      key: '年龄段',
-      value: '人口数量',
-      retains: ['name'],
-    });
+    const cols = {
+      time: {
+        range: [0, 1],
+      },
+    };
 
     return (
       <div className={styles.chart} ref={this.handleRoot}>
         <div ref={this.handleRef}>
-          <Chart height={400} data={dv} forceFit>
+          <Chart height={400} data={chartData} scale={cols} forceFit>
             <Legend />
-            <Coord transpose />
+            <Axis name="time" />
             <Axis
-              name="name"
-              label={{
-                offset: 12,
+              name="num"
+              // label={{
+              //   formatter: val => `${val}°C`,
+              // }}
+            />
+            <Tooltip
+              crosshairs={{
+                type: 'y',
               }}
             />
-            <Axis name="人口数量" />
-            <Tooltip />
-            <Geom type="intervalStack" position="name*人口数量" color="年龄段" />
+            <Geom type="line" position="time*num" size={2} color="name" shape="smooth" />
+            <Geom
+              type="point"
+              position="time*num"
+              size={4}
+              shape="circle"
+              color="name"
+              style={{
+                stroke: '#fff',
+                lineWidth: 1,
+              }}
+            />
           </Chart>
         </div>
       </div>

@@ -13,7 +13,14 @@ const routes = {
       name: 'analysis-statistics',
       component: './analysis/statistics',
       remark: '统计分析',
-      icon: 'folder',
+      // icon: 'folder',
+    },
+    {
+      path: '/analysis/trend',
+      name: 'analysis-trend',
+      component: './analysis/trend',
+      remark: '趋势分析',
+      // icon: 'folder',
     },
   ],
 };
