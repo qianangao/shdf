@@ -5,6 +5,7 @@ import moment from 'moment';
 import {
   getList,
   getCaseHandleList,
+  getClubList,
   getDetail,
   del,
   authorize,
@@ -42,6 +43,7 @@ const Model = {
     tableRef: {},
     tableHandleRef: {},
     tableClubRef: {},
+    caseFileListData: {},
     tableFileRef: {},
     selectedOrgId: undefined,
   },
@@ -80,31 +82,31 @@ const Model = {
       const params = {
         ...payload,
         pageNum: payload.current,
-        pageSize: 5,
+        pageSize: payload.pageSize,
       };
       if (payload.id === '') {
         resolve && resolve({});
         return;
       }
-      const response = yield call(getDetail, params);
+      const response = yield call(getClubList, params);
       if (!response.error) {
-        const { clueList } = response;
-        if (!clueList || clueList == null) {
+        const { records, current, total } = response;
+        if (!records || records == null) {
           resolve && resolve({});
         } else {
           const result = {
-            data: clueList,
-            page: 1,
+            data: records,
+            page: current,
             pageSize: payload.pageSize,
             success: true,
-            total: clueList.length,
+            total,
           };
           resolve && resolve(result);
         }
         yield put({
           type: 'save',
           payload: {
-            caseDetailClueList: clueList,
+            caseDetailClueList: records,
           },
         });
       }
@@ -113,7 +115,7 @@ const Model = {
       const params = {
         ...payload,
         pageNum: payload.current,
-        pageSize: 5,
+        pageSize: payload.pageSize,
       };
       if (payload.id === '') {
         resolve && resolve({});
@@ -137,7 +139,7 @@ const Model = {
         resolve && resolve({});
       }
     },
-    *getCaseHandleFile({ payload, resolve }, { call }) {
+    *getCaseHandleFile({ payload, resolve }, { call, put }) {
       const params = {
         ...payload,
         pageNum: payload.current,
@@ -159,6 +161,12 @@ const Model = {
           success: true,
           total: file.length,
         };
+        yield put({
+          type: 'save',
+          payload: {
+            caseFileListData: file,
+          },
+        });
         resolve && resolve(result);
       } else {
         resolve && resolve({});

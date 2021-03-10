@@ -38,6 +38,12 @@ const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
           id: items.caseId,
         },
       });
+      dispatch({
+        type: 'caseMgt/getCaseHandleFile',
+        payload: {
+          id: items.caseId,
+        },
+      });
       setCaresId(items.caseId);
       setCaseType(items.caseType);
       setDetailData(caseDetailData);
@@ -158,7 +164,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
 
       {infoId ? <TableCaseHandle id={infoId} openCaseHandleModal={openCaseHandleModal} /> : null}
 
-      {infoId ? <TableFileCase id={infoId} orgInfoData={caseDetailData} /> : null}
+      {infoId ? <TableFileCase id={infoId} /> : null}
 
       <CaseHandleModal actionRef={caseHandleModalRef} id={infoId} />
 

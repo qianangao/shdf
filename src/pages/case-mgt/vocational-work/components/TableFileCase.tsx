@@ -1,46 +1,32 @@
 import React from 'react';
-import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
+import { Descriptions } from 'antd';
 
-const TableFileCase = ({ dispatch, id, caseMgt }) => {
-  const { tableFileRef } = caseMgt;
-  const columns = [
-    {
-      title: '名称',
-      dataIndex: 'fileName',
-      align: 'center',
-      fixed: 'left',
-      hideInSearch: true,
-    },
-    {
-      title: '上传时间',
-      hideInSearch: true,
-      dataIndex: 'createTime',
-    },
-  ];
+const TableFileCase = ({ caseMgt }) => {
+  const { caseFileListData } = caseMgt;
 
-  const getCaseHandleFile = params =>
-    new Promise(resolve => {
-      params.id = id;
-      dispatch({
-        type: 'caseMgt/getCaseHandleFile',
-        payload: { ...params },
-        resolve,
+  const fileList = files => {
+    if (files && files.length > 0) {
+      const views = files.map(item => {
+        return (
+          <a href={item.url} style={{ display: 'block' }}>
+            {item.fileName}
+          </a>
+        );
       });
-    });
 
-  return (
-    <ProTable
-      actionRef={tableFileRef}
-      rowKey="fileId"
-      headerTitle="附件列表"
-      search={false}
-      options={false}
-      pagination={false}
-      request={async params => getCaseHandleFile(params)}
-      columns={columns}
-    />
-  );
+      return (
+        <Descriptions size="middle" column={1}>
+          <Descriptions.Item label="办理附件" span={1}>
+            <div style={{ marginBottom: 20 }}>{views}</div>
+          </Descriptions.Item>
+        </Descriptions>
+      );
+    }
+    return <div style={{ marginBottom: 20 }} />;
+  };
+
+  return <>{fileList(caseFileListData)}</>;
 };
 
 export default connect(({ caseMgt, global, loading }) => ({

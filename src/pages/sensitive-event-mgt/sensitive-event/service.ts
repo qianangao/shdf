@@ -10,7 +10,16 @@ export async function getList(params) {
     data: params,
   });
 }
-
+/**
+ * 获取收文管理列表
+ * @param {*} params
+ */
+export async function getClubList(params) {
+  return request(`/sensitiveEvent/clueList/${params.id}`, {
+    method: 'POST',
+    data: params,
+  });
+}
 /**
  * 获取关工动态列表
  * @param {*} params
