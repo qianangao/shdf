@@ -4,10 +4,9 @@ import { Row } from 'antd';
 import TypeSelectLayout from '@/layouts/TypeSelectLayout';
 import Clue from './components/Clue';
 import Unlawful from './components/Unlawful';
-
 import Case from './components/Case';
 
-const Count = ({ dispatch }) => {
+const Trend = ({ dispatch }) => {
   useEffect(() => {}, []);
   const [tableType, setTableType] = useState('case');
   const tabs = [
@@ -56,4 +55,4 @@ const Count = ({ dispatch }) => {
     </Row>
   );
 };
-export default connect(() => ({}))(Count);
+export default connect(() => ({}))(Trend);
