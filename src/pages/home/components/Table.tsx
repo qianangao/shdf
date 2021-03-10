@@ -32,6 +32,7 @@ const Table = ({ dispatch }) => {
       headerTitle="待办"
       size="small"
       search={false}
+      options={false}
       pagination={{ simple: true }}
       request={async params => getAgencyList(params)}
       columns={columns}

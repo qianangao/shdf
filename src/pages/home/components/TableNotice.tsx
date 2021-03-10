@@ -32,6 +32,7 @@ const Table = ({ dispatch }) => {
       headerTitle="通知公告"
       size="small"
       search={false}
+      options={false}
       pagination={{ simple: true }}
       request={async params => getDictList(params)}
       columns={columns}
