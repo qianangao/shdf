@@ -4,7 +4,15 @@ import { accountLogin, getCaptcha, accountLogout } from '@/services/login';
 import { requestConfig } from '@/utils/request';
 import { getPageQuery } from '@/utils/utils';
 import { setAuthority } from '@/utils/authority';
-import { TOKEN_KEY, setCookie, getCookie, removeCookie } from '@/utils/cookie';
+import {
+  TOKEN_KEY,
+  setCookie,
+  getCookie,
+  removeCookie,
+  USER_ORG_ID,
+  setUseInfo,
+  USER_INFO,
+} from '@/utils/cookie';
 
 const Model = {
   namespace: 'login',
@@ -25,10 +33,13 @@ const Model = {
         });
         return;
       }
-
+      if (response.userInfo) {
+        setUseInfo(USER_INFO, response.userInfo);
+      }
       if (response.userId) {
         // 储存用户token
         setCookie(TOKEN_KEY, response.userId);
+        setCookie(USER_ORG_ID, response.orgId);
         setAuthority(response.authorityList);
 
         requestConfig.extendOptions({
@@ -90,6 +101,7 @@ const Model = {
       yield call(accountLogout, payload);
 
       removeCookie(TOKEN_KEY);
+      removeCookie(USER_ORG_ID);
 
       requestConfig.extendOptions({
         headers: {

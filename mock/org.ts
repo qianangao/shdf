@@ -328,7 +328,7 @@ const list = (req, res) => {
 export default {
   'GET /shdf/organization/directly-child': getOrgTree,
   'GET /shdf/organization/all-child': searchOrgTree,
-  'GET /shdf/organization/child': searchOrgTree,
+  // 'GET /shdf/organization/child': searchOrgTree,
   'POST /shdf/organization': noResponse,
   'PUT /shdf/organization': noResponse,
   'DELETE /shdf/organization': noResponse,

@@ -230,10 +230,10 @@ const Model = {
         });
       }
     },
-    *getTemplate({ payload }, { call }) {
-      const response = yield call(getTemplate, payload);
+    *getTemplate({ _ }, { call }) {
+      const response = yield call(getTemplate);
       if (!response.error) {
-        yield downloadXlsFile(response, `${payload.name}`);
+        yield downloadXlsFile(response, `线索模板`);
       }
     },
     *exportClue({ payload }, { call }) {

@@ -4,51 +4,23 @@ import { Modal, List, Button } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
 import ProTable from '@ant-design/pro-table';
 import OrgTree from '@/components/OrgTree';
-// import { getStaffList } from '@/services/orgTree';
-import { formatPageData } from '@/utils';
 import styles from './index.less';
-
-// temp 对接数据前临时mock方案
-const getStaffList = ({ selectedOrgId }) => {
-  const staffInfo = [];
-
-  for (let i = 0; i < 20; i++) {
-    staffInfo.push({
-      id: `402883e973e5c2ce0173e5c2ce9${i}`, // id
-      organizationId: selectedOrgId, // 单位id
-      realName: `伍仟${i}`, // 姓名
-      homeAddressDiy: null,
-      dictSex: '男', // 性别
-      dictNation: '汉', // 民族
-      dateOfBirth: '2020-08-12', // 出生日期
-      dictPoliticalStatus: '党员', // 政治面貌
-      startWorkTime: '2020-08-12', // 参加工作时间
-      originalUnitAndPosition: `局长${i}`, // 原工作单位及职务
-      dictRetirementLevel: '高级', // 级别
-      phonenumber: `1865555555${i}`, // 电话号码
-      spouseName: null,
-      childrenNum: null,
-      idCard: '440103199003077458', // 身份证号
-      nowThePipeUnits: '现管单位', // 现管单位
-    });
-  }
-
-  return Promise.resolve({
-    current: 1,
-    size: 10,
-    total: 20,
-    pages: 2,
-    records: staffInfo,
-  });
-};
 
 let tempSelectData = [];
 
-const StaffMultiSelectInput = ({ value, enums, getLgbs, dispatch, onChange }) => {
+const StaffMultiSelectInput = ({
+  value,
+  enums,
+  getPerson,
+  dispatch,
+  onChange,
+  allLevel = true,
+  rowSelectType = 'checkbox',
+}) => {
   const tableRef = useRef({});
   const [lgbSelectModalVisible, setVisible] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const [selectedOrgId, setSelectedOrgId] = useState('');
+  const [selectedOrgId, setSelectedOrgId] = useState(undefined);
 
   const [listData, setListData] = useState([]);
 
@@ -65,37 +37,29 @@ const StaffMultiSelectInput = ({ value, enums, getLgbs, dispatch, onChange }) =>
     {
       title: '性别',
       align: 'center',
-      dataIndex: 'dictSex',
-      valueEnum: enums.dictSex,
+      dataIndex: 'sex',
+      valueEnum: enums.dict_sex,
       hideInSearch: true,
     },
     {
-      title: '民族',
+      title: '手机号码',
       align: 'center',
-      dataIndex: 'dictNation',
-      valueEnum: enums.dictNation,
+      dataIndex: 'phone',
       hideInSearch: true,
     },
     {
-      title: '出生日期',
-      valueType: 'date',
+      title: '身份证号码',
       align: 'center',
-      dataIndex: 'dateOfBirth',
+      dataIndex: 'idCard',
       hideInSearch: true,
+      hideInTable: true,
     },
     {
-      title: '政治面貌',
+      title: '创建时间',
       align: 'center',
-      dataIndex: 'dictPoliticalStatus',
-      valueEnum: enums.dictPoliticalStatus,
+      dataIndex: 'createTime',
       hideInSearch: true,
-    },
-    { title: '参加工作时间', align: 'center', dataIndex: 'startWorkTime', hideInSearch: true },
-    {
-      title: '原工作单位及职务',
-      align: 'center',
-      dataIndex: 'originalUnitAndPosition',
-      hideInSearch: true,
+      hideInTable: true,
     },
   ];
 
@@ -103,40 +67,31 @@ const StaffMultiSelectInput = ({ value, enums, getLgbs, dispatch, onChange }) =>
     dispatch({
       type: 'global/getEnums',
       payload: {
-        names: [
-          'dictSex',
-          'dictNation',
-          'dictRetirementType',
-          'dictPoliticalStatus',
-          'dictTreatmentNow',
-        ],
+        names: ['dict_sex'],
       },
     });
   }, []);
+
   useEffect(() => {
     if (value && Array.isArray(value)) {
       setListData(value);
-      setSelectedRowKeys(value.map(item => item.id));
+      setSelectedRowKeys(value.map(item => item.userId));
     }
   }, [value]);
+
+  const getEmployeeList = params =>
+    new Promise(resolve => {
+      dispatch({
+        type: 'global/getOrgPerson',
+        payload: { ...params, orgId: selectedOrgId, secrecyLevel: '2' },
+        resolve,
+      });
+    });
 
   const changeListData = data => {
     setListData(data);
     onChange && onChange(data);
   };
-  const getEmployeeList = params =>
-    new Promise(resolve => {
-      params.orgIdForDataSelect = selectedOrgId;
-
-      getStaffList({ ...params, selectedOrgId }).then(data => {
-        if (data.error) {
-          return;
-        }
-
-        const res = formatPageData(data);
-        resolve(res);
-      });
-    });
 
   const deleteItem = item => {
     if (listData.indexOf(item) === -1) return;
@@ -154,20 +109,26 @@ const StaffMultiSelectInput = ({ value, enums, getLgbs, dispatch, onChange }) =>
     const listMap = new Map();
 
     listData.forEach(item => {
-      listMap.set(item.id, item.realName);
+      listMap.set(item.userId, item.realName);
     });
     tempSelectData.forEach(item => {
-      listMap.set(item.id, item.realName);
+      listMap.set(item.userId, item.realName);
     });
 
     changeListData(
       Array.from(listMap).map(item => {
         return {
-          id: item[0],
+          userId: item[0],
           realName: item[1],
         };
       }),
     );
+    hideModal();
+  };
+
+  const hideModal = () => {
+    setSelectedOrgId(undefined);
+    // setSelectedRowKeys([]);
     setVisible(false);
   };
 
@@ -226,7 +187,7 @@ const StaffMultiSelectInput = ({ value, enums, getLgbs, dispatch, onChange }) =>
         onOk={handleOk}
         destroyOnClose
         okText="添加"
-        onCancel={() => setVisible(false)}
+        onCancel={() => hideModal()}
       >
         <section
           style={{
@@ -248,23 +209,25 @@ const StaffMultiSelectInput = ({ value, enums, getLgbs, dispatch, onChange }) =>
               overflow: 'hidden',
             }}
           >
-            <OrgTree onChange={onOrgSelect} />
+            <OrgTree onChange={onOrgSelect} allLevel={allLevel} />
           </aside>
 
           <section style={{ width: '100%', overflow: 'auto' }}>
             <ProTable
-              rowKey="id"
+              rowKey="userId"
               headerTitle="人员信息"
               actionRef={tableRef}
               rowSelection={{
+                type: rowSelectType,
                 onChange: (keys, rows) => {
                   tempSelectData = rows;
                   setSelectedRowKeys(keys);
                 },
                 selectedRowKeys,
               }}
+              search={false}
               scroll={{ x: 'max-content' }}
-              request={getLgbs || (async params => getEmployeeList(params))}
+              request={getPerson || (selectedOrgId && (async params => getEmployeeList(params)))}
               columns={columns}
             />
           </section>

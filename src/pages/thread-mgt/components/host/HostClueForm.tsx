@@ -1,6 +1,7 @@
 import React from 'react';
 import { Radio, Descriptions } from 'antd';
 import AdvancedForm from '@/components/AdvancedForm';
+import { getUseInfo, USER_INFO } from '@/utils/cookie';
 
 const TransferClueForm = ({ form }) => {
   const formItems = [
@@ -28,7 +29,9 @@ const TransferClueForm = ({ form }) => {
     {
       label: '主办单位',
       name: 'sourceUnit',
-      initialValue: '全国SHDF办公室',
+      initialValue: getUseInfo(USER_INFO)
+        ? JSON.parse(getUseInfo(USER_INFO)).orgName
+        : 'SHDF办公室',
       disabled: true,
       hidden: true,
     },
