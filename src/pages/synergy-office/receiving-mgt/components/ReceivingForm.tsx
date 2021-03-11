@@ -97,7 +97,7 @@ const ReceivingForm = ({ form, orgInfoData, id }) => {
       type: 'editor',
       rules: [
         { message: '请输入批示!', whitespace: true },
-        { max: 80, message: '单位名称长度请小于80位!', whitespace: true },
+        { max: 450, message: '单位名称长度请小于450位!', whitespace: true },
       ],
     },
     {

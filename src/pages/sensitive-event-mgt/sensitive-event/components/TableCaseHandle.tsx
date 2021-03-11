@@ -57,6 +57,7 @@ const TableCaseHandle = ({ dispatch, id, sensitiveMgt, openCaseHandleModal, isDe
       scroll={{ x: 'max-content' }}
       search={false}
       options={false}
+      pagination={{ pageSizeOptions: ['5'], defaultPageSize: 5, simple: true }}
       request={async params => getCaseHandleList(params)}
       columns={columns}
       toolBarRender={_ => [

@@ -165,7 +165,11 @@ const JointDefenseEngineering = ({ dispatch, dictionaryMgt }) => {
             <EngineTable openModifyModal={openEngineModifyModal} />
           )}
           {tableType === 'engineeringAccount' && (
-            <TypeSelectLayout tabs={AccountTabs} onTabChange={onAccountTabChange} activeKey={accountTableType}>
+            <TypeSelectLayout
+              tabs={AccountTabs}
+              onTabChange={onAccountTabChange}
+              activeKey={accountTableType}
+            >
               {accountTableType === 'checkDirectory' && (
                 <BanPublishTable
                   relevancyModal={relevancyModal}

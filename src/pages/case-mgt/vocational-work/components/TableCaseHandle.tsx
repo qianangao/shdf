@@ -44,7 +44,9 @@ const TableCaseHandle = ({ dispatch, id, caseMgt, openCaseHandleModal, isDetail 
       params.id = id;
       dispatch({
         type: 'caseMgt/getCaseHandleList',
-        payload: { ...params },
+        payload: {
+          ...params,
+        },
         resolve,
       });
     });
@@ -56,6 +58,7 @@ const TableCaseHandle = ({ dispatch, id, caseMgt, openCaseHandleModal, isDetail 
       headerTitle="案件办理"
       search={false}
       options={false}
+      pagination={{ pageSizeOptions: ['5'], defaultPageSize: 5, simple: true }}
       request={async params => getCaseHandleList(params)}
       columns={columns}
       toolBarRender={_ => [

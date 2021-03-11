@@ -29,18 +29,6 @@ const SpecialProject = ({ dispatch }) => {
       },
     });
   }, []);
-  // useEffect(()=>{
-  //   dispatch({
-  //     type: 'specialAction/getSpecialActionTree',
-  //     // payload: actionName,
-  //   });
-  // })
-  // const actionChangeHander = actionName => {
-  //   dispatch({
-  //     type: 'specialAction/getSpecialActionTree',
-  //     payload: actionName,
-  //   });
-  // };
 
   const openModifyModal = item => {
     editchildrenRef.current.showModal(item);

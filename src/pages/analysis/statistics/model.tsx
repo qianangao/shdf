@@ -1,22 +1,41 @@
-import { getAnaStatistics, getSpecialActionTree, getEngineeringTree } from './service';
+import {
+  getAnaStatistics,
+  getSpecialActionTree,
+  getEngineeringTree,
+  getTrendStatistics,
+} from './service';
 
 const Model = {
   namespace: 'statistical',
   state: {
     loading: false,
-    specialAction: {},
-    engineering: {},
+    specialAction: [],
+    engineering: [],
+    analysisType: '1', // 标签类型
   },
   effects: {
     *getAnaStatistics({ payload, resolve }, { call }) {
       const params = {
         ...payload,
-        // specialActionIds: [123, 456],
-        // regionCode: '100000',
       };
       const response = yield call(getAnaStatistics, params);
       if (!response.error) {
         resolve && resolve(response);
+      }
+    },
+    *getTrendStatistics({ payload, resolve }, { call }) {
+      const params = {
+        ...payload,
+      };
+      const response = yield call(getTrendStatistics, params);
+      if (!response.error) {
+        resolve && resolve(response);
+        yield put({
+          type: 'save',
+          payload: {
+            engineering: response,
+          },
+        });
       }
     },
     *getSpecialActionTree({ payload, resolve }, { call, put }) {
@@ -43,10 +62,29 @@ const Model = {
         });
       }
     },
+    *getTabsName({ payload }, { put }) {
+      yield put({
+        type: 'save',
+        payload: {
+          analysisType: payload.analysisType,
+        },
+      });
+      yield put({
+        type: 'tableReload',
+      });
+    },
   },
   reducers: {
     save(state, { payload }) {
       return { ...state, ...payload };
+    },
+    tableReload(state) {
+      const tableRef = state.tableRef || {};
+      setTimeout(() => {
+        // tableRef.current.reloadAndRest 刷新并清空，页码也会重置
+        tableRef.current && tableRef.current.reloadAndRest();
+      }, 0);
+      return { ...state };
     },
   },
 };

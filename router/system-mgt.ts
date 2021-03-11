@@ -19,6 +19,13 @@ const routes = {
       remark: '角色管理',
     },
     {
+      path: '/system-mgt/authority-mgt',
+      name: 'system-mgt-authority-mgt',
+      component: './system-mgt/authority-mgt',
+      icon: 'setting',
+      remark: '权限管理',
+    },
+    {
       path: '/system-mgt/dictionary-mgt',
       name: 'system-mgt-dictionary-mgt',
       component: './system-mgt/dictionary-mgt',
