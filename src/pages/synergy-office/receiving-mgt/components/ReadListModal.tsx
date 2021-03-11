@@ -29,7 +29,7 @@ const ReadListModal = ({ actionRef }) => {
     <Modal
       title="收文处理情况"
       centered
-      width={580}
+      width="900vw"
       style={{ paddingBottom: 0 }}
       visible={ReadModalVisible}
       destroyOnClose

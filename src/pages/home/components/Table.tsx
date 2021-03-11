@@ -1,6 +1,7 @@
 import React from 'react';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
+import { BellFilled } from '@ant-design/icons';
 
 const Table = ({ dispatch }) => {
   const columns = [
@@ -28,7 +29,12 @@ const Table = ({ dispatch }) => {
   return (
     <ProTable
       rowKey="id"
-      headerTitle="待办"
+      headerTitle={
+        <div>
+          {' '}
+          <BellFilled style={{ color: 'red' }} /> 待办
+        </div>
+      }
       size="small"
       search={false}
       options={false}
