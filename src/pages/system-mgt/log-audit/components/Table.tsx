@@ -23,7 +23,7 @@ const Table = ({ logAudit, dispatch, openDetailModal }) => {
       title: '操作',
       valueType: 'option',
       align: 'center',
-      dataIndex: 'receiptId',
+      dataIndex: 'id',
       width: 220,
       fixed: 'right',
       render: (dom, logData) => [
@@ -54,7 +54,7 @@ const Table = ({ logAudit, dispatch, openDetailModal }) => {
 
   return (
     <ProTable
-      rowKey="dictTypeId"
+      rowKey="id"
       headerTitle="日志列表"
       actionRef={tableRef}
       scroll={{ x: 'max-content' }}
