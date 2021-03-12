@@ -63,6 +63,7 @@ const AuthModal = ({ dispatch, loading, actionRef }) => {
     setTitle('');
     setVisible(false);
     setParentId('');
+    setDetailData(null);
   };
 
   const handleOk = () => {
