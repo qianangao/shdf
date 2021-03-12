@@ -12,22 +12,42 @@ export async function getOrgTreeById(params) {
 }
 
 /**
- * 根据id获取完整组织树结构
+ * 根据id获取子集组织树结构
  * @param {*} params
  */
-export async function getAllOrgTree(params?: any) {
+export async function getOrgTree(params?: any) {
   return request(`/organization/child`, {
+    method: 'GET',
+    params,
+  });
+}
+/**
+ * 根据id获取同级组织树结构
+ * @param {*} params
+ */
+export async function getCoOrganizerOrganization(params?: any) {
+  return request(`/organization/sameLevel`, {
+    method: 'GET',
+    params,
+  });
+}
+/**
+ * 根据id获取所有组织树结构
+ * @param {*} params
+ */
+export async function getAllOrganization(params?: any) {
+  return request(`/organization/child/all`, {
     method: 'GET',
     params,
   });
 }
 
 /**
- * 获取员工列表
+ * 根据id获取组织用户
  * @param {*} params
  */
-export async function getStaffList(params) {
-  return request('/users', {
+export async function getOrgPerson(params: any) {
+  return request(`/user`, {
     method: 'GET',
     params,
   });
@@ -89,3 +109,4 @@ export async function getOrgItem(params) {
     params,
   });
 }
+

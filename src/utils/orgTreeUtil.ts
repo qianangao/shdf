@@ -1,17 +1,16 @@
 export const transformOrgTreeData = tree => {
-  const parentIds: any[] = [];
   tree.map(node => {
+    node.key = node.orgId || node.key;
+    node.title = node.orgName || node.title;
+    node.isLeaf = !node.children || node.children.length === 0 || node.isLeaf;
     if (node.children) {
-      parentIds.push(node.id);
-      parentIds.push(...transformOrgTreeData(node.children));
+      transformOrgTreeData(node.children);
+    }else{
+      delete node.children
     }
-    node.key = node.id || node.key;
-    node.title = node.organizationName || node.title;
-    node.isSubunit !== undefined && (node.isLeaf = !node.isSubunit);
     return node;
   });
-
-  return parentIds;
+  return tree;
 };
 
 export const updateTreeData = (list, key, children) => {

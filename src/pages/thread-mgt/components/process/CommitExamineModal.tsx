@@ -3,6 +3,7 @@ import { Input, Modal, Form } from 'antd';
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
 import StaffMultiSelectInput from '@/components/StaffMultiSelectInput';
+import { getUseInfo, USER_INFO } from '@/utils/cookie';
 
 const CommitExamineModal = ({ dispatch, loading, actionRef, hidePreView }) => {
   const [form] = Form.useForm();
@@ -33,7 +34,9 @@ const CommitExamineModal = ({ dispatch, loading, actionRef, hidePreView }) => {
         payload: {
           clueId,
           circulationId,
-          approvalUnit: '全国SHDF办公室',
+          approvalUnit: getUseInfo(USER_INFO)
+            ? JSON.parse(getUseInfo(USER_INFO)).orgName
+            : 'SHDF办公室',
           approvalUser: params.approvalUser,
           approvalOpinion: params.approvalOpinion,
         },
@@ -82,7 +85,7 @@ const CommitExamineModal = ({ dispatch, loading, actionRef, hidePreView }) => {
             },
           ]}
         >
-          <StaffMultiSelectInput />
+          <StaffMultiSelectInput rowSelectType="radio" />
         </Form.Item>
         <Form.Item
           name="approvalOpinion"

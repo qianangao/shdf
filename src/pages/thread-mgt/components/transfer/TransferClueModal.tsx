@@ -5,6 +5,7 @@ import TransferClueForm from './TransferClueForm';
 
 const ModifyModal = ({ dispatch, actionRef, loading }) => {
   const [form] = TransferClueForm.useForm();
+  const [circulationType, setCirculationType] = useState('');
   const [detailData, setDetailData] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -14,6 +15,13 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       form.setFieldsValue({ ...items });
     }
     setModalVisible(true);
+  };
+
+  const fieldChangeHander = (label, value) => {
+    if (label === 'circulationType') {
+      setCirculationType(value);
+      form.setFieldsValue({ unitList: [] }); // 切换类型清空单位
+    }
   };
 
   useEffect(() => {
@@ -28,6 +36,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
 
   const hideModal = () => {
     setModalVisible(false);
+    setCirculationType('');
     form.resetFields();
   };
   const handleOk = () => {
@@ -69,7 +78,11 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <TransferClueForm form={form} />
+      <TransferClueForm
+        form={form}
+        fieldChangeHander={fieldChangeHander}
+        optType={circulationType}
+      />
     </Modal>
   );
 };

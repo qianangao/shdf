@@ -70,7 +70,7 @@ const CommitExamineModal = ({ dispatch, loading, actionRef }) => {
             },
           ]}
         >
-          <StaffMultiSelectInput />
+          <StaffMultiSelectInput rowSelectType="radio" />
         </Form.Item>
         <Form.Item
           name="remarks"
