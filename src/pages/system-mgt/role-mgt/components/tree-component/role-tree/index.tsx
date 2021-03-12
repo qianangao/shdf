@@ -6,6 +6,7 @@ import styles from './index.less';
 const RoleTree = ({ dispatch, roleTree, loading }) => {
   const [expandedKeys, setExpandedKeys] = useState<any>([]);
   const [selectedKeys, setSelectedKeys] = useState<any>([]);
+
   const getTreeData = (orgId = '') => {
     new Promise(resolve => {
       dispatch({

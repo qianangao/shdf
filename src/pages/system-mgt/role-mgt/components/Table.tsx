@@ -6,6 +6,24 @@ import { connect } from 'umi';
 const Table = ({ smRoleMgt, modifyRoleModal, authorityModal, dispatch }) => {
   const { tableRef } = smRoleMgt;
 
+  const getRoleList = params =>
+    new Promise(resolve => {
+      dispatch({
+        type: 'smRoleMgt/getRoleList',
+        payload: { ...params },
+        resolve,
+      });
+    });
+
+  const deleteRoles = roleId => {
+    dispatch({
+      type: 'smRoleMgt/deleteRoles',
+      payload: {
+        roleId,
+      },
+    });
+  };
+
   const columns = [
     {
       title: '序号',
@@ -48,24 +66,6 @@ const Table = ({ smRoleMgt, modifyRoleModal, authorityModal, dispatch }) => {
       ],
     },
   ];
-
-  const getRoleList = params =>
-    new Promise(resolve => {
-      dispatch({
-        type: 'smRoleMgt/getRoleList',
-        payload: { ...params },
-        resolve,
-      });
-    });
-
-  const deleteRoles = roleId => {
-    dispatch({
-      type: 'smRoleMgt/deleteRoles',
-      payload: {
-        roleId,
-      },
-    });
-  };
 
   return (
     <ProTable

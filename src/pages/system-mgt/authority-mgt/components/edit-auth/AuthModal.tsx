@@ -24,18 +24,17 @@ const AuthModal = ({ dispatch, loading, actionRef }) => {
       if (item.parentId) {
         setParentId(item.parentId);
       }
-    }
-    if (visible) {
-      setTitle('新增子资源');
-    }
-    if (detailData) {
-      setTitle('编辑资源');
+      if (item.visible) {
+        setTitle('新增子资源');
+      }
+      if (item.id) {
+        setTitle('编辑资源');
+      }
     } else {
       setTitle('新增资源');
     }
     setModalVisible(true);
   };
-
   const updateData = permessionId => {
     new Promise(resolve => {
       dispatch({

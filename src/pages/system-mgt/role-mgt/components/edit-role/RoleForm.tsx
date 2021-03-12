@@ -5,24 +5,21 @@ import { Select, Tree } from 'antd';
 const RoleForm = ({ form, onTreeChange, roleTree, publicRole, orgIds }) => {
   const [checkedKeys, setCheckedKeys] = useState([]);
   const [value, setValue] = React.useState('');
-
   useEffect(() => {
     setValue(publicRole);
   }, [publicRole]);
 
   useEffect(() => {
+    setCheckedKeys([]);
     setCheckedKeys([...orgIds]);
   }, [orgIds]);
 
   const onChange = v => {
-    // setCheckedKeys([])
     setValue(v);
   };
 
   const onCheckHandler = keys => {
-    // console.log("keys",keys);
-
-    setCheckedKeys(keys);
+    setCheckedKeys([...keys]);
     onTreeChange && onTreeChange(keys);
   };
 

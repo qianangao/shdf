@@ -1,27 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
-import { Modal, Tree, Spin } from 'antd';
+import { Modal, Tree } from 'antd';
 
-const AuthorityModal = ({ ruleData, dispatch, actionRef, loading, confirmLoading }) => {
+const AuthorityModal = ({ ruleData, dispatch, actionRef, confirmLoading }) => {
   const [roleId, setRoleId] = useState('');
   const [ruleModalVisible, setModalVisible] = useState(false);
   const [checkedKeys, setCheckedKeys] = useState([]);
-
   const showModal = id => {
     setRoleId(id);
-
     new Promise(resolve => {
       dispatch({
-        type: `smRoleMgt/getRuleIds`,
+        type: `smRoleMgt/getRoleRules`,
         payload: {
-          id,
+          roleId: id,
         },
         resolve,
       });
     }).then(data => {
-      setCheckedKeys(data);
+      setCheckedKeys([...data.aclIds]);
     });
-
     setModalVisible(true);
   };
 
@@ -53,12 +50,13 @@ const AuthorityModal = ({ ruleData, dispatch, actionRef, loading, confirmLoading
         type: `smRoleMgt/updateRoleRules`,
         payload: {
           roleId,
-          ids: checkedKeys,
+          aclIds: checkedKeys,
         },
         resolve,
       });
     }).then(_ => {
       hideModal();
+      setCheckedKeys([]);
     });
   };
 
@@ -79,15 +77,12 @@ const AuthorityModal = ({ ruleData, dispatch, actionRef, loading, confirmLoading
       confirmLoading={confirmLoading}
       onCancel={hideModal}
     >
-      <Spin spinning={loading}>
-        <Tree checkable onCheck={onCheckHandler} checkedKeys={checkedKeys} treeData={ruleData} />
-      </Spin>
+      <Tree checkable onCheck={onCheckHandler} checkedKeys={checkedKeys} treeData={ruleData} />
     </Modal>
   );
 };
 
 export default connect(({ smRoleMgt, loading }) => ({
   ruleData: smRoleMgt.ruleData,
-  loading: smRoleMgt.ruleData,
   confirmLoading: loading.models.smDictionaryMgt,
 }))(AuthorityModal);
