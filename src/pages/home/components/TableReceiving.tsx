@@ -1,6 +1,7 @@
 import React from 'react';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
+import { ProfileFilled } from '@ant-design/icons';
 
 const Table = ({ dispatch }) => {
   const columns = [
@@ -28,7 +29,11 @@ const Table = ({ dispatch }) => {
   return (
     <ProTable
       rowKey="id"
-      headerTitle="收文"
+      headerTitle={
+        <div>
+          <ProfileFilled style={{ color: '#6DA76C' }} /> 收文
+        </div>
+      }
       size="small"
       search={false}
       options={false}

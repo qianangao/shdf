@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'umi';
-import { Space } from 'antd';
+import { Layout } from 'antd';
 import Table from './components/Table';
 import FieldTable from './components/fields/FieldTable';
 import ModifyDictModal from './components/ModifyDictModal';
 import FieldModifyModal from './components/fields/FieldModifyModal';
+
+const { Sider, Content } = Layout;
 
 const DictionaryMgt = ({ dispatch }) => {
   const modifyTypeRef = useRef({});
@@ -38,13 +40,17 @@ const DictionaryMgt = ({ dispatch }) => {
 
   return (
     <>
-      <Space align="start" wrap>
-        <Table openModifyModal={openModifyModal} changeTypeId={changeTypeId} />
+      <Layout>
+        <Sider width="50%" style={{ marginRight: 10 }} theme="light">
+          <Table openModifyModal={openModifyModal} changeTypeId={changeTypeId} />
+        </Sider>
+        <Content>
+          <FieldTable openDictModifyModal={openDictModifyModal} dictTypeId={dictTypeId} />
+        </Content>
+      </Layout>
 
-        <FieldTable openDictModifyModal={openDictModifyModal} dictTypeId={dictTypeId} />
-        <ModifyDictModal actionRef={modifyTypeRef} />
-        <FieldModifyModal actionRef={modifyDictRef} dictTypeId={dictTypeId} />
-      </Space>
+      <ModifyDictModal actionRef={modifyTypeRef} />
+      <FieldModifyModal actionRef={modifyDictRef} dictTypeId={dictTypeId} />
     </>
   );
 };

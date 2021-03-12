@@ -33,6 +33,13 @@ const routes = {
       remark: '字典管理',
     },
     {
+      path: '/system-mgt/log-audit',
+      name: 'system-mgt-log-audit',
+      component: './system-mgt/log-audit',
+      icon: 'setting',
+      remark: '日志审计',
+    },
+    {
       path: '/system-mgt',
       redirect: '/system-mgt/organization-mgt',
       hideInMenu: true,

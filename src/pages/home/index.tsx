@@ -13,7 +13,7 @@ const Home = () => {
   return (
     <>
       <Layout>
-        <Sider width={640} style={{ marginRight: 10 }} theme="light">
+        <Sider width="50%" style={{ marginRight: 10 }} theme="light">
           <Table />
         </Sider>
         <Content>

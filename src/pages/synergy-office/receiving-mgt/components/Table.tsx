@@ -31,7 +31,6 @@ const Table = ({
       align: 'center',
       fixed: 'left',
       hideInSearch: true,
-      width: 64,
     },
     { title: '来文标题', align: 'center', dataIndex: 'receiptTitle' },
     {

@@ -8,9 +8,7 @@ const TableRead = ({ enums, dispatch }) => {
       title: '序号',
       dataIndex: 'recordId',
       align: 'center',
-      fixed: 'left',
       hideInSearch: true,
-      width: 64,
     },
     { title: '来文标题', align: 'center', dataIndex: 'receiptTitle' },
     {
