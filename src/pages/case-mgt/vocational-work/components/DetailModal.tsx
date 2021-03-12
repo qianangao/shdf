@@ -103,7 +103,7 @@ const CaresDetailModal = ({ dispatch, caseMgt, actionRef, enums }) => {
           {enums.urgent_level && enums.urgent_level[caseDetailData.urgentLevel]}
         </Descriptions.Item>
         <Descriptions.Item label="案件类型">
-          {enums.handle_type && enums.handle_type[caseDetailData.caseType]}
+          {enums.handle_type && enums.case_type[caseDetailData.caseType]}
         </Descriptions.Item>
         <Descriptions.Item label="案件性质">
           {enums.case_nature && enums.case_nature[caseDetailData.caseNature]}
@@ -123,28 +123,37 @@ const CaresDetailModal = ({ dispatch, caseMgt, actionRef, enums }) => {
         </Descriptions.Item>
         <Descriptions.Item label="涉案数量">{caseDetailData.caseNumber}</Descriptions.Item>
         <Descriptions.Item label="涉案金额">{caseDetailData.caseAmount}</Descriptions.Item>
-        <Descriptions.Item label="罪名">
-          {enums.charge && enums.charge[caseDetailData.charge]}
-        </Descriptions.Item>
-        <Descriptions.Item label="刑事拘留人数">{caseDetailData.detentionNumber}</Descriptions.Item>
-        <Descriptions.Item label="抓获人数">{caseDetailData.captureNumber}</Descriptions.Item>
-        <Descriptions.Item label="判处被告人数量">
-          {caseDetailData.defendantNumber}
-        </Descriptions.Item>
-        <Descriptions.Item label="逮捕人数">{caseDetailData.arrestNumber}</Descriptions.Item>
-        <Descriptions.Item label="最高刑期">{caseDetailData.maximumSentence}</Descriptions.Item>
-        <Descriptions.Item label="判处被告单位数量">
-          {caseDetailData.defendantCompanyNumber}
-        </Descriptions.Item>
-
+        {caseDetailData.caseType !== 1 ? null : (
+          <>
+            <Descriptions.Item label="罪名">
+              {enums.charge && enums.charge[caseDetailData.charge]}
+            </Descriptions.Item>
+            <Descriptions.Item label="刑事拘留人数">
+              {caseDetailData.detentionNumber}
+            </Descriptions.Item>
+            <Descriptions.Item label="抓获人数">{caseDetailData.captureNumber}</Descriptions.Item>
+            <Descriptions.Item label="判处被告人数量">
+              {caseDetailData.defendantNumber}
+            </Descriptions.Item>
+            <Descriptions.Item label="逮捕人数">{caseDetailData.arrestNumber}</Descriptions.Item>
+            <Descriptions.Item label="最高刑期">{caseDetailData.maximumSentence}</Descriptions.Item>
+            <Descriptions.Item label="判处被告单位数量">
+              {caseDetailData.defendantCompanyNumber}
+            </Descriptions.Item>
+          </>
+        )}
         <Descriptions.Item label="案件地域">{caseDetailData.region}</Descriptions.Item>
       </Descriptions>
 
       <Descriptions size="middle" column={1}>
         <Descriptions.Item label="案件简要">{caseDetailData.brieflyCase}</Descriptions.Item>
-        <Descriptions.Item label="行政处理结果">{caseDetailData.punishResult}</Descriptions.Item>
-        <Descriptions.Item label="案件办理结果">{caseDetailData.sentenceResult}</Descriptions.Item>
-        {/* <Descriptions.Item label="附   件">{caseDetailData.fileList}</Descriptions.Item> */}
+        {caseDetailData.caseType === 1 ? (
+          <Descriptions.Item label="行政处理结果">{caseDetailData.punishResult}</Descriptions.Item>
+        ) : (
+          <Descriptions.Item label="案件办理结果">
+            {caseDetailData.sentenceResult}
+          </Descriptions.Item>
+        )}
         {fileList(caseDetailData.fileList)}
       </Descriptions>
       <ClubSplicing id={infoId} isDetail={1} />
