@@ -31,7 +31,6 @@ const AdvancedFormItem = ({
   ...resField
 }) => {
   let fieldInput = <Input disabled={disabled} />;
-
   if (!visible) {
     return null;
   }
@@ -123,7 +122,7 @@ const AdvancedFormItem = ({
   } else if (type === 'image') {
     fieldInput = <UploadInput type="image" disabled={disabled} />;
   } else if (type === 'video') {
-    fieldInput = <UploadInput type="video" disabled={disabled} />;
+    fieldInput = <UploadInput type="video" disabled={disabled} maxNum={1} />;
   } else if (type === 'number') {
     fieldInput = <InputNumber disabled={disabled} {...extraProps} />;
   } else if (type === 'textarea') {
@@ -131,7 +130,7 @@ const AdvancedFormItem = ({
   } else if (type === 'editor') {
     fieldInput = <EditorInput disabled={disabled} />;
   } else {
-    fieldInput = <Input disabled={disabled} />;
+    fieldInput = <Input disabled={disabled} {...extraProps} />;
   }
 
   return (

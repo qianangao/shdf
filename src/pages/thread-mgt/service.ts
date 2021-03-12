@@ -174,8 +174,8 @@ export async function getCueAssociation(params: any) {
  * 获取编码
  * @param params
  */
-export async function getTemplate(params: any) {
-  return noErrorRequest(`/${params.name}.xlsx`, {
+export async function getTemplate() {
+  return noErrorRequest(`/clue/excel/template`, {
     method: 'GET',
     responseType: 'blob',
   });

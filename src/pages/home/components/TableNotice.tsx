@@ -1,6 +1,7 @@
 import React from 'react';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
+import { SoundFilled } from '@ant-design/icons';
 
 const Table = ({ dispatch }) => {
   const columns = [
@@ -28,7 +29,11 @@ const Table = ({ dispatch }) => {
   return (
     <ProTable
       rowKey="id"
-      headerTitle="通知公告"
+      headerTitle={
+        <div>
+          <SoundFilled style={{ color: '#FC9637' }} /> 通知公告{' '}
+        </div>
+      }
       size="small"
       search={false}
       options={false}

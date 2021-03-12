@@ -221,7 +221,6 @@ const Table = ({
   const templateDownload = () => {
     dispatch({
       type: 'emClueManagement/getTemplate',
-      payload: { name: '线索' },
     });
   };
   const importClue = e => {

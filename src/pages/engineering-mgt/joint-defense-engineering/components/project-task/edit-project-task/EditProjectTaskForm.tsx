@@ -22,7 +22,7 @@ const EditProjectTaskForm = ({
     {
       label: '任务名称',
       name: 'taskName',
-      span: 2,
+      span: 4,
       disabled,
       rules: [
         { required: true, message: '请输入子任务名称!', whitespace: true },
@@ -32,7 +32,7 @@ const EditProjectTaskForm = ({
     {
       label: '任务状态',
       name: 'taskStatus',
-      span: 2,
+      span: 4,
       disabled,
       rules: [{ required: true, message: '请选择任务状态' }],
       enumsLabel: 'special_task_state',
@@ -40,7 +40,7 @@ const EditProjectTaskForm = ({
     {
       label: '保密等级',
       name: 'secrecyLevel',
-      span: 2,
+      span: 4,
       disabled,
       rules: [{ required: true, message: '请选择保密等级' }],
       enumsLabel: 'subject_secrecy_level',
@@ -48,7 +48,7 @@ const EditProjectTaskForm = ({
     {
       label: '开始日期',
       name: 'startDate',
-      span: 2,
+      span: 4,
       disabled,
       rules: [{ required: true, message: '请选择开始日期' }],
       type: 'date',
@@ -56,7 +56,7 @@ const EditProjectTaskForm = ({
     {
       label: '截止日期',
       name: 'endDate',
-      span: 2,
+      span: 4,
       disabled,
       rules: [{ required: true, message: '请选择截止日期!' }],
       type: 'date',

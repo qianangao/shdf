@@ -19,11 +19,25 @@ const routes = {
       remark: '角色管理',
     },
     {
+      path: '/system-mgt/authority-mgt',
+      name: 'system-mgt-authority-mgt',
+      component: './system-mgt/authority-mgt',
+      icon: 'setting',
+      remark: '权限管理',
+    },
+    {
       path: '/system-mgt/dictionary-mgt',
       name: 'system-mgt-dictionary-mgt',
       component: './system-mgt/dictionary-mgt',
       icon: 'setting',
       remark: '字典管理',
+    },
+    {
+      path: '/system-mgt/log-audit',
+      name: 'system-mgt-log-audit',
+      component: './system-mgt/log-audit',
+      icon: 'setting',
+      remark: '日志审计',
     },
     {
       path: '/system-mgt',

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'umi';
 import { Form, Input, Modal, Radio, Spin } from 'antd';
+import { getUseInfo, USER_INFO } from '@/utils/cookie';
 import ProcessInfo from './ProcessInfo';
 import CommitExamineModal from './CommitExamineModal';
 
@@ -55,7 +56,9 @@ const ProcessInfoModal = ({ dispatch, actionRef, transferModal, loading }) => {
           dispatch({
             type: 'emClueManagement/feedbackClue',
             payload: {
-              sourceUnit: '全国SHDF办公室',
+              sourceUnit: getUseInfo(USER_INFO)
+                ? JSON.parse(getUseInfo(USER_INFO)).orgName
+                : 'SHDF办公室',
               clueId: clueData.clueId,
               circulationId: clueData.sourceClueId,
               ...values,
