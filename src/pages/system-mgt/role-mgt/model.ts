@@ -143,9 +143,11 @@ const Model = {
     *getRoleDetail({ payload, resolve }, { call }) {
       const response = yield call(getRoleDetail, payload);
       if (!response.error) {
+        response.publicRole += '';
         resolve && resolve(response);
       }
     },
+
     *addRole({ payload, resolve }, { call, put }) {
       const response = yield call(addRole, payload);
       if (!response.error) {

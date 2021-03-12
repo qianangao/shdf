@@ -9,38 +9,44 @@ const AuthModal = ({ dispatch, loading, actionRef }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [visible, setVisible] = useState(false);
   const [title, setTitle] = useState('');
+  const [parentId, setParentId] = useState('');
 
   const showModal = item => {
     if (item) {
-      if (item.visible) setVisible(visible);
+      if (item.visible) setVisible(item.visible);
       if (item.id) {
         setDetailData(item.id);
         updateData(item.id);
       }
+      if (item.name) {
+        form.setFieldsValue({ parentName: item.name });
+      }
+      if (item.parentId) {
+        setParentId(item.parentId);
+      }
+    }
+    if (visible) {
+      setTitle('新增子资源');
+    }
+    if (detailData) {
+      setTitle('编辑资源');
+    } else {
+      setTitle('新增资源');
     }
     setModalVisible(true);
   };
 
-  const updateData = id => {
+  const updateData = permessionId => {
     new Promise(resolve => {
       dispatch({
         type: 'authorityMgt/getAuthDetail',
-        payload: id.toString(),
+        payload: { permessionId },
         resolve,
       });
     }).then(res => {
       if (res) form.setFieldsValue({ ...res });
     });
   };
-
-  if (visible) {
-    setTitle('新增子资源');
-  }
-  if (detailData) {
-    setTitle('编辑资源');
-  } else {
-    setTitle('新增资源');
-  }
 
   useEffect(() => {
     if (actionRef && typeof actionRef === 'function') {
@@ -55,13 +61,19 @@ const AuthModal = ({ dispatch, loading, actionRef }) => {
   const hideModal = () => {
     setModalVisible(false);
     form.resetFields();
+    setTitle('');
+    setVisible(false);
+    setParentId('');
   };
 
   const handleOk = () => {
     form
       .validateFields()
       .then(values => {
-        // values.parentId = form.getFieldsValue('parentId')
+        if (visible) {
+          values.parentId = parentId;
+        }
+        delete values.parentName;
         return new Promise(resolve => {
           dispatch({
             type: `authorityMgt/${detailData ? 'updateAuth' : 'addAuth'}`,

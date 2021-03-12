@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Tree, Spin } from 'antd';
+import { Tree, Spin, Button } from 'antd';
 import { connect } from 'umi';
 import styles from './index.less';
 
@@ -41,6 +41,14 @@ const AuthTree = ({ dispatch, authTree, loading }) => {
     setSelectedKeys(keys);
   };
 
+  const totalClick = () => {
+    dispatch({
+      type: 'authorityMgt/getListTable',
+      payload: { parentId: '' },
+    });
+    setSelectedKeys([]);
+  };
+
   return (
     <div className={styles.treeContent}>
       {/*  TEMP 搜索逻辑预留  */}
@@ -51,18 +59,21 @@ const AuthTree = ({ dispatch, authTree, loading }) => {
         enterButton="查询"
         onSearch={actionSearchHander}
       /> */}
+      <Button type="primary" onClick={() => totalClick()}>
+        全部
+      </Button>
       <Spin spinning={loading}>
-        {authTree && authTree.length ? (
-          <Tree
-            treeData={authTree}
-            onSelect={actionSelectHandler}
-            selectedKeys={selectedKeys}
-            onExpand={actionExpandHandler}
-            expandedKeys={expandedKeys}
-          />
-        ) : (
+        {/* {authTree && authTree.length ? ( */}
+        <Tree
+          treeData={authTree}
+          onSelect={actionSelectHandler}
+          selectedKeys={selectedKeys}
+          onExpand={actionExpandHandler}
+          expandedKeys={expandedKeys}
+        />
+        {/* ) : (
           <></>
-        )}
+        )} */}
       </Spin>
     </div>
   );

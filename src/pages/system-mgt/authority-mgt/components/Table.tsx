@@ -17,7 +17,15 @@ const Table = ({ authorityMgt, authModal, dispatch }) => {
     // },
     { title: '资源名称', align: 'center', dataIndex: 'permessionName', hideInSearch: true },
     { title: '资源权限', align: 'center', dataIndex: 'permessionResource', hideInSearch: true },
-    { title: '权限类型', align: 'center', dataIndex: 'permessionType', hideInSearch: true },
+    {
+      title: '权限类型',
+      align: 'center',
+      dataIndex: 'permessionType',
+      hideInSearch: true,
+      // render: ()=>{
+      //   text => <span>{text === '1' ? '菜单' : text === '2' ? '按钮' : '接口'}</span>
+      // }
+    },
     {
       title: '操作',
       valueType: 'option',
@@ -26,7 +34,10 @@ const Table = ({ authorityMgt, authModal, dispatch }) => {
       width: 240,
       fixed: 'right',
       render: (dom, roleData) => [
-        <a key={`${roleData.permessionId}up`} onClick={() => authModal(roleData.permessionId)}>
+        <a
+          key={`${roleData.permessionId}up`}
+          onClick={() => authModal({ id: roleData.permessionId })}
+        >
           修改
         </a>,
         <Popconfirm
@@ -39,7 +50,13 @@ const Table = ({ authorityMgt, authModal, dispatch }) => {
         </Popconfirm>,
         <a
           key={`${roleData.permessionId}add`}
-          onClick={() => authModal({ id: roleData.permessionId, visible: true })}
+          onClick={() =>
+            authModal({
+              name: roleData.permessionName,
+              parentId: roleData.permessionId,
+              visible: true,
+            })
+          }
         >
           新建子资源
         </a>,
@@ -56,21 +73,22 @@ const Table = ({ authorityMgt, authModal, dispatch }) => {
       });
     });
 
-  const deleteAuth = ids => {
+  const deleteAuth = permessionId => {
     dispatch({
       type: 'authorityMgt/deleteAuth',
       payload: {
-        ids,
+        permessionId,
       },
     });
   };
 
   return (
     <ProTable
-      rowKey="roleId"
+      search={false}
+      rowKey="permessionId"
       headerTitle="权限信息"
       actionRef={tableRef}
-      rowSelection={[]}
+      // rowSelection={[]}
       scroll={{ x: 'max-content' }}
       request={async params => getRoleList(params)}
       toolBarRender={_ => [

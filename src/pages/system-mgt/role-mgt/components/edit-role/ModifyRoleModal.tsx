@@ -7,6 +7,8 @@ const ModifyRoleModal = ({ dispatch, actionRef, loading, roleTree }) => {
   const [form] = RoleForm.useForm();
   const [detailData, setDetailData] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
+  const [publicRole, setPublicRole] = useState('');
+  const [orgIds, setOrgIds] = useState([]);
 
   const showModal = id => {
     if (id) {
@@ -24,6 +26,8 @@ const ModifyRoleModal = ({ dispatch, actionRef, loading, roleTree }) => {
         resolve,
       });
     }).then(res => {
+      setPublicRole(res.publicRole);
+      setOrgIds([...res.orgIds]);
       if (res) form.setFieldsValue({ ...res });
     });
   };
@@ -41,19 +45,25 @@ const ModifyRoleModal = ({ dispatch, actionRef, loading, roleTree }) => {
   const hideModal = () => {
     setModalVisible(false);
     form.resetFields();
+    setDetailData(null);
+    setPublicRole('');
+    setOrgIds([]);
+  };
+
+  const onChange = keys => {
+    setOrgIds([...keys]);
   };
 
   const handleOk = () => {
     form
       .validateFields()
       .then(values => {
-        // const orgIds = form.getFieldsValue('orgIds')
         return new Promise(resolve => {
           dispatch({
             type: `smRoleMgt/${detailData ? 'updateRole' : 'addRole'}`,
             payload: {
               ...values,
-              // orgIds,
+              orgIds: (values.publicRole === '0' && orgIds) || [],
               roleId: detailData && detailData.toString(),
             },
             resolve,
@@ -82,7 +92,13 @@ const ModifyRoleModal = ({ dispatch, actionRef, loading, roleTree }) => {
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <RoleForm form={form} roleTree={roleTree} />
+      <RoleForm
+        form={form}
+        roleTree={roleTree}
+        publicRole={publicRole}
+        orgIds={orgIds}
+        onTreeChange={onChange}
+      />
     </Modal>
   );
 };

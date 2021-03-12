@@ -1,18 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AdvancedForm from '@/components/AdvancedForm';
-import { Radio, Tree } from 'antd';
+import { Select, Tree } from 'antd';
 
-const RoleForm = ({ form, roleTree }) => {
+const RoleForm = ({ form, onTreeChange, roleTree, publicRole, orgIds }) => {
   const [checkedKeys, setCheckedKeys] = useState([]);
+  const [value, setValue] = React.useState('');
 
-  const [value, setValue] = React.useState('1');
+  useEffect(() => {
+    setValue(publicRole);
+  }, [publicRole]);
 
-  const onChange = e => {
-    setValue(e.target.value);
+  useEffect(() => {
+    setCheckedKeys([...orgIds]);
+  }, [orgIds]);
+
+  const onChange = v => {
+    // setCheckedKeys([])
+    setValue(v);
   };
 
   const onCheckHandler = keys => {
+    // console.log("keys",keys);
+
     setCheckedKeys(keys);
+    onTreeChange && onTreeChange(keys);
   };
 
   const formItems = [
@@ -37,10 +48,10 @@ const RoleForm = ({ form, roleTree }) => {
       span: 4,
       rules: [{ required: true, message: '请选择!' }],
       render: (
-        <Radio.Group onChange={onChange} value={value}>
-          <Radio value="1">是</Radio>
-          <Radio value="0">否</Radio>
-        </Radio.Group>
+        <Select onChange={onChange} value={value}>
+          <Select.Option value="1">是</Select.Option>
+          <Select.Option value="0">否</Select.Option>
+        </Select>
       ),
     },
     {

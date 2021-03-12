@@ -31,7 +31,7 @@ const Model = {
         yield put({
           type: 'save',
           payload: {
-            authTree: response.permessionList,
+            authTree: response.records,
             loading: false,
           },
         });
@@ -58,11 +58,11 @@ const Model = {
       });
     },
 
-    *getAuthList({ payload, resolve }, { call }) {
-      // const parentId = yield select(state => state.smRoleMgt.parentId);
+    *getAuthList({ payload, resolve }, { call, select }) {
+      const parentId = yield select(state => state.authorityMgt.parentId);
       const params = {
         ...payload,
-        // parentId,
+        parentId,
         pageNum: payload.current ? payload.current : 1,
         pageSize: payload.pageSize ? payload.pageSize : 20,
       };
@@ -85,7 +85,7 @@ const Model = {
         resolve && resolve(response);
         message.success('新增成功！');
         yield put({
-          type: 'tableReload',
+          type: 'getAuthTree',
         });
       }
     },
@@ -95,7 +95,7 @@ const Model = {
         resolve && resolve(response);
         message.success('修改成功！');
         yield put({
-          type: 'tableReload',
+          type: 'getAuthTree',
         });
       }
     },
@@ -104,7 +104,7 @@ const Model = {
       if (!response.error) {
         message.success('删除成功！');
         yield put({
-          type: 'tableReload',
+          type: 'getAuthTree',
         });
       }
     },

@@ -16,7 +16,7 @@ export async function getAuthTree(params) {
  * @param {*} params
  */
 export async function addAuth(params) {
-  return request('/permession/add', {
+  return request('/permession', {
     method: 'POST',
     data: params,
   });
@@ -27,7 +27,7 @@ export async function addAuth(params) {
  * @param {*} params
  */
 export async function updateAuth(params) {
-  return request(`/permession//update`, {
+  return request(`/permession`, {
     method: 'PUT',
     data: params,
   });
@@ -37,7 +37,7 @@ export async function updateAuth(params) {
  * @param {*} params
  */
 export async function deleteAuth(params) {
-  return request(`/permession/delete`, {
+  return request(`/permession`, {
     method: 'DELETE',
     data: params,
   });
@@ -59,8 +59,8 @@ export async function getAuthList(params) {
  * @param params
  */
 export async function getAuthDetail(params: any) {
-  return request(`/addressBook/${params}`, {
+  return request(`/permession/getInfoById`, {
     method: 'GET',
-    // params,
+    params,
   });
 }

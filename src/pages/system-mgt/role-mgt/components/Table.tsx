@@ -26,7 +26,7 @@ const Table = ({ smRoleMgt, modifyRoleModal, authorityModal, dispatch }) => {
       fixed: 'right',
       render: (dom, roleData) => [
         // roleData.onlyRead && (
-        <a key={`${roleData.id}up`} onClick={() => modifyRoleModal(roleData.roleId)}>
+        <a key={`${roleData.roleId}up`} onClick={() => modifyRoleModal(roleData.roleId)}>
           修改
         </a>,
 
@@ -34,7 +34,7 @@ const Table = ({ smRoleMgt, modifyRoleModal, authorityModal, dispatch }) => {
         //   分配用户
         // </a>,
         <Popconfirm
-          key={`${roleData.id}del`}
+          key={`${roleData.roleId}del`}
           title="确认删除该角色吗？该操作不可恢复"
           placement="topRight"
           onConfirm={() => deleteRoles(roleData.roleId)}
@@ -42,7 +42,7 @@ const Table = ({ smRoleMgt, modifyRoleModal, authorityModal, dispatch }) => {
           <a>删除</a>
         </Popconfirm>,
         // ),
-        <a key={`${roleData.id}manag`} onClick={() => authorityModal(roleData.roleId)}>
+        <a key={`${roleData.roleId}manag`} onClick={() => authorityModal(roleData.roleId)}>
           权限管理
         </a>,
       ],
@@ -58,11 +58,11 @@ const Table = ({ smRoleMgt, modifyRoleModal, authorityModal, dispatch }) => {
       });
     });
 
-  const deleteRoles = ids => {
+  const deleteRoles = roleId => {
     dispatch({
       type: 'smRoleMgt/deleteRoles',
       payload: {
-        ids,
+        roleId,
       },
     });
   };
@@ -72,7 +72,6 @@ const Table = ({ smRoleMgt, modifyRoleModal, authorityModal, dispatch }) => {
       rowKey="roleId"
       headerTitle="角色信息"
       actionRef={tableRef}
-      rowSelection={[]}
       scroll={{ x: 'max-content' }}
       request={async params => getRoleList(params)}
       toolBarRender={_ => [
