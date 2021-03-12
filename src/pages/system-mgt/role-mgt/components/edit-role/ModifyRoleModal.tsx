@@ -10,14 +10,6 @@ const ModifyRoleModal = ({ dispatch, actionRef, loading, roleTree }) => {
   const [publicRole, setPublicRole] = useState('');
   const [orgIds, setOrgIds] = useState([]);
 
-  const showModal = id => {
-    if (id) {
-      updateData(id);
-      setDetailData(id);
-    }
-    setModalVisible(true);
-  };
-
   const updateData = roleId => {
     new Promise(resolve => {
       dispatch({
@@ -30,6 +22,14 @@ const ModifyRoleModal = ({ dispatch, actionRef, loading, roleTree }) => {
       setOrgIds([...res.orgIds]);
       if (res) form.setFieldsValue({ ...res });
     });
+  };
+
+  const showModal = id => {
+    if (id) {
+      updateData(id);
+      setDetailData(id);
+    }
+    setModalVisible(true);
   };
 
   useEffect(() => {

@@ -6,6 +6,7 @@ import styles from './index.less';
 const RoleTree = ({ dispatch, roleTree, loading }) => {
   const [expandedKeys, setExpandedKeys] = useState<any>([]);
   const [selectedKeys, setSelectedKeys] = useState<any>([]);
+
   const getTreeData = (orgId = '') => {
     new Promise(resolve => {
       dispatch({
@@ -31,13 +32,14 @@ const RoleTree = ({ dispatch, roleTree, loading }) => {
     setExpandedKeys(node);
   };
 
-  const actionSelectHandler = (keys, { node }) => {
-    const orgId = node.key;
+  const actionSelectHandler = keys => {
+    const orgId = keys[0];
+    // const orgId = node.key;
     dispatch({
       type: 'smRoleMgt/getListTable',
       payload: { orgId },
     });
-    if (!keys[0]) return;
+    // if (!keys[0]) return;
     setSelectedKeys(keys);
   };
 

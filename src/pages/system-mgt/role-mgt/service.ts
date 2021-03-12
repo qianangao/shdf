@@ -109,12 +109,22 @@ export async function getAuthTree(params) {
 // }
 
 /**
+ * 获取用户权限树
+ *
+ */
+export async function getRoleRules(params) {
+  return request(`/role/acl`, {
+    method: 'GET',
+    params,
+  });
+}
+/**
  * 修改用户权限树
  *
  */
 export async function updateRoleRules(params) {
-  return request(`/specialAction/findTree`, {
-    method: 'PUT',
+  return request(`/role/distributeAcl`, {
+    method: 'POST',
     data: params,
   });
 }

@@ -1,6 +1,5 @@
 import React from 'react';
 import AdvancedForm from '@/components/AdvancedForm';
-import { Select } from 'antd';
 
 const AuthForm = ({ form, visible = false }) => {
   const formItems = [
@@ -28,13 +27,7 @@ const AuthForm = ({ form, visible = false }) => {
       name: 'permessionType',
       span: 4,
       rules: [{ required: true, message: '请输入资源权限!' }],
-      render: (
-        <Select>
-          <Select.Option value="1">菜单</Select.Option>
-          <Select.Option value="2">按钮</Select.Option>
-          <Select.Option value="3">接口</Select.Option>
-        </Select>
-      ),
+      enumsLabel: 'system_permession',
     },
     {
       label: '资源描述',
