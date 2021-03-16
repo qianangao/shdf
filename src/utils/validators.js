@@ -181,6 +181,22 @@ export const checkTelephone = (rule, value, callback) => {
 };
 
 /**
+ * 电话表单校验
+ * @param {*} rule
+ * @param {*} value 需校验的值
+ * @param {*} callback form回调函数
+ */
+export const checkPhoneOrTelephone = (rule, value, callback) => {
+  const isTelephone = /^((0\d{2,3})-)(\d{7,8})(-(\d{3,}))?$/;
+  const isMob = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+  if (!value || isTelephone.test(value) || isMob.test(value)) {
+    callback();
+  } else {
+    callback('电话格式输入不合法！');
+  }
+};
+
+/**
  * 联系电话表单校验
  * @param {*} rule
  * @param {*} value 需校验的值
