@@ -48,11 +48,20 @@ const LogDetailDataModal = ({ actionRef }) => {
         <Descriptions.Item label="操作者ID">
           {detailData ? detailData.userId : null}
         </Descriptions.Item>
-        {/* <Descriptions.Item label="操作模块">{detailData.model}</Descriptions.Item> */}
-        {/* <Descriptions.Item label="操作方法">{detailData.operationMethod}</Descriptions.Item> */}
-        {/* <Descriptions.Item label="操作内容">{detailData.sketch}</Descriptions.Item> */}
-        {/* <Descriptions.Item label="操作时间">{detailData.operationTime}</Descriptions.Item> */}
-        {/* <Descriptions.Item label="备    注">{receivingdetailDataData.remarks}</Descriptions.Item> */}
+        <Descriptions.Item label="操作模块">
+          {detailData ? detailData.model : null}
+        </Descriptions.Item>
+        <Descriptions.Item label="操作方法">
+          {detailData ? detailData.operationMethod : null}
+        </Descriptions.Item>
+        <Descriptions.Item label="操作时间">
+          {detailData ? detailData.operationTime : null}
+        </Descriptions.Item>
+      </Descriptions>
+      <Descriptions size="middle" column={1}>
+        <Descriptions.Item label="操作内容">
+          {detailData ? detailData.sketch : null}
+        </Descriptions.Item>
       </Descriptions>
     </Modal>
   );
