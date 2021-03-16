@@ -103,7 +103,7 @@ const CaresDetailModal = ({ dispatch, caseMgt, actionRef, enums }) => {
           {enums.urgent_level && enums.urgent_level[caseDetailData.urgentLevel]}
         </Descriptions.Item>
         <Descriptions.Item label="案件类型">
-          {enums.handle_type && enums.case_type[caseDetailData.caseType]}
+          {enums.case_type && enums.case_type[caseDetailData.caseType]}
         </Descriptions.Item>
         <Descriptions.Item label="案件性质">
           {enums.case_nature && enums.case_nature[caseDetailData.caseNature]}

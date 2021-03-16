@@ -72,8 +72,8 @@ const ModifyModal = ({ dispatch, actionRef, loading, sensitiveMgt }) => {
     form
       .validateFields()
       .then(values => {
-        values.specialActionIds = values.specialActionIds ? [values.specialActionIds] : [];
-
+        // values.specialActionIds = values.specialActionIds ? [values.specialActionIds] : [];
+        values.specialActionIds = ['1'];
         let filesStr = '';
         if (values.fileList && values.fileList.length > 0) {
           const ids = values.fileList.map(item => {
