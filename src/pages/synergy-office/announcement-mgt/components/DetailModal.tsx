@@ -65,27 +65,29 @@ const ModifyModal = ({ dispatch, actionRef, loading, announcementData, enums }) 
   };
 
   const handleOk = (): void => {
-    form
-      .validateFields()
-      .then((values: any) => {
-        delete values.auditUser;
-        return new Promise(resolve => {
-          dispatch({
-            type: `soAnnouncementMgt/auditAnnouncement`,
-            payload: {
-              ...values,
-              noticeId,
-            },
-            resolve,
-          });
-        });
-      })
-      .then(() => {
-        hideModal();
-      })
-      .catch((info: any) => {
-        console.error('Validate Failed:', info);
-      });
+    type === 'examine'
+      ? form
+          .validateFields()
+          .then((values: any) => {
+            delete values.auditUser;
+            return new Promise(resolve => {
+              dispatch({
+                type: `soAnnouncementMgt/auditAnnouncement`,
+                payload: {
+                  ...values,
+                  noticeId,
+                },
+                resolve,
+              });
+            });
+          })
+          .then(() => {
+            hideModal();
+          })
+          .catch((info: any) => {
+            console.error('Validate Failed:', info);
+          })
+      : hideModal();
   };
 
   const fileList = (files: any[]) => {
@@ -124,17 +126,17 @@ const ModifyModal = ({ dispatch, actionRef, loading, announcementData, enums }) 
         case -3:
           return [
             <Descriptions title="审核信息" column={{ xxl: 3, xl: 3, lg: 3, md: 2, sm: 2, xs: 1 }}>
-              <Descriptions.Item label="审核人">{announcementData.secrecyLevel}</Descriptions.Item>
+              <Descriptions.Item label="审核人">{announcementData.createUser}</Descriptions.Item>
               <Descriptions.Item label="审核时间">
-                {announcementData.secrecyLevel}
+                {formatDateStr(announcementData.createTime, 'YYYY年MM月DD日 HH:mm')}
               </Descriptions.Item>
-              <Descriptions.Item label="发布人">{announcementData.secrecyLevel}</Descriptions.Item>
+              <Descriptions.Item label="发布人">{announcementData.publishUser}</Descriptions.Item>
               <Descriptions.Item label="发布时间">
-                {announcementData.secrecyLevel}
+                {formatDateStr(announcementData.publishTime, 'YYYY年MM月DD日 HH:mm')}
               </Descriptions.Item>
-              <Descriptions.Item label="撤回人">{announcementData.secrecyLevel}</Descriptions.Item>
+              <Descriptions.Item label="撤回人">{announcementData.createUser}</Descriptions.Item>
               <Descriptions.Item label="撤回时间">
-                {announcementData.secrecyLevel}
+                {formatDateStr(announcementData.createTime, 'YYYY年MM月DD日 HH:mm')}
               </Descriptions.Item>
             </Descriptions>,
           ];
@@ -142,32 +144,32 @@ const ModifyModal = ({ dispatch, actionRef, loading, announcementData, enums }) 
         case 3:
           return [
             <Descriptions title="审核信息" column={{ xxl: 3, xl: 3, lg: 3, md: 2, sm: 2, xs: 1 }}>
-              <Descriptions.Item label="审核人">{announcementData.secrecyLevel}</Descriptions.Item>
+              <Descriptions.Item label="审核人">{announcementData.createUser}</Descriptions.Item>
               <Descriptions.Item label="审核时间">
-                {announcementData.secrecyLevel}
+                {formatDateStr(announcementData.createTime, 'YYYY年MM月DD日 HH:mm')}
               </Descriptions.Item>
               <Descriptions.Item label="审核状态">
                 {announcementData.secrecyLevel}
               </Descriptions.Item>
               <Descriptions.Item label="审核意见" span={3}>
-                {announcementData.secrecyLevel}
+                {announcementData.createUser}
               </Descriptions.Item>
             </Descriptions>,
           ];
         case 7:
           return [
             <Descriptions title="审核信息" column={{ xxl: 3, xl: 3, lg: 3, md: 2, sm: 2, xs: 1 }}>
-              <Descriptions.Item label="审核人">{announcementData.secrecyLevel}</Descriptions.Item>,
+              <Descriptions.Item label="审核人">{announcementData.createUser}</Descriptions.Item>
               <Descriptions.Item label="审核时间">
-                {announcementData.secrecyLevel}
+                {formatDateStr(announcementData.createTime, 'YYYY年MM月DD日 HH:mm')}
               </Descriptions.Item>
-              <Descriptions.Item label="发布人">{announcementData.secrecyLevel}</Descriptions.Item>
+              <Descriptions.Item label="发布人">{announcementData.publishUser}</Descriptions.Item>
               <Descriptions.Item label="发布时间">
-                {announcementData.secrecyLevel}
+                {formatDateStr(announcementData.publishTime, 'YYYY年MM月DD日 HH:mm')}
               </Descriptions.Item>
-              <Descriptions.Item label="关闭人">{announcementData.secrecyLevel}</Descriptions.Item>
+              <Descriptions.Item label="关闭人">{announcementData.createUser}</Descriptions.Item>
               <Descriptions.Item label="关闭时间">
-                {announcementData.secrecyLevel}
+                {formatDateStr(announcementData.createTime, 'YYYY年MM月DD日 HH:mm')}
               </Descriptions.Item>
             </Descriptions>,
           ];
@@ -228,7 +230,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, announcementData, enums }) 
             column={{ xxl: 3, xl: 3, lg: 3, md: 2, sm: 2, xs: 1 }}
             style={{ marginTop: 30 }}
           >
-            <Descriptions.Item label="保密等级">{announcementData.secrecyLevel}</Descriptions.Item>
+            <div>暂无</div>
           </Descriptions>
         )}
         {type === 'examine' && (
