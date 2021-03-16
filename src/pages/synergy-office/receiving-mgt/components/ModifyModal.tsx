@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'umi';
+import { connect, useLocation } from 'umi';
 import { Modal } from 'antd';
 import OrgInfoForm from './ReceivingForm';
 
+const useQuery = () => new URLSearchParams(useLocation().search);
+
 const ModifyModal = ({ dispatch, actionRef, loading, receivingMgt }) => {
+  const query = useQuery();
   const [form] = OrgInfoForm.useForm();
   const [modifyModalVisible, setModalVisible] = useState(false);
   const { receivingDetailData } = receivingMgt;
@@ -25,6 +28,11 @@ const ModifyModal = ({ dispatch, actionRef, loading, receivingMgt }) => {
 
     if (actionRef && typeof actionRef !== 'function') {
       actionRef.current = { showModal };
+    }
+
+    // TEMP: /synergy-office/receiving-mgt?id=3319410276314415104&type=modify
+    if (query.get('type') === 'modify' && query.get('id')) {
+      showModal({ receiptId: query.get('id') });
     }
   }, []);
 

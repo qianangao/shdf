@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, { Suspense, useEffect, useRef } from 'react';
 import { connect } from 'umi';
 import Table from './components/Table';
+import DetailModal from './components/DetailModal';
 
 const DictionaryMgt = ({ dispatch }) => {
-  const modifyTypeRef = useRef({});
+  const detailRef = useRef({});
 
   useEffect(() => {
     dispatch({
@@ -14,20 +15,16 @@ const DictionaryMgt = ({ dispatch }) => {
     });
   }, []);
 
-  const openModifyModal = item => {
-    modifyTypeRef.current.showModal(item);
-  };
-
-  const changeTypeId = () => {
-    // fieldRef.current.showModal(item);
-    dispatch({
-      type: 'smDictionaryMgt/reFishDictTable',
-    });
+  const openDetailModal = item => {
+    detailRef.current.showModal(item);
   };
 
   return (
     <>
-      <Table openModifyModal={openModifyModal} changeTypeId={changeTypeId} />
+      <Table openDetailModal={openDetailModal} />
+      <Suspense fallback={null}>
+        <DetailModal actionRef={detailRef} />
+      </Suspense>
     </>
   );
 };

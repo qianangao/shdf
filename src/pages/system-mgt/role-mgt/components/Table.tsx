@@ -6,6 +6,24 @@ import { connect } from 'umi';
 const Table = ({ smRoleMgt, modifyRoleModal, authorityModal, dispatch }) => {
   const { tableRef } = smRoleMgt;
 
+  const getRoleList = params =>
+    new Promise(resolve => {
+      dispatch({
+        type: 'smRoleMgt/getRoleList',
+        payload: { ...params },
+        resolve,
+      });
+    });
+
+  const deleteRoles = roleId => {
+    dispatch({
+      type: 'smRoleMgt/deleteRoles',
+      payload: {
+        roleId,
+      },
+    });
+  };
+
   const columns = [
     {
       title: '序号',
@@ -25,10 +43,11 @@ const Table = ({ smRoleMgt, modifyRoleModal, authorityModal, dispatch }) => {
       width: 240,
       fixed: 'right',
       render: (dom, roleData) => [
-        // roleData.onlyRead && (
-        <a key={`${roleData.roleId}up`} onClick={() => modifyRoleModal(roleData.roleId)}>
-          修改
-        </a>,
+        roleData.onlyRead === null && (
+          <a key={`${roleData.roleId}up`} onClick={() => modifyRoleModal(roleData.roleId)}>
+            修改
+          </a>
+        ),
 
         //   <a key={`${roleData.id}deal`} onClick={() => assginModal(roleData.roleId)}>
         //   分配用户
@@ -48,24 +67,6 @@ const Table = ({ smRoleMgt, modifyRoleModal, authorityModal, dispatch }) => {
       ],
     },
   ];
-
-  const getRoleList = params =>
-    new Promise(resolve => {
-      dispatch({
-        type: 'smRoleMgt/getRoleList',
-        payload: { ...params },
-        resolve,
-      });
-    });
-
-  const deleteRoles = roleId => {
-    dispatch({
-      type: 'smRoleMgt/deleteRoles',
-      payload: {
-        roleId,
-      },
-    });
-  };
 
   return (
     <ProTable

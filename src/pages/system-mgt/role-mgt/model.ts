@@ -11,6 +11,7 @@ import {
   getAuthTree,
   updateRoleRules,
   getRoleDetail,
+  getRoleRules,
   // getUserDetail,
   // getUserList,
   // addUser,
@@ -24,12 +25,8 @@ const Model = {
     loading: false,
     roleTree: [],
     ruleData: [],
-    // ruleLoading:false,
     orgId: '',
-    // roleListData: {},
     tableRef: {},
-    // userTableRef:{},
-    // selectedOrgId: undefined, // 选择的组织id
   },
   effects: {
     *getRoleTree({ payload, resolve }, { call, put }) {
@@ -69,20 +66,13 @@ const Model = {
     },
 
     *getAuthTree({ payload, resolve }, { call, put }) {
-      // yield put({
-      //   type: 'save',
-      //   payload: {
-      //     ruleLoading: true,
-      //   },
-      // });
       const response = yield call(getAuthTree, payload);
       if (!response.error) {
         resolve && resolve(response);
         yield put({
           type: 'save',
           payload: {
-            ruleData: response,
-            // ruleLoading: false,
+            ruleData: response.records,
           },
         });
       }
@@ -92,6 +82,12 @@ const Model = {
       if (!response.error) {
         resolve && resolve(response);
         message.success('修改成功！');
+      }
+    },
+    *getRoleRules({ payload, resolve }, { call }) {
+      const response = yield call(getRoleRules, payload);
+      if (!response.error) {
+        resolve && resolve(response);
       }
     },
     // *distributeUser({ payload, resolve }, { call }) {
@@ -119,11 +115,11 @@ const Model = {
     //     // });
     //   }
     // },
-    *getRoleList({ payload, resolve }, { call }) {
-      // const orgId = yield select(state => state.smRoleMgt.orgId);
+    *getRoleList({ payload, resolve }, { call, select }) {
+      const orgId = yield select(state => state.smRoleMgt.orgId);
       const params = {
         ...payload,
-        // orgId,
+        orgId,
         pageNum: payload.current ? payload.current : 1,
         pageSize: payload.pageSize ? payload.pageSize : 20,
       };
@@ -132,12 +128,6 @@ const Model = {
       if (!response.error) {
         const result = formatPageData(response);
         resolve && resolve(result);
-        // yield put({
-        //   type: 'save',
-        //   payload: {
-        //     roleListData: result,
-        //   },
-        // });
       }
     },
     *getRoleDetail({ payload, resolve }, { call }) {

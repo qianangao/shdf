@@ -4,10 +4,17 @@ import AuthTreeLayout from './components/tree-component/AuthTreeLayout';
 import Table from './components/Table';
 import AuthModal from './components/edit-auth/AuthModal';
 
-const AuthMgt = () => {
+const AuthMgt = ({ dispatch }) => {
   const authModalRef = useRef({});
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    dispatch({
+      type: 'global/getEnums',
+      payload: {
+        names: ['system_permession'],
+      },
+    });
+  }, []);
 
   const authModal = item => {
     authModalRef.current.showModal(item);

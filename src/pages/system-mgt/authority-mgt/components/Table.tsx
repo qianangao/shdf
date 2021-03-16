@@ -3,7 +3,7 @@ import { Button, Popconfirm } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 
-const Table = ({ authorityMgt, authModal, dispatch }) => {
+const Table = ({ authorityMgt, authModal, dispatch, enums }) => {
   const { tableRef } = authorityMgt;
 
   const columns = [
@@ -22,9 +22,7 @@ const Table = ({ authorityMgt, authModal, dispatch }) => {
       align: 'center',
       dataIndex: 'permessionType',
       hideInSearch: true,
-      // render: ()=>{
-      //   text => <span>{text === '1' ? '菜单' : text === '2' ? '按钮' : '接口'}</span>
-      // }
+      valueEnum: enums.system_permession,
     },
     {
       title: '操作',
@@ -101,6 +99,7 @@ const Table = ({ authorityMgt, authModal, dispatch }) => {
   );
 };
 
-export default connect(({ authorityMgt }) => ({
+export default connect(({ authorityMgt, global }) => ({
   authorityMgt,
+  enums: global.enums,
 }))(Table);
