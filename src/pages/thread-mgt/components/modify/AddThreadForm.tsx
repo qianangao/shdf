@@ -2,7 +2,7 @@ import React from 'react';
 import { Descriptions } from 'antd';
 import AdvancedForm from '@/components/AdvancedForm';
 import ProvinceCascaderInput from '@/components/ProvinceCascaderInput';
-import {checkEmail, checkPhoneOrTelephone, checkPost} from '@/utils/validators';
+import { checkEmail, checkPhoneOrTelephone, checkPost } from '@/utils/validators';
 
 const AddThreadForm = ({ form }) => {
   const formItems = [

@@ -49,7 +49,8 @@ const Model = {
     tableRef: {},
     meetingTableRef: {},
     projectId: '',
-    projectPid: 'null',
+    projectPid: '',
+    yearOrtot: 'null',
     taskId: '',
     engineeringForm: {},
     projectProvinceEntityList: [],
@@ -243,6 +244,7 @@ const Model = {
             engineeringTree: response,
             loading: false,
             projectId: response[0].key,
+            projectPid: response[0].key,
           },
         });
         yield put({
@@ -449,7 +451,8 @@ const Model = {
         type: 'save',
         payload: {
           projectId: payload.projectId,
-          projectPid: payload.projectPid,
+          projectPid: payload.projectPid === 'null' ? payload.projectId : payload.projectPid,
+          yearOrtot: payload.projectPid,
         },
       });
       yield put({
@@ -482,7 +485,7 @@ const Model = {
         ...payload,
         currentPage: payload === undefined ? 1 : payload.current,
         pageSize: payload === undefined ? 10 : payload.pageSize,
-        projectId,
+        projectId: projectPid === projectId ? undefined : projectId,
         projectPid,
       };
 
@@ -558,7 +561,7 @@ const Model = {
         ...payload,
         currentPage: 1,
         pageSize: 10,
-        projectId,
+        projectId: projectPid === projectId ? undefined : projectId,
         projectPid,
       };
       const response = yield call(getInfoStatistics, params);

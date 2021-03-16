@@ -5,8 +5,8 @@ export const transformOrgTreeData = tree => {
     node.isLeaf = !node.children || node.children.length === 0 || node.isLeaf;
     if (node.children) {
       transformOrgTreeData(node.children);
-    }else{
-      delete node.children
+    } else {
+      delete node.children;
     }
     return node;
   });

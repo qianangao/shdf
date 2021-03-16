@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Tree, Input } from 'antd';
 import { connect } from 'umi';
-import {getCookie, USER_ORG_ID} from "@/utils/cookie";
+import { getCookie, USER_ORG_ID } from '@/utils/cookie';
 import styles from './index.less';
 
 let treeItems = new Map();

@@ -17,10 +17,8 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
   const fieldChangeHander = (label, value) => {
     if (label === 'selectType') {
       setSelectType(value);
-      if (value === '1')
-        form.setFieldsValue({ visibleRangeOrg: [] });
-      else
-        form.setFieldsValue({ visibleRange: [] });
+      if (value === '1') form.setFieldsValue({ visibleRangeOrg: [] });
+      else form.setFieldsValue({ visibleRange: [] });
     }
   };
 
@@ -127,7 +125,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       onCancel={hideModal}
     >
       <Spin spinning={loading}>
-        <InstitutionForm form={form} fieldChangeHander={fieldChangeHander} optType={selectType}/>
+        <InstitutionForm form={form} fieldChangeHander={fieldChangeHander} optType={selectType} />
       </Spin>
     </Modal>
   );

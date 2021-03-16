@@ -44,7 +44,7 @@ const JointDefenseEngineering = ({ dispatch, dictionaryMgt }) => {
   const institutionDetailRef = useRef({});
   const personDetailRef = useRef({});
   const [tableType, setTableType] = useState('annualWork');
-  const { projectPid, projectId } = dictionaryMgt;
+  const { yearOrtot, projectId } = dictionaryMgt;
   const [accountTableType, setAccountTableType] = useState('checkDirectory');
 
   const tabYears = [
@@ -149,7 +149,7 @@ const JointDefenseEngineering = ({ dispatch, dictionaryMgt }) => {
 
   return (
     <EngineeringTreeLayout openAddEngineeringModal={openAddEngineeringModal}>
-      {projectPid === 'null' ? (
+      {yearOrtot === 'null' ? (
         <TypeSelectLayout tabs={tabs} onTabChange={onTabChange} activeKey={tableType}>
           {tableType === 'annualWork' && (
             <Table
