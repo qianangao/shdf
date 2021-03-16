@@ -125,7 +125,6 @@ const EngineeringDescription = ({
           <Descriptions.Item label="工程描述" span={4}>
             {engineeringForm.describe}
           </Descriptions.Item>
-          {fileList(engineeringForm.fileInfoList)}
           {!visible && (
             <>
               <Descriptions.Item label="成员省份" span={4}>
@@ -136,6 +135,7 @@ const EngineeringDescription = ({
               </Descriptions.Item>
             </>
           )}
+          {fileList(engineeringForm.fileInfoList)}
         </Descriptions>
       </Spin>
     </Card>

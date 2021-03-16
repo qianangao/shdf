@@ -23,8 +23,8 @@ const Model = {
     *getAddressBook({ payload, resolve }, { call, put }) {
       const params = {
         ...payload,
-        pageNum: payload.current,
-        pageSize: payload.pageSize,
+        pageNum: payload.current ? payload.current : 1,
+        pageSize: payload.pageSize ? payload.pageSize : 20,
       };
       delete params.current;
       const response = yield call(getAddressBook, params);

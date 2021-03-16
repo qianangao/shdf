@@ -81,7 +81,7 @@ const SummaryFeedbackTable = ({
     {
       label: '名称',
       name: 'feedbackName',
-      span: 2,
+      span: 4,
       rules: [
         { required: true, message: '请输入名称!', whitespace: true },
         { max: 30, message: '长度请小于30位!' },
@@ -90,7 +90,7 @@ const SummaryFeedbackTable = ({
     {
       label: '反馈类型',
       name: 'feedbackType',
-      span: 2,
+      span: 4,
       rules: [{ required: true, message: '请选择!' }],
       render: (
         <Radio.Group>
@@ -102,14 +102,14 @@ const SummaryFeedbackTable = ({
     {
       label: '开始日期',
       name: 'startDate',
-      span: 2,
+      span: 4,
       rules: [{ required: true, message: '请选择开始日期' }],
       type: 'date',
     },
     {
       label: '截止日期',
       name: 'endDate',
-      span: 2,
+      span: 4,
       rules: [{ required: true, message: '请选择截止日期!' }],
       type: 'date',
     },
