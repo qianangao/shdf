@@ -32,10 +32,11 @@ const ActionTree = ({ openAddSpecialModal, dispatch, actionTree, loading }) => {
   };
 
   const actionSelectHandler = (keys, { node }) => {
-    const actionId = node.key;
+    const projectId = node.key;
+    const projectPid = node.pid;
     dispatch({
       type: 'specialAction/getListTable',
-      payload: { actionId },
+      payload: { projectId, projectPid },
     });
     if (!keys[0]) return;
     setSelectedKeys(keys);

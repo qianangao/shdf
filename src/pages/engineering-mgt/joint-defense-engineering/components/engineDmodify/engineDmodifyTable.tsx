@@ -73,7 +73,7 @@ const Table = ({ dictionaryMgt, openModifyModal, dispatch }) => {
         request={async params => getReceivingList(params)}
         toolBarRender={() => [
           <Button type="primary" onClick={() => openModifyModal()}>
-            {dictionaryMgt.projectPid !== 'null' ? '新增' : ''}
+            {dictionaryMgt.yearOrtot !== 'null' ? '新增' : ''}
           </Button>,
         ]}
         columns={columns}
