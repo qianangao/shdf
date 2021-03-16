@@ -2,7 +2,7 @@ import React from 'react';
 import { Descriptions } from 'antd';
 import AdvancedForm from '@/components/AdvancedForm';
 import ProvinceCascaderInput from '@/components/ProvinceCascaderInput';
-import { checkEmail, checkPhone, checkPost } from '@/utils/validators';
+import {checkEmail, checkPhoneOrTelephone, checkPost} from '@/utils/validators';
 
 const AddThreadForm = ({ form }) => {
   const formItems = [
@@ -122,7 +122,7 @@ const AddThreadForm = ({ form }) => {
       name: 'reportPhone',
       rules: [
         {
-          validator: checkPhone,
+          validator: checkPhoneOrTelephone,
         },
       ],
     },
@@ -156,7 +156,7 @@ const AddThreadForm = ({ form }) => {
       name: 'reportedObjectPhone',
       rules: [
         {
-          validator: checkPhone,
+          validator: checkPhoneOrTelephone,
         },
       ],
     },
