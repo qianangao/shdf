@@ -36,6 +36,12 @@ const ModifyModal = ({ dispatch, actionRef, loading, sensitiveMgt }) => {
           id: items.eventId,
         },
       });
+      dispatch({
+        type: 'caseMgt/getCaseHandleFile',
+        payload: {
+          id: items.eventId,
+        },
+      });
       setSensitiveId(items.eventId);
       setCaseType(items.eventType);
       setDetailData(detailData);
@@ -66,8 +72,8 @@ const ModifyModal = ({ dispatch, actionRef, loading, sensitiveMgt }) => {
     form
       .validateFields()
       .then(values => {
-        values.specialActionIds = values.specialActionIds ? [values.specialActionIds] : [];
-
+        // values.specialActionIds = values.specialActionIds ? [values.specialActionIds] : [];
+        values.specialActionIds = ['1'];
         let filesStr = '';
         if (values.fileList && values.fileList.length > 0) {
           const ids = values.fileList.map(item => {
@@ -156,7 +162,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, sensitiveMgt }) => {
 
       {infoId ? <TableCaseHandle id={infoId} openCaseHandleModal={openCaseHandleModal} /> : null}
 
-      {infoId ? <TableFileCase id={infoId} orgInfoData={detailData} /> : null}
+      {infoId ? <TableFileCase id={infoId} /> : null}
 
       <CaseHandleModal actionRef={caseHandleModalRef} id={infoId} />
 

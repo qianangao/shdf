@@ -136,13 +136,13 @@ export const checkIdCard = (rule, value, callback) => {
     if (!value) {
       callback();
     } else if (!Reg.test(value)) {
-      callback('身份证不符合规范');
+      callback('身份证不符合规范！');
     } else if (!city[value.substr(0, 2)]) {
-      callback('身份证地址编码不合规范');
+      callback('身份证地址编码不合规范！');
     } else if (!checkBirthday(value)) {
-      callback('身份证生日不合规范');
+      callback('身份证生日不合规范！');
     } else if (!checkParity(value)) {
-      callback('身份证校验码不合规范');
+      callback('身份证校验码不合规范！');
     } else {
       callback();
     }
@@ -181,6 +181,22 @@ export const checkTelephone = (rule, value, callback) => {
 };
 
 /**
+ * 电话表单校验
+ * @param {*} rule
+ * @param {*} value 需校验的值
+ * @param {*} callback form回调函数
+ */
+export const checkPhoneOrTelephone = (rule, value, callback) => {
+  const isTelephone = /^((0\d{2,3})-)(\d{7,8})(-(\d{3,}))?$/;
+  const isMob = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+  if (!value || isTelephone.test(value) || isMob.test(value)) {
+    callback();
+  } else {
+    callback('电话格式输入不合法！');
+  }
+};
+
+/**
  * 联系电话表单校验
  * @param {*} rule
  * @param {*} value 需校验的值
@@ -205,7 +221,7 @@ export const checkAllTel = (rule, value, callback) => {
 export const checkCreditCode = (rule, value, callback) => {
   const isMob = /^[^_IOZSVa-z\W]{2}\d{6}[^_IOZSVa-z\W]{10}$/g;
   if (value && !isMob.test(value)) {
-    callback('统一社会编码不合法');
+    callback('统一社会编码不合法！');
   } else {
     callback();
   }
@@ -238,7 +254,7 @@ export const checkUrl = (rule, value, callback) => {
 export const checkPost = (rule, value, callback) => {
   const reg = /^[0-9]{6}$/;
   if (value && !reg.test(value)) {
-    callback('邮编格式不合法');
+    callback('邮编格式不合法！');
   } else {
     callback();
   }
@@ -254,7 +270,7 @@ export const checkPost = (rule, value, callback) => {
 export const checkEmail = (rule, value, callback) => {
   const reg = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/;
   if (value && !reg.test(value)) {
-    callback('电子邮箱格式不合法');
+    callback('邮箱地址格式不合法！');
   } else {
     callback();
   }

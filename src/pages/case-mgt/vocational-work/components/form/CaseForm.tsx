@@ -161,12 +161,14 @@ const CaseMgt = ({ form, id, orgInfoData, caseType, onFieldsChange }) => {
     {
       label: '行政处理结果',
       name: 'punishResult',
+      visible: caseType === '1',
       span: 4,
       type: 'textarea',
     },
     {
-      label: '案件办理结果',
+      label: '刑事案件具体判决结果',
       name: 'sentenceResult',
+      visible: caseType !== '1',
       span: 4,
       type: 'textarea',
     },

@@ -7,10 +7,19 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
   const [form]: any = InstitutionForm.useForm();
   const [noticeId, setNoticeId] = useState(undefined);
   const [modalVisible, setModalVisible] = useState(false);
+  const [selectType, setSelectType] = useState('1');
 
   const showModal = (id: any) => {
     setNoticeId(id || undefined);
     setModalVisible(true);
+  };
+
+  const fieldChangeHander = (label, value) => {
+    if (label === 'selectType') {
+      setSelectType(value);
+      if (value === '1') form.setFieldsValue({ visibleRangeOrg: [] });
+      else form.setFieldsValue({ visibleRange: [] });
+    }
   };
 
   const getAnnouncementDetail = (id: any) => {
@@ -63,6 +72,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
   const hideModal = (): void => {
     setModalVisible(false);
     form.resetFields();
+    setSelectType('1');
     setNoticeId(undefined);
   };
 
@@ -115,7 +125,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       onCancel={hideModal}
     >
       <Spin spinning={loading}>
-        <InstitutionForm form={form} />
+        <InstitutionForm form={form} fieldChangeHander={fieldChangeHander} optType={selectType} />
       </Spin>
     </Modal>
   );

@@ -2,7 +2,7 @@ import React from 'react';
 import { Descriptions } from 'antd';
 import AdvancedForm from '@/components/AdvancedForm';
 import ProvinceCascaderInput from '@/components/ProvinceCascaderInput';
-import { checkEmail, checkPhone, checkPost } from '@/utils/validators';
+import { checkEmail, checkPhoneOrTelephone, checkPost } from '@/utils/validators';
 
 const AddThreadForm = ({ form }) => {
   const formItems = [
@@ -122,19 +122,25 @@ const AddThreadForm = ({ form }) => {
       name: 'reportPhone',
       rules: [
         {
-          validator: checkPhone,
+          validator: checkPhoneOrTelephone,
         },
       ],
     },
     {
       label: '举报人邮编',
       name: 'reportPostcode',
+      hidden: true,
       rules: [
         {
           validator: checkPost,
         },
       ],
     },
+    // {
+    //   name: 'line1',
+    //   span: 3,
+    //   render: <div style={{fontSize:15,fontWeight:600}}>被举报人信息</div>,
+    // },
     {
       label: '被举报对象名字',
       name: 'reportedObjectName',
@@ -150,21 +156,21 @@ const AddThreadForm = ({ form }) => {
       name: 'reportedObjectPhone',
       rules: [
         {
-          validator: checkPhone,
+          validator: checkPhoneOrTelephone,
         },
       ],
     },
     {
       label: '被举报对象地址',
       name: 'reportedObjectAddress',
-      type: 'textarea',
+      // type: 'textarea',
       rules: [{ min: 0, max: 100, message: '地址长度最多100字!' }],
     },
     {
       label: '举报内容',
       name: 'reportContent',
       type: 'textarea',
-      span: 2,
+      span: 3,
       rules: [{ min: 0, max: 1000, message: '举报内容长度最多1000字!' }],
     },
     {

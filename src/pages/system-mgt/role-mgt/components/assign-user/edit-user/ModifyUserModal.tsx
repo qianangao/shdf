@@ -1,16 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
 import { Modal } from 'antd';
-import RoleForm from './RoleForm';
+import UserForm from './UserForm';
 
-const ModifyModal = ({ dispatch, actionRef, loading }) => {
-  const [form] = RoleForm.useForm();
-  const [roleData, setRoleData] = useState(null);
-  const [modifyModalVisible, setModalVisible] = useState(false);
+const ModifyUserModal = ({ dispatch, actionRef, loading }) => {
+  const [form] = UserForm.useForm();
+  const [detailData, setDetailData] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
 
-  const showModal = items => {
-    setRoleData(items || null);
+  const showModal = id => {
+    setDetailData(id || null);
+    updateData(id);
     setModalVisible(true);
+  };
+
+  const updateData = id => {
+    if (id) {
+      new Promise(resolve => {
+        dispatch({
+          type: 'smRoleMgt/getUserDetail',
+          payload: id.toString(),
+          resolve,
+        });
+      }).then(res => {
+        if (res) form.setFieldsValue({ ...res });
+      });
+    }
   };
 
   useEffect(() => {
@@ -25,7 +40,6 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
 
   const hideModal = () => {
     setModalVisible(false);
-    setRoleData(null);
     form.resetFields();
   };
 
@@ -35,9 +49,10 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       .then(values => {
         return new Promise(resolve => {
           dispatch({
-            type: `smRoleMgt/${roleData ? 'updateRole' : 'addRole'}`,
+            type: `smRoleMgt/${detailData ? 'updateUser' : 'addUser'}`,
             payload: {
               ...values,
+              id: detailData && detailData.toString(),
             },
             resolve,
           });
@@ -53,24 +68,23 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
 
   return (
     <Modal
-      title={roleData ? '编辑角色信息' : '新增角色'}
+      title={detailData ? '编辑工作人员信息' : '新增工作人员信息'}
       centered
-      width={500}
+      width="580px"
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',
       }}
-      visible={modifyModalVisible}
+      visible={modalVisible}
       onOk={handleOk}
-      forceRender
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <RoleForm form={form} roleData={roleData} />
+      <UserForm form={form} />
     </Modal>
   );
 };
 
 export default connect(({ loading }) => ({
-  loading: loading.models.smRoleMgt,
-}))(ModifyModal);
+  loading: loading.models.smDictionaryMgt,
+}))(ModifyUserModal);

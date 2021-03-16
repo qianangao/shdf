@@ -5,7 +5,7 @@ import request from '@/utils/request';
  * @param {*} params
  */
 export async function getReceivingList(params) {
-  return request('/home/findHome', {
+  return request('/home/findReceipt', {
     method: 'GET',
     params,
   });
@@ -15,7 +15,7 @@ export async function getReceivingList(params) {
  * @param {*} params
  */
 export async function getNoticeList(params) {
-  return request('/home/findHome', {
+  return request('/home/findNotice', {
     method: 'GET',
     params,
   });
@@ -25,7 +25,7 @@ export async function getNoticeList(params) {
  * @param {*} params
  */
 export async function getAgencyList(params) {
-  return request('/home/findHome', {
+  return request('/home/findHomeToDo', {
     method: 'GET',
     params,
   });

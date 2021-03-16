@@ -7,7 +7,7 @@ import {
   updateDict,
   updateType,
   deleteTypes,
-  getFieldList,
+  getTypeList,
 } from './service';
 
 const Model = {
@@ -62,10 +62,10 @@ const Model = {
       const response = yield call(getDictList, params);
 
       if (!response.error) {
-        const { dictInfoList, currentPage, total } = response;
+        const { dictFieldList, currentPage, total } = response;
 
         const result = {
-          data: dictInfoList,
+          data: dictFieldList,
           page: currentPage,
           pageSize: payload.pageSize,
           success: true,
@@ -93,7 +93,6 @@ const Model = {
         });
       }
     },
-
     *updateType({ payload, resolve }, { call, put }) {
       const response = yield call(updateType, payload);
       if (!response.error) {
@@ -116,13 +115,18 @@ const Model = {
         });
       }
     },
-    *getFieldList({ payload, resolve }, { call, put }) {
+    *reFishDictTable(_, { put }) {
+      yield put({
+        type: 'fieldTableReload',
+      });
+    },
+    *getTypeList({ payload, resolve }, { call, put }) {
       const params = {
         ...payload,
         pageNum: payload.current,
         pageSize: payload.pageSize,
       };
-      const response = yield call(getFieldList, params);
+      const response = yield call(getTypeList, params);
 
       if (!response.error) {
         const { dictInfoList, currentPage, total } = response;

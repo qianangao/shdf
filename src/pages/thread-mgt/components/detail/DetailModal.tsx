@@ -191,7 +191,9 @@ const DetailModal = ({
           style={{ marginBottom: 30 }}
         >
           <Descriptions.Item label="举报人姓名">{clueDetailData.reportName}</Descriptions.Item>
-          <Descriptions.Item label="举报人性别">{clueDetailData.reportSex}</Descriptions.Item>
+          <Descriptions.Item label="举报人性别">
+            {enums.dict_sex && enums.dict_sex[clueDetailData.reportSex]}
+          </Descriptions.Item>
           <Descriptions.Item label="举报人地址">{clueDetailData.reportAddress}</Descriptions.Item>
           <Descriptions.Item label="举报人邮箱">{clueDetailData.reportMailbox}</Descriptions.Item>
           <Descriptions.Item label="举报人电话">{clueDetailData.reportPhone}</Descriptions.Item>

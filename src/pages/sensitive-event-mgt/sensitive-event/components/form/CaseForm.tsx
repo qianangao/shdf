@@ -152,15 +152,17 @@ const CaseForm = ({ form, orgInfoData, id, caseType, onFieldsChange }) => {
     {
       label: '行政处理结果',
       name: 'punishResult',
+      visible: caseType === '1',
       span: 4,
       type: 'textarea',
       rules: [{ max: 80, message: '单位名称长度请小于80位!', whitespace: true }],
     },
     {
-      label: '案件办理结果',
+      label: '刑事案件具体判决结果',
       name: 'convictionsResult',
       span: 4,
       type: 'textarea',
+      visible: caseType !== '1',
       rules: [{ max: 80, message: '单位名称长度请小于80位!', whitespace: true }],
     },
     {

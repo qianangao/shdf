@@ -1,9 +1,9 @@
 import React from 'react';
-import { Radio, Descriptions } from 'antd';
+import { Descriptions } from 'antd';
 import AdvancedForm from '@/components/AdvancedForm';
-import OrgMultiSelectInput from '@/components/OrgMultiSelectInput';
+import OrgSelectInput from '@/components/OrgMultiSelectInput/OrgSelectInput';
 
-const TransferClueForm = ({ form }) => {
+const TransferClueForm = ({ form, fieldChangeHander, optType }) => {
   const formItems = [
     {
       name: '',
@@ -33,19 +33,18 @@ const TransferClueForm = ({ form }) => {
     {
       label: '转办类型',
       name: 'circulationType',
-      render: (
-        <Radio.Group>
-          <Radio value={1}>交办</Radio>
-          <Radio value={2}>协办</Radio>
-        </Radio.Group>
-      ),
+      defaultValue: '1',
+      enumsItems: {
+        '1': '交办',
+        '2': '协办',
+      },
       rules: [{ required: true, message: '请选择转办类型!' }],
     },
     {
       label: '转办单位',
       name: 'unitList',
-      render: <OrgMultiSelectInput />,
       rules: [{ required: true, message: '请选择转办单位!' }],
+      render: <OrgSelectInput optionType={optType} />,
     },
 
     {
@@ -56,7 +55,8 @@ const TransferClueForm = ({ form }) => {
       span: 2,
     },
   ];
-  return <AdvancedForm form={form} fields={formItems} />;
+
+  return <AdvancedForm form={form} fields={formItems} fieldChange={fieldChangeHander} />;
 };
 TransferClueForm.useForm = AdvancedForm.useForm;
 export default TransferClueForm;

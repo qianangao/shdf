@@ -8,7 +8,7 @@ const DictionaryForm = ({ form, orgInfoData }) => {
       hidden: true,
     },
     {
-      label: '类型代码',
+      label: '类型编码',
       name: 'dictTypeCode',
       span: 4,
       rules: [{ required: true, message: '请输入字典代码!', whitespace: true }],

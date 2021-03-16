@@ -7,6 +7,13 @@ import {
 } from '@/services/global';
 
 import { LocalCache } from '@/utils/storage';
+import {
+  getOrgTree,
+  getCoOrganizerOrganization,
+  getOrgPerson,
+  getAllOrganization,
+} from '@/services/orgTree';
+import { formatPageData } from '@/utils';
 
 const ENUMS_CACHE_KEY = 'enums_cache_key';
 const ENUMS_CACHE_TAMP_KEY = 'enums_cache_tamp_key';
@@ -17,6 +24,9 @@ const GlobalModel = {
     collapsed: false,
     filesStatus: 1, // 导出中：0， 导出完成： 1
     downloadFiles: [],
+    OrganizationTree: [],
+    projectId: undefined,
+    loading: false,
     enums: LocalCache.get(ENUMS_CACHE_KEY) || {},
     enumsTimestamp: LocalCache.get(ENUMS_CACHE_TAMP_KEY) || {},
   },
@@ -105,6 +115,82 @@ const GlobalModel = {
         });
       } else {
         message.warning('获取下载文件列表失败！');
+      }
+    },
+    *getOrganization({ payload, resolve }, { call, put }) {
+      yield put({
+        type: 'save',
+        payload: {
+          loading: true,
+        },
+      });
+      const response = yield call(getOrgTree, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+
+        yield put({
+          type: 'save',
+          payload: {
+            OrganizationTree: response,
+            loading: false,
+            projectId: response[0].orgId,
+          },
+        });
+      }
+    },
+    *getAllOrganization({ payload, resolve }, { call, put }) {
+      yield put({
+        type: 'save',
+        payload: {
+          loading: true,
+        },
+      });
+      const response = yield call(getAllOrganization, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+
+        yield put({
+          type: 'save',
+          payload: {
+            OrganizationTree: response,
+            loading: false,
+            projectId: response[0].orgId,
+          },
+        });
+      }
+    },
+    *getCoOrganizerOrganization({ payload, resolve }, { call, put }) {
+      yield put({
+        type: 'save',
+        payload: {
+          loading: true,
+        },
+      });
+      const response = yield call(getCoOrganizerOrganization, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+
+        yield put({
+          type: 'save',
+          payload: {
+            OrganizationTree: response,
+            loading: false,
+            projectId: response[0].orgId,
+          },
+        });
+      }
+    },
+    *getOrgPerson({ payload, resolve }, { call }) {
+      const params = {
+        ...payload,
+        pageNum: payload.current ? payload.current : 1,
+        pageSize: payload.pageSize ? payload.pageSize : 20,
+      };
+      delete params.current;
+      const response = yield call(getOrgPerson, params);
+      if (!response.error) {
+        const result = formatPageData(response);
+        resolve && resolve(result);
       }
     },
     *deleteDownloadFiles({ payload }, { call, put }) {

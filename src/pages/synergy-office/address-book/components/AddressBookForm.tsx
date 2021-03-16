@@ -6,48 +6,51 @@ const AddressBookForm = ({ form }) => {
   const formItems = [
     { label: 'id', name: 'bookId', hidden: true },
     {
-      label: '员工姓名',
+      label: '姓名',
       name: 'userName',
       span: 4,
       rules: [
-        { required: true, message: '请输入姓名!', whitespace: true },
+        { required: true, message: '请输入员工姓名!', whitespace: true },
         { max: 30, message: '姓名长度请小于30位!' },
       ],
     },
     {
-      label: '员工性别',
+      label: '性别',
       name: 'gender',
       span: 4,
-      rules: [{ required: true, message: '请选择员工性别' }],
+      rules: [{ required: true, message: '请选择员工性别!' }],
       enumsLabel: 'dict_sex',
     },
     {
       label: '所属部门',
       name: 'userDept',
       span: 4,
-      rules: [{ required: true, message: '请选择所属部门' }],
+      rules: [{ required: true, message: '请输入所属部门!' }],
     },
     {
       label: '当前职务',
       name: 'job',
       span: 4,
-      rules: [{ required: true, message: '请选择当前职务' }],
+      rules: [{ required: true, message: '请输入当前职务!' }],
     },
     {
-      label: '手机号码',
+      label: '手机号',
       name: 'phoneNumber',
       span: 4,
       rules: [
-        { required: true, message: '请填写手机号码!' },
+        { required: true, message: '请输入手机号码!' },
         {
           validator: checkPhone,
         },
       ],
     },
     {
-      label: '座机/分机',
+      label: '办公电话',
       name: 'officeTelephone',
       span: 4,
+      extraProps: {
+        placeholder: '010-88888888',
+      },
       rules: [
         {
           validator: checkTelephone,
@@ -55,7 +58,7 @@ const AddressBookForm = ({ form }) => {
       ],
     },
     {
-      label: '邮箱地址',
+      label: '邮箱',
       name: 'mailbox',
       span: 4,
       rules: [

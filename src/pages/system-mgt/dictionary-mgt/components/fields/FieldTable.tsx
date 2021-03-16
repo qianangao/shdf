@@ -3,47 +3,31 @@ import { Button, Modal, Popconfirm } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 
-const FieldTable = ({ smDictionaryMgt, openAddFieldModal, openFieldModal, dispatch }) => {
+const FieldTable = ({ smDictionaryMgt, openDictModifyModal, dictTypeId, dispatch }) => {
   const { fieldTableRef } = smDictionaryMgt;
 
-  const deleteDictType = (id: any) => {
-    dispatch({
-      type: 'smDictionaryMgt/deleteReceiving',
-      payload: {
-        id,
-      },
-    });
-  };
-
   const columns = [
-    {
-      title: '序号',
-      dataIndex: 'index',
-      valueType: 'index',
-      align: 'center',
-      fixed: 'left',
-      width: 64,
-    },
-    { title: '字典代码', align: 'center', dataIndex: 'dictTypeCode', hideInSearch: true },
-    { title: '类型名称', align: 'center', dataIndex: 'dictTypeName', hideInSearch: true },
-    { title: '字段名称', align: 'center', dataIndex: 'dictName', hideInSearch: true },
+    { title: '字典编码', align: 'center', dataIndex: 'dictCode', hideInSearch: true },
+    { title: '字典名称', align: 'center', dataIndex: 'dictName', hideInSearch: true },
+    { title: '排序', align: 'center', dataIndex: 'dictSort', hideInSearch: true },
+    { title: '备注', align: 'center', dataIndex: 'dictDesc', hideInSearch: true },
     {
       title: '操作',
       valueType: 'option',
       align: 'center',
-      dataIndex: 'id',
+      dataIndex: 'dictId',
       width: 180,
       fixed: 'right',
 
-      render: (dom, dictData) => [
-        <a key={`${dictData.id}up`} onClick={() => openFieldModal(dictData, 1)}>
+      render: (dom: any, dictData: { dictId: any }) => [
+        <a key={`${dictData.dictId}up`} onClick={() => openDictModifyModal(dictData, 1)}>
           编辑
         </a>,
         <Popconfirm
-          key={`${dictData.receiptId}del`}
+          key={`${dictData.dictId}del`}
           title="确认删除？"
           placement="topRight"
-          onConfirm={() => deleteDictType(dictData.receiptId)}
+          onConfirm={() => deleteFields([dictData.dictId])}
         >
           <a>删除</a>
         </Popconfirm>,
@@ -54,16 +38,16 @@ const FieldTable = ({ smDictionaryMgt, openAddFieldModal, openFieldModal, dispat
   const getFieldList = (params: { pageSize?: number | undefined; current?: number | undefined }) =>
     new Promise(resolve => {
       dispatch({
-        type: 'smDictionaryMgt/getFieldList',
-        payload: { ...params, dictTypeId: dictData.dictTypeId },
+        type: 'smDictionaryMgt/getDictList',
+        payload: { ...params, dictTypeId },
         resolve,
       });
     });
 
   const deleteFields = (ids: React.ReactText[]) => {
     dispatch({
-      type: 'smDictionaryMgt/deleteFields',
-      payload: { idsDictionary: ids },
+      type: 'smDictionaryMgt/deleteDicts',
+      payload: { ids },
     });
   };
 
@@ -74,11 +58,10 @@ const FieldTable = ({ smDictionaryMgt, openAddFieldModal, openFieldModal, dispat
       actionRef={fieldTableRef}
       search={false}
       destroyOnClose
-      rowSelection={[]}
       scroll={{ x: 'max-content' }}
       request={async params => getFieldList(params)}
       toolBarRender={(_, { selectedRowKeys }) => [
-        <Button type="primary" onClick={() => openAddFieldModal(dictData)}>
+        <Button type="primary" onClick={() => openDictModifyModal(dictTypeId)}>
           新增
         </Button>,
         selectedRowKeys && selectedRowKeys.length && (

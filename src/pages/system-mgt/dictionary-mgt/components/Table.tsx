@@ -3,46 +3,40 @@ import { Button, Modal, Popconfirm } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 
-const Table = ({ smDictionaryMgt, openModifyModal, openMaintainModal, dispatch }) => {
+const Table = ({ smDictionaryMgt, openModifyModal, changeTypeId, dispatch }) => {
   const { tableRef } = smDictionaryMgt;
-
-  const deleteDict = id => {
-    dispatch({
-      type: 'receivingMgt/deleteReceiving',
-      payload: {
-        id,
-      },
-    });
-  };
 
   const columns = [
     {
-      title: '字典代码',
+      title: '类型编码',
       dataIndex: 'dictTypeCode',
       align: 'center',
-      width: 64,
     },
     { title: '类型名称', align: 'center', dataIndex: 'dictTypeName' },
+    { title: '作用域', align: 'center', dataIndex: 'dictScope' },
     { title: '备注', align: 'center', dataIndex: 'dictTypeDesc', hideInSearch: true },
     {
       title: '操作',
       valueType: 'option',
       align: 'center',
-      dataIndex: 'receiptId',
+      dataIndex: 'dictTypeId',
       width: 220,
       fixed: 'right',
-      render: (dom: any, receivingData: { receiptId: any }) => [
-        <a key={`${receivingData.receiptId}up`} onClick={() => openModifyModal(receivingData)}>
+      render: (dom: any, receivingData: { dictTypeId: any }) => [
+        <a key={`${receivingData.dictTypeId}up`} onClick={() => openModifyModal(receivingData)}>
           修改
         </a>,
-        <a key={`${receivingData.receiptId}up`} onClick={() => openMaintainModal(receivingData)}>
+        <a
+          key={`${receivingData.dictTypeId}up`}
+          onClick={() => changeTypeId(receivingData.dictTypeId)}
+        >
           维护
         </a>,
         <Popconfirm
-          key={`${receivingData.receiptId}del`}
+          key={`${receivingData.dictTypeId}del`}
           title="确认删除？"
           placement="topRight"
-          onConfirm={() => deleteDict(receivingData.receiptId)}
+          onConfirm={() => deleteTypes([receivingData.dictTypeId])}
         >
           <a>删除</a>
         </Popconfirm>,
@@ -50,30 +44,29 @@ const Table = ({ smDictionaryMgt, openModifyModal, openMaintainModal, dispatch }
     },
   ];
 
-  const getDictList = params =>
+  const getFieldList = params =>
     new Promise(resolve => {
       dispatch({
-        type: 'smDictionaryMgt/getDictList',
+        type: 'smDictionaryMgt/getTypeList',
         payload: { ...params },
         resolve,
       });
     });
 
-  const deleteDicts = ids => {
+  const deleteTypes = ids => {
     dispatch({
-      type: 'smDictionaryMgt/deleteDicts',
+      type: 'smDictionaryMgt/deleteTypes',
       payload: { ids },
     });
   };
 
   return (
     <ProTable
-      rowKey="id"
+      rowKey="dictTypeId"
       headerTitle="字典信息"
       actionRef={tableRef}
-      rowSelection={[]}
       scroll={{ x: 'max-content' }}
-      request={async params => getDictList(params)}
+      request={async params => getFieldList(params)}
       toolBarRender={(_, { selectedRowKeys }) => [
         <Button type="primary" onClick={() => openModifyModal()}>
           新增
@@ -84,7 +77,7 @@ const Table = ({ smDictionaryMgt, openModifyModal, openMaintainModal, dispatch }
               Modal.confirm({
                 title: '确认删除所选择字典信息？该操作不可恢复',
                 onOk: () => {
-                  deleteDicts(selectedRowKeys);
+                  deleteTypes(selectedRowKeys);
                 },
               });
             }}

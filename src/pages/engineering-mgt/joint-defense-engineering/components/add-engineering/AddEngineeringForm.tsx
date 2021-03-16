@@ -38,7 +38,7 @@ const AddEngineeringForm = ({ dispatch, form, visible, add, edit, editVisible })
     {
       label: '工程选择',
       name: 'projectId',
-      span: 2,
+      span: 4,
       rules: [{ required: true, message: '请选择工程名称' }],
       visible: visible && editVisible,
       render: (
@@ -55,7 +55,7 @@ const AddEngineeringForm = ({ dispatch, form, visible, add, edit, editVisible })
     {
       label: '工程名称',
       name: 'projectName',
-      span: 2,
+      span: 4,
       rules: [
         { required: true, message: '请输入工程名称!', whitespace: true },
         { max: 30, message: '长度请小于30位!' },
@@ -64,14 +64,14 @@ const AddEngineeringForm = ({ dispatch, form, visible, add, edit, editVisible })
     {
       label: '工程编号',
       name: 'projectCode',
-      span: 2,
+      span: 4,
       visible: !visible,
       rules: [{ required: true, message: '请输入工程编号!', whitespace: true }],
     },
     {
       label: '开始日期',
       name: 'startTime',
-      span: 2,
+      span: 4,
       rules: [{ required: true, message: '请选择开始日期' }],
       type: 'date',
       visible,
@@ -79,7 +79,7 @@ const AddEngineeringForm = ({ dispatch, form, visible, add, edit, editVisible })
     {
       label: '截止日期',
       name: 'endTime',
-      span: 2,
+      span: 4,
       rules: [{ required: true, message: '请选择结束日期!' }],
       type: 'date',
       visible,
@@ -87,7 +87,7 @@ const AddEngineeringForm = ({ dispatch, form, visible, add, edit, editVisible })
     {
       label: '联系人',
       name: 'contacts',
-      span: 2,
+      span: 4,
       rules: [
         { required: true, message: '请输入联系人!', whitespace: true },
         { max: 30, message: '长度请小于30位!' },
@@ -96,7 +96,7 @@ const AddEngineeringForm = ({ dispatch, form, visible, add, edit, editVisible })
     {
       label: '联系电话',
       name: 'contactInformation',
-      span: 2,
+      span: 4,
       rules: [
         { required: true, message: '请输入联系电话!', whitespace: true },
         {
@@ -107,14 +107,14 @@ const AddEngineeringForm = ({ dispatch, form, visible, add, edit, editVisible })
     {
       label: '保密等级',
       name: 'secrecyLevel',
-      span: 2,
+      span: 4,
       rules: [{ required: true, message: '请选择保密等级' }],
       enumsLabel: 'subject_secrecy_level',
     },
     {
       label: '工程描述',
       name: 'describe',
-      span: 2,
+      span: 4,
       rules: [
         { required: true, message: '请输入!' },
         { max: 300, min: 0, message: '输入文字过长，内容不能超过300字' },
@@ -125,7 +125,7 @@ const AddEngineeringForm = ({ dispatch, form, visible, add, edit, editVisible })
     {
       label: '牵头省份',
       name: 'provinceCode',
-      span: 2,
+      span: 4,
       visible: !visible,
       rules: [
         { required: true, message: '请输入牵头省份!', whitespace: true },
