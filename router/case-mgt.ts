@@ -8,7 +8,7 @@ const routes = {
       name: 'case-mgt-vocational-work',
       component: './case-mgt/vocational-work',
       icon: 'aim',
-      remark: '案件业务管理',
+      remark: '案件管理',
     },
     {
       path: '/case-mgt',

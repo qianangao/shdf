@@ -2,9 +2,14 @@ import React from 'react';
 import { Button, message } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
+import moment from 'moment';
 
 const Table = ({ logAudit, dispatch, openDetailModal }) => {
   const { tableRef } = logAudit;
+
+  const formatterTime = val => {
+    return val ? moment(val).format('YYYY-MM-DD HH:mm:ss') : '';
+  };
 
   const columns = [
     {
@@ -18,7 +23,13 @@ const Table = ({ logAudit, dispatch, openDetailModal }) => {
     { title: '操作模块', align: 'center', dataIndex: 'model', hideInSearch: true },
     { title: '操作方法', align: 'center', dataIndex: 'operationMethod', hideInSearch: true },
     // { title: '操作内容', align: 'center', dataIndex: 'sketch', hideInSearch: true },
-    { title: '操作时间', align: 'center', dataIndex: 'operationTime', hideInSearch: true },
+    {
+      title: '操作时间',
+      align: 'center',
+      dataIndex: 'operationTime',
+      hideInSearch: true,
+      render: formatterTime,
+    },
     {
       title: '操作',
       valueType: 'option',

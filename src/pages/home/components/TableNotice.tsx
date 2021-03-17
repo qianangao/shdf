@@ -2,8 +2,13 @@ import React from 'react';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import { SoundFilled } from '@ant-design/icons';
+import moment from 'moment';
 
 const Table = ({ dispatch }) => {
+  const formatterTime = val => {
+    return val ? moment(val).format('YYYY-MM-DD HH:mm:ss') : '';
+  };
+
   const columns = [
     {
       title: '公告标题',
@@ -12,7 +17,12 @@ const Table = ({ dispatch }) => {
     },
     { title: '发布人', align: 'center', dataIndex: 'createUser' },
     { title: '状态', align: 'center', dataIndex: 'state' },
-    { title: '发布时间', align: 'center', dataIndex: 'startTime' },
+    {
+      title: '发布时间',
+      align: 'center',
+      dataIndex: 'startTime',
+      render: formatterTime,
+    },
   ];
 
   const getDictList = params =>

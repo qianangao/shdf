@@ -13,7 +13,7 @@ const routes = {
       name: 'sensitive-event-mgt-sensitive-event',
       component: './sensitive-event-mgt/sensitive-event',
       icon: 'setting',
-      remark: '敏感事件',
+      remark: '敏感事件管理',
     },
   ],
 };
