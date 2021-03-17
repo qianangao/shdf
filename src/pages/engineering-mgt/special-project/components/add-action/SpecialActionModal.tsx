@@ -10,7 +10,7 @@ const SpecialActionModal = ({ dispatch, actionRef, loading }) => {
   const [titles, setTitles] = useState('');
   const [visible, setVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  const [editVisible, setEditVisible] = useState(false);
+  const [editVisible, setEditVisible] = useState(true);
 
   const updateData = data => {
     const fileInfoList =

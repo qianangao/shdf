@@ -8,25 +8,28 @@ const AddSpecialActionForm = ({ dispatch, form, visible, editVisible }) => {
   const [actionData, setActionData] = useState([]);
   const [historyData, setHistoryData] = useState([]);
   useEffect(() => {
-    new Promise(resolve => {
-      dispatch({
-        type: 'specialAction/getSpecialActionTree',
-        resolve,
+    if (visible) {
+      new Promise(resolve => {
+        dispatch({
+          type: 'specialAction/getSpecialActionTree',
+          resolve,
+        });
+      }).then(res => {
+        setActionList(res);
+        const arr = [];
+        res.forEach(item => {
+          arr.push({ key: item.key, title: item.title });
+        });
+        setActionData(arr);
+        setHistoryData([]);
       });
-    }).then(res => {
-      setActionList(res);
-      const arr = [];
-      res.forEach(item => {
-        arr.push({ key: item.key, title: item.title });
-      });
-      setActionData(arr);
-      setHistoryData([]);
-    });
+    }
+
     return () => {
       setActionData([]);
       setHistoryData([]);
     };
-  }, [editVisible]);
+  }, [visible]);
 
   const onChangeAction = key => {
     form.setFieldsValue({ historyInfo: '' });

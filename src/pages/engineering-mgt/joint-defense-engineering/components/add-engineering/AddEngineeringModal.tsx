@@ -12,7 +12,7 @@ const AddEngineeringModal = ({ dispatch, actionRef, loading }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [add, setAdd] = useState(false);
   const [edit, setEdit] = useState(false);
-  const [editVisible, setEditVisible] = useState(false);
+  const [editVisible, setEditVisible] = useState(true);
 
   const updateData = data => {
     const fileInfoList =

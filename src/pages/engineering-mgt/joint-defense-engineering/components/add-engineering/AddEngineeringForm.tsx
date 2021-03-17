@@ -11,22 +11,25 @@ const AddEngineeringForm = ({ dispatch, form, visible, add, edit, editVisible })
   const [tempTableData, setTtempTableData] = useState([]);
   const [actionData, setActionData] = useState([]);
   useEffect(() => {
-    new Promise(resolve => {
-      dispatch({
-        type: 'dictionaryMgt/getEngineeringTree',
-        resolve,
+    if (visible) {
+      new Promise(resolve => {
+        dispatch({
+          type: 'dictionaryMgt/getEngineeringTree',
+          resolve,
+        });
+      }).then(res => {
+        const arr = [];
+        res.forEach(item => {
+          arr.push({ key: item.key, title: item.title });
+        });
+        setActionData(arr);
       });
-    }).then(res => {
-      const arr = [];
-      res.forEach(item => {
-        arr.push({ key: item.key, title: item.title });
-      });
-      setActionData(arr);
-    });
+    }
+
     return () => {
       setActionData([]);
     };
-  }, [editVisible]);
+  }, [visible]);
   const onChange = data => {
     setTableData([...data]);
   };
