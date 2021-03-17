@@ -88,12 +88,12 @@ const AddThreadForm = ({ dispatch, statistical }) => {
         <Form form={form} onFinish={onFinish} {...formItemLayout} onSubmit={handleSearch}>
           <Card>
             <Row justify="space-around">
-              <Col span={10}>
+              <Col span={8}>
                 <Form.Item label="时间范围" name="timeRange" {...rangeConfig}>
                   <RangePicker format="YYYY-MM-DD" />
                 </Form.Item>
               </Col>
-              <Col span={10}>
+              <Col span={8}>
                 <Form.Item label="来源" name="source">
                   <Select>
                     <Select.Option key={12311} value="0">
@@ -108,7 +108,7 @@ const AddThreadForm = ({ dispatch, statistical }) => {
                   </Select>
                 </Form.Item>
               </Col>
-              <Col span={10}>
+              <Col span={8}>
                 <Form.Item label="办理状态" name="handleState">
                   <Select>
                     <Select.Option key={0} value={0}>
@@ -123,7 +123,7 @@ const AddThreadForm = ({ dispatch, statistical }) => {
                   </Select>
                 </Form.Item>
               </Col>
-              <Col span={10}>
+              <Col span={8}>
                 <Form.Item label="联防工程" name="engineeringIds">
                   <Select mode="multiple" allowClear>
                     {engineering &&
@@ -135,7 +135,7 @@ const AddThreadForm = ({ dispatch, statistical }) => {
                   </Select>
                 </Form.Item>
               </Col>
-              <Col span={10}>
+              <Col span={8}>
                 <Form.Item label="重要程度" name="importanceLevel">
                   <Select>
                     <Select.Option key={0} value="0">
@@ -147,7 +147,7 @@ const AddThreadForm = ({ dispatch, statistical }) => {
                   </Select>
                 </Form.Item>
               </Col>
-              <Col span={10}>
+              <Col span={8}>
                 <Form.Item label="紧急程度" name="urgentLevel">
                   <Select>
                     <Select.Option key={32131} value="0">
@@ -165,7 +165,7 @@ const AddThreadForm = ({ dispatch, statistical }) => {
                   </Select>
                 </Form.Item>
               </Col>
-              <Col span={10}>
+              <Col span={8}>
                 <Form.Item
                   label="选择地域"
                   name="regionCode1"
@@ -174,7 +174,7 @@ const AddThreadForm = ({ dispatch, statistical }) => {
                   <ProvinceCascaderInput />
                 </Form.Item>
               </Col>
-              <Col span={10} style={{ justifyContent: 'flex-end', display: 'flex' }}>
+              <Col span={16} style={{ justifyContent: 'flex-end', display: 'flex' }}>
                 <Button onClick={resetFrom}>重置</Button>
                 <Button type="primary" style={{ marginLeft: 10 }} htmlType="submit">
                   统计
@@ -189,7 +189,9 @@ const AddThreadForm = ({ dispatch, statistical }) => {
           <Button onClick={() => {}}>更 多 项</Button>
         </Card>
       </Col> */}
-      <BrokenLine dispatch={dispatch} searchData={searchData} chartData={chartData} />
+      <Card style={{ width: '100%', height: '60vh', marginTop: '30px' }}>
+        <BrokenLine dispatch={dispatch} searchData={searchData} chartData={chartData} />
+      </Card>
     </Row>
   );
 };

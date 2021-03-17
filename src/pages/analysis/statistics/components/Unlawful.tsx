@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import BarStacked from '@/components/Charts/BarStacked/index';
 import { Button, Card, Col, Form, DatePicker, Row, Select } from 'antd';
 import { connect } from 'umi';
@@ -9,7 +9,6 @@ const AddThreadForm = ({ dispatch, statistical }) => {
   const { engineering, analysisType } = statistical;
   const [form] = Form.useForm();
   const [chartData, setChartData] = useState([]);
-  const ChildPage = useRef({});
 
   const getTreeData = () => {
     /* eslint-disable no-new */
@@ -91,12 +90,12 @@ const AddThreadForm = ({ dispatch, statistical }) => {
         <Form form={form} onFinish={onFinish} {...formItemLayout} onSubmit={handleSearch}>
           <Card>
             <Row justify="space-around">
-              <Col span={10}>
+              <Col span={8}>
                 <Form.Item label="时间范围" name="handleState">
                   <RangePicker />
                 </Form.Item>
               </Col>
-              <Col span={10}>
+              <Col span={8}>
                 <Form.Item label="联防工程" name="engineeringIds">
                   <Select mode="multiple" allowClear>
                     {engineering &&
@@ -108,7 +107,7 @@ const AddThreadForm = ({ dispatch, statistical }) => {
                   </Select>
                 </Form.Item>
               </Col>
-              <Col span={10} style={{ justifyContent: 'flex-end', display: 'flex' }}>
+              <Col span={8} style={{ justifyContent: 'flex-end', display: 'flex' }}>
                 <Button onClick={resetFrom}>重置</Button>
                 <Button type="primary" style={{ marginLeft: 10 }} htmlType="submit">
                   统计
@@ -119,7 +118,10 @@ const AddThreadForm = ({ dispatch, statistical }) => {
         </Form>
       </Col>
 
-      <BarStacked dispatch={dispatch} actionRef={ChildPage} chartData={chartData} />
+      {/* <BarStacked dispatch={dispatch} actionRef={ChildPage} chartData={chartData} /> */}
+      <Card style={{ width: '100%', height: '60vh', marginTop: '30px' }}>
+        <BarStacked dispatch={dispatch} chartData={chartData} />
+      </Card>
     </Row>
   );
 };

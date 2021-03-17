@@ -54,8 +54,8 @@ const Table = ({ dictionaryMgt, openModifyModal, dispatch, openDetailModifyModal
       search: {
         transform: value => {
           return {
-            reportDateStart: value[0],
-            reportDateEnd: value[1],
+            reportDateStart: value[0].format('YYYY-MM-DD'),
+            reportDateEnd: value[1].format('YYYY-MM-DD'),
           };
         },
       },
