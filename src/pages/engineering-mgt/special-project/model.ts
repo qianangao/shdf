@@ -284,7 +284,7 @@ const Model = {
           payload: {
             actionTree: response,
             loading: false,
-            actionId: response[0].key,
+            actionId: response.length && response[0].key,
           },
         });
         yield put({

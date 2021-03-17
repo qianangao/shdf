@@ -56,6 +56,7 @@ const RoleForm = ({ form, onTreeChange, roleTree, publicRole, orgIds }) => {
       name: 'orgIds',
       span: 4,
       visible: value === '0',
+      rules: [{ required: value === '0', message: '请选择!' }],
       render: (
         <Tree checkable onCheck={onCheckHandler} checkedKeys={checkedKeys} treeData={roleTree} />
       ),

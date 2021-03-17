@@ -26,7 +26,7 @@ const AddEngineeringForm = ({ dispatch, form, visible, add, edit, editVisible })
     return () => {
       setActionData([]);
     };
-  }, []);
+  }, [editVisible]);
   const onChange = data => {
     setTableData([...data]);
   };

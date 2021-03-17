@@ -7,7 +7,6 @@ const AddSpecialActionForm = ({ dispatch, form, visible, editVisible }) => {
   const [actionList, setActionList] = useState([]);
   const [actionData, setActionData] = useState([]);
   const [historyData, setHistoryData] = useState([]);
-
   useEffect(() => {
     new Promise(resolve => {
       dispatch({
@@ -27,7 +26,7 @@ const AddSpecialActionForm = ({ dispatch, form, visible, editVisible }) => {
       setActionData([]);
       setHistoryData([]);
     };
-  }, []);
+  }, [editVisible]);
 
   const onChangeAction = key => {
     form.setFieldsValue({ historyInfo: '' });
