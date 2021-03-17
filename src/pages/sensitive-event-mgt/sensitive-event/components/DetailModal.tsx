@@ -68,7 +68,7 @@ const CaresDetailModal = ({ dispatch, sensitiveMgt, actionRef, enums }) => {
 
   return (
     <Modal
-      title="收文详情"
+      title="敏感事件详情"
       centered
       width="900vw"
       style={{ paddingBottom: 0 }}

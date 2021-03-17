@@ -607,7 +607,7 @@ const Model = {
         ...payload,
         currentPage: payload === undefined ? 1 : payload.current,
         pageSize: payload === undefined ? 10 : payload.pageSize,
-        projectId,
+        projectId: projectPid === projectId ? undefined : projectId,
         projectPid,
       };
       const response = yield call(getEngineList, params);
