@@ -53,7 +53,7 @@ const ProjectTaskForm = ({ form }) => {
       label: '反馈要求',
       name: 'feedbackRequireList',
       span: 4,
-      // rules: [{ required: true, message: '请输入!' }],
+      rules: [{ required: true, message: '请输入!' }],
       render: <SummaryFeedbackTable onChange={onChange} value={tableData} add edit />,
     },
     {

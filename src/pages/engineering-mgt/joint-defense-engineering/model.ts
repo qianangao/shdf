@@ -243,8 +243,8 @@ const Model = {
           payload: {
             engineeringTree: response,
             loading: false,
-            projectId: response[0].key,
-            projectPid: response[0].key,
+            projectId: response.length && response[0].key,
+            projectPid: response.length && response[0].key,
           },
         });
         yield put({

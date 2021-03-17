@@ -56,7 +56,7 @@ const ChildrenTaskForm = props => {
       label: '反馈要求',
       name: 'specialTaskFeedbackList',
       span: 4,
-      // rules: [{ required: true, message: '请输入!' }],
+      rules: [{ required: true, message: '请输入!' }],
       render: <SummaryFeedbackTable visible={visible} onChange={onChange} value={tableData} add />,
     },
     {

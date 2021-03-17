@@ -15,7 +15,9 @@ const EngineeringTree = ({ dispatch, engineeringTree, loading, openAddEngineerin
       });
     }).then(res => {
       const arr = [];
-      arr.push(res[0].key);
+      if (res.length) {
+        arr.push(res[0].key);
+      }
       setSelectedKeys([...arr]);
     });
   };
