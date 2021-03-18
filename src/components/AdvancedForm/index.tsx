@@ -51,7 +51,11 @@ const AdvancedFormItem = ({
     fieldInput = render;
   } else if (enumsItems) {
     fieldInput = (
-      <Select disabled={disabled} getPopupContainer={triggerNode => triggerNode.parentElement}>
+      <Select
+        disabled={disabled}
+        getPopupContainer={triggerNode => triggerNode.parentElement}
+        {...extraProps}
+      >
         {enumsItems &&
           Object.keys(enumsItems).map(key => (
             <Select.Option key={key} value={key}>
@@ -62,7 +66,11 @@ const AdvancedFormItem = ({
     );
   } else if (enumsLabel) {
     fieldInput = (
-      <Select disabled={disabled} getPopupContainer={triggerNode => triggerNode.parentElement}>
+      <Select
+        disabled={disabled}
+        getPopupContainer={triggerNode => triggerNode.parentElement}
+        {...extraProps}
+      >
         {enums[enumsLabel] &&
           Object.keys(enums[enumsLabel]).map(key => (
             <Select.Option key={key} value={key}>
