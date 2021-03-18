@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
-import { Modal } from 'antd';
+import { Modal, Button } from 'antd';
 import OrgInfoForm from './ReceivingForm';
 
 const AddModal = ({ dispatch, actionRef, loading, receivingMgt }) => {
@@ -75,6 +75,17 @@ const AddModal = ({ dispatch, actionRef, loading, receivingMgt }) => {
       forceRender
       confirmLoading={loading}
       onCancel={hideModal}
+      footer={[
+        <Button key="backReceive" onClick={hideModal}>
+          取消
+        </Button>,
+        <Button key="submitReceive" type="primary" loading={loading} onClick={handleOk}>
+          保存
+        </Button>,
+        <Button key="finishReceive" type="primary" loading={loading} onClick={handleOk}>
+          登记完成
+        </Button>,
+      ]}
     >
       <OrgInfoForm form={form} orgInfoData={receivingDetailData} />
     </Modal>
