@@ -220,6 +220,7 @@ const Table = ({
       title: '案件来源',
       dataIndex: 'caseSource',
       hideInSearch: true,
+      valueEnum: enums.case_source,
     },
     {
       title: '案件地域',

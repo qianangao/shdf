@@ -8,6 +8,7 @@ const AddModal = ({ dispatch, actionRef, loading, receivingMgt }) => {
   const [addModalVisible, setModalVisible] = useState(false);
   const { receivingDetailData } = receivingMgt;
   const showModal = () => {
+    form.resetFields();
     setModalVisible(true);
   };
 

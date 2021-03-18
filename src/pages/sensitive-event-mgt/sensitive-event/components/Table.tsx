@@ -148,6 +148,7 @@ const Table = ({
     {
       title: '事件来源',
       dataIndex: 'eventSource',
+      valueEnum: enums.case_source,
     },
     {
       title: '事件地域',

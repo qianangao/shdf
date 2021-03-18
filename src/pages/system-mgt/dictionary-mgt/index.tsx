@@ -41,7 +41,7 @@ const DictionaryMgt = ({ dispatch }) => {
   return (
     <>
       <Layout>
-        <Sider width="50%" style={{ marginRight: 10 }} theme="light">
+        <Sider width="60%" style={{ marginRight: 10 }} theme="light">
           <Table openModifyModal={openModifyModal} changeTypeId={changeTypeId} />
         </Sider>
         <Content>
