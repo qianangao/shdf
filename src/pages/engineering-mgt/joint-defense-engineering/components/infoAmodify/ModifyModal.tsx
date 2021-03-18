@@ -3,7 +3,7 @@ import { connect } from 'umi';
 import { Modal } from 'antd';
 import AddressBookForm from './AddThreadForm';
 
-const ModifyModal = ({ dispatch, actionRef, loading, dictionaryMgt }) => {
+const ModifyModal = ({ dispatch, actionRef, loading, defenseEngineering }) => {
   const [form] = AddressBookForm.useForm();
   const [projectId, setProjectId] = useState('');
   const [detailData, setDetailData] = useState(null);
@@ -19,7 +19,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, dictionaryMgt }) => {
     if (infoId) {
       new Promise(resolve => {
         dispatch({
-          type: 'dictionaryMgt/getInfoDetail',
+          type: 'defenseEngineering/getInfoDetail',
           payload: infoId.toString(),
           resolve,
         });
@@ -54,8 +54,8 @@ const ModifyModal = ({ dispatch, actionRef, loading, dictionaryMgt }) => {
     }
   }, []);
   useEffect(() => {
-    if (dictionaryMgt.projectId) {
-      setProjectId(dictionaryMgt.projectId);
+    if (defenseEngineering.projectId) {
+      setProjectId(defenseEngineering.projectId);
     }
   });
 
@@ -76,12 +76,12 @@ const ModifyModal = ({ dispatch, actionRef, loading, dictionaryMgt }) => {
           });
         return new Promise(resolve => {
           dispatch({
-            type: `dictionaryMgt/${detailData ? 'updateInfoAn' : 'addInfoAn'}`,
+            type: `defenseEngineering/${detailData ? 'updateInfoAn' : 'addInfoAn'}`,
             payload: {
               ...values,
               fileIds,
               projectId,
-              projectPid: dictionaryMgt.projectPid ? dictionaryMgt.projectPid : '10001',
+              projectPid: defenseEngineering.projectPid ? defenseEngineering.projectPid : '10001',
               infoId: detailData && detailData.toString(),
             },
             resolve,
@@ -115,7 +115,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, dictionaryMgt }) => {
   );
 };
 
-export default connect(({ dictionaryMgt, loading }) => ({
-  dictionaryMgt,
+export default connect(({ defenseEngineering, loading }) => ({
+  defenseEngineering,
   loading: loading.models.smDictionaryMgt,
 }))(ModifyModal);

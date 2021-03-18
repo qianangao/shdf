@@ -8,11 +8,16 @@ const AddchildrenTaskModal = ({ dispatch, actionRef, loading, specialAction }) =
   const [form] = ChildrenTaskForm.useForm();
   const [modalVisible, setModalVisible] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [superTaskId, setSuperTaskId] = useState('');
 
   const showModal = item => {
     if (item.visible) {
       setVisible(item.visible);
     }
+    if (item.selectedRowKeys.length) {
+      setSuperTaskId(item.selectedRowKeys[0]);
+    }
+
     setModalVisible(true);
   };
 
@@ -53,6 +58,7 @@ const AddchildrenTaskModal = ({ dispatch, actionRef, loading, specialAction }) =
             payload: {
               ...values,
               actionId,
+              superTaskId,
               fileIds,
             },
             resolve,

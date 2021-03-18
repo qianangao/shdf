@@ -4,13 +4,13 @@ import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 
 const BanPublishTable = ({
-  dictionaryMgt,
+  defenseEngineering,
   relevancyModal,
   openBanPublishDetailModal,
   dispatch,
   enums,
 }) => {
-  const { tableRef } = dictionaryMgt;
+  const { tableRef } = defenseEngineering;
 
   const columns = [
     {
@@ -56,12 +56,12 @@ const BanPublishTable = ({
   ];
 
   const getEngineeringBanPublishList = params =>
-    dictionaryMgt.projectId &&
-    dictionaryMgt.projectId !== '' &&
+    defenseEngineering.projectId &&
+    defenseEngineering.projectId !== '' &&
     new Promise(resolve => {
       dispatch({
-        type: 'dictionaryMgt/getEngineeringBanPublishList',
-        payload: { ...params, id: dictionaryMgt.projectId },
+        type: 'defenseEngineering/getEngineeringBanPublishList',
+        payload: { ...params, id: defenseEngineering.projectId },
         resolve,
       });
     });
@@ -85,7 +85,7 @@ const BanPublishTable = ({
   );
 };
 
-export default connect(({ dictionaryMgt, global }) => ({
-  dictionaryMgt,
+export default connect(({ defenseEngineering, global }) => ({
+  defenseEngineering,
   enums: global.enums,
 }))(BanPublishTable);

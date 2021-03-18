@@ -38,7 +38,7 @@ const FeedbackTableData = ({ FeedbackData }) => {
   return <Table dataSource={dataSource} columns={columns} rowKey="taskId" />;
 };
 
-export default connect(({ dictionaryMgt }) => ({
-  FeedbackData: dictionaryMgt.FeedbackData,
-  dictionaryMgt,
+export default connect(({ defenseEngineering }) => ({
+  FeedbackData: defenseEngineering.FeedbackData,
+  defenseEngineering,
 }))(FeedbackTableData);

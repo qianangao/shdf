@@ -19,7 +19,7 @@ const DownModal = ({ dispatch, actionRef, loading }) => {
   useEffect(() => {
     new Promise(resolve => {
       dispatch({
-        type: 'dictionaryMgt/provinceData',
+        type: 'defenseEngineering/provinceData',
         resolve,
       });
     }).then(res => {
@@ -55,7 +55,7 @@ const DownModal = ({ dispatch, actionRef, loading }) => {
     const keys = targetKeys.join(',');
     return new Promise(resolve => {
       dispatch({
-        type: `dictionaryMgt/deployProjectTaskList`,
+        type: `defenseEngineering/deployProjectTaskList`,
         payload: {
           targetProvince: keys,
           taskId: id,

@@ -3,12 +3,12 @@ import AdvancedForm from '@/components/AdvancedForm';
 import { Select } from 'antd';
 import { connect } from 'umi';
 
-const AddSpecialActionForm = ({ dispatch, form, visible, editVisible }) => {
+const AnnualSpecialActionForm = ({ dispatch, form, isShow }) => {
   const [actionList, setActionList] = useState([]);
   const [actionData, setActionData] = useState([]);
   const [historyData, setHistoryData] = useState([]);
   useEffect(() => {
-    if (visible) {
+    if (isShow) {
       new Promise(resolve => {
         dispatch({
           type: 'specialAction/getSpecialActionTree',
@@ -24,12 +24,11 @@ const AddSpecialActionForm = ({ dispatch, form, visible, editVisible }) => {
         setHistoryData([]);
       });
     }
-
     return () => {
       setActionData([]);
       setHistoryData([]);
     };
-  }, [visible]);
+  }, [isShow]);
 
   const onChangeAction = key => {
     form.setFieldsValue({ historyInfo: '' });
@@ -63,7 +62,7 @@ const AddSpecialActionForm = ({ dispatch, form, visible, editVisible }) => {
       name: 'actionId',
       span: 4,
       rules: [{ required: true, message: '请选择行动名称' }],
-      visible: editVisible && visible,
+      visible: isShow,
       render: (
         <Select allowClear onChange={onChangeAction}>
           {actionData &&
@@ -79,7 +78,7 @@ const AddSpecialActionForm = ({ dispatch, form, visible, editVisible }) => {
       label: '复用历史信息',
       name: 'historyInfo',
       span: 4,
-      visible: editVisible && visible,
+      visible: isShow,
       render: (
         <Select allowClear onChange={onChangehistory}>
           {historyData &&
@@ -113,7 +112,6 @@ const AddSpecialActionForm = ({ dispatch, form, visible, editVisible }) => {
       span: 4,
       rules: [{ required: true, message: '请选择开始日期' }],
       type: 'date',
-      visible,
     },
     {
       label: '结束日期',
@@ -121,14 +119,12 @@ const AddSpecialActionForm = ({ dispatch, form, visible, editVisible }) => {
       span: 4,
       rules: [{ required: true, message: '请选择结束日期!' }],
       type: 'date',
-      visible,
     },
     {
       label: '行动年度',
       name: 'actionYear',
       span: 24,
       rules: [{ required: true, message: '请输入行动年度!', whitespace: true }],
-      visible,
     },
     { name: 'segmentation', type: 'segmentation' },
     {
@@ -152,6 +148,6 @@ const AddSpecialActionForm = ({ dispatch, form, visible, editVisible }) => {
   return <AdvancedForm form={form} fields={formItems} />;
 };
 
-AddSpecialActionForm.useForm = AdvancedForm.useForm;
+AnnualSpecialActionForm.useForm = AdvancedForm.useForm;
 
-export default connect(() => ({}))(AddSpecialActionForm);
+export default connect(() => ({}))(AnnualSpecialActionForm);

@@ -5,37 +5,38 @@ import { connect } from 'umi';
 import EngineeringDescription from './engineering-info/EngineeringDescription';
 
 const Table = ({
-  dictionaryMgt,
+  defenseEngineering,
   dispatch,
   enums,
   feedbackModal,
-  openAddEngineeringModal,
+  defenseEngineeringModal,
+  annualDefenseEngineeringModal,
   modifyProjectTaskModal,
   addProjectTaskModal,
   tempProvinceModal,
   engineeringForm,
   downModal,
 }) => {
-  const { tableRef } = dictionaryMgt;
+  const { tableRef } = defenseEngineering;
 
   const confirmDelete = id =>
     new Promise(resolve => {
       dispatch({
-        type: 'dictionaryMgt/deleteProjectTask',
+        type: 'defenseEngineering/deleteProjectTask',
         payload: { taskId: id },
         resolve,
       });
     });
 
   const columns = [
-    {
-      title: '序号',
-      dataIndex: 'index',
-      valueType: 'index',
-      align: 'center',
-      fixed: 'left',
-      width: 64,
-    },
+    // {
+    //   title: '序号',
+    //   dataIndex: 'index',
+    //   valueType: 'index',
+    //   align: 'center',
+    //   fixed: 'left',
+    //   width: 64,
+    // },
     { title: '子任务名称', align: 'center', dataIndex: 'taskName', hideInSearch: true },
     { title: '开始日期', align: 'center', dataIndex: 'startDate', hideInSearch: true },
     { title: '截止日期', align: 'center', dataIndex: 'endDate', hideInSearch: true },
@@ -90,7 +91,7 @@ const Table = ({
   const getEngineeringList = params =>
     new Promise(resolve => {
       dispatch({
-        type: 'dictionaryMgt/getEngineeringList',
+        type: 'defenseEngineering/getEngineeringList',
         payload: { ...params },
         resolve,
       });
@@ -99,7 +100,8 @@ const Table = ({
   return (
     <div>
       <EngineeringDescription
-        openAddEngineeringModal={openAddEngineeringModal}
+        defenseEngineeringModal={defenseEngineeringModal}
+        annualDefenseEngineeringModal={annualDefenseEngineeringModal}
         tempProvinceModal={tempProvinceModal}
       />
       {engineeringForm.startTime && (
@@ -107,13 +109,14 @@ const Table = ({
           rowKey="taskId"
           headerTitle="项目任务"
           search={false}
+          rowSelection={[]}
           actionRef={tableRef}
           scroll={{ x: 'max-content' }}
           request={async params => getEngineeringList(params)}
           columns={columns}
-          toolBarRender={_ => [
-            <Button type="primary" onClick={() => addProjectTaskModal()}>
-              新增任务
+          toolBarRender={(_, { selectedRowKeys }) => [
+            <Button type="primary" onClick={() => addProjectTaskModal({ selectedRowKeys })}>
+              新增子任务
             </Button>,
           ]}
         />
@@ -122,8 +125,8 @@ const Table = ({
   );
 };
 
-export default connect(({ dictionaryMgt, global }) => ({
-  dictionaryMgt,
-  engineeringForm: dictionaryMgt.engineeringForm,
+export default connect(({ defenseEngineering, global }) => ({
+  defenseEngineering,
+  engineeringForm: defenseEngineering.engineeringForm,
   enums: global.enums,
 }))(Table);

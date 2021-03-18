@@ -1,18 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
 import { Modal } from 'antd';
-import AddEngineeringForm from './AddEngineeringForm';
+import AnnualDefenseEngineeringForm from './AnnualDefenseEngineeringForm';
 
-const AddEngineeringModal = ({ dispatch, actionRef, loading }) => {
-  const [form] = AddEngineeringForm.useForm();
-  const [detailData, setDetailData] = useState(null);
-  const [title, setTitle] = useState('');
-  const [titles, setTitles] = useState('');
-  const [visible, setVisible] = useState(false);
+const AnnualDefenseEngineeringModal = ({ dispatch, actionRef, loading }) => {
+  const [form] = AnnualDefenseEngineeringForm.useForm();
+  const [defenseForm, setDefenseForm] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-  const [add, setAdd] = useState(false);
-  const [edit, setEdit] = useState(false);
-  const [editVisible, setEditVisible] = useState(true);
+  const [isShow, setIsShow] = useState(false);
 
   const updateData = data => {
     const fileInfoList =
@@ -25,41 +20,20 @@ const AddEngineeringModal = ({ dispatch, actionRef, loading }) => {
           status: 'done',
         };
       });
-
     form.setFieldsValue({ ...data, fileIds: fileInfoList });
   };
 
   const showModal = item => {
     if (item) {
-      if (item.add) {
-        setEditVisible(true);
-        setAdd(true);
-      }
-      if (item.edit) {
-        setEditVisible(edit);
-        setEdit(true);
-      }
-      if (item.year) {
-        setTitle('重要项目');
+      if (item.engineeringForm) {
+        setDefenseForm(item.engineeringForm);
+        updateData(item.engineeringForm);
       }
     } else {
-      setTitle('工程基本信息');
-    }
-    setDetailData(item || null);
-    if (item) {
-      if (item.year || (item.engineeringForm && item.engineeringForm.startTime)) setVisible(true);
-      if (item.engineeringForm) updateData(item.engineeringForm);
+      // 新增年度工程数据时，isShow为true
+      setIsShow(true);
     }
     setModalVisible(true);
-    if (item) {
-      if (item.engineeringForm) {
-        setTitles('editEngineering');
-      } else {
-        setTitles('addEngineering');
-      }
-    } else {
-      setTitles('addEngineering');
-    }
   };
 
   useEffect(() => {
@@ -74,9 +48,7 @@ const AddEngineeringModal = ({ dispatch, actionRef, loading }) => {
 
   const hideModal = () => {
     setModalVisible(false);
-    setDetailData(null);
-    setVisible(false);
-    setTitle('');
+    setDefenseForm(null);
     form.resetFields();
   };
 
@@ -90,11 +62,11 @@ const AddEngineeringModal = ({ dispatch, actionRef, loading }) => {
             values.fileIds.map(item => {
               return item.uid;
             });
-          if (detailData && detailData.engineeringForm) {
-            values.projectId = detailData.engineeringForm.projectId;
+          if (defenseForm) {
+            values.projectId = defenseForm.projectId;
           }
           dispatch({
-            type: `dictionaryMgt/${titles}`,
+            type: `defenseEngineering/${defenseForm ? 'editEngineering' : 'addEngineering'}`,
             payload: {
               ...values,
               fileIds,
@@ -113,7 +85,7 @@ const AddEngineeringModal = ({ dispatch, actionRef, loading }) => {
 
   return (
     <Modal
-      title={title}
+      title={defenseForm ? '编辑年度联防工程' : '新增年度联防工程'}
       centered
       width="90vw"
       style={{ paddingBottom: 0 }}
@@ -125,17 +97,11 @@ const AddEngineeringModal = ({ dispatch, actionRef, loading }) => {
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <AddEngineeringForm
-        form={form}
-        visible={visible}
-        add={add}
-        edit={edit}
-        editVisible={editVisible}
-      />
+      <AnnualDefenseEngineeringForm form={form} isShow={isShow} />
     </Modal>
   );
 };
 
 export default connect(({ loading }) => ({
   loading: loading.models.smDictionaryMgt,
-}))(AddEngineeringModal);
+}))(AnnualDefenseEngineeringModal);

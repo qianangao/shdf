@@ -3,7 +3,7 @@ import { connect } from 'umi';
 import { Modal } from 'antd';
 import ProTable from '@ant-design/pro-table';
 
-const RelevancyModal = ({ dispatch, actionRef, loading, enums, dictionaryMgt }) => {
+const RelevancyModal = ({ dispatch, actionRef, loading, enums, defenseEngineering }) => {
   const tableRef = useRef({});
   const [selectModalVisible, setVisible] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -42,8 +42,8 @@ const RelevancyModal = ({ dispatch, actionRef, loading, enums, dictionaryMgt }) 
   const getRelevancyBanPublishList = params =>
     new Promise(resolve => {
       dispatch({
-        type: 'dictionaryMgt/getRelevancyBanPublishList',
-        payload: { ...params, id: dictionaryMgt.projectId },
+        type: 'defenseEngineering/getRelevancyBanPublishList',
+        payload: { ...params, id: defenseEngineering.projectId },
         resolve,
       });
     });
@@ -51,8 +51,8 @@ const RelevancyModal = ({ dispatch, actionRef, loading, enums, dictionaryMgt }) 
   const getRelevancyPersonList = params =>
     new Promise(resolve => {
       dispatch({
-        type: 'dictionaryMgt/getRelevancyPersonList',
-        payload: { ...params, id: dictionaryMgt.projectId },
+        type: 'defenseEngineering/getRelevancyPersonList',
+        payload: { ...params, id: defenseEngineering.projectId },
         resolve,
       });
     });
@@ -60,8 +60,8 @@ const RelevancyModal = ({ dispatch, actionRef, loading, enums, dictionaryMgt }) 
   const getRelevancyInstitutionsList = params =>
     new Promise(resolve => {
       dispatch({
-        type: 'dictionaryMgt/getRelevancyInstitutionsList',
-        payload: { ...params, id: dictionaryMgt.projectId },
+        type: 'defenseEngineering/getRelevancyInstitutionsList',
+        payload: { ...params, id: defenseEngineering.projectId },
         resolve,
       });
     });
@@ -69,8 +69,8 @@ const RelevancyModal = ({ dispatch, actionRef, loading, enums, dictionaryMgt }) 
   const getRelevancyClueList = params =>
     new Promise(resolve => {
       dispatch({
-        type: 'dictionaryMgt/getRelevancyClueList',
-        payload: { ...params, id: dictionaryMgt.projectId },
+        type: 'defenseEngineering/getRelevancyClueList',
+        payload: { ...params, id: defenseEngineering.projectId },
         resolve,
       });
     });
@@ -78,9 +78,9 @@ const RelevancyModal = ({ dispatch, actionRef, loading, enums, dictionaryMgt }) 
   const handleOk = () => {
     new Promise(resolve => {
       dispatch({
-        type: 'dictionaryMgt/relationEngineering',
+        type: 'defenseEngineering/relationEngineering',
         payload: {
-          projectId: dictionaryMgt.projectId,
+          projectId: defenseEngineering.projectId,
           businessId: selectedRowKeys,
           businessType: type,
         },
@@ -320,8 +320,8 @@ const RelevancyModal = ({ dispatch, actionRef, loading, enums, dictionaryMgt }) 
   );
 };
 
-export default connect(({ dictionaryMgt, loading, global }) => ({
-  dictionaryMgt,
+export default connect(({ defenseEngineering, loading, global }) => ({
+  defenseEngineering,
   loading: loading.models.dictionaryMgt,
   enums: global.enums,
 }))(RelevancyModal);
