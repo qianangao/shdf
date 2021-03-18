@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import AdvancedForm from '@/components/AdvancedForm';
 import ProvinceCascaderInput from '@/components/ProvinceCascaderInput';
 
-const CaseForm = ({ form, orgInfoData, id, caseType, onFieldsChange }) => {
+const CaseForm = ({ form, orgInfoData, specialList, id, caseType, onFieldsChange }) => {
   const formItems = [
     {
       name: 'eventId',
@@ -80,12 +80,18 @@ const CaseForm = ({ form, orgInfoData, id, caseType, onFieldsChange }) => {
     {
       label: '专项行动',
       name: 'specialActionIds',
-      enumsLabel: 'handle_type',
+      enumsItems: specialList,
+      extraProps: {
+        mode: 'multiple',
+      },
     },
     {
       label: '传播渠道',
       name: 'spreadWay',
       enumsLabel: 'spread_channel',
+      extraProps: {
+        node: 'multiple',
+      },
     },
     {
       label: '传播形式',
@@ -97,6 +103,9 @@ const CaseForm = ({ form, orgInfoData, id, caseType, onFieldsChange }) => {
       label: '涉案平台类型',
       name: 'platformType',
       enumsLabel: 'involved_platform_type',
+      extraProps: {
+        mode: 'multiple',
+      },
     },
     {
       label: '涉案数量',

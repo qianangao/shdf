@@ -8,11 +8,12 @@ import TableFileCase from './TableFileCase';
 import CaseHandleModal from './CaseHandleModal';
 import ClubSplicing from './ClubSplicing';
 
-const ModifyModal = ({ dispatch, actionRef, loading, sensitiveMgt }) => {
+const ModifyModal = ({ dispatch, actionRef, loading, sensitiveMgt, caseMgt }) => {
   const [form] = OrgInfoForm.useForm();
   const [modifyModalVisible, setModalVisible] = useState(false);
   const [sensitiveDetailData, setDetailData] = useState(null);
   const { detailData } = sensitiveMgt;
+  const { specialList } = caseMgt;
   const caseHandleModalRef = useRef({});
   const [infoId, setSensitiveId] = useState('');
   const [caseType, setCaseType] = useState('');
@@ -73,7 +74,13 @@ const ModifyModal = ({ dispatch, actionRef, loading, sensitiveMgt }) => {
       .validateFields()
       .then(values => {
         // values.specialActionIds = values.specialActionIds ? [values.specialActionIds] : [];
-        values.specialActionIds = ['1'];
+        values.involvedPlatformType = Array.isArray(values.involvedPlatformType)
+          ? values.involvedPlatformType.join(',')
+          : values.involvedPlatformType;
+        values.spreadChannel = Array.isArray(values.spreadChannel)
+          ? values.spreadChannel.join(',')
+          : values.spreadChannel;
+
         let filesStr = '';
         if (values.fileList && values.fileList.length > 0) {
           const ids = values.fileList.map(item => {
@@ -153,6 +160,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, sensitiveMgt }) => {
       <OrgInfoForm
         form={form}
         orgInfoData={detailData}
+        specialList={specialList}
         id={infoId}
         caseType={caseType}
         onFieldsChange={onFieldsChange}
@@ -171,7 +179,8 @@ const ModifyModal = ({ dispatch, actionRef, loading, sensitiveMgt }) => {
   );
 };
 
-export default connect(({ sensitiveMgt, loading }) => ({
+export default connect(({ sensitiveMgt, caseMgt, loading }) => ({
   sensitiveMgt,
+  caseMgt,
   loading: loading.models.sensitiveMgt,
 }))(ModifyModal);

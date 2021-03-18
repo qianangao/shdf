@@ -43,6 +43,10 @@ const CaseMgt = ({ dispatch }) => {
         ],
       },
     });
+    dispatch({
+      type: 'caseMgt/getSpecial',
+      payload: {},
+    });
   }, []);
 
   const openModifyModal = item => {

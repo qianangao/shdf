@@ -199,6 +199,13 @@ const Model = {
             };
           });
         response.regionObj = { label: response.region, value: response.regionCode };
+        response.involvedPlatformType =
+          response.involvedPlatformType && response.involvedPlatformType.split(',');
+        response.spreadChannel = response.spreadChannel && response.spreadChannel.split(',');
+
+        if (response.specialActionIds) {
+          response.specialActionIds = response.specialActionIds.join(',').split(',');
+        }
         resolve && resolve(response);
         yield put({
           type: 'save',
