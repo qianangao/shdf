@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import AdvancedForm from '@/components/AdvancedForm';
 import ProvinceCascaderInput from '@/components/ProvinceCascaderInput';
 
-const CaseMgt = ({ form, id, orgInfoData, caseType, onFieldsChange }) => {
+const CaseMgt = ({ form, id, orgInfoData, specialList, caseType, onFieldsChange }) => {
   const formItems = [
     {
       name: 'caseId',
@@ -80,12 +80,18 @@ const CaseMgt = ({ form, id, orgInfoData, caseType, onFieldsChange }) => {
     {
       label: '专项行动',
       name: 'specialActionIds',
-      enumsLabel: 'handle_type',
+      enumsItems: specialList,
+      extraProps: {
+        mode: 'multiple',
+      },
     },
     {
       label: '传播渠道',
       name: 'spreadChannel',
       enumsLabel: 'spread_channel',
+      extraProps: {
+        mode: 'multiple',
+      },
     },
     {
       label: '传播形式',
@@ -96,6 +102,9 @@ const CaseMgt = ({ form, id, orgInfoData, caseType, onFieldsChange }) => {
       label: '涉案平台类型',
       name: 'involvedPlatformType',
       enumsLabel: 'involved_platform_type',
+      extraProps: {
+        mode: 'multiple',
+      },
     },
     {
       label: '涉案数量',
@@ -110,6 +119,9 @@ const CaseMgt = ({ form, id, orgInfoData, caseType, onFieldsChange }) => {
       name: 'charge',
       enumsLabel: 'charge',
       visible: caseType !== '1',
+      extraProps: {
+        mode: 'multiple',
+      },
     },
     {
       label: '刑事拘留人数',
@@ -159,14 +171,14 @@ const CaseMgt = ({ form, id, orgInfoData, caseType, onFieldsChange }) => {
       rules: [{ max: 400, message: '案情简要长度请小于400位!', whitespace: true }],
     },
     {
-      label: '行政处理结果',
+      label: '具体判决结果',
       name: 'punishResult',
       visible: caseType === '1',
       span: 4,
       type: 'textarea',
     },
     {
-      label: '刑事案件具体判决结果',
+      label: '具体判决结果',
       name: 'sentenceResult',
       visible: caseType !== '1',
       span: 4,

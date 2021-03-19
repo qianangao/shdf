@@ -86,6 +86,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, receivingMgt }) => {
       forceRender
       confirmLoading={loading}
       onCancel={hideModal}
+      okText="保存"
     >
       <OrgInfoForm
         form={form}
