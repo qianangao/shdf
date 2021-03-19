@@ -1,7 +1,7 @@
 import React from 'react';
 import ActionTree from './action-tree/index';
 
-const ActionTreeLayout = ({ children, openAddSpecialModal }) => {
+const ActionTreeLayout = ({ children, specialActionModal, annualSpecialActionModal }) => {
   return (
     <section
       style={{
@@ -21,7 +21,10 @@ const ActionTreeLayout = ({ children, openAddSpecialModal }) => {
           overflow: 'hidden',
         }}
       >
-        <ActionTree openAddSpecialModal={openAddSpecialModal} />
+        <ActionTree
+          specialActionModal={specialActionModal}
+          annualSpecialActionModal={annualSpecialActionModal}
+        />
       </aside>
       <section style={{ marginLeft: 15, width: '100%', overflow: 'auto' }}>
         <main style={{ overflow: 'initial' }}>{children}</main>

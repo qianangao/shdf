@@ -1,57 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import AdvancedForm from '@/components/AdvancedForm';
 import { connect } from 'umi';
-import { Select } from 'antd';
 import { checkPhone } from '@/utils/validators';
 import ProvinceListTable from '../province-list/ProvinceListTable';
-import TempProvinceTable from '../temp-province-list/TempProvinceTable';
+// import TempProvinceTable from '../temp-province-list/TempProvinceTable';
 
-const AddEngineeringForm = ({ dispatch, form, visible, add, edit, editVisible }) => {
+const DefenseEngineeringForm = ({ form, add, edit }) => {
   const [tableData, setTableData] = useState([]);
-  const [tempTableData, setTtempTableData] = useState([]);
-  const [actionData, setActionData] = useState([]);
-  useEffect(() => {
-    new Promise(resolve => {
-      dispatch({
-        type: 'dictionaryMgt/getEngineeringTree',
-        resolve,
-      });
-    }).then(res => {
-      const arr = [];
-      res.forEach(item => {
-        arr.push({ key: item.key, title: item.title });
-      });
-      setActionData(arr);
-    });
-    return () => {
-      setActionData([]);
-    };
-  }, [editVisible]);
   const onChange = data => {
     setTableData([...data]);
   };
-  const onTempChange = data => {
-    setTtempTableData([...data]);
-  };
 
   const formItems = [
-    {
-      label: '工程选择',
-      name: 'projectId',
-      span: 4,
-      rules: [{ required: true, message: '请选择工程名称' }],
-      visible: visible && editVisible,
-      render: (
-        <Select allowClear>
-          {actionData &&
-            actionData.map(item => (
-              <Select.Option key={item.key} value={item.key}>
-                {item.title}
-              </Select.Option>
-            ))}
-        </Select>
-      ),
-    },
     {
       label: '工程名称',
       name: 'projectName',
@@ -65,24 +25,7 @@ const AddEngineeringForm = ({ dispatch, form, visible, add, edit, editVisible })
       label: '工程编号',
       name: 'projectCode',
       span: 4,
-      visible: !visible,
       rules: [{ required: true, message: '请输入工程编号!', whitespace: true }],
-    },
-    {
-      label: '开始日期',
-      name: 'startTime',
-      span: 4,
-      rules: [{ required: true, message: '请选择开始日期' }],
-      type: 'date',
-      visible,
-    },
-    {
-      label: '截止日期',
-      name: 'endTime',
-      span: 4,
-      rules: [{ required: true, message: '请选择结束日期!' }],
-      type: 'date',
-      visible,
     },
     {
       label: '联系人',
@@ -126,7 +69,6 @@ const AddEngineeringForm = ({ dispatch, form, visible, add, edit, editVisible })
       label: '牵头省份',
       name: 'provinceCode',
       span: 4,
-      visible: !visible,
       rules: [
         { required: true, message: '请输入牵头省份!', whitespace: true },
         { max: 30, message: '长度请小于30位!' },
@@ -136,17 +78,8 @@ const AddEngineeringForm = ({ dispatch, form, visible, add, edit, editVisible })
       label: '省份列表',
       name: 'projectProvinceEntityList',
       span: 4,
-      visible: !visible,
       // rules: [{ required: true, message: '请输入!' }],
       render: <ProvinceListTable onChange={onChange} value={tableData} add={add} edit={edit} />,
-    },
-    {
-      label: '临时省份列表',
-      name: 'projectTemporaryProvinceEntityList',
-      span: 4,
-      visible: !visible,
-      // rules: [{ required: true, message: '请输入!' }],
-      render: <TempProvinceTable add={add} onChange={onTempChange} value={tempTableData} />,
     },
     {
       label: '附件列表',
@@ -159,6 +92,6 @@ const AddEngineeringForm = ({ dispatch, form, visible, add, edit, editVisible })
   return <AdvancedForm form={form} fields={formItems} />;
 };
 
-AddEngineeringForm.useForm = AdvancedForm.useForm;
+DefenseEngineeringForm.useForm = AdvancedForm.useForm;
 
-export default connect(() => ({}))(AddEngineeringForm);
+export default connect(() => ({}))(DefenseEngineeringForm);

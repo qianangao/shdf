@@ -8,7 +8,8 @@ const EngineeringDescription = ({
   enums,
   dispatch,
   engineeringForm,
-  openAddEngineeringModal,
+  defenseEngineeringModal,
+  annualDefenseEngineeringModal,
   tempProvinceModal,
   loading,
 }) => {
@@ -25,7 +26,7 @@ const EngineeringDescription = ({
 
   const deleteEngineeringData = projectId => {
     dispatch({
-      type: 'dictionaryMgt/deleteEngineeringData',
+      type: 'defenseEngineering/deleteEngineeringData',
       payload: { projectId },
     });
   };
@@ -65,13 +66,24 @@ const EngineeringDescription = ({
                   新增临时省份
                 </Button>
               )}
-              <Button
-                type="primary"
-                onClick={() => openAddEngineeringModal({ engineeringForm, edit: true })}
-                style={{ marginRight: 8 }}
-              >
-                编辑
-              </Button>
+              {visible ? (
+                <Button
+                  type="primary"
+                  onClick={() => annualDefenseEngineeringModal({ edit: true, engineeringForm })}
+                  style={{ marginRight: 8 }}
+                >
+                  编辑
+                </Button>
+              ) : (
+                <Button
+                  type="primary"
+                  onClick={() => defenseEngineeringModal({ edit: true, engineeringForm })}
+                  style={{ marginRight: 8 }}
+                >
+                  编辑
+                </Button>
+              )}
+
               <Popconfirm
                 // key={`${actionForm.provinceId}del`}
                 title="确认删除该工程信息吗？"
@@ -142,8 +154,8 @@ const EngineeringDescription = ({
   );
 };
 
-export default connect(({ dictionaryMgt, global }) => ({
-  engineeringForm: dictionaryMgt.engineeringForm,
+export default connect(({ defenseEngineering, global }) => ({
+  engineeringForm: defenseEngineering.engineeringForm,
   enums: global.enums,
-  loading: dictionaryMgt.loading,
+  loading: defenseEngineering.loading,
 }))(EngineeringDescription);

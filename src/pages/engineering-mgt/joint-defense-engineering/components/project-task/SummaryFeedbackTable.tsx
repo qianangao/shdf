@@ -49,7 +49,7 @@ const SummaryFeedbackTable = ({
         arr.push(item);
         onChange && onChange(arr);
         dispatch({
-          type: `dictionaryMgt/selectFeedbackData`,
+          type: `defenseEngineering/selectFeedbackData`,
           payload: arr,
         });
       }
@@ -198,6 +198,6 @@ const SummaryFeedbackTable = ({
   );
 };
 
-export default connect(({ dictionaryMgt }) => ({
-  feedListData: dictionaryMgt.feedListData,
+export default connect(({ defenseEngineering }) => ({
+  feedListData: defenseEngineering.feedListData,
 }))(SummaryFeedbackTable);

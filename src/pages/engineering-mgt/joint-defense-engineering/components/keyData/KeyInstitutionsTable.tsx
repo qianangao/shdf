@@ -4,12 +4,12 @@ import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 
 const KeyInstitutionsTable = ({
-  dictionaryMgt,
+  defenseEngineering,
   relevancyModal,
   openInstitutionDetailModal,
   dispatch,
 }) => {
-  const { tableRef } = dictionaryMgt;
+  const { tableRef } = defenseEngineering;
 
   const columns = [
     {
@@ -57,12 +57,12 @@ const KeyInstitutionsTable = ({
   ];
 
   const getEngineeringKeyInstitutionsList = params =>
-    dictionaryMgt.projectId &&
-    dictionaryMgt.projectId !== '' &&
+    defenseEngineering.projectId &&
+    defenseEngineering.projectId !== '' &&
     new Promise(resolve => {
       dispatch({
-        type: 'dictionaryMgt/getEngineeringKeyInstitutionsList',
-        payload: { ...params, id: dictionaryMgt.projectId },
+        type: 'defenseEngineering/getEngineeringKeyInstitutionsList',
+        payload: { ...params, id: defenseEngineering.projectId },
         resolve,
       });
     });
@@ -86,6 +86,6 @@ const KeyInstitutionsTable = ({
   );
 };
 
-export default connect(({ dictionaryMgt }) => ({
-  dictionaryMgt,
+export default connect(({ defenseEngineering }) => ({
+  defenseEngineering,
 }))(KeyInstitutionsTable);

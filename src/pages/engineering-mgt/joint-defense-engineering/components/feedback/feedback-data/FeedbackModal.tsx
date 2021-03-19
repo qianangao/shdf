@@ -17,7 +17,7 @@ const FeedbackModal = ({ dispatch, actionRef, loading, feedbackRequestModal, Fee
     if (id) {
       new Promise(resolve => {
         dispatch({
-          type: 'dictionaryMgt/projectTaskDetail',
+          type: 'defenseEngineering/projectTaskDetail',
           payload: { taskId: id },
           resolve,
         });
@@ -64,7 +64,7 @@ const FeedbackModal = ({ dispatch, actionRef, loading, feedbackRequestModal, Fee
           });
         return new Promise(resolve => {
           dispatch({
-            type: `dictionaryMgt/addFeedback`,
+            type: `defenseEngineering/addFeedback`,
             payload: {
               ...values,
               fileIds,
@@ -104,7 +104,7 @@ const FeedbackModal = ({ dispatch, actionRef, loading, feedbackRequestModal, Fee
   );
 };
 
-export default connect(({ loading, dictionaryMgt }) => ({
+export default connect(({ loading, defenseEngineering }) => ({
   loading: loading.models.smDictionaryMgt,
-  FeedbackData: dictionaryMgt.FeedbackData,
+  FeedbackData: defenseEngineering.FeedbackData,
 }))(FeedbackModal);

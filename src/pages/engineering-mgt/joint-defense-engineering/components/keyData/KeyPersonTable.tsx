@@ -4,13 +4,13 @@ import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 
 const KeyPersonTable = ({
-  dictionaryMgt,
+  defenseEngineering,
   relevancyModal,
   openPersonDetailModal,
   dispatch,
   enums,
 }) => {
-  const { tableRef } = dictionaryMgt;
+  const { tableRef } = defenseEngineering;
 
   const columns = [
     {
@@ -65,12 +65,12 @@ const KeyPersonTable = ({
   ];
 
   const getEngineeringKeyPersonList = params =>
-    dictionaryMgt.projectId &&
-    dictionaryMgt.projectId !== '' &&
+    defenseEngineering.projectId &&
+    defenseEngineering.projectId !== '' &&
     new Promise(resolve => {
       dispatch({
-        type: 'dictionaryMgt/getEngineeringKeyPersonList',
-        payload: { ...params, id: dictionaryMgt.projectId },
+        type: 'defenseEngineering/getEngineeringKeyPersonList',
+        payload: { ...params, id: defenseEngineering.projectId },
         resolve,
       });
     });
@@ -94,7 +94,7 @@ const KeyPersonTable = ({
   );
 };
 
-export default connect(({ dictionaryMgt, global }) => ({
-  dictionaryMgt,
+export default connect(({ defenseEngineering, global }) => ({
+  defenseEngineering,
   enums: global.enums,
 }))(KeyPersonTable);

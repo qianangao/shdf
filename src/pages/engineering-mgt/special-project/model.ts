@@ -7,7 +7,6 @@ import {
   addChildrenTaskList,
   editSpecialAction,
   addSpecialAction,
-  addAnnualSpecialAction,
   getSpecialAction,
   getSpecialActionTree,
   deleteSpecialAction,
@@ -203,23 +202,6 @@ const Model = {
     },
     *addSpecialAction({ payload, resolve }, { call, put }) {
       const response = yield call(addSpecialAction, payload);
-      if (!response.error) {
-        resolve && resolve(response);
-        message.success('新增成功！');
-        yield put({
-          type: 'save',
-          payload: {
-            loading: true,
-          },
-        });
-        yield put({
-          type: 'getSpecialActionTree',
-        });
-      }
-    },
-
-    *addAnnualSpecialAction({ payload, resolve }, { call, put }) {
-      const response = yield call(addAnnualSpecialAction, payload);
       if (!response.error) {
         resolve && resolve(response);
         message.success('新增成功！');

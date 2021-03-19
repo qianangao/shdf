@@ -3,8 +3,14 @@ import { Button } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 
-const ClueTable = ({ dictionaryMgt, relevancyModal, openClueDetailModal, enums, dispatch }) => {
-  const { tableRef } = dictionaryMgt;
+const ClueTable = ({
+  defenseEngineering,
+  relevancyModal,
+  openClueDetailModal,
+  enums,
+  dispatch,
+}) => {
+  const { tableRef } = defenseEngineering;
 
   // 列表项的配置
   const columns = [
@@ -57,12 +63,12 @@ const ClueTable = ({ dictionaryMgt, relevancyModal, openClueDetailModal, enums, 
   ];
   // 获取所有线索
   const getEngineeringClueList = (params: any) =>
-    dictionaryMgt.projectId &&
-    dictionaryMgt.projectId !== '' &&
+    defenseEngineering.projectId &&
+    defenseEngineering.projectId !== '' &&
     new Promise(resolve => {
       dispatch({
-        type: 'dictionaryMgt/getEngineeringClueList',
-        payload: { ...params, id: dictionaryMgt.projectId },
+        type: 'defenseEngineering/getEngineeringClueList',
+        payload: { ...params, id: defenseEngineering.projectId },
         resolve,
       });
     });
@@ -87,7 +93,7 @@ const ClueTable = ({ dictionaryMgt, relevancyModal, openClueDetailModal, enums, 
   );
 };
 
-export default connect(({ dictionaryMgt, global }) => ({
-  dictionaryMgt,
+export default connect(({ defenseEngineering, global }) => ({
+  defenseEngineering,
   enums: global.enums,
 }))(ClueTable);

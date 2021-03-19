@@ -8,8 +8,8 @@ const ProvinceListTable = ({
   projectProvinceEntityList,
   disabled,
   onChange,
-  add = false,
-  edit = false,
+  add,
+  edit,
   style = {},
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -17,8 +17,10 @@ const ProvinceListTable = ({
   const [flag, setFlag] = useState(false);
 
   useEffect(() => {
+    // 判断，add或edit有一个为true，页面都处于可编辑状态，可以新增，删除
     setFlag(add || edit);
     if (add) {
+      // 当add为true，新增数据，表格中的数据为空
       setDataSource([]);
     } else {
       setDataSource([]);
@@ -69,7 +71,7 @@ const ProvinceListTable = ({
     {
       label: '成员省份名称',
       name: 'provinceCode',
-      span: 2,
+      span: 4,
       rules: [
         { required: true, message: '请输入名称!', whitespace: true },
         { max: 30, message: '长度请小于30位!' },
@@ -78,13 +80,13 @@ const ProvinceListTable = ({
     {
       label: '联络员',
       name: 'contacts',
-      span: 2,
+      span: 4,
       rules: [{ required: true, message: '请输入联络员' }],
     },
     {
       label: '联系电话',
       name: 'contactPhone',
-      span: 2,
+      span: 4,
       rules: [
         { required: true, message: '请输入手机号码!' },
         {
@@ -155,6 +157,6 @@ const ProvinceListTable = ({
   );
 };
 
-export default connect(({ dictionaryMgt }) => ({
-  projectProvinceEntityList: dictionaryMgt.projectProvinceEntityList,
+export default connect(({ defenseEngineering }) => ({
+  projectProvinceEntityList: defenseEngineering.projectProvinceEntityList,
 }))(ProvinceListTable);

@@ -21,7 +21,7 @@ const ModifyProjectTaskModal = ({
     if (Id) {
       new Promise(resolve => {
         dispatch({
-          type: 'dictionaryMgt/projectTaskDetail',
+          type: 'defenseEngineering/projectTaskDetail',
           payload: { taskId: Id },
           resolve,
         });
@@ -91,7 +91,7 @@ const ModifyProjectTaskModal = ({
                 return item.uid;
               });
             dispatch({
-              type: `dictionaryMgt/updateProjectTaskList`,
+              type: `defenseEngineering/updateProjectTaskList`,
               payload: {
                 ...values,
                 taskId: id,

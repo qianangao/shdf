@@ -94,21 +94,10 @@ export async function deleteFeedbackRequest(params) {
 }
 
 /**
- * 新增专项行动
+ * 新增专项行动/年度专项行动
  * @param params
  */
 export async function addSpecialAction(params: any) {
-  return request(`/specialAction/add`, {
-    method: 'POST',
-    data: params,
-  });
-}
-
-/**
- * 新增年度专项行动
- * @param params
- */
-export async function addAnnualSpecialAction(params: any) {
   return request(`/specialAction/add`, {
     method: 'POST',
     data: params,

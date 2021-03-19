@@ -2,14 +2,15 @@ import React from 'react';
 import { Button, Popconfirm } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
-import ActionDescription from './edit-action/ActionDescription';
+import ActionDescription from './describe-action/ActionDescription';
 
 const Table = ({
   specialAction,
   openAddModal,
   openDownModal,
   openModifyModal,
-  openAddSpecialModal,
+  specialActionModal,
+  annualSpecialActionModal,
   openFeedbackModal,
   dispatch,
   enums,
@@ -35,14 +36,14 @@ const Table = ({
     });
 
   const columns = [
-    {
-      title: '序号',
-      dataIndex: 'index',
-      valueType: 'index',
-      align: 'center',
-      fixed: 'left',
-      width: 64,
-    },
+    // {
+    //   title: '序号',
+    //   dataIndex: 'index',
+    //   valueType: 'index',
+    //   align: 'center',
+    //   fixed: 'left',
+    //   width: 64,
+    // },
     { title: '子任务名称', align: 'center', dataIndex: 'taskName', hideInSearch: true },
     { title: '开始日期', align: 'center', dataIndex: 'startDate', hideInSearch: true },
     { title: '截止日期', align: 'center', dataIndex: 'endDate', hideInSearch: true },
@@ -94,17 +95,22 @@ const Table = ({
 
   return (
     <div>
-      <ActionDescription form={form} openAddSpecialModal={openAddSpecialModal} />
+      <ActionDescription
+        form={form}
+        specialActionModal={specialActionModal}
+        annualSpecialActionModal={annualSpecialActionModal}
+      />
       {actionForm.actionYear && (
         <ProTable
           search={false}
           rowKey="taskId"
           headerTitle="子任务"
           actionRef={tableRef}
+          rowSelection={[]}
           scroll={{ x: 'max-content' }}
           request={async params => getChildrenTaskList(params)}
-          toolBarRender={_ => [
-            <Button type="primary" onClick={() => openAddModal({ visible: true })}>
+          toolBarRender={(_, { selectedRowKeys }) => [
+            <Button type="primary" onClick={() => openAddModal({ visible: true, selectedRowKeys })}>
               新增子任务
             </Button>,
           ]}
