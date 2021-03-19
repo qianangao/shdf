@@ -50,7 +50,7 @@ export function parseTime(timeArg, cFormat = '{y}-{m}-{d} {h}:{i}:{s}') {
  * @param {*} title 文件名称
  */
 export function downloadCSVFile(data, title) {
-  downLoaddownloadBlobFile('csv', data, title);
+  return downLoaddownloadBlobFile('csv', data, title);
 }
 
 /**
@@ -59,7 +59,7 @@ export function downloadCSVFile(data, title) {
  * @param {*} title 文件名称
  */
 export function downloadExcelFile(data, title) {
-  downLoaddownloadBlobFile('xlsx', data, title);
+  return downLoaddownloadBlobFile('xlsx', data, title);
 }
 /**
  *  导出Excel文件
@@ -67,7 +67,7 @@ export function downloadExcelFile(data, title) {
  * @param {*} title 文件名称
  */
 export function downloadXlsFile(data, title) {
-  downLoaddownloadBlobFile('xls', data, title);
+  return downLoaddownloadBlobFile('xls', data, title);
 }
 
 function downLoaddownloadBlobFile(type, data, title) {
@@ -89,7 +89,7 @@ function downLoaddownloadBlobFile(type, data, title) {
       }
     });
     fileReader.readAsText(data, 'utf-8');
-    return;
+    return Promise.resolve(fileReader);
   }
 
   let applicationType = '';
@@ -108,17 +108,21 @@ function downLoaddownloadBlobFile(type, data, title) {
       break;
   }
 
-  const url = window.URL.createObjectURL(new Blob([data]), {
-    type: applicationType,
-  });
-  const link = document.createElement('a');
-  link.style.display = 'none';
-  link.href = url;
-  link.setAttribute('download', `${title || parseTime(new Date())}.${type}`);
-  link.click();
-  document.body.appendChild(link);
-  window.URL.revokeObjectURL(url);
-  document.body.removeChild(link);
+  const url = new Blob([data], { type: applicationType });
+
+  return Promise.resolve(url)
+    .then(blob => {
+      const aa: HTMLAnchorElement =
+        document.getElementById('link_do_not_delete') || document.createElement('a');
+      aa.href = URL.createObjectURL(blob);
+      aa.setAttribute('download', `${title || parseTime(new Date())}.${type}`);
+      aa.click();
+      window.URL.revokeObjectURL(aa.href);
+    })
+    .catch(err => {
+      message.error('文件下载异常，请稍后重试！');
+      throw err;
+    });
 }
 
 export function printElement(element) {
@@ -174,12 +178,12 @@ export function downloadFileByUrl(url, filename) {
     responseType: 'blob',
   })
     .then(blob => {
-      const a = document.createElement('a');
-      const blobUrl = window.URL.createObjectURL(blob);
-      a.href = blobUrl;
-      a.download = filename;
-      a.click();
-      window.URL.revokeObjectURL(url);
+      const aa: HTMLAnchorElement =
+        document.getElementById('link_do_not_delete') || document.createElement('a');
+      aa.href = window.URL.createObjectURL(blob);
+      aa.download = filename;
+      aa.click();
+      window.URL.revokeObjectURL(aa.href);
     })
     .catch(err => {
       message.error('文件下载异常，请稍后重试！');
