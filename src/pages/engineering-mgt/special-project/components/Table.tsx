@@ -44,7 +44,7 @@ const Table = ({
     //   fixed: 'left',
     //   width: 64,
     // },
-    { title: '子任务名称', align: 'center', dataIndex: 'taskName', hideInSearch: true },
+    { title: '子任务名称', align: 'left', dataIndex: 'taskName', hideInSearch: true },
     { title: '开始日期', align: 'center', dataIndex: 'startDate', hideInSearch: true },
     { title: '截止日期', align: 'center', dataIndex: 'endDate', hideInSearch: true },
     {

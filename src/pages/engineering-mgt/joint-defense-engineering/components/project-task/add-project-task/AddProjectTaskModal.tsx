@@ -7,11 +7,11 @@ const AddProjectTaskModal = ({ dispatch, actionRef, loading, defenseEngineering 
   const [projectId, setProjectId] = useState('');
   const [form] = ProjectTaskForm.useForm();
   const [modalVisible, setModalVisible] = useState(false);
-  const [superTaskId, setSuperTaskId] = useState('');
+  const [taskPid, setTaskPid] = useState('');
 
   const showModal = item => {
     if (item.selectedRowKeys.length) {
-      setSuperTaskId(item.selectedRowKeys[0]);
+      setTaskPid(item.selectedRowKeys[0]);
     }
     setModalVisible(true);
   };
@@ -52,7 +52,7 @@ const AddProjectTaskModal = ({ dispatch, actionRef, loading, defenseEngineering 
             payload: {
               ...values,
               projectId,
-              superTaskId,
+              taskPid,
               fileIds,
             },
             resolve,
