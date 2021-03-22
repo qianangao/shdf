@@ -74,12 +74,12 @@ const ModifyModal = ({ dispatch, actionRef, loading, sensitiveMgt, caseMgt }) =>
       .validateFields()
       .then(values => {
         // values.specialActionIds = values.specialActionIds ? [values.specialActionIds] : [];
-        values.involvedPlatformType = Array.isArray(values.involvedPlatformType)
-          ? values.involvedPlatformType.join(',')
-          : values.involvedPlatformType;
-        values.spreadChannel = Array.isArray(values.spreadChannel)
-          ? values.spreadChannel.join(',')
-          : values.spreadChannel;
+        values.platformType = Array.isArray(values.platformType)
+          ? values.platformType.join(',')
+          : values.platformType;
+        values.spreadWay = Array.isArray(values.spreadWay)
+          ? values.spreadWay.join(',')
+          : values.spreadWay;
 
         let filesStr = '';
         if (values.fileList && values.fileList.length > 0) {

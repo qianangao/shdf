@@ -16,7 +16,7 @@ const FieldTable = ({ smDictionaryMgt, openDictModifyModal, dictTypeId, dispatch
       valueType: 'option',
       align: 'center',
       dataIndex: 'dictId',
-      width: 180,
+      width: 80,
       fixed: 'right',
 
       render: (dom: any, dictData: { dictId: any }) => [

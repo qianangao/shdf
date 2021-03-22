@@ -45,7 +45,9 @@ const DictionaryMgt = ({ dispatch }) => {
           <Table openModifyModal={openModifyModal} changeTypeId={changeTypeId} />
         </Sider>
         <Content>
-          <FieldTable openDictModifyModal={openDictModifyModal} dictTypeId={dictTypeId} />
+          {dictTypeId ? (
+            <FieldTable openDictModifyModal={openDictModifyModal} dictTypeId={dictTypeId} />
+          ) : null}
         </Content>
       </Layout>
 

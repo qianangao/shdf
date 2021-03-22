@@ -180,10 +180,11 @@ const Model = {
         response.involvedPlatformType =
           response.involvedPlatformType && response.involvedPlatformType.split(',');
         response.spreadChannel = response.spreadChannel && response.spreadChannel.split(',');
-
+        response.specialActionVal = '';
         if (response.specialActionIds) {
           response.specialActionIds = response.specialActionIds.join(',').split(',');
         }
+
         resolve && resolve(response);
         yield put({
           type: 'save',
