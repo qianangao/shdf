@@ -1,6 +1,6 @@
 import React from 'react';
 import ProTable from '@ant-design/pro-table';
-import { connect } from 'umi';
+import { connect, history } from 'umi';
 import { SoundFilled } from '@ant-design/icons';
 import moment from 'moment';
 
@@ -36,6 +36,10 @@ const Table = ({ dispatch }) => {
       });
     });
 
+  const goDetail = id => {
+    history.push(`/synergy-office/announcement-mgt/release-management?id=${id}&type=modify`);
+  };
+
   return (
     <ProTable
       rowKey="id"
@@ -44,7 +48,15 @@ const Table = ({ dispatch }) => {
           <SoundFilled style={{ color: '#FC9637' }} /> 通知公告{' '}
         </div>
       }
+      style={{ cursor: 'pointer' }}
       size="small"
+      onRow={record => {
+        return {
+          onClick: () => {
+            goDetail(record.id);
+          },
+        };
+      }}
       search={false}
       options={false}
       pagination={{ simple: true, defaultPageSize: 10 }}

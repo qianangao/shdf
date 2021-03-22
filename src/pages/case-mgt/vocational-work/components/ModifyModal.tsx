@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { connect } from 'umi';
+import { connect, useLocation } from 'umi';
 import { Modal } from 'antd';
 import CueAssociation from '@/components/CueAssociation';
 import OrgInfoForm from './form/CaseForm';
@@ -9,7 +9,10 @@ import CaseHandleModal from './CaseHandleModal';
 import ClubSplicing from './ClubSplicing';
 import ClubSplicingModal from './ClubSplicingModal';
 
+const useQuery = () => new URLSearchParams(useLocation().search);
+
 const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
+  const query = useQuery();
   const [form] = OrgInfoForm.useForm();
   const [modifyModalVisible, setModalVisible] = useState(false);
   const [detailData, setDetailData] = useState(null);
@@ -63,6 +66,10 @@ const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
 
     if (actionRef && typeof actionRef !== 'function') {
       actionRef.current = { showModal };
+    }
+
+    if (query.get('type') === 'modify' && query.get('id')) {
+      showModal({ caseId: query.get('id') });
     }
   }, []);
 

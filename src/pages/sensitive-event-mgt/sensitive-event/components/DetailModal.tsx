@@ -5,9 +5,10 @@ import TableFileCase from './TableFileCase';
 import TableCaseHandle from './TableCaseHandle';
 import ClubSplicing from './ClubSplicing';
 
-const CaresDetailModal = ({ dispatch, sensitiveMgt, actionRef, enums }) => {
+const CaresDetailModal = ({ dispatch, sensitiveMgt, caseMgt, actionRef, enums }) => {
   const [detailModalVisible, setModalVisible] = useState(false);
   const { detailData } = sensitiveMgt;
+  const { specialList } = caseMgt;
   const [infoId, setCaresId] = useState('');
 
   const showModal = items => {
@@ -107,16 +108,27 @@ const CaresDetailModal = ({ dispatch, sensitiveMgt, actionRef, enums }) => {
           {enums.case_nature && enums.case_nature[detailData.eventNature]}
         </Descriptions.Item>
         <Descriptions.Item label="专项行动">
-          {enums.handle_type && enums.handle_type[detailData.charge]}
+          {detailData.specialActionIds &&
+            detailData.specialActionIds.map(id => {
+              return `${specialList[id]} `;
+            })}
         </Descriptions.Item>
         <Descriptions.Item label="传播渠道">
-          {enums.spread_channel && enums.spread_channel[detailData.spreadWay]}
+          {detailData.spreadWay &&
+            enums.spread_channel &&
+            detailData.spreadWay.map(id => {
+              return `${enums.spread_channel[id]} `;
+            })}
         </Descriptions.Item>
         <Descriptions.Item label="传播形式">
           {enums.spread_form && enums.spread_form[detailData.spreadForm]}
         </Descriptions.Item>
         <Descriptions.Item label="涉案平台类型">
-          {enums.involved_platform_type && enums.involved_platform_type[detailData.platformType]}
+          {enums.involved_platform_type &&
+            detailData.platformType &&
+            detailData.platformType.map(id => {
+              return `${enums.involved_platform_type[id]} `;
+            })}
         </Descriptions.Item>
         <Descriptions.Item label="涉案数量">{detailData.caseNumber}</Descriptions.Item>
         <Descriptions.Item label="涉案金额">{detailData.caseMoney}</Descriptions.Item>
@@ -154,8 +166,9 @@ const CaresDetailModal = ({ dispatch, sensitiveMgt, actionRef, enums }) => {
   );
 };
 
-export default connect(({ sensitiveMgt, loading, global }) => ({
+export default connect(({ sensitiveMgt, caseMgt, loading, global }) => ({
   sensitiveMgt,
+  caseMgt,
   loading: loading.models.sensitiveMgt,
   enums: global.enums,
 }))(CaresDetailModal);

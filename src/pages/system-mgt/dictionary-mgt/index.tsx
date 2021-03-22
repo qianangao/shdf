@@ -1,17 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'umi';
-import { Layout } from 'antd';
+import { Drawer } from 'antd';
 import Table from './components/Table';
 import FieldTable from './components/fields/FieldTable';
 import ModifyDictModal from './components/ModifyDictModal';
 import FieldModifyModal from './components/fields/FieldModifyModal';
 
-const { Sider, Content } = Layout;
-
 const DictionaryMgt = ({ dispatch }) => {
   const modifyTypeRef = useRef({});
   const [dictTypeId, setDictTypeId] = useState(null);
   const modifyDictRef = useRef({});
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     dispatch({
@@ -36,19 +35,27 @@ const DictionaryMgt = ({ dispatch }) => {
       type: 'smDictionaryMgt/reFishDictTable',
     });
     setDictTypeId(typeId);
+    setVisible(true);
+  };
+
+  const onClose = () => {
+    setVisible(false);
   };
 
   return (
     <>
-      <Layout>
-        <Sider width="60%" style={{ marginRight: 10 }} theme="light">
-          <Table openModifyModal={openModifyModal} changeTypeId={changeTypeId} />
-        </Sider>
-        <Content>
-          <FieldTable openDictModifyModal={openDictModifyModal} dictTypeId={dictTypeId} />
-        </Content>
-      </Layout>
-
+      <Table openModifyModal={openModifyModal} changeTypeId={changeTypeId} />
+      <Drawer
+        title="字段信息"
+        placement="right"
+        closable={false}
+        width={580}
+        zIndex={100}
+        onClose={onClose}
+        visible={visible}
+      >
+        <FieldTable openDictModifyModal={openDictModifyModal} dictTypeId={dictTypeId} />
+      </Drawer>
       <ModifyDictModal actionRef={modifyTypeRef} />
       <FieldModifyModal actionRef={modifyDictRef} dictTypeId={dictTypeId} />
     </>

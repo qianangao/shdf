@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { connect } from 'umi';
+import { connect, useLocation } from 'umi';
 import { Modal } from 'antd';
 import CueAssociation from '@/components/CueAssociation';
 import OrgInfoForm from './form/CaseForm';
@@ -8,7 +8,10 @@ import TableFileCase from './TableFileCase';
 import CaseHandleModal from './CaseHandleModal';
 import ClubSplicing from './ClubSplicing';
 
+const useQuery = () => new URLSearchParams(useLocation().search);
+
 const ModifyModal = ({ dispatch, actionRef, loading, sensitiveMgt, caseMgt }) => {
+  const query = useQuery();
   const [form] = OrgInfoForm.useForm();
   const [modifyModalVisible, setModalVisible] = useState(false);
   const [sensitiveDetailData, setDetailData] = useState(null);
@@ -62,6 +65,10 @@ const ModifyModal = ({ dispatch, actionRef, loading, sensitiveMgt, caseMgt }) =>
     if (actionRef && typeof actionRef !== 'function') {
       actionRef.current = { showModal };
     }
+
+    if (query.get('type') === 'modify' && query.get('id')) {
+      showModal({ eventId: query.get('id') });
+    }
   }, []);
 
   const hideModal = () => {
@@ -74,12 +81,12 @@ const ModifyModal = ({ dispatch, actionRef, loading, sensitiveMgt, caseMgt }) =>
       .validateFields()
       .then(values => {
         // values.specialActionIds = values.specialActionIds ? [values.specialActionIds] : [];
-        values.involvedPlatformType = Array.isArray(values.involvedPlatformType)
-          ? values.involvedPlatformType.join(',')
-          : values.involvedPlatformType;
-        values.spreadChannel = Array.isArray(values.spreadChannel)
-          ? values.spreadChannel.join(',')
-          : values.spreadChannel;
+        values.platformType = Array.isArray(values.platformType)
+          ? values.platformType.join(',')
+          : values.platformType;
+        values.spreadWay = Array.isArray(values.spreadWay)
+          ? values.spreadWay.join(',')
+          : values.spreadWay;
 
         let filesStr = '';
         if (values.fileList && values.fileList.length > 0) {

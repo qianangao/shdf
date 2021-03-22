@@ -231,9 +231,9 @@ const Table = ({
     e.target.value = '';
   };
 
-  const exportDetailData = () => {
+  const exportSensitive = () => {
     // const bookIds = selectedRowKeys.join(',');
-    message.loading({ content: '文件导出，请稍后……', key: 'importsAddressBook' });
+    message.loading({ content: '文件导出，请稍后……', key: 'exportSensitive' });
     dispatch({
       type: 'sensitiveMgt/exportCase',
     });
@@ -275,7 +275,7 @@ const Table = ({
         <Button
           type="primary"
           onClick={() => {
-            exportDetailData(selectedRowKeys);
+            exportSensitive(selectedRowKeys);
           }}
         >
           导出
