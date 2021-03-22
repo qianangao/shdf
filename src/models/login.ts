@@ -3,7 +3,7 @@ import { stringify } from 'querystring';
 import { accountLogin, getCaptcha, accountLogout } from '@/services/login';
 import { requestConfig } from '@/utils/request';
 import { getPageQuery } from '@/utils/utils';
-import { setAuthority } from '@/utils/authority';
+import { clearAuthority, setAuthority } from '@/utils/authority';
 import {
   TOKEN_KEY,
   setCookie,
@@ -102,6 +102,7 @@ const Model = {
 
       removeCookie(TOKEN_KEY);
       removeCookie(USER_ORG_ID);
+      clearAuthority();
 
       requestConfig.extendOptions({
         headers: {

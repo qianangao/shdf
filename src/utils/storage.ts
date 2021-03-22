@@ -213,6 +213,8 @@ class SessionStorageCache {
 export const LocalCache: LocalStorageCache = LocalStorageCache.getInstance();
 export const SessionCache: SessionStorageCache = SessionStorageCache.getInstance();
 
+export const AUTHORITY_KEYS = 'AUTHORITY_KEYS'; // 用户权限存储的键
+
 export default {
   LocalCache,
   SessionCache,
