@@ -61,6 +61,7 @@ const Table = ({ smDictionaryMgt, openModifyModal, changeTypeId, dispatch }) => 
       actionRef={tableRef}
       columnsStyle={{ cursor: 'pointer' }}
       scroll={{ x: 'max-content' }}
+      style={{ cursor: 'pointer' }}
       onRow={record => {
         return {
           onClick: () => {

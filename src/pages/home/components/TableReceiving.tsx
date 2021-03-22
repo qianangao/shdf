@@ -50,6 +50,7 @@ const Table = ({ dispatch }) => {
           },
         };
       }}
+      style={{ cursor: 'pointer' }}
       headerTitle={
         <div>
           <ProfileFilled style={{ color: '#6DA76C' }} /> 收文

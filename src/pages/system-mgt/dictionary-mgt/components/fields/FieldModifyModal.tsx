@@ -41,9 +41,6 @@ const DictionaryModifyModal = ({ dispatch, actionRef, dictTypeId, loading }) => 
     form
       .validateFields()
       .then(values => {
-        // if(dictTypeId){
-
-        // }
         return new Promise(resolve => {
           dispatch({
             type: `smDictionaryMgt/${id ? 'updateDict' : 'addDict'}`,

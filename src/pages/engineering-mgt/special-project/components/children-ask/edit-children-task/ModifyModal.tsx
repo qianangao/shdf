@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'umi';
+import { connect, useLocation } from 'umi';
 import { Modal } from 'antd';
 import EditChildrenTaskForm from './EditChildrenTaskForm';
+
+const useQuery = () => new URLSearchParams(useLocation().search);
 
 const ModifyModal = ({
   dispatch,
@@ -11,6 +13,7 @@ const ModifyModal = ({
   openAddModal,
   feedbackDetailModal,
 }) => {
+  const query = useQuery();
   const [form] = EditChildrenTaskForm.useForm();
   const [modalVisible, setModalVisible] = useState(false);
   const [disabled, setDisabled] = useState(false);
@@ -64,6 +67,10 @@ const ModifyModal = ({
 
     if (actionRef && typeof actionRef !== 'function') {
       actionRef.current = { showModal };
+    }
+
+    if (query.get('type') === 'modify' && query.get('id')) {
+      showModal({ id: query.get('id') });
     }
   }, []);
 
