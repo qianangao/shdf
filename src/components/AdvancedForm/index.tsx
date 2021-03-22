@@ -22,6 +22,7 @@ const AdvancedFormItem = ({
   span = 1, // span传 3 占据整行
   visible = true,
   render,
+  uploadEnums,
   enumsLabel,
   enumsItems,
   switchEnums,
@@ -119,6 +120,15 @@ const AdvancedFormItem = ({
     fieldInput = <Switch disabled={disabled} checkedChildren="是" unCheckedChildren="否" />;
   } else if (type === 'upload') {
     fieldInput = <UploadInput disabled={disabled} />;
+  } else if (type === 'uploadSecrecy') {
+    fieldInput = (
+      <UploadInput
+        type="uploadSecrecy"
+        disabled={disabled}
+        form={resField.form}
+        enumsLabel={uploadEnums}
+      />
+    );
   } else if (type === 'image') {
     fieldInput = <UploadInput type="image" disabled={disabled} />;
   } else if (type === 'video') {
@@ -156,6 +166,12 @@ const AdvancedFormInstance = ({
   const onValuesChange = (changedValues, allValues) => {
     fieldChange &&
       fieldChange(Object.keys(changedValues)[0], Object.values(changedValues)[0], allValues);
+    if (Object.keys(changedValues)[0] === 'secrecyLevel') {
+      dispatch({
+        type: 'global/saveUploadSecrecyLevel',
+        payload: { uploadSecrecyLevel: Object.values(changedValues)[0] },
+      });
+    }
   };
 
   return (

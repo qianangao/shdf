@@ -43,6 +43,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
                   uid: item.fileId,
                   name: item.fileName,
                   status: 'done',
+                  secrecyLevel: item.secrecyLevel,
                 };
               }),
             remindWays: data.remindWays && data.remindWays.split(','),
