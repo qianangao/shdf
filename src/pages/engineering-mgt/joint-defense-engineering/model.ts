@@ -42,7 +42,7 @@ import {
 } from './service';
 
 const Model = {
-  namespace: 'dictionaryMgt',
+  namespace: 'defenseEngineering',
   state: {
     engineeringTree: [],
     loading: false,
@@ -306,7 +306,7 @@ const Model = {
     },
 
     *getEngineeringList({ payload, resolve }, { call, select }) {
-      const projectId = yield select(state => state.dictionaryMgt.projectId);
+      const projectId = yield select(state => state.defenseEngineering.projectId);
       const params = {
         ...payload,
         projectId,
@@ -333,7 +333,7 @@ const Model = {
     },
 
     *queryEngineeringData({ resolve }, { call, put, select }) {
-      const projectId = yield select(state => state.dictionaryMgt.projectId);
+      const projectId = yield select(state => state.defenseEngineering.projectId);
       const response = yield call(queryEngineeringData, { projectId });
       if (!response.error) {
         response.secrecyLevel += '';
@@ -391,7 +391,7 @@ const Model = {
     },
 
     *deployProjectTaskList({ payload, resolve }, { call, put, select }) {
-      const projectId = yield select(state => state.dictionaryMgt.projectId);
+      const projectId = yield select(state => state.defenseEngineering.projectId);
       const response = yield call(deployProjectTaskList, { ...payload, projectId });
       if (!response.error) {
         resolve && resolve(response);
@@ -418,7 +418,7 @@ const Model = {
     },
 
     *exportLog(_, { call, select }) {
-      const taskId = yield select(state => state.dictionaryMgt.taskId);
+      const taskId = yield select(state => state.defenseEngineering.taskId);
       const response = yield call(exportLog, { taskId });
       if (!response.error) {
         yield downloadExcelFile(response, `任务进度列表${moment().format('MM-DD HH:mm:ss')}`);
@@ -479,8 +479,8 @@ const Model = {
     },
     //= ============================================信息报送========================================
     *getInfoAnList({ payload, resolve }, { call, put, select }) {
-      const projectId = yield select(state => state.dictionaryMgt.projectId);
-      const projectPid = yield select(state => state.dictionaryMgt.projectPid);
+      const projectId = yield select(state => state.defenseEngineering.projectId);
+      const projectPid = yield select(state => state.defenseEngineering.projectPid);
       const params = {
         ...payload,
         currentPage: payload === undefined ? 1 : payload.current,
@@ -555,8 +555,8 @@ const Model = {
 
     // 信息数据统计
     *getInfoStatistics({ payload, resolve }, { call, select }) {
-      const projectId = yield select(state => state.dictionaryMgt.projectId);
-      const projectPid = yield select(state => state.dictionaryMgt.projectPid);
+      const projectId = yield select(state => state.defenseEngineering.projectId);
+      const projectPid = yield select(state => state.defenseEngineering.projectPid);
       const params = {
         ...payload,
         currentPage: 1,
@@ -579,8 +579,8 @@ const Model = {
     },
     // 信息数据统计
     *getInfoStatisticsData({ resolve }, { call, select }) {
-      const projectId = yield select(state => state.dictionaryMgt.projectId);
-      const projectPid = yield select(state => state.dictionaryMgt.projectPid);
+      const projectId = yield select(state => state.defenseEngineering.projectId);
+      const projectPid = yield select(state => state.defenseEngineering.projectPid);
       const params = {
         projectId,
         projectPid,
@@ -601,8 +601,8 @@ const Model = {
       }
     },
     *getEngineList({ payload, resolve }, { call, select }) {
-      const projectId = yield select(state => state.dictionaryMgt.projectId);
-      const projectPid = yield select(state => state.dictionaryMgt.projectPid);
+      const projectId = yield select(state => state.defenseEngineering.projectId);
+      const projectPid = yield select(state => state.defenseEngineering.projectPid);
       const params = {
         ...payload,
         currentPage: payload === undefined ? 1 : payload.current,

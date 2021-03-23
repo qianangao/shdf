@@ -220,6 +220,7 @@ const Table = ({
       title: '案件来源',
       dataIndex: 'caseSource',
       hideInSearch: true,
+      valueEnum: enums.case_source,
     },
     {
       title: '案件地域',
@@ -300,9 +301,9 @@ const Table = ({
     e.target.value = '';
   };
 
-  const exportDetailData = () => {
+  const exportCase = () => {
     // const bookIds = selectedRowKeys.join(',');
-    message.loading({ content: '文件导出，请稍后……', key: 'importsAddressBook' });
+    message.loading({ content: '文件导出，请稍后……', key: 'exportCase' });
     dispatch({
       type: 'caseMgt/exportCase',
     });
@@ -344,7 +345,7 @@ const Table = ({
         <Button
           type="primary"
           onClick={() => {
-            exportDetailData(selectedRowKeys);
+            exportCase(selectedRowKeys);
           }}
         >
           导出

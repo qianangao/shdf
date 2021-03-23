@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'umi';
 import { message, Modal, Spin } from 'antd';
+import { connect, useLocation } from 'umi';
 import InstitutionForm from './InstitutionForm';
 
+const useQuery = () => new URLSearchParams(useLocation().search);
+
 const ModifyModal = ({ dispatch, actionRef, loading }) => {
+  const query = useQuery();
   const [form]: any = InstitutionForm.useForm();
   const [noticeId, setNoticeId] = useState(undefined);
   const [modalVisible, setModalVisible] = useState(false);
@@ -61,6 +64,10 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
 
     if (actionRef && typeof actionRef !== 'function') {
       actionRef.current = { showModal };
+    }
+
+    if (query.get('type') === 'modify' && query.get('id')) {
+      showModal({ id: query.get('id') });
     }
   }, []);
 

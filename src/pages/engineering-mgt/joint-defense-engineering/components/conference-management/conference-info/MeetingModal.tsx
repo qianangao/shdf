@@ -24,7 +24,7 @@ const MeetingModal = ({ dispatch, actionRef, loading }) => {
     if (meetingId) {
       new Promise(resolve => {
         dispatch({
-          type: 'dictionaryMgt/getMeetingDetail',
+          type: 'defenseEngineering/getMeetingDetail',
           payload: meetingId.toString(),
           resolve,
         });
@@ -76,7 +76,7 @@ const MeetingModal = ({ dispatch, actionRef, loading }) => {
             });
           return new Promise(resolve => {
             dispatch({
-              type: `dictionaryMgt/${detailData ? 'updateMeeting' : 'addMeeting'}`,
+              type: `defenseEngineering/${detailData ? 'updateMeeting' : 'addMeeting'}`,
               payload: {
                 ...values,
                 fileIds,

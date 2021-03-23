@@ -3,8 +3,8 @@ import { Button } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 
-const Table = ({ dictionaryMgt, openModifyModal, dispatch }) => {
-  const { tableRef } = dictionaryMgt;
+const Table = ({ defenseEngineering, openModifyModal, dispatch }) => {
+  const { tableRef } = defenseEngineering;
   const [projectId, setProjectId] = useState('');
   const columns = [
     {
@@ -47,14 +47,14 @@ const Table = ({ dictionaryMgt, openModifyModal, dispatch }) => {
     },
   ];
   useEffect(() => {
-    if (dictionaryMgt.projectId) {
-      setProjectId(dictionaryMgt.projectId);
+    if (defenseEngineering.projectId) {
+      setProjectId(defenseEngineering.projectId);
     }
   });
   const getReceivingList = params =>
     new Promise(resolve => {
       dispatch({
-        type: 'dictionaryMgt/getEngineList',
+        type: 'defenseEngineering/getEngineList',
         payload: {
           ...params,
           projectId,
@@ -73,7 +73,7 @@ const Table = ({ dictionaryMgt, openModifyModal, dispatch }) => {
         request={async params => getReceivingList(params)}
         toolBarRender={() => [
           <Button type="primary" onClick={() => openModifyModal()}>
-            {dictionaryMgt.yearOrtot !== 'null' ? '新增' : ''}
+            {defenseEngineering.yearOrtot !== 'null' ? '新增' : ''}
           </Button>,
         ]}
         columns={columns}
@@ -82,7 +82,7 @@ const Table = ({ dictionaryMgt, openModifyModal, dispatch }) => {
   );
 };
 
-export default connect(({ dictionaryMgt, global }) => ({
-  dictionaryMgt,
+export default connect(({ defenseEngineering, global }) => ({
+  defenseEngineering,
   enums: global.enums,
 }))(Table);

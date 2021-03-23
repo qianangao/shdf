@@ -27,6 +27,7 @@ import {
   templateDownload,
   clueRelation,
   importCase,
+  getSpecial,
   exportCase,
 } from './service';
 
@@ -43,6 +44,7 @@ const Model = {
     caseFileData: {},
     trendsDetailData: {},
     tableRef: {},
+    specialList: {},
     tableHandleRef: {},
     tableFileRef: {},
     tableClubRef: {},
@@ -174,11 +176,38 @@ const Model = {
             };
           });
         response.regionObj = { label: response.region, value: response.regionCode };
+        response.charge = response.charge && response.charge.split(',');
+        response.involvedPlatformType =
+          response.involvedPlatformType && response.involvedPlatformType.split(',');
+        response.spreadChannel = response.spreadChannel && response.spreadChannel.split(',');
+        response.specialActionVal = '';
+        if (response.specialActionIds) {
+          response.specialActionIds = response.specialActionIds.join(',').split(',');
+        }
+
         resolve && resolve(response);
         yield put({
           type: 'save',
           payload: {
             caseDetailData: response,
+          },
+        });
+      }
+    },
+    *getSpecial({ payload, resolve }, { call, put }) {
+      const response = yield call(getSpecial, payload);
+      if (!response.error) {
+        const dataSpecial = {};
+        if (response) {
+          response.forEach(item => {
+            dataSpecial[parseFloat(item.ACTION_ID)] = item.ACTION_NAME;
+          });
+        }
+        resolve && resolve(dataSpecial);
+        yield put({
+          type: 'save',
+          payload: {
+            specialList: dataSpecial,
           },
         });
       }

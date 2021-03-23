@@ -44,6 +44,16 @@ export async function getAuthorize(params) {
  * 获取关工组织成员列表
  * @param {*} params
  */
+export async function getSpecial(params) {
+  return request(`/specialAction/optionAction`, {
+    method: 'GET',
+    params,
+  });
+}
+/**
+ * 获取关工组织成员列表
+ * @param {*} params
+ */
 export async function getReceivingCode(params) {
   return request(`/shdfReceipt/getCode`, {
     method: 'GET',

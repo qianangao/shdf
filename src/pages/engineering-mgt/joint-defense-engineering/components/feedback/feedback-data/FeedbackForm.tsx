@@ -75,6 +75,6 @@ const FeedbackForm = ({ form, feedbackRequestModal, FeedbackData }) => {
 
 FeedbackForm.useForm = AdvancedForm.useForm;
 
-export default connect(({ dictionaryMgt }) => ({
-  FeedbackData: dictionaryMgt.FeedbackData,
+export default connect(({ defenseEngineering }) => ({
+  FeedbackData: defenseEngineering.FeedbackData,
 }))(FeedbackForm);

@@ -3,8 +3,8 @@ import { Button } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 
-const MeetingTable = ({ dictionaryMgt, meetingModal, dispatch }) => {
-  const { meetingTableRef } = dictionaryMgt;
+const MeetingTable = ({ defenseEngineering, meetingModal, dispatch }) => {
+  const { meetingTableRef } = defenseEngineering;
 
   const columns = [
     {
@@ -62,7 +62,7 @@ const MeetingTable = ({ dictionaryMgt, meetingModal, dispatch }) => {
   const getMeetingList = params =>
     new Promise(resolve => {
       dispatch({
-        type: 'dictionaryMgt/getMeetingList',
+        type: 'defenseEngineering/getMeetingList',
         payload: { ...params },
         resolve,
       });
@@ -88,7 +88,7 @@ const MeetingTable = ({ dictionaryMgt, meetingModal, dispatch }) => {
   );
 };
 
-export default connect(({ dictionaryMgt, global }) => ({
-  dictionaryMgt,
+export default connect(({ defenseEngineering, global }) => ({
+  defenseEngineering,
   enums: global.enums,
 }))(MeetingTable);

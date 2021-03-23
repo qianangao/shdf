@@ -6,6 +6,7 @@ import { history } from 'umi';
 import { extend } from 'umi-request';
 import { notification } from 'antd';
 import { TOKEN_KEY, getCookie, removeCookie } from './cookie';
+import { clearAuthority } from './authority';
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -45,6 +46,8 @@ const errorHandler = error => {
     if (response.status === 403 || data.code === 20001 || data.code === 20003) {
       // token过期
       removeCookie(TOKEN_KEY);
+      clearAuthority();
+
       requestConfig.extendOptions({
         headers: {
           token: '',

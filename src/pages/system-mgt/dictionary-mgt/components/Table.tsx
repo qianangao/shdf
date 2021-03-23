@@ -20,17 +20,11 @@ const Table = ({ smDictionaryMgt, openModifyModal, changeTypeId, dispatch }) => 
       valueType: 'option',
       align: 'center',
       dataIndex: 'dictTypeId',
-      width: 220,
+      width: 80,
       fixed: 'right',
       render: (dom: any, receivingData: { dictTypeId: any }) => [
         <a key={`${receivingData.dictTypeId}up`} onClick={() => openModifyModal(receivingData)}>
           修改
-        </a>,
-        <a
-          key={`${receivingData.dictTypeId}up`}
-          onClick={() => changeTypeId(receivingData.dictTypeId)}
-        >
-          维护
         </a>,
         <Popconfirm
           key={`${receivingData.dictTypeId}del`}
@@ -65,7 +59,16 @@ const Table = ({ smDictionaryMgt, openModifyModal, changeTypeId, dispatch }) => 
       rowKey="dictTypeId"
       headerTitle="字典信息"
       actionRef={tableRef}
+      columnsStyle={{ cursor: 'pointer' }}
       scroll={{ x: 'max-content' }}
+      style={{ cursor: 'pointer' }}
+      onRow={record => {
+        return {
+          onClick: () => {
+            changeTypeId(record.dictTypeId);
+          },
+        };
+      }}
       request={async params => getFieldList(params)}
       toolBarRender={(_, { selectedRowKeys }) => [
         <Button type="primary" onClick={() => openModifyModal()}>

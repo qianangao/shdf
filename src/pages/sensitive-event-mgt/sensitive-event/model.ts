@@ -199,6 +199,12 @@ const Model = {
             };
           });
         response.regionObj = { label: response.region, value: response.regionCode };
+        response.platformType = response.platformType && response.platformType.split(',');
+        response.spreadWay = response.spreadWay && response.spreadWay.split(',');
+
+        if (response.specialActionIds) {
+          response.specialActionIds = response.specialActionIds.join(',').split(',');
+        }
         resolve && resolve(response);
         yield put({
           type: 'save',

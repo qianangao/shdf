@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'umi';
+import { connect, useLocation } from 'umi';
 import { Modal } from 'antd';
 import EditProjectTaskForm from './EditProjectTaskForm';
+
+const useQuery = () => new URLSearchParams(useLocation().search);
 
 const ModifyProjectTaskModal = ({
   dispatch,
@@ -10,6 +12,7 @@ const ModifyProjectTaskModal = ({
   addProjectTaskModal,
   feedbackDetailModal,
 }) => {
+  const query = useQuery();
   const [form] = EditProjectTaskForm.useForm();
   const [modalVisible, setModalVisible] = useState(false);
   const [disabled, setDisabled] = useState(false);
@@ -21,7 +24,7 @@ const ModifyProjectTaskModal = ({
     if (Id) {
       new Promise(resolve => {
         dispatch({
-          type: 'dictionaryMgt/projectTaskDetail',
+          type: 'defenseEngineering/projectTaskDetail',
           payload: { taskId: Id },
           resolve,
         });
@@ -68,6 +71,10 @@ const ModifyProjectTaskModal = ({
     if (actionRef && typeof actionRef !== 'function') {
       actionRef.current = { showModal };
     }
+
+    if (query.get('type') === 'modify' && query.get('id')) {
+      showModal({ caseId: query.get('id') });
+    }
   }, []);
 
   const hideModal = () => {
@@ -91,7 +98,7 @@ const ModifyProjectTaskModal = ({
                 return item.uid;
               });
             dispatch({
-              type: `dictionaryMgt/updateProjectTaskList`,
+              type: `defenseEngineering/updateProjectTaskList`,
               payload: {
                 ...values,
                 taskId: id,

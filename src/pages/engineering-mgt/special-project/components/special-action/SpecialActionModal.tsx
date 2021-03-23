@@ -1,13 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
 import { Modal } from 'antd';
-import TempProvinceForm from './tempProvinceForm';
+import SpecialActionForm from './SpecialActionForm';
 
-const TempProvinceModal = ({ dispatch, actionRef, loading, projectId }) => {
+const SpecialActionModal = ({ dispatch, actionRef, loading }) => {
+  const [form] = SpecialActionForm.useForm();
+  const [actionForm, setActionForm] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-  const [form] = TempProvinceForm.useForm();
 
-  const showModal = () => {
+  const updateData = data => {
+    const fileInfoList =
+      data.fileInfoList &&
+      data.fileInfoList.map(item => {
+        return {
+          url: item.url,
+          uid: item.fileId,
+          name: item.fileName,
+          status: 'done',
+        };
+      });
+    form.setFieldsValue({ ...data, fileIds: fileInfoList });
+  };
+
+  const showModal = item => {
+    if (item) {
+      setActionForm(item);
+      updateData(item);
+    }
     setModalVisible(true);
   };
 
@@ -23,6 +42,7 @@ const TempProvinceModal = ({ dispatch, actionRef, loading, projectId }) => {
 
   const hideModal = () => {
     setModalVisible(false);
+    setActionForm(null);
     form.resetFields();
   };
 
@@ -31,11 +51,19 @@ const TempProvinceModal = ({ dispatch, actionRef, loading, projectId }) => {
       .validateFields()
       .then(values => {
         return new Promise(resolve => {
+          const fileIds =
+            values.fileIds &&
+            values.fileIds.map(item => {
+              return item.uid;
+            });
+          if (actionForm) {
+            values.actionId = actionForm.actionId;
+          }
           dispatch({
-            type: 'defenseEngineering/addTempProvince',
+            type: `specialAction/${actionForm ? 'editSpecialAction' : 'addSpecialAction'}`,
             payload: {
               ...values,
-              projectId,
+              fileIds,
             },
             resolve,
           });
@@ -51,7 +79,7 @@ const TempProvinceModal = ({ dispatch, actionRef, loading, projectId }) => {
 
   return (
     <Modal
-      title="新增临时省份"
+      title={actionForm ? '编辑专项行动' : '新增专项行动'}
       centered
       width="580px"
       style={{ paddingBottom: 0 }}
@@ -63,12 +91,11 @@ const TempProvinceModal = ({ dispatch, actionRef, loading, projectId }) => {
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <TempProvinceForm form={form} />
+      <SpecialActionForm form={form} />
     </Modal>
   );
 };
 
-export default connect(({ loading, defenseEngineering }) => ({
+export default connect(({ loading }) => ({
   loading: loading.models.smDictionaryMgt,
-  projectId: defenseEngineering.projectId,
-}))(TempProvinceModal);
+}))(SpecialActionModal);

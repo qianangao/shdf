@@ -1,6 +1,6 @@
 import React from 'react';
 import ProTable from '@ant-design/pro-table';
-import { connect } from 'umi';
+import { connect, history } from 'umi';
 import { ProfileFilled } from '@ant-design/icons';
 import moment from 'moment';
 
@@ -36,8 +36,8 @@ const Table = ({ dispatch }) => {
       });
     });
 
-  const goDetail = () => {
-    // history.push(`/synergy-office/receiving-mgt?id=${id}&type=modify`) import { connect, history } from 'umi';
+  const goDetail = id => {
+    history.push(`/synergy-office/receiving-mgt?id=${id}&type=modify`);
   };
 
   return (
@@ -50,6 +50,7 @@ const Table = ({ dispatch }) => {
           },
         };
       }}
+      style={{ cursor: 'pointer' }}
       headerTitle={
         <div>
           <ProfileFilled style={{ color: '#6DA76C' }} /> 收文
