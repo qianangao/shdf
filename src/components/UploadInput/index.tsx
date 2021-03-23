@@ -14,7 +14,6 @@ import UploadItem from './UploadItem';
  * @param type 文件类型 image、 excel
  */
 const UploadInput = ({
-  enums,
   enumsLabel,
   value,
   actionRef,
@@ -24,12 +23,14 @@ const UploadInput = ({
   dispatch,
   maxNum = 9,
   form,
+  global,
 }) => {
   const [loading, setLoading] = useState(false);
   const [upFileList, setUpFileList] = useState([]);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [secrecyLevel, setSecrecyLevel] = useState(undefined);
   const [fileSecrecyLevel, setFileSecrecyLevel] = useState(undefined);
+  const { enums } = global;
 
   const setFile = ({ fileName, url, id }) => {
     setUpFileList([
@@ -352,5 +353,5 @@ const UploadInput = ({
 };
 
 export default connect(({ global }) => ({
-  enums: global.enums,
+  global,
 }))(UploadInput);

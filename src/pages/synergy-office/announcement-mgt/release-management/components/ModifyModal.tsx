@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
-import { Modal, Spin } from 'antd';
+import { message, Modal, Spin } from 'antd';
 import InstitutionForm from './InstitutionForm';
 
 const ModifyModal = ({ dispatch, actionRef, loading }) => {
@@ -78,34 +78,41 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
   };
 
   const handleOk = (): void => {
-    form
-      .validateFields()
-      .then((values: any) => {
-        const fileIds =
-          values.files &&
-          values.files.map((item: { uid: any }) => {
-            return item.uid;
-          });
-        const remindWays = values.remindWays ? values.remindWays.join(',') : '';
-        return new Promise(resolve => {
-          dispatch({
-            type: `soAnnouncementMgt/${noticeId ? 'updateAnnouncement' : 'addAnnouncement'}`,
-            payload: {
-              ...values,
-              includeFile: form.getFieldValue(['files']) ? 1 : 0,
-              fileIds,
-              remindWays,
-            },
-            resolve,
-          });
+    form.validateFields().then((values: any) => {
+      const fileIds: any[] = [];
+      let tempLevel = '';
+      values.files &&
+        values.files.forEach((item: any) => {
+          fileIds.push(item.uid);
+          if (tempLevel < item.secrecyLevel) {
+            tempLevel = item.secrecyLevel;
+          }
+        });
+
+      if (tempLevel > values.secrecyLevel) {
+        message.error('附件密级不能大于该数据密级！');
+        return '';
+      }
+      const remindWays = values.remindWays ? values.remindWays.join(',') : '';
+      return new Promise(resolve => {
+        dispatch({
+          type: `soAnnouncementMgt/${noticeId ? 'updateAnnouncement' : 'addAnnouncement'}`,
+          payload: {
+            ...values,
+            includeFile: form.getFieldValue(['files']) ? 1 : 0,
+            fileIds,
+            remindWays,
+          },
+          resolve,
         });
       })
-      .then(() => {
-        hideModal();
-      })
-      .catch((info: any) => {
-        console.error('Validate Failed:', info);
-      });
+        .then(() => {
+          hideModal();
+        })
+        .catch((info: any) => {
+          console.error('Validate Failed:', info);
+        });
+    });
   };
 
   return (
