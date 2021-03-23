@@ -107,7 +107,7 @@ const Case = ({ dispatch, statistical }) => {
             <Row justify="space-around">
               <Col span={8}>
                 <Form.Item label="时间范围" name="timeRange">
-                  <RangePicker />
+                  <RangePicker style={{ width: '100%' }} />
                 </Form.Item>
               </Col>
               <Col span={8}>
@@ -197,7 +197,7 @@ const Case = ({ dispatch, statistical }) => {
           </Card>
         </Form>
       </Col>
-      <Card style={{ width: '100%', height: '60vh', marginTop: '30px' }}>
+      <Card style={{ width: '100%', height: '400px', marginTop: '30px' }}>
         <BarStacked dispatch={dispatch} chartData={chartData} />
       </Card>
       {/* <BarStacked dispatch={dispatch} chartData={chartData} /> */}

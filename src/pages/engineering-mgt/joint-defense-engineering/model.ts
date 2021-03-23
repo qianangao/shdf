@@ -582,7 +582,7 @@ const Model = {
       const projectId = yield select(state => state.dictionaryMgt.projectId);
       const projectPid = yield select(state => state.dictionaryMgt.projectPid);
       const params = {
-        projectId,
+        projectId: projectPid === projectId ? undefined : projectId,
         projectPid,
       };
       const response = yield call(getInfoStatistics, params);

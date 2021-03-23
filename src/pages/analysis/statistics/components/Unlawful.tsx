@@ -85,14 +85,14 @@ const AddThreadForm = ({ dispatch, statistical }) => {
   };
 
   return (
-    <Row justify="space-between">
+    <Row justify="space-between" style={{ width: '100%' }}>
       <Col span={24}>
         <Form form={form} onFinish={onFinish} {...formItemLayout} onSubmit={handleSearch}>
           <Card>
             <Row justify="space-around">
               <Col span={8}>
                 <Form.Item label="时间范围" name="handleState">
-                  <RangePicker />
+                  <RangePicker style={{ width: '100%' }} />
                 </Form.Item>
               </Col>
               <Col span={8}>
@@ -119,7 +119,7 @@ const AddThreadForm = ({ dispatch, statistical }) => {
       </Col>
 
       {/* <BarStacked dispatch={dispatch} actionRef={ChildPage} chartData={chartData} /> */}
-      <Card style={{ width: '100%', height: '60vh', marginTop: '30px' }}>
+      <Card style={{ width: '100%', height: '400px', marginTop: '30px' }}>
         <BarStacked dispatch={dispatch} chartData={chartData} />
       </Card>
     </Row>
