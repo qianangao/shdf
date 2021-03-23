@@ -1,8 +1,8 @@
 import { connect } from 'umi';
-import { Button, Upload, message, Modal } from 'antd';
+import { Button, Upload, message, Modal, Select } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { LoadingOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
-import VideoInput from './VideoInput';
+import UploadItem from './UploadItem';
 
 /**
  * 上传表单组件
@@ -14,6 +14,7 @@ import VideoInput from './VideoInput';
  * @param type 文件类型 image、 excel
  */
 const UploadInput = ({
+  enumsLabel,
   value,
   actionRef,
   type = '',
@@ -21,10 +22,15 @@ const UploadInput = ({
   disabled = false,
   dispatch,
   maxNum = 9,
+  form,
+  global,
 }) => {
   const [loading, setLoading] = useState(false);
   const [upFileList, setUpFileList] = useState([]);
   const [previewVisible, setPreviewVisible] = useState(false);
+  const [secrecyLevel, setSecrecyLevel] = useState(undefined);
+  const [fileSecrecyLevel, setFileSecrecyLevel] = useState(undefined);
+  const { enums } = global;
 
   const setFile = ({ fileName, url, id }) => {
     setUpFileList([
@@ -33,7 +39,7 @@ const UploadInput = ({
         uid: id,
         name: fileName,
         status: 'done',
-        test: 'aaa',
+        secrecyLevel,
       },
     ]);
   };
@@ -115,6 +121,7 @@ const UploadInput = ({
         uid: file.uid,
         name: file.name,
         status: 'uploading',
+        secrecyLevel,
       };
       setUpFileList([...upFileList, preFile]);
       onChange && onChange([...upFileList, preFile]);
@@ -124,6 +131,7 @@ const UploadInput = ({
         dispatch({
           type: 'global/uploadFile',
           payload: {
+            secrecyLevel,
             file,
           },
           resolve,
@@ -137,6 +145,7 @@ const UploadInput = ({
               uid: data.fileId,
               name: data.fileName,
               status: 'done',
+              secrecyLevel,
             };
             setUpFileList([...upFileList, tempFile]);
             onChange && onChange([...upFileList, tempFile]);
@@ -147,6 +156,7 @@ const UploadInput = ({
               uid: file.uid,
               name: file.name,
               status: 'error',
+              secrecyLevel,
             };
             setUpFileList([...upFileList, errFile]);
             onChange && onChange([...upFileList, errFile]);
@@ -160,6 +170,7 @@ const UploadInput = ({
             uid: file.uid,
             name: file.name,
             status: 'error',
+            secrecyLevel,
           };
           setUpFileList([...upFileList, pFile]);
           onChange && onChange([...upFileList, pFile]);
@@ -169,6 +180,10 @@ const UploadInput = ({
 
   const beforeUpload = file => {
     let shouldUpdate = true;
+    if (type === 'uploadSecrecy' && (!fileSecrecyLevel || fileSecrecyLevel === '')) {
+      message.error('请选择文件密级！');
+      return false;
+    }
     if (type === 'image') {
       shouldUpdate = verifyImgFile(file);
     } else if (type === 'userPhoto') {
@@ -222,6 +237,14 @@ const UploadInput = ({
     }
   }, [value]);
 
+  useEffect(() => {
+    const level = form && form.getFieldValue(['secrecyLevel']);
+    setSecrecyLevel(level);
+    if (!level || !fileSecrecyLevel || level < fileSecrecyLevel) {
+      setFileSecrecyLevel(level);
+    }
+  }, [{ ...form }]);
+
   const onChangeFile = info => {
     if (info.file && info.file.status === 'removed') {
       setUpFileList([...info.fileList]);
@@ -237,6 +260,14 @@ const UploadInput = ({
       </div>
     );
 
+  const onClickInner = e => {
+    e.stopPropagation();
+  };
+
+  const singleChange = values => {
+    setFileSecrecyLevel(values);
+  };
+
   return (
     <>
       <Upload
@@ -245,7 +276,8 @@ const UploadInput = ({
         listType={type === 'image' ? 'picture-card' : 'text'}
         beforeUpload={beforeUpload}
         itemRender={(originNode, file, currFileList) => (
-          <VideoInput
+          <UploadItem
+            enums={enums}
             type={type}
             originNode={originNode}
             file={file}
@@ -261,13 +293,49 @@ const UploadInput = ({
         {type === 'image' ? (
           imgUploadButton
         ) : (
-          <Button
-            key="normalUpload"
-            icon={<UploadOutlined />}
-            disabled={upFileList.length === maxNum}
-          >
-            {type === 'userPhoto' ? '更换头像' : '点击上传'}
-          </Button>
+          <div style={{ display: 'flex' }}>
+            <Button
+              style={{ marginRight: 15, marginBottom: 10 }}
+              key="normalUpload"
+              icon={<UploadOutlined />}
+              disabled={upFileList.length === maxNum}
+            >
+              {type === 'userPhoto' ? '更换头像' : '点击上传'}
+            </Button>
+            {type === 'uploadSecrecy' && (
+              <Select
+                style={{ width: 120 }}
+                placeholder="请选择密级"
+                onChange={singleChange}
+                value={fileSecrecyLevel}
+                onClick={onClickInner}
+              >
+                {enumsLabel
+                  ? enums[enumsLabel] &&
+                    Object.keys(enums[enumsLabel]).map(key => {
+                      if (key <= secrecyLevel) {
+                        return (
+                          <Select.Option key={key} value={key}>
+                            {enums[enumsLabel][key]}
+                          </Select.Option>
+                        );
+                      }
+                      return '';
+                    })
+                  : enums.object_secrecy_level &&
+                    Object.keys(enums.object_secrecy_level).map(key => {
+                      if (key <= secrecyLevel) {
+                        return (
+                          <Select.Option key={key} value={key}>
+                            {enums.object_secrecy_level[key]}
+                          </Select.Option>
+                        );
+                      }
+                      return '';
+                    })}
+              </Select>
+            )}
+          </div>
         )}
       </Upload>
 
@@ -284,4 +352,6 @@ const UploadInput = ({
   );
 };
 
-export default connect(() => ({}))(UploadInput);
+export default connect(({ global }) => ({
+  global,
+}))(UploadInput);
