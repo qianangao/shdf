@@ -17,6 +17,7 @@ const ReceivingForm = ({ form, orgInfoData, id }) => {
     {
       label: '来文单位',
       name: 'docUnit',
+      extraProps: { placeholder: '请输入单位名称' },
       rules: [
         { required: true, message: '请输入单位名称!', whitespace: true },
         { max: 80, message: '来文单位长度请小于80位!', whitespace: true },
@@ -25,6 +26,7 @@ const ReceivingForm = ({ form, orgInfoData, id }) => {
     {
       label: '来文文号',
       name: 'docNo',
+      extraProps: { placeholder: '请输入来文文号' },
       rules: [
         { required: true, message: '请输入来文文号!', whitespace: true },
         { max: 80, message: '来文文号长度请小于80位!', whitespace: true },
@@ -34,11 +36,12 @@ const ReceivingForm = ({ form, orgInfoData, id }) => {
       label: '收文日期',
       name: 'receiptData',
       type: 'dateTime',
-      rules: [{ required: true, message: '请输入收文日期!', whitespace: true }],
+      rules: [{ required: true, message: '请选择收文日期!', whitespace: true }],
     },
     {
       label: '信封编号',
       name: 'envelopeCode',
+      extraProps: { placeholder: '请输入信封编号' },
       rules: [
         { required: true, message: '请输入信封编号!', whitespace: true },
         { max: 80, message: '信封编号长度请小于80位!', whitespace: true },
@@ -51,17 +54,19 @@ const ReceivingForm = ({ form, orgInfoData, id }) => {
       rules: [{ required: true, message: '请选择紧急程度!' }],
     },
     {
-      label: '密级',
+      label: '保密等级',
       name: 'secrecyLevel',
       enumsLabel: 'subject_secrecy_level',
       rules: [{ required: true, message: '请选择密级!' }],
     },
     {
       label: '保密期限',
+      extraProps: { placeholder: '请输入保密期限' },
       name: 'secrecyDuration',
     },
     {
       label: '文件份数',
+      extraProps: { placeholder: '请输入文件份数' },
       name: 'fileNum',
     },
     {
@@ -72,6 +77,7 @@ const ReceivingForm = ({ form, orgInfoData, id }) => {
     },
     {
       label: '办理时限',
+      extraProps: { placeholder: '请输入办理时限' },
       name: 'handleDuration',
     },
     {
@@ -82,8 +88,9 @@ const ReceivingForm = ({ form, orgInfoData, id }) => {
     },
 
     {
-      label: '来文标题',
+      label: '标题',
       name: 'receiptTitle',
+      extraProps: { placeholder: '请输入来文标题' },
       span: 4,
       rules: [
         { required: true, message: '请输入来文标题!', whitespace: true },

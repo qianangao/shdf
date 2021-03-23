@@ -22,6 +22,7 @@ const AdvancedFormItem = ({
   span = 1, // span传 3 占据整行
   visible = true,
   render,
+  uploadEnums,
   enumsLabel,
   enumsItems,
   switchEnums,
@@ -51,7 +52,11 @@ const AdvancedFormItem = ({
     fieldInput = render;
   } else if (enumsItems) {
     fieldInput = (
-      <Select disabled={disabled} getPopupContainer={triggerNode => triggerNode.parentElement}>
+      <Select
+        disabled={disabled}
+        getPopupContainer={triggerNode => triggerNode.parentElement}
+        {...extraProps}
+      >
         {enumsItems &&
           Object.keys(enumsItems).map(key => (
             <Select.Option key={key} value={key}>
@@ -62,7 +67,11 @@ const AdvancedFormItem = ({
     );
   } else if (enumsLabel) {
     fieldInput = (
-      <Select disabled={disabled} getPopupContainer={triggerNode => triggerNode.parentElement}>
+      <Select
+        disabled={disabled}
+        getPopupContainer={triggerNode => triggerNode.parentElement}
+        {...extraProps}
+      >
         {enums[enumsLabel] &&
           Object.keys(enums[enumsLabel]).map(key => (
             <Select.Option key={key} value={key}>
@@ -119,6 +128,15 @@ const AdvancedFormItem = ({
     fieldInput = <Switch disabled={disabled} checkedChildren="是" unCheckedChildren="否" />;
   } else if (type === 'upload') {
     fieldInput = <UploadInput disabled={disabled} />;
+  } else if (type === 'uploadSecrecy') {
+    fieldInput = (
+      <UploadInput
+        type="uploadSecrecy"
+        disabled={disabled}
+        form={resField.form}
+        enumsLabel={uploadEnums}
+      />
+    );
   } else if (type === 'image') {
     fieldInput = <UploadInput type="image" disabled={disabled} />;
   } else if (type === 'video') {
@@ -156,6 +174,12 @@ const AdvancedFormInstance = ({
   const onValuesChange = (changedValues, allValues) => {
     fieldChange &&
       fieldChange(Object.keys(changedValues)[0], Object.values(changedValues)[0], allValues);
+    if (Object.keys(changedValues)[0] === 'secrecyLevel') {
+      dispatch({
+        type: 'global/saveUploadSecrecyLevel',
+        payload: { uploadSecrecyLevel: Object.values(changedValues)[0] },
+      });
+    }
   };
 
   return (

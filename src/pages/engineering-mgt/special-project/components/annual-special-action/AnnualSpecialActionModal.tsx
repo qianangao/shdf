@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
 import { Modal } from 'antd';
-import AddSpecialActionForm from './AddSpecialActionForm';
+import AnnualSpecialActionForm from './AnnualSpecialActionForm';
 
 const SpecialActionModal = ({ dispatch, actionRef, loading }) => {
-  const [form] = AddSpecialActionForm.useForm();
-  const [detailData, setDetailData] = useState(null);
-  const [title, setTitle] = useState('');
-  const [titles, setTitles] = useState('');
-  const [visible, setVisible] = useState(false);
+  const [form] = AnnualSpecialActionForm.useForm();
+  const [actionForm, setActionForm] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-  const [editVisible, setEditVisible] = useState(true);
-
+  const [isShow, setIsShow] = useState(false);
   const updateData = data => {
     const fileInfoList =
       data.fileInfoList &&
@@ -28,35 +24,13 @@ const SpecialActionModal = ({ dispatch, actionRef, loading }) => {
 
   const showModal = item => {
     if (item) {
-      if (item.year) {
-        setTitle('新增年度专项行动');
-        setEditVisible(true);
-      } else if (item.actionForm) {
-        setEditVisible(false);
-        if (item.actionForm.actionYear) {
-          setTitle('编辑年度专项行动');
-        } else {
-          setTitle('编辑专项行动');
-        }
-      }
+      setIsShow(false);
+      setActionForm(item);
+      updateData(item);
     } else {
-      setTitle('新增专项行动');
-    }
-    setDetailData(item || null);
-    if (item) {
-      if (item.year || item.actionForm.actionYear) setVisible(true);
-      if (item.actionForm) updateData(item.actionForm);
+      setIsShow(true);
     }
     setModalVisible(true);
-    if (item) {
-      if (item.actionForm) {
-        setTitles('editSpecialAction');
-      } else {
-        setTitles('addAnnualSpecialAction');
-      }
-    } else {
-      setTitles('addSpecialAction');
-    }
   };
 
   useEffect(() => {
@@ -71,9 +45,8 @@ const SpecialActionModal = ({ dispatch, actionRef, loading }) => {
 
   const hideModal = () => {
     setModalVisible(false);
-    setDetailData(null);
-    setVisible(false);
-    setTitle('');
+    setActionForm(null);
+    setIsShow(false);
     form.resetFields();
   };
 
@@ -87,11 +60,11 @@ const SpecialActionModal = ({ dispatch, actionRef, loading }) => {
             values.fileIds.map(item => {
               return item.uid;
             });
-          if (detailData && detailData.actionForm) {
-            values.actionId = detailData.actionForm.actionId;
+          if (actionForm) {
+            values.actionId = actionForm.actionId;
           }
           dispatch({
-            type: `specialAction/${titles}`,
+            type: `specialAction/${actionForm ? 'editSpecialAction' : 'addSpecialAction'}`,
             payload: {
               ...values,
               fileIds,
@@ -110,7 +83,7 @@ const SpecialActionModal = ({ dispatch, actionRef, loading }) => {
 
   return (
     <Modal
-      title={title}
+      title={actionForm ? '编辑年度专项行动' : '新增年度专项行动'}
       centered
       width="580px"
       style={{ paddingBottom: 0 }}
@@ -122,7 +95,7 @@ const SpecialActionModal = ({ dispatch, actionRef, loading }) => {
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <AddSpecialActionForm form={form} visible={visible} editVisible={editVisible} />
+      <AnnualSpecialActionForm form={form} isShow={isShow} />
     </Modal>
   );
 };

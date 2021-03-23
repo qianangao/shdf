@@ -16,7 +16,7 @@ const FieldTable = ({ smDictionaryMgt, openDictModifyModal, dictTypeId, dispatch
       valueType: 'option',
       align: 'center',
       dataIndex: 'dictId',
-      width: 180,
+      width: 80,
       fixed: 'right',
 
       render: (dom: any, dictData: { dictId: any }) => [
@@ -61,9 +61,11 @@ const FieldTable = ({ smDictionaryMgt, openDictModifyModal, dictTypeId, dispatch
       scroll={{ x: 'max-content' }}
       request={async params => getFieldList(params)}
       toolBarRender={(_, { selectedRowKeys }) => [
-        <Button type="primary" onClick={() => openDictModifyModal(dictTypeId)}>
-          新增
-        </Button>,
+        dictTypeId && (
+          <Button type="primary" onClick={() => openDictModifyModal(dictTypeId)}>
+            新增
+          </Button>
+        ),
         selectedRowKeys && selectedRowKeys.length && (
           <Button
             onClick={() => {

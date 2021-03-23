@@ -7,13 +7,13 @@ import Bar from '@/components/Charts/BarChart/index';
 
 const { TabPane } = Tabs;
 
-const Table = ({ dictionaryMgt, openModifyModal, dispatch, openDetailModifyModal }) => {
-  const { tableRef } = dictionaryMgt;
-  const { tableRef1 } = dictionaryMgt;
+const Table = ({ defenseEngineering, openModifyModal, dispatch, openDetailModifyModal }) => {
+  const { tableRef } = defenseEngineering;
+  const { tableRef1 } = defenseEngineering;
   const releaseInfoAn = params =>
     new Promise(resolve => {
       dispatch({
-        type: 'dictionaryMgt/releaseInfoAn',
+        type: 'defenseEngineering/releaseInfoAn',
         payload: { id: params },
         resolve,
       });
@@ -113,7 +113,7 @@ const Table = ({ dictionaryMgt, openModifyModal, dispatch, openDetailModifyModal
   const getReceivingList = params =>
     new Promise(resolve => {
       dispatch({
-        type: 'dictionaryMgt/getInfoAnList',
+        type: 'defenseEngineering/getInfoAnList',
         payload: { ...params },
         resolve,
       });
@@ -121,7 +121,7 @@ const Table = ({ dictionaryMgt, openModifyModal, dispatch, openDetailModifyModal
   const getInfoStatistics = params =>
     new Promise(resolve => {
       dispatch({
-        type: 'dictionaryMgt/getInfoStatistics',
+        type: 'defenseEngineering/getInfoStatistics',
         payload: { ...params },
         resolve,
       });
@@ -174,7 +174,7 @@ const Table = ({ dictionaryMgt, openModifyModal, dispatch, openDetailModifyModal
   );
 };
 
-export default connect(({ dictionaryMgt, global }) => ({
-  dictionaryMgt,
+export default connect(({ defenseEngineering, global }) => ({
+  defenseEngineering,
   enums: global.enums,
 }))(Table);

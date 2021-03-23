@@ -3,9 +3,22 @@ import { Tree, Button, Row, Col, Input, Spin } from 'antd';
 import { connect } from 'umi';
 import styles from './index.less';
 
-const ActionTree = ({ openAddSpecialModal, dispatch, actionTree, loading }) => {
+const ActionTree = ({
+  specialActionModal,
+  annualSpecialActionModal,
+  dispatch,
+  actionTree,
+  loading,
+  actionId,
+}) => {
   const [expandedKeys, setExpandedKeys] = useState<any>([]);
   const [selectedKeys, setSelectedKeys] = useState<any>([]);
+
+  useEffect(() => {
+    const arr = [];
+    arr.push(actionId);
+    setSelectedKeys([...arr]);
+  }, [actionId]);
   const getTreeData = (actionName = '') => {
     new Promise(resolve => {
       dispatch({
@@ -15,7 +28,10 @@ const ActionTree = ({ openAddSpecialModal, dispatch, actionTree, loading }) => {
       });
     }).then(res => {
       const arr = [];
-      arr.push(res[0].key);
+      if (res.length) {
+        arr.push(res[0].key);
+      }
+      setSelectedKeys([]);
       setSelectedKeys([...arr]);
     });
   };
@@ -32,11 +48,10 @@ const ActionTree = ({ openAddSpecialModal, dispatch, actionTree, loading }) => {
   };
 
   const actionSelectHandler = (keys, { node }) => {
-    const projectId = node.key;
-    const projectPid = node.pid;
+    const actionIds = node.key;
     dispatch({
       type: 'specialAction/getListTable',
-      payload: { projectId, projectPid },
+      payload: { actionId: actionIds },
     });
     if (!keys[0]) return;
     setSelectedKeys(keys);
@@ -46,16 +61,12 @@ const ActionTree = ({ openAddSpecialModal, dispatch, actionTree, loading }) => {
     <div className={styles.treeContent}>
       <Row>
         <Col span={6}>
-          <Button type="primary" onClick={() => openAddSpecialModal()} size="small">
+          <Button type="primary" onClick={() => specialActionModal()} size="small">
             新增专项行动
           </Button>
         </Col>
         <Col span={8} offset={5}>
-          <Button
-            type="primary"
-            onClick={() => openAddSpecialModal({ year: 'annual' })}
-            size="small"
-          >
+          <Button type="primary" onClick={() => annualSpecialActionModal()} size="small">
             新增年度专项行动
           </Button>
         </Col>
@@ -87,5 +98,6 @@ const ActionTree = ({ openAddSpecialModal, dispatch, actionTree, loading }) => {
 
 export default connect(({ specialAction }) => ({
   actionTree: specialAction.actionTree,
+  actionId: specialAction.actionId,
   loading: specialAction.loading,
 }))(ActionTree);

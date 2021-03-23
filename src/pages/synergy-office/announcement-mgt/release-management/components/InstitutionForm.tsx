@@ -77,7 +77,7 @@ const InstitutionForm = ({ form, fieldChangeHander, optType }) => {
     {
       label: '上传附件',
       name: 'files',
-      type: 'upload',
+      type: 'uploadSecrecy',
       span: 3,
     },
   ];

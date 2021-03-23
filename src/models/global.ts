@@ -27,6 +27,7 @@ const GlobalModel = {
     OrganizationTree: [],
     projectId: undefined,
     loading: false,
+    uploadSecrecyLevel: '',
     enums: LocalCache.get(ENUMS_CACHE_KEY) || {},
     enumsTimestamp: LocalCache.get(ENUMS_CACHE_TAMP_KEY) || {},
   },
@@ -93,6 +94,7 @@ const GlobalModel = {
 
       const formData = new FormData();
       formData.append('file', payload.file);
+      formData.append('secrecyLevel', payload.secrecyLevel);
 
       const response = yield call(uploadFile, formData);
 
@@ -209,6 +211,9 @@ const GlobalModel = {
   },
   reducers: {
     save(state, { payload }) {
+      return { ...state, ...payload };
+    },
+    saveUploadSecrecyLevel(state, { payload }) {
       return { ...state, ...payload };
     },
     saveEnum(state, { payload }) {

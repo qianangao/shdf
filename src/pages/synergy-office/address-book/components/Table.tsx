@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { Button, Popconfirm, message, Modal } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
+import { getSecrecyRowClassName } from '@/utils/secrecy';
 
 const Table = ({ emAddressBook, openModifyModal, dispatch, enums }) => {
   const { tableRef } = emAddressBook;
@@ -123,6 +124,7 @@ const Table = ({ emAddressBook, openModifyModal, dispatch, enums }) => {
         actionRef={tableRef}
         formRef={formRef}
         rowSelection={[]}
+        rowClassName={getSecrecyRowClassName}
         scroll={{ x: 'max-content' }}
         request={async params => getAddressBook(params)}
         toolBarRender={(_, { selectedRowKeys }) => [

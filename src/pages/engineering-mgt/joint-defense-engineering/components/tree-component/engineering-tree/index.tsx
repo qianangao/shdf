@@ -3,19 +3,34 @@ import { Tree, Button, Row, Col, Input, Spin } from 'antd';
 import { connect } from 'umi';
 import styles from './index.less';
 
-const EngineeringTree = ({ dispatch, engineeringTree, loading, openAddEngineeringModal }) => {
+const EngineeringTree = ({
+  dispatch,
+  engineeringTree,
+  loading,
+  defenseEngineeringModal,
+  annualDefenseEngineeringModal,
+  projectId,
+}) => {
   const [expandedKeys, setExpandedKeys] = useState<any>([]);
   const [selectedKeys, setSelectedKeys] = useState<any>([]);
+  useEffect(() => {
+    const arr = [];
+    arr.push(projectId);
+    setSelectedKeys([...arr]);
+  }, [projectId]);
+
   const getTreeData = (projectName = '') => {
     new Promise(resolve => {
       dispatch({
-        type: 'dictionaryMgt/getEngineeringTree',
+        type: 'defenseEngineering/getEngineeringTree',
         payload: { projectName },
         resolve,
       });
     }).then(res => {
       const arr = [];
-      arr.push(res[0].key);
+      if (res.length) {
+        arr.push(res[0].key);
+      }
       setSelectedKeys([...arr]);
     });
   };
@@ -32,11 +47,11 @@ const EngineeringTree = ({ dispatch, engineeringTree, loading, openAddEngineerin
     setExpandedKeys(node);
   };
   const engineeringSelectHandler = (keys, { node }) => {
-    const projectId = node.key;
+    const projectIds = node.key;
     const projectPid = node.pid;
     dispatch({
-      type: 'dictionaryMgt/getListTable',
-      payload: { projectId, projectPid },
+      type: 'defenseEngineering/getListTable',
+      payload: { projectId: projectIds, projectPid },
     });
     if (!keys[0]) return;
     setSelectedKeys(keys);
@@ -46,15 +61,12 @@ const EngineeringTree = ({ dispatch, engineeringTree, loading, openAddEngineerin
     <div className={styles.treeContent}>
       <Row>
         <Col span={6}>
-          <Button type="primary" onClick={() => openAddEngineeringModal({ add: true })}>
+          <Button type="primary" onClick={() => defenseEngineeringModal({ add: true })}>
             新增工程
           </Button>
         </Col>
         <Col span={8} offset={5}>
-          <Button
-            type="primary"
-            onClick={() => openAddEngineeringModal({ year: 'annual', add: true })}
-          >
+          <Button type="primary" onClick={() => annualDefenseEngineeringModal()}>
             新增年度工程
           </Button>
         </Col>
@@ -84,7 +96,8 @@ const EngineeringTree = ({ dispatch, engineeringTree, loading, openAddEngineerin
   );
 };
 
-export default connect(({ dictionaryMgt }) => ({
-  engineeringTree: dictionaryMgt.engineeringTree,
-  loading: dictionaryMgt.loading,
+export default connect(({ defenseEngineering }) => ({
+  engineeringTree: defenseEngineering.engineeringTree,
+  projectId: defenseEngineering.projectId,
+  loading: defenseEngineering.loading,
 }))(EngineeringTree);

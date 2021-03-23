@@ -148,6 +148,7 @@ const Table = ({
     {
       title: '事件来源',
       dataIndex: 'eventSource',
+      valueEnum: enums.case_source,
     },
     {
       title: '事件地域',
@@ -230,9 +231,9 @@ const Table = ({
     e.target.value = '';
   };
 
-  const exportDetailData = () => {
+  const exportSensitive = () => {
     // const bookIds = selectedRowKeys.join(',');
-    message.loading({ content: '文件导出，请稍后……', key: 'importsAddressBook' });
+    message.loading({ content: '文件导出，请稍后……', key: 'exportSensitive' });
     dispatch({
       type: 'sensitiveMgt/exportCase',
     });
@@ -274,7 +275,7 @@ const Table = ({
         <Button
           type="primary"
           onClick={() => {
-            exportDetailData(selectedRowKeys);
+            exportSensitive(selectedRowKeys);
           }}
         >
           导出

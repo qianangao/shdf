@@ -3,7 +3,15 @@ import { Button, Descriptions, Popconfirm, Card, Spin } from 'antd';
 import AdvancedForm from '@/components/AdvancedForm';
 import { connect } from 'umi';
 
-const ActionDescription = ({ dispatch, form, actionForm, openAddSpecialModal, enums, loading }) => {
+const ActionDescription = ({
+  dispatch,
+  form,
+  actionForm,
+  specialActionModal,
+  annualSpecialActionModal,
+  enums,
+  loading,
+}) => {
   const [visible, setVisible] = useState(false);
   useEffect(() => {
     form.setFieldsValue(actionForm);
@@ -49,13 +57,23 @@ const ActionDescription = ({ dispatch, form, actionForm, openAddSpecialModal, en
           title={actionForm.actionYear ? '年度专项行动' : '专项行动'}
           extra={
             <>
-              <Button
-                type="primary"
-                onClick={() => openAddSpecialModal({ actionForm })}
-                style={{ marginRight: 8 }}
-              >
-                编辑
-              </Button>
+              {visible ? (
+                <Button
+                  type="primary"
+                  onClick={() => annualSpecialActionModal(actionForm)}
+                  style={{ marginRight: 8 }}
+                >
+                  编辑
+                </Button>
+              ) : (
+                <Button
+                  type="primary"
+                  onClick={() => specialActionModal(actionForm)}
+                  style={{ marginRight: 8 }}
+                >
+                  编辑
+                </Button>
+              )}
               <Popconfirm
                 key={`${actionForm.actionId}del`}
                 title="确认删除该行动信息吗？"

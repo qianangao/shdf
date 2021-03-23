@@ -1,9 +1,14 @@
 import React from 'react';
 import ProTable from '@ant-design/pro-table';
-import { connect } from 'umi';
+import { connect, history } from 'umi';
 import { ProfileFilled } from '@ant-design/icons';
+import moment from 'moment';
 
 const Table = ({ dispatch }) => {
+  const formatterTime = val => {
+    return val ? moment(val).format('YYYY-MM-DD HH:mm:ss') : '';
+  };
+
   const columns = [
     {
       title: '文档标题',
@@ -12,7 +17,12 @@ const Table = ({ dispatch }) => {
     },
     { title: '文号', align: 'center', dataIndex: 'docNo' },
     { title: '状态', align: 'center', dataIndex: 'state' },
-    { title: '办理时间', align: 'center', dataIndex: 'startTime' },
+    {
+      title: '办理时间',
+      align: 'center',
+      dataIndex: 'startTime',
+      render: formatterTime,
+    },
   ];
 
   const getDictList = params =>
@@ -26,9 +36,21 @@ const Table = ({ dispatch }) => {
       });
     });
 
+  const goDetail = id => {
+    history.push(`/synergy-office/receiving-mgt?id=${id}&type=modify`);
+  };
+
   return (
     <ProTable
       rowKey="id"
+      onRow={record => {
+        return {
+          onClick: () => {
+            goDetail(record.receiptId);
+          },
+        };
+      }}
+      style={{ cursor: 'pointer' }}
       headerTitle={
         <div>
           <ProfileFilled style={{ color: '#6DA76C' }} /> 收文

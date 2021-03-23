@@ -37,7 +37,7 @@ const TaskProgressTable = ({ dispatch, taskProgressList, head, feedbackDetailMod
 
   const exportData = () => {
     dispatch({
-      type: 'dictionaryMgt/exportLog',
+      type: 'defenseEngineering/exportLog',
     });
   };
 
@@ -51,8 +51,8 @@ const TaskProgressTable = ({ dispatch, taskProgressList, head, feedbackDetailMod
   );
 };
 
-export default connect(({ dictionaryMgt }) => ({
-  taskProgressList: dictionaryMgt.taskProgressList,
-  head: dictionaryMgt.head,
-  dictionaryMgt,
+export default connect(({ defenseEngineering }) => ({
+  taskProgressList: defenseEngineering.taskProgressList,
+  head: defenseEngineering.head,
+  defenseEngineering,
 }))(TaskProgressTable);

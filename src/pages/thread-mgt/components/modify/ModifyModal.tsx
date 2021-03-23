@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'umi';
+import { connect, useLocation } from 'umi';
 import { Modal, Spin } from 'antd';
 import AddThreadForm from './AddThreadForm';
 
+const useQuery = () => new URLSearchParams(useLocation().search);
+
 const ModifyModal = ({ dispatch, actionRef, loading, emClueManagement }) => {
+  const query = useQuery();
   const { code } = emClueManagement;
   const [form] = AddThreadForm.useForm();
   const [clueId, setClueId] = useState(undefined);
@@ -66,6 +69,10 @@ const ModifyModal = ({ dispatch, actionRef, loading, emClueManagement }) => {
 
     if (actionRef && typeof actionRef !== 'function') {
       actionRef.current = { showModal };
+    }
+
+    if (query.get('type') === 'modify' && query.get('id')) {
+      showModal({ id: query.get('id') });
     }
   }, []);
 

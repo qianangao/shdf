@@ -7,7 +7,7 @@ import ClubSplicing from './ClubSplicing';
 
 const CaresDetailModal = ({ dispatch, caseMgt, actionRef, enums }) => {
   const [detailModalVisible, setModalVisible] = useState(false);
-  const { caseDetailData } = caseMgt;
+  const { caseDetailData, specialList } = caseMgt;
   const [infoId, setCaresId] = useState('');
   const showModal = items => {
     // 获取详情
@@ -23,6 +23,7 @@ const CaresDetailModal = ({ dispatch, caseMgt, actionRef, enums }) => {
         id: items.caseId,
       },
     });
+
     setModalVisible(true);
     setCaresId(items.caseId);
   };
@@ -109,24 +110,38 @@ const CaresDetailModal = ({ dispatch, caseMgt, actionRef, enums }) => {
           {enums.case_nature && enums.case_nature[caseDetailData.caseNature]}
         </Descriptions.Item>
         <Descriptions.Item label="专项行动">
-          {enums.handle_type && enums.handle_type[caseDetailData.specialActionId]}
+          {caseDetailData.specialActionIds &&
+            caseDetailData.specialActionIds.map(id => {
+              return `${specialList[id]} `;
+            })}
         </Descriptions.Item>
         <Descriptions.Item label="传播渠道">
-          {enums.spread_channel && enums.spread_channel[caseDetailData.spreadChannel]}
+          {caseDetailData.spreadChannel &&
+            enums.spread_channel &&
+            caseDetailData.spreadChannel.map(id => {
+              return `${enums.spread_channel[id]} `;
+            })}
         </Descriptions.Item>
         <Descriptions.Item label="传播形式">
           {enums.spread_form && enums.spread_form[caseDetailData.spreadForm]}
         </Descriptions.Item>
         <Descriptions.Item label="涉案平台类型">
           {enums.involved_platform_type &&
-            enums.involved_platform_type[caseDetailData.involvedPlatformType]}
+            caseDetailData.involvedPlatformType &&
+            caseDetailData.involvedPlatformType.map(id => {
+              return `${enums.involved_platform_type[id]} `;
+            })}
         </Descriptions.Item>
         <Descriptions.Item label="涉案数量">{caseDetailData.caseNumber}</Descriptions.Item>
         <Descriptions.Item label="涉案金额">{caseDetailData.caseAmount}</Descriptions.Item>
-        {caseDetailData.caseType !== 1 ? null : (
+        {caseDetailData.caseType === 1 ? null : (
           <>
             <Descriptions.Item label="罪名">
-              {enums.charge && enums.charge[caseDetailData.charge]}
+              {enums.charge &&
+                caseDetailData.charge &&
+                caseDetailData.charge.map(id => {
+                  return `${enums.charge[id]} `;
+                })}
             </Descriptions.Item>
             <Descriptions.Item label="刑事拘留人数">
               {caseDetailData.detentionNumber}

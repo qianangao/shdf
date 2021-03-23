@@ -1,7 +1,11 @@
 import React from 'react';
 import EngineeringTree from './engineering-tree/index';
 
-const EngineeringTreeLayout = ({ children, openAddEngineeringModal }) => {
+const EngineeringTreeLayout = ({
+  children,
+  defenseEngineeringModal,
+  annualDefenseEngineeringModal,
+}) => {
   return (
     <section
       style={{
@@ -21,7 +25,10 @@ const EngineeringTreeLayout = ({ children, openAddEngineeringModal }) => {
           overflow: 'hidden',
         }}
       >
-        <EngineeringTree openAddEngineeringModal={openAddEngineeringModal} />
+        <EngineeringTree
+          defenseEngineeringModal={defenseEngineeringModal}
+          annualDefenseEngineeringModal={annualDefenseEngineeringModal}
+        />
       </aside>
       <section style={{ marginLeft: 15, width: '100%', overflow: 'auto' }}>
         <main style={{ overflow: 'initial' }}>{children}</main>

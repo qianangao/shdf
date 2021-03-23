@@ -3,11 +3,16 @@ import { connect } from 'umi';
 import { Modal } from 'antd';
 import ProjectTaskForm from './ProjectTaskForm';
 
-const AddProjectTaskModal = ({ dispatch, actionRef, loading, dictionaryMgt }) => {
+const AddProjectTaskModal = ({ dispatch, actionRef, loading, defenseEngineering }) => {
   const [projectId, setProjectId] = useState('');
   const [form] = ProjectTaskForm.useForm();
   const [modalVisible, setModalVisible] = useState(false);
-  const showModal = () => {
+  const [taskPid, setTaskPid] = useState('');
+
+  const showModal = item => {
+    if (item.selectedRowKeys.length) {
+      setTaskPid(item.selectedRowKeys[0]);
+    }
     setModalVisible(true);
   };
 
@@ -21,8 +26,8 @@ const AddProjectTaskModal = ({ dispatch, actionRef, loading, dictionaryMgt }) =>
     }
   }, []);
   useEffect(() => {
-    if (dictionaryMgt.projectId) {
-      setProjectId(dictionaryMgt.projectId);
+    if (defenseEngineering.projectId) {
+      setProjectId(defenseEngineering.projectId);
     }
   });
 
@@ -43,10 +48,11 @@ const AddProjectTaskModal = ({ dispatch, actionRef, loading, dictionaryMgt }) =>
           });
         return new Promise(resolve => {
           dispatch({
-            type: `dictionaryMgt/addProjectTaskList`,
+            type: `defenseEngineering/addProjectTaskList`,
             payload: {
               ...values,
               projectId,
+              taskPid,
               fileIds,
             },
             resolve,
@@ -81,7 +87,7 @@ const AddProjectTaskModal = ({ dispatch, actionRef, loading, dictionaryMgt }) =>
   );
 };
 
-export default connect(({ loading, dictionaryMgt }) => ({
+export default connect(({ loading, defenseEngineering }) => ({
   loading: loading.models.smDictionaryMgt,
-  dictionaryMgt,
+  defenseEngineering,
 }))(AddProjectTaskModal);

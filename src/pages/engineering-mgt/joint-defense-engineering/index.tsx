@@ -7,7 +7,6 @@ import InstitutionDetailModal from '@/pages/key-data/key-institutions-mgt/compon
 import PersonDetailModal from '@/pages/key-data/key-person-mgt/components/DetailModal';
 import EngineeringTreeLayout from './components/tree-component/EngineeringTreeLayout';
 import Table from './components/Table';
-import AddEngineeringModal from './components/add-engineering/AddEngineeringModal';
 import TempProvinceModal from './components/temp-province/tempProvinceModal';
 import AddProjectTaskModal from './components/project-task/add-project-task/AddProjectTaskModal';
 import ModifyProjectTaskModal from './components/project-task/edit-project-task/ModifyProjectTaskModal';
@@ -27,9 +26,10 @@ import InfoAnModal from './components/infoAmodify/ModifyModal';
 import InfoAnDetailModal from './components/infoAmodify/DetailModifyModal';
 import EngineTable from './components/engineDmodify/engineDmodifyTable';
 import EngineModal from './components/engineDmodify/ModifyModal';
+import DefenseEngineeringModal from './components/defense-engineering/DefenseEngineeringModal';
+import AnnualDefenseEngineeringModal from './components/annual-defense-engineering/AnnualDefenseEngineeringModal';
 
-const JointDefenseEngineering = ({ dispatch, dictionaryMgt }) => {
-  const addEngineeringRef = useRef({});
+const JointDefenseEngineering = ({ dispatch, defenseEngineering }) => {
   const tempProvinceRef = useRef({});
   const addProjectTaskRef = useRef({});
   const editProjectTaskRef = useRef({});
@@ -43,9 +43,14 @@ const JointDefenseEngineering = ({ dispatch, dictionaryMgt }) => {
   const banPublishDetailRef = useRef({});
   const institutionDetailRef = useRef({});
   const personDetailRef = useRef({});
+  const defenseEngineeringRef = useRef({});
+  const annualDefenseEngineeringRef = useRef({});
+  const infoAnmodifyRef = useRef({});
+  const infoAnDetailmodifyRef = useRef({});
+  const engineDmodifyRef = useRef({});
   const [tableType, setTableType] = useState('annualWork');
-  const { yearOrtot, projectId } = dictionaryMgt;
   const [accountTableType, setAccountTableType] = useState('checkDirectory');
+  const { yearOrtot, projectId } = defenseEngineering;
 
   const tabYears = [
     { label: '年度工作重点', id: 'annualWork' },
@@ -65,9 +70,6 @@ const JointDefenseEngineering = ({ dispatch, dictionaryMgt }) => {
     { label: '重点单位', id: 'keyInstitution' },
     { label: '重点人物', id: 'keyPerson' },
   ];
-  const infoAnmodifyRef = useRef({});
-  const infoAnDetailmodifyRef = useRef({});
-  const engineDmodifyRef = useRef({});
 
   useEffect(() => {
     dispatch({
@@ -92,9 +94,6 @@ const JointDefenseEngineering = ({ dispatch, dictionaryMgt }) => {
 
   const onTabChangeyear = id => {
     setTableType(id);
-  };
-  const openAddEngineeringModal = item => {
-    addEngineeringRef.current.showModal(item);
   };
   const tempProvinceModal = item => {
     tempProvinceRef.current.showModal(item);
@@ -146,14 +145,24 @@ const JointDefenseEngineering = ({ dispatch, dictionaryMgt }) => {
   const openPersonDetailModal = (personId: any) => {
     personDetailRef.current.showModal(personId);
   };
+  const defenseEngineeringModal = (personId: any) => {
+    defenseEngineeringRef.current.showModal(personId);
+  };
+  const annualDefenseEngineeringModal = (personId: any) => {
+    annualDefenseEngineeringRef.current.showModal(personId);
+  };
 
   return (
-    <EngineeringTreeLayout openAddEngineeringModal={openAddEngineeringModal}>
+    <EngineeringTreeLayout
+      defenseEngineeringModal={defenseEngineeringModal}
+      annualDefenseEngineeringModal={annualDefenseEngineeringModal}
+    >
       {yearOrtot === 'null' ? (
         <TypeSelectLayout tabs={tabs} onTabChange={onTabChange} activeKey={tableType}>
           {tableType === 'annualWork' && (
             <Table
-              openAddEngineeringModal={openAddEngineeringModal}
+              annualDefenseEngineeringModal={annualDefenseEngineeringModal}
+              defenseEngineeringModal={defenseEngineeringModal}
               tempProvinceModal={tempProvinceModal}
               addProjectTaskModal={addProjectTaskModal}
               modifyProjectTaskModal={modifyProjectTaskModal}
@@ -204,7 +213,8 @@ const JointDefenseEngineering = ({ dispatch, dictionaryMgt }) => {
         <TypeSelectLayout tabs={tabYears} onTabChange={onTabChangeyear} activeKey={tableType}>
           {tableType === 'annualWork' && (
             <Table
-              openAddEngineeringModal={openAddEngineeringModal}
+              annualDefenseEngineeringModal={annualDefenseEngineeringModal}
+              defenseEngineeringModal={defenseEngineeringModal}
               tempProvinceModal={tempProvinceModal}
               addProjectTaskModal={addProjectTaskModal}
               modifyProjectTaskModal={modifyProjectTaskModal}
@@ -229,8 +239,9 @@ const JointDefenseEngineering = ({ dispatch, dictionaryMgt }) => {
       <EngineModal actionRef={engineDmodifyRef} />
       <InfoAnModal actionRef={infoAnmodifyRef} />
       <InfoAnDetailModal actionRef={infoAnDetailmodifyRef} />
+      <DefenseEngineeringModal actionRef={defenseEngineeringRef} />
+      <AnnualDefenseEngineeringModal actionRef={annualDefenseEngineeringRef} />
 
-      <AddEngineeringModal actionRef={addEngineeringRef} />
       <TempProvinceModal actionRef={tempProvinceRef} />
       <AddProjectTaskModal actionRef={addProjectTaskRef} />
       <ModifyProjectTaskModal
@@ -252,6 +263,6 @@ const JointDefenseEngineering = ({ dispatch, dictionaryMgt }) => {
   );
 };
 
-export default connect(({ dictionaryMgt }) => ({
-  dictionaryMgt,
+export default connect(({ defenseEngineering }) => ({
+  defenseEngineering,
 }))(JointDefenseEngineering);

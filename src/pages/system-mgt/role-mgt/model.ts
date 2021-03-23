@@ -77,11 +77,14 @@ const Model = {
         });
       }
     },
-    *updateRoleRules({ payload, resolve }, { call }) {
+    *updateRoleRules({ payload, resolve }, { call, put }) {
       const response = yield call(updateRoleRules, payload);
       if (!response.error) {
         resolve && resolve(response);
         message.success('修改成功！');
+        yield put({
+          type: 'tableReload',
+        });
       }
     },
     *getRoleRules({ payload, resolve }, { call }) {

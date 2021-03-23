@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { connect } from 'umi';
+import { connect, useLocation } from 'umi';
 import { Modal } from 'antd';
 import CueAssociation from '@/components/CueAssociation';
 import OrgInfoForm from './form/CaseForm';
@@ -9,11 +9,14 @@ import CaseHandleModal from './CaseHandleModal';
 import ClubSplicing from './ClubSplicing';
 import ClubSplicingModal from './ClubSplicingModal';
 
+const useQuery = () => new URLSearchParams(useLocation().search);
+
 const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
+  const query = useQuery();
   const [form] = OrgInfoForm.useForm();
   const [modifyModalVisible, setModalVisible] = useState(false);
   const [detailData, setDetailData] = useState(null);
-  const { caseDetailData } = caseMgt;
+  const { caseDetailData, specialList } = caseMgt;
   const caseHandleModalRef = useRef({});
   const clubSplicingModalRef = useRef({});
   const [infoId, setCaresId] = useState('');
@@ -32,6 +35,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
           id: items.caseId,
         },
       });
+
       dispatch({
         type: 'caseMgt/tableHandleReload',
         payload: {
@@ -63,6 +67,10 @@ const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
     if (actionRef && typeof actionRef !== 'function') {
       actionRef.current = { showModal };
     }
+
+    if (query.get('type') === 'modify' && query.get('id')) {
+      showModal({ caseId: query.get('id') });
+    }
   }, []);
 
   const hideModal = () => {
@@ -75,8 +83,16 @@ const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
       .validateFields()
       .then(values => {
         // values.specialActionIds = values.specialActionIds && values.specialActionIds ? [values.specialActionIds] : [];
-        values.specialActionIds = ['1'];
+
+        values.involvedPlatformType = Array.isArray(values.involvedPlatformType)
+          ? values.involvedPlatformType.join(',')
+          : values.involvedPlatformType;
+        values.charge = Array.isArray(values.charge) ? values.charge.join(',') : values.charge;
+        values.spreadChannel = Array.isArray(values.spreadChannel)
+          ? values.spreadChannel.join(',')
+          : values.spreadChannel;
         let filesStr = '';
+
         if (values.fileList && values.fileList.length > 0) {
           const ids = values.fileList.map(item => {
             return item.uid;
@@ -156,6 +172,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
         form={form}
         id={infoId}
         orgInfoData={caseDetailData}
+        specialList={specialList}
         caseType={caseType}
         onFieldsChange={onFieldsChange}
       />

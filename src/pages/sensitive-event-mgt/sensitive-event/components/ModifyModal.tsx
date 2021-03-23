@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { connect } from 'umi';
+import { connect, useLocation } from 'umi';
 import { Modal } from 'antd';
 import CueAssociation from '@/components/CueAssociation';
 import OrgInfoForm from './form/CaseForm';
@@ -8,11 +8,15 @@ import TableFileCase from './TableFileCase';
 import CaseHandleModal from './CaseHandleModal';
 import ClubSplicing from './ClubSplicing';
 
-const ModifyModal = ({ dispatch, actionRef, loading, sensitiveMgt }) => {
+const useQuery = () => new URLSearchParams(useLocation().search);
+
+const ModifyModal = ({ dispatch, actionRef, loading, sensitiveMgt, caseMgt }) => {
+  const query = useQuery();
   const [form] = OrgInfoForm.useForm();
   const [modifyModalVisible, setModalVisible] = useState(false);
   const [sensitiveDetailData, setDetailData] = useState(null);
   const { detailData } = sensitiveMgt;
+  const { specialList } = caseMgt;
   const caseHandleModalRef = useRef({});
   const [infoId, setSensitiveId] = useState('');
   const [caseType, setCaseType] = useState('');
@@ -61,6 +65,10 @@ const ModifyModal = ({ dispatch, actionRef, loading, sensitiveMgt }) => {
     if (actionRef && typeof actionRef !== 'function') {
       actionRef.current = { showModal };
     }
+
+    if (query.get('type') === 'modify' && query.get('id')) {
+      showModal({ eventId: query.get('id') });
+    }
   }, []);
 
   const hideModal = () => {
@@ -73,7 +81,13 @@ const ModifyModal = ({ dispatch, actionRef, loading, sensitiveMgt }) => {
       .validateFields()
       .then(values => {
         // values.specialActionIds = values.specialActionIds ? [values.specialActionIds] : [];
-        values.specialActionIds = ['1'];
+        values.platformType = Array.isArray(values.platformType)
+          ? values.platformType.join(',')
+          : values.platformType;
+        values.spreadWay = Array.isArray(values.spreadWay)
+          ? values.spreadWay.join(',')
+          : values.spreadWay;
+
         let filesStr = '';
         if (values.fileList && values.fileList.length > 0) {
           const ids = values.fileList.map(item => {
@@ -153,6 +167,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, sensitiveMgt }) => {
       <OrgInfoForm
         form={form}
         orgInfoData={detailData}
+        specialList={specialList}
         id={infoId}
         caseType={caseType}
         onFieldsChange={onFieldsChange}
@@ -171,7 +186,8 @@ const ModifyModal = ({ dispatch, actionRef, loading, sensitiveMgt }) => {
   );
 };
 
-export default connect(({ sensitiveMgt, loading }) => ({
+export default connect(({ sensitiveMgt, caseMgt, loading }) => ({
   sensitiveMgt,
+  caseMgt,
   loading: loading.models.sensitiveMgt,
 }))(ModifyModal);

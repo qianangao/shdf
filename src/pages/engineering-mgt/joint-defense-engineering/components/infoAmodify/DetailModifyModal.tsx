@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
 import { Modal, Button, Descriptions } from 'antd';
 
-const ModifyModal = ({ dispatch, dictionaryMgt, actionRef }) => {
+const ModifyModal = ({ dispatch, defenseEngineering, actionRef }) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const { infnAnObj } = dictionaryMgt;
+  const { infnAnObj } = defenseEngineering;
   const showModal = infoId => {
     // 获取详情
     dispatch({
-      type: 'dictionaryMgt/getInfoDetail',
+      type: 'defenseEngineering/getInfoDetail',
       payload: infoId.toString(),
     });
     setModalVisible(true);
@@ -27,7 +27,7 @@ const ModifyModal = ({ dispatch, dictionaryMgt, actionRef }) => {
   const hideModal = () => {
     setModalVisible(false);
     dispatch({
-      type: 'dictionaryMgt/save',
+      type: 'defenseEngineering/save',
       payload: {
         infnAnObj: {},
       },
@@ -64,7 +64,7 @@ const ModifyModal = ({ dispatch, dictionaryMgt, actionRef }) => {
   );
 };
 
-export default connect(({ dictionaryMgt, loading }) => ({
-  dictionaryMgt,
+export default connect(({ defenseEngineering, loading }) => ({
+  defenseEngineering,
   loading: loading.models.smDictionaryMgt,
 }))(ModifyModal);

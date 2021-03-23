@@ -32,7 +32,7 @@ const TempProvinceModal = ({ dispatch, actionRef, loading, projectId }) => {
       .then(values => {
         return new Promise(resolve => {
           dispatch({
-            type: 'dictionaryMgt/addTempProvince',
+            type: 'defenseEngineering/addTempProvince',
             payload: {
               ...values,
               projectId,
@@ -68,7 +68,7 @@ const TempProvinceModal = ({ dispatch, actionRef, loading, projectId }) => {
   );
 };
 
-export default connect(({ loading, dictionaryMgt }) => ({
+export default connect(({ loading, defenseEngineering }) => ({
   loading: loading.models.smDictionaryMgt,
-  projectId: dictionaryMgt.projectId,
+  projectId: defenseEngineering.projectId,
 }))(TempProvinceModal);

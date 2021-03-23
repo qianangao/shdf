@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Popconfirm, Modal } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
+import { checkAuthority } from '@/utils/authority';
 
 const Table = ({
   receivingMgt,
@@ -68,7 +69,12 @@ const Table = ({
         <a key={`${receivingData.receiptId}add`} onClick={() => openDetailModal(receivingData)}>
           查看
         </a>,
-        <a key={`${receivingData.receiptId}up`} onClick={() => openModifyModal(receivingData)}>
+        <a
+          // TODO 按钮权限demo
+          hidden={!checkAuthority('rm/update')}
+          key={`${receivingData.receiptId}up`}
+          onClick={() => openModifyModal(receivingData)}
+        >
           修改
         </a>,
         <a key={`${receivingData.receiptId}read`} onClick={() => openReadListModal(receivingData)}>
