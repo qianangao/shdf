@@ -1,18 +1,26 @@
 import React, { Component } from 'react';
-import { Tag, Badge, Spin, Tabs } from 'antd';
+import { Tag, Badge } from 'antd';
 import groupBy from 'lodash/groupBy';
 import moment from 'moment';
-import { connect } from 'umi';
+import { connect, history } from 'umi';
 import { BellOutlined } from '@ant-design/icons';
 import { downloadFileByUrl } from '@/utils';
+import config from '../../../../config/defaultSettings';
 
-import HeaderDropdown from '../HeaderDropdown';
-import NoticeList from './NoticeList';
+// import HeaderDropdown from '../HeaderDropdown';
+// import NoticeList from './NoticeList';
 
 import styles from './index.less';
 
 class NoticeIconView extends Component {
   refreshDownloadFilesFlag = -1;
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      unreadNum: 0,
+    };
+  }
 
   componentDidMount() {
     const { dispatch } = this.props;
@@ -21,6 +29,32 @@ class NoticeIconView extends Component {
       // dispatch({
       //   type: 'global/refreshDownloadFiles',
       // });
+    }
+    if ('WebSocket' in window) {
+      // console.log(config)
+      const socket = new WebSocket(`${config.wsUrl}/shdf/socket/admin`);
+
+      socket.onopen = () => {
+        // console.log('链接成功');
+        // 处理一次消息请求
+        dispatch({
+          type: 'unReadMsg/getUnReadNum',
+          payload: {
+            id: 'admin',
+          },
+        });
+      };
+      socket.onmessage = msg => {
+        if (msg.data.indexOf('登录') < 0 && msg.data.indexOf('连接') < 0) {
+          const data = JSON.parse(msg.data);
+          const { unreadNum } = data;
+          this.setState({ unreadNum });
+          // console.log(data,'sdfsdfsd');
+        }
+      };
+      // socket.send('nihao')
+    } else {
+      // alertTip("该浏览器不支持WebSocket，请切换浏览器或升级后再试");
     }
   }
 
@@ -120,42 +154,49 @@ class NoticeIconView extends Component {
   };
 
   render() {
-    const { downloadFiles = [] } = this.props;
-    const count = downloadFiles.length;
+    // const { downloadFiles = [] } = this.props;
+    // const count = downloadFiles.length;
+
     // spinning={refreshDownloadFiles}
-    const notificationBox = () => (
-      <>
-        <Spin spinning={false} delay={500}>
-          <Tabs className={styles.tabs}>
-            <Tabs.TabPane tab="导出文件" key="exportFiles">
-              <NoticeList
-                data={downloadFiles}
-                clearText="删除全部"
-                onClick={this.downloadExportFile}
-                onClear={this.deleteAllFiles}
-              />
-            </Tabs.TabPane>
-            <Tabs.TabPane tab="系统消息" key="systemMessage">
-              <NoticeList />
-            </Tabs.TabPane>
-          </Tabs>
-        </Spin>
-      </>
-    );
+    // const notificationBox = () => (
+    //   <>
+    //     <Spin spinning={false} delay={500}>
+    //       {/* <Tabs className={styles.tabs}>
+    //         <Tabs.TabPane tab="导出文件" key="exportFiles">
+    //           <NoticeList
+    //             data={downloadFiles}
+    //             clearText="删除全部"
+    //             onClick={this.downloadExportFile}
+    //             onClear={this.deleteAllFiles}
+    //           />
+    //         </Tabs.TabPane>
+    //         <Tabs.TabPane tab="未读消息" key="systemMessage">
+    //           <NoticeList />
+    //         </Tabs.TabPane>
+    //       </Tabs> */}
+    //     </Spin>
+    //   </>
+    // );
+
+    const goDetail = () => {
+      history.push(`/system-mgt/unread-msg`);
+    };
 
     return (
-      <HeaderDropdown
-        placement="bottomRight"
-        overlay={notificationBox}
-        overlayClassName={styles.popover}
-        trigger={['click']}
-      >
-        <span className={styles.notice}>
-          <Badge count={count} className={styles.badge}>
+      // <HeaderDropdown
+      //   placement="bottomRight"
+      //   overlay={notificationBox}
+      //   overlayClassName={styles.popover}
+      //   trigger={['click']}
+
+      // >
+      <>
+        <span className={styles.notice} onClick={goDetail}>
+          <Badge count={this.state.unreadNum} className={styles.badge}>
             <BellOutlined className={styles.bell} />
           </Badge>
         </span>
-      </HeaderDropdown>
+      </>
     );
   }
 }
