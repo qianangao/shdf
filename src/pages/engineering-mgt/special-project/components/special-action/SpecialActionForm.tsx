@@ -34,7 +34,7 @@ const SpecialActionForm = ({ form }) => {
       label: '附件列表',
       name: 'fileIds',
       span: 4,
-      type: 'upload',
+      type: 'uploadSecrecy',
     },
   ];
 

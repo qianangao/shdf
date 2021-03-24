@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect, useLocation } from 'umi';
-import { Modal } from 'antd';
+import { Modal, message } from 'antd';
 import EditChildrenTaskForm from './EditChildrenTaskForm';
 
 const useQuery = () => new URLSearchParams(useLocation().search);
@@ -38,6 +38,7 @@ const ModifyModal = ({
                 uid: item.fileId,
                 name: item.fileName,
                 status: 'done',
+                secrecyLevel: item.secrecyLevel,
               };
             });
           form.setFieldsValue({ ...res, fileIds: fileInfoList });
@@ -88,12 +89,20 @@ const ModifyModal = ({
       form
         .validateFields()
         .then(values => {
+          let tempLevel = '';
+          const fileIds =
+            values.fileIds &&
+            values.fileIds.map(item => {
+              if (tempLevel < item.secrecyLevel) {
+                tempLevel = item.secrecyLevel;
+              }
+              return item.uid;
+            });
+          if (tempLevel > values.secrecyLevel) {
+            message.error('附件密级不能大于该数据密级！');
+            return '';
+          }
           return new Promise(resolve => {
-            const fileIds =
-              values.fileIds &&
-              values.fileIds.map(item => {
-                return item.uid;
-              });
             dispatch({
               type: `specialAction/${id ? 'updateChildrenTaskList' : 'addChildrenTaskList'}`,
               payload: {
