@@ -37,7 +37,7 @@ const Table = ({
     //   fixed: 'left',
     //   width: 64,
     // },
-    { title: '子任务名称', align: 'left', dataIndex: 'taskName', hideInSearch: true },
+    { title: '子任务名称', align: 'center', dataIndex: 'taskName', hideInSearch: true },
     { title: '开始日期', align: 'center', dataIndex: 'startDate', hideInSearch: true },
     { title: '截止日期', align: 'center', dataIndex: 'endDate', hideInSearch: true },
     {
@@ -114,8 +114,8 @@ const Table = ({
           scroll={{ x: 'max-content' }}
           request={async params => getEngineeringList(params)}
           columns={columns}
-          toolBarRender={(_, { selectedRowKeys }) => [
-            <Button type="primary" onClick={() => addProjectTaskModal({ selectedRowKeys })}>
+          toolBarRender={_ => [
+            <Button type="primary" onClick={() => addProjectTaskModal()}>
               新增子任务
             </Button>,
           ]}

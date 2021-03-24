@@ -1,42 +1,55 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
-import { Modal, Transfer } from 'antd';
+import { Modal, Tree } from 'antd';
 
-const DownModal = ({ dispatch, actionRef, loading }) => {
+const DownModal = ({ dispatch, actionRef, loading, roleTree }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [id, setId] = useState('');
-  const [provinceData, setProvinceData] = useState([]);
-  const [targetKeys, setTargetKeys] = useState([]);
-  const [selectedKeys, setSelectedKeys] = useState([]);
-  const onChange = nextTargetKeys => {
-    setTargetKeys(nextTargetKeys);
-  };
+  const [checkedKeys, setCheckedKeys] = useState([]);
 
-  const onSelectChange = (sourceSelectedKeys, targetSelectedKeys) => {
-    setSelectedKeys([...sourceSelectedKeys, ...targetSelectedKeys]);
+  const onCheckHandler = keys => {
+    setCheckedKeys(keys);
   };
+  // const [provinceData, setProvinceData] = useState([]);
+  // const [targetKeys, setTargetKeys] = useState([]);
+  // const [selectedKeys, setSelectedKeys] = useState([]);
+  // const onChange = nextTargetKeys => {
+  //   setTargetKeys(nextTargetKeys);
+  // };
+
+  // const onSelectChange = (sourceSelectedKeys, targetSelectedKeys) => {
+  //   setSelectedKeys([...sourceSelectedKeys, ...targetSelectedKeys]);
+  // };
 
   //   const onScroll = (direction, e) => {
   //     console.log('direction:', direction);
   //     console.log('target:', e.target);
   //   };
-  useEffect(() => {
-    new Promise(resolve => {
-      dispatch({
-        type: 'specialAction/provinceData',
-        resolve,
-      });
-    }).then(res => {
-      const arr = [];
-      for (let i = 0; i < res.length; i++) {
-        arr.push({ key: res[i].orgId, title: res[i].orgName });
-      }
-      setProvinceData([...arr]);
+  // useEffect(() => {
+  //   new Promise(resolve => {
+  //     dispatch({
+  //       type: 'specialAction/provinceData',
+  //       resolve,
+  //     });
+  //   }).then(res => {
+  //     const arr = [];
+  //     for (let i = 0; i < res.length; i++) {
+  //       arr.push({ key: res[i].orgId, title: res[i].orgName });
+  //     }
+  //     setProvinceData([...arr]);
+  //   });
+  // }, []);
+  const getTreeData = () => {
+    dispatch({
+      type: 'smRoleMgt/getRoleTree',
+      payload: {},
     });
+  };
+  useEffect(() => {
+    getTreeData();
   }, []);
 
   const showModal = Id => {
-    setTargetKeys([]);
     if (Id) setId(Id);
     dispatch({
       type: 'specialAction/findChildrenTaskDetail',
@@ -57,10 +70,11 @@ const DownModal = ({ dispatch, actionRef, loading }) => {
 
   const hideModal = () => {
     setModalVisible(false);
+    setCheckedKeys([]);
   };
 
   const handleOk = () => {
-    const keys = targetKeys.join(',');
+    const keys = checkedKeys.join(',');
     return new Promise(resolve => {
       dispatch({
         type: `specialAction/deployChildrenTaskList`,
@@ -93,7 +107,12 @@ const DownModal = ({ dispatch, actionRef, loading }) => {
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <Transfer
+      {roleTree && roleTree.length ? (
+        <Tree checkable onCheck={onCheckHandler} checkedKeys={checkedKeys} treeData={roleTree} />
+      ) : (
+        <></>
+      )}
+      {/* <Transfer
         dataSource={provinceData}
         titles={['选择省份']}
         targetKeys={targetKeys}
@@ -103,12 +122,13 @@ const DownModal = ({ dispatch, actionRef, loading }) => {
         //   onScroll={onScroll}
         render={item => item.title}
         oneWay
-      />
+      /> */}
       {/* <ProvinceCascaderInput/> */}
     </Modal>
   );
 };
 
-export default connect(({ loading }) => ({
+export default connect(({ loading, smRoleMgt }) => ({
   loading: loading.models.smDictionaryMgt,
+  roleTree: smRoleMgt.roleTree,
 }))(DownModal);

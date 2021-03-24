@@ -1,19 +1,19 @@
 import React, { useRef } from 'react';
-import { Button, Popconfirm, message, Modal } from 'antd';
+import { Button, message, Modal } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import { getSecrecyRowClassName } from '@/utils/secrecy';
 
-const Table = ({ emAddressBook, openModifyModal, dispatch, enums }) => {
+const Table = ({ emAddressBook, dispatch, enums }) => {
   const { tableRef } = emAddressBook;
   const formRef = useRef();
   const uploadLgbListRef = useRef();
-  const deleteAddressBook = bookId => {
-    dispatch({
-      type: 'emAddressBook/deleteAddressBook',
-      payload: bookId,
-    });
-  };
+  // const deleteAddressBook = bookId => {
+  //   dispatch({
+  //     type: 'emAddressBook/deleteAddressBook',
+  //     payload: bookId,
+  //   });
+  // };
 
   const columns = [
     { title: '姓名', align: 'center', dataIndex: 'userName' },
@@ -32,28 +32,28 @@ const Table = ({ emAddressBook, openModifyModal, dispatch, enums }) => {
     { title: '当前职务', align: 'center', dataIndex: 'job', hideInSearch: true },
     { title: '手机号', align: 'center', dataIndex: 'phoneNumber', hideInSearch: true },
     { title: '办公电话', align: 'center', dataIndex: 'officeTelephone', hideInSearch: true },
-    { title: '邮箱', align: 'center', dataIndex: 'mailbox', hideInSearch: true },
-    {
-      title: '操作',
-      valueType: 'option',
-      align: 'center',
-      dataIndex: 'id',
-      width: 180,
-      fixed: 'right',
-      render: (dom, data) => [
-        <a key={`${data.bookId}up`} onClick={() => openModifyModal(data.bookId)}>
-          修改
-        </a>,
-        <Popconfirm
-          key={`${data.bookId}del`}
-          title="确认删除该人员信息吗？"
-          placement="topRight"
-          onConfirm={() => deleteAddressBook(data.bookId)}
-        >
-          <a>删除</a>
-        </Popconfirm>,
-      ],
-    },
+    // { title: '邮箱', align: 'center', dataIndex: 'mailbox', hideInSearch: true },
+    // {
+    //   title: '操作',
+    //   valueType: 'option',
+    //   align: 'center',
+    //   dataIndex: 'id',
+    //   width: 180,
+    //   fixed: 'right',
+    //   render: (dom, data) => [
+    //     <a key={`${data.bookId}up`} onClick={() => openModifyModal(data.bookId)}>
+    //       修改
+    //     </a>,
+    //     <Popconfirm
+    //       key={`${data.bookId}del`}
+    //       title="确认删除该人员信息吗？"
+    //       placement="topRight"
+    //       onConfirm={() => deleteAddressBook(data.bookId)}
+    //     >
+    //       <a>删除</a>
+    //     </Popconfirm>,
+    //   ],
+    // },
   ];
 
   const getAddressBook = params =>
@@ -128,9 +128,9 @@ const Table = ({ emAddressBook, openModifyModal, dispatch, enums }) => {
         scroll={{ x: 'max-content' }}
         request={async params => getAddressBook(params)}
         toolBarRender={(_, { selectedRowKeys }) => [
-          <Button type="primary" onClick={() => openModifyModal()}>
-            新增
-          </Button>,
+          // <Button type="primary" onClick={() => openModifyModal()}>
+          //   新增
+          // </Button>,
           <Button type="primary" onClick={() => templateDownload()}>
             模板下载
           </Button>,

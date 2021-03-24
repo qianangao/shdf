@@ -1,6 +1,6 @@
 import React from 'react';
 import AdvancedForm from '@/components/AdvancedForm';
-import { checkPhone, checkEmail, checkTelephone } from '@/utils/validators';
+import { checkPhone, checkTelephone } from '@/utils/validators';
 
 const AddressBookForm = ({ form }) => {
   const formItems = [
@@ -57,16 +57,16 @@ const AddressBookForm = ({ form }) => {
         },
       ],
     },
-    {
-      label: '邮箱',
-      name: 'mailbox',
-      span: 4,
-      rules: [
-        {
-          validator: checkEmail,
-        },
-      ],
-    },
+    // {
+    //   label: '邮箱',
+    //   name: 'mailbox',
+    //   span: 4,
+    //   rules: [
+    //     {
+    //       validator: checkEmail,
+    //     },
+    //   ],
+    // },
   ];
 
   return <AdvancedForm form={form} fields={formItems} />;

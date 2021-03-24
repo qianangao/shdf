@@ -1,18 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
-import { Modal } from 'antd';
+import { Modal, message } from 'antd';
 import ProjectTaskForm from './ProjectTaskForm';
 
 const AddProjectTaskModal = ({ dispatch, actionRef, loading, defenseEngineering }) => {
   const [projectId, setProjectId] = useState('');
   const [form] = ProjectTaskForm.useForm();
   const [modalVisible, setModalVisible] = useState(false);
-  const [taskPid, setTaskPid] = useState('');
 
-  const showModal = item => {
-    if (item.selectedRowKeys.length) {
-      setTaskPid(item.selectedRowKeys[0]);
-    }
+  const showModal = () => {
     setModalVisible(true);
   };
 
@@ -41,18 +37,25 @@ const AddProjectTaskModal = ({ dispatch, actionRef, loading, defenseEngineering 
     form
       .validateFields()
       .then(values => {
+        let tempLevel = '';
         const fileIds =
           values.fileIds &&
           values.fileIds.map(item => {
+            if (tempLevel < item.secrecyLevel) {
+              tempLevel = item.secrecyLevel;
+            }
             return item.uid;
           });
+        if (tempLevel > values.secrecyLevel) {
+          message.error('附件密级不能大于该数据密级！');
+          return '';
+        }
         return new Promise(resolve => {
           dispatch({
             type: `defenseEngineering/addProjectTaskList`,
             payload: {
               ...values,
               projectId,
-              taskPid,
               fileIds,
             },
             resolve,

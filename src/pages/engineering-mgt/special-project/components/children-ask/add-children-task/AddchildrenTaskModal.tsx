@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
-import { Modal } from 'antd';
+import { Modal, message } from 'antd';
 import ChildrenTaskForm from './ChildrenTaskForm';
 
 const AddchildrenTaskModal = ({ dispatch, actionRef, loading, specialAction }) => {
@@ -8,16 +8,11 @@ const AddchildrenTaskModal = ({ dispatch, actionRef, loading, specialAction }) =
   const [form] = ChildrenTaskForm.useForm();
   const [modalVisible, setModalVisible] = useState(false);
   const [visible, setVisible] = useState(false);
-  const [superTaskId, setSuperTaskId] = useState('');
 
   const showModal = item => {
     if (item.visible) {
       setVisible(item.visible);
     }
-    if (item.selectedRowKeys.length) {
-      setSuperTaskId(item.selectedRowKeys[0]);
-    }
-
     setModalVisible(true);
   };
 
@@ -47,18 +42,25 @@ const AddchildrenTaskModal = ({ dispatch, actionRef, loading, specialAction }) =
     form
       .validateFields()
       .then(values => {
+        let tempLevel = '';
         const fileIds =
           values.fileIds &&
           values.fileIds.map(item => {
+            if (tempLevel < item.secrecyLevel) {
+              tempLevel = item.secrecyLevel;
+            }
             return item.uid;
           });
+        if (tempLevel > values.secrecyLevel) {
+          message.error('附件密级不能大于该数据密级！');
+          return '';
+        }
         return new Promise(resolve => {
           dispatch({
             type: `specialAction/addChildrenTaskList`,
             payload: {
               ...values,
               actionId,
-              superTaskId,
               fileIds,
             },
             resolve,

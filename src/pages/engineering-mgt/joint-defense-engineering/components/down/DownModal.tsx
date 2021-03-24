@@ -1,38 +1,52 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
-import { Modal, Transfer } from 'antd';
+import { Modal, Tree } from 'antd';
 
-const DownModal = ({ dispatch, actionRef, loading }) => {
+const DownModal = ({ dispatch, actionRef, loading, roleTree }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [id, setId] = useState('');
-  const [provinceData, setProvinceData] = useState([]);
-  const [targetKeys, setTargetKeys] = useState([]);
-  const [selectedKeys, setSelectedKeys] = useState([]);
-  const onChange = nextTargetKeys => {
-    setTargetKeys(nextTargetKeys);
-  };
+  const [checkedKeys, setCheckedKeys] = useState([]);
 
-  const onSelectChange = (sourceSelectedKeys, targetSelectedKeys) => {
-    setSelectedKeys([...sourceSelectedKeys, ...targetSelectedKeys]);
+  const onCheckHandler = keys => {
+    setCheckedKeys(keys);
   };
-
-  useEffect(() => {
-    new Promise(resolve => {
-      dispatch({
-        type: 'defenseEngineering/provinceData',
-        resolve,
-      });
-    }).then(res => {
-      const arr = [];
-      for (let i = 0; i < res.length; i++) {
-        arr.push({ key: res[i].orgId, title: res[i].orgName });
-      }
-      setProvinceData([...arr]);
+  const getTreeData = () => {
+    dispatch({
+      type: 'smRoleMgt/getRoleTree',
+      payload: {},
     });
+  };
+  useEffect(() => {
+    getTreeData();
   }, []);
+  //
+  // const [provinceData, setProvinceData] = useState([]);
+  // const [targetKeys, setTargetKeys] = useState([]);
+  // const [selectedKeys, setSelectedKeys] = useState([]);
+  // const onChange = nextTargetKeys => {
+  //   setTargetKeys(nextTargetKeys);
+  // };
+
+  // const onSelectChange = (sourceSelectedKeys, targetSelectedKeys) => {
+  //   setSelectedKeys([...sourceSelectedKeys, ...targetSelectedKeys]);
+  // };
+
+  // useEffect(() => {
+  //   new Promise(resolve => {
+  //     dispatch({
+  //       type: 'defenseEngineering/provinceData',
+  //       resolve,
+  //     });
+  //   }).then(res => {
+  //     const arr = [];
+  //     for (let i = 0; i < res.length; i++) {
+  //       arr.push({ key: res[i].orgId, title: res[i].orgName });
+  //     }
+  //     setProvinceData([...arr]);
+  //   });
+  // }, []);
 
   const showModal = Id => {
-    setTargetKeys([]);
     if (Id) setId(Id);
     setModalVisible(true);
   };
@@ -49,10 +63,11 @@ const DownModal = ({ dispatch, actionRef, loading }) => {
 
   const hideModal = () => {
     setModalVisible(false);
+    setCheckedKeys([]);
   };
 
   const handleOk = () => {
-    const keys = targetKeys.join(',');
+    const keys = checkedKeys.join(',');
     return new Promise(resolve => {
       dispatch({
         type: `defenseEngineering/deployProjectTaskList`,
@@ -85,7 +100,12 @@ const DownModal = ({ dispatch, actionRef, loading }) => {
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <Transfer
+      {roleTree && roleTree.length ? (
+        <Tree checkable onCheck={onCheckHandler} checkedKeys={checkedKeys} treeData={roleTree} />
+      ) : (
+        <></>
+      )}
+      {/* <Transfer
         dataSource={provinceData}
         titles={['选择省份']}
         targetKeys={targetKeys}
@@ -94,11 +114,12 @@ const DownModal = ({ dispatch, actionRef, loading }) => {
         onSelectChange={onSelectChange}
         render={item => item.title}
         oneWay
-      />
+      /> */}
     </Modal>
   );
 };
 
-export default connect(({ loading }) => ({
+export default connect(({ loading, smRoleMgt }) => ({
   loading: loading.models.smDictionaryMgt,
+  roleTree: smRoleMgt.roleTree,
 }))(DownModal);
