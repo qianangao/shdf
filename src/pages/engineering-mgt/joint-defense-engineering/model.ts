@@ -40,6 +40,8 @@ import {
   addEngineData,
   getEngineList,
   deleteMeeting,
+  updateEngineData,
+  deleteEngineData,
 } from './service';
 
 const Model = {
@@ -637,6 +639,27 @@ const Model = {
         };
 
         resolve && resolve(result);
+      }
+    },
+
+    *updateEngineData({ payload, resolve }, { call, put }) {
+      const response = yield call(updateEngineData, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('修改成功！');
+        yield put({
+          type: 'tableReload',
+        });
+      }
+    },
+    *deleteEngineData({ payload, resolve }, { call, put }) {
+      const response = yield call(deleteEngineData, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('删除成功！');
+        yield put({
+          type: 'tableReload',
+        });
       }
     },
   },

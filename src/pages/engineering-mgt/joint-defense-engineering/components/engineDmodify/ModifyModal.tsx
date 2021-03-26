@@ -46,13 +46,13 @@ const ModifyModal = ({ dispatch, actionRef, loading, defenseEngineering }) => {
           });
         return new Promise(resolve => {
           dispatch({
-            type: `defenseEngineering/addEngineData`,
+            type: `defenseEngineering/${detailData ? 'updateEngineData' : 'addEngineData'}`,
             payload: {
               ...values,
               fileIds,
               projectId,
-              detailData,
               projectPid: defenseEngineering.projectPid ? defenseEngineering.projectPid : '10001',
+              dataId: detailData ? detailData.dataId : undefined,
             },
             resolve,
           });

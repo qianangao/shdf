@@ -2,10 +2,18 @@ import React from 'react';
 import { Button, Popconfirm } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
+import { checkAuthority } from '@/utils/authority';
 
 const Table = ({ authorityMgt, authModal, dispatch, enums }) => {
   const { tableRef } = authorityMgt;
-
+  const deleteAuth = permessionId => {
+    dispatch({
+      type: 'authorityMgt/deleteAuth',
+      payload: {
+        permessionId,
+      },
+    });
+  };
   const columns = [
     // {
     //   title: '序号',
@@ -34,6 +42,7 @@ const Table = ({ authorityMgt, authModal, dispatch, enums }) => {
       render: (dom, roleData) => [
         <a
           key={`${roleData.permessionId}up`}
+          hidden={!checkAuthority('am/update')}
           onClick={() => authModal({ id: roleData.permessionId })}
         >
           修改
@@ -44,10 +53,11 @@ const Table = ({ authorityMgt, authModal, dispatch, enums }) => {
           placement="topRight"
           onConfirm={() => deleteAuth(roleData.permessionId)}
         >
-          <a>删除</a>
+          <a hidden={!checkAuthority('am/delete')}>删除</a>
         </Popconfirm>,
         <a
           key={`${roleData.permessionId}add`}
+          hidden={!checkAuthority('am/newChild')}
           onClick={() =>
             authModal({
               name: roleData.permessionName,
@@ -71,15 +81,6 @@ const Table = ({ authorityMgt, authModal, dispatch, enums }) => {
       });
     });
 
-  const deleteAuth = permessionId => {
-    dispatch({
-      type: 'authorityMgt/deleteAuth',
-      payload: {
-        permessionId,
-      },
-    });
-  };
-
   return (
     <ProTable
       search={false}
@@ -90,7 +91,7 @@ const Table = ({ authorityMgt, authModal, dispatch, enums }) => {
       scroll={{ x: 'max-content' }}
       request={async params => getRoleList(params)}
       toolBarRender={_ => [
-        <Button type="primary" onClick={() => authModal()}>
+        <Button type="primary" onClick={() => authModal()} hidden={!checkAuthority('am/add')}>
           新增
         </Button>,
       ]}

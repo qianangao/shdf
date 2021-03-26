@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Popconfirm } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
+import { checkAuthority } from '@/utils/authority';
 
 const Table = ({ smRoleMgt, modifyRoleModal, authorityModal, dispatch }) => {
   const { tableRef } = smRoleMgt;
@@ -44,7 +45,11 @@ const Table = ({ smRoleMgt, modifyRoleModal, authorityModal, dispatch }) => {
       fixed: 'right',
       render: (dom, roleData) => [
         roleData.onlyRead === null && (
-          <a key={`${roleData.roleId}up`} onClick={() => modifyRoleModal(roleData.roleId)}>
+          <a
+            hidden={!checkAuthority('rm/update')}
+            key={`${roleData.roleId}up`}
+            onClick={() => modifyRoleModal(roleData.roleId)}
+          >
             修改
           </a>
         ),
@@ -58,10 +63,14 @@ const Table = ({ smRoleMgt, modifyRoleModal, authorityModal, dispatch }) => {
           placement="topRight"
           onConfirm={() => deleteRoles(roleData.roleId)}
         >
-          <a>删除</a>
+          <a hidden={!checkAuthority('rm/delete')}>删除</a>
         </Popconfirm>,
         // ),
-        <a key={`${roleData.roleId}manag`} onClick={() => authorityModal(roleData.roleId)}>
+        <a
+          key={`${roleData.roleId}manag`}
+          onClick={() => authorityModal(roleData.roleId)}
+          hidden={!checkAuthority('rm/authority')}
+        >
           权限管理
         </a>,
       ],
@@ -76,7 +85,7 @@ const Table = ({ smRoleMgt, modifyRoleModal, authorityModal, dispatch }) => {
       scroll={{ x: 'max-content' }}
       request={async params => getRoleList(params)}
       toolBarRender={_ => [
-        <Button type="primary" onClick={() => modifyRoleModal()}>
+        <Button type="primary" onClick={() => modifyRoleModal()} hidden={!checkAuthority('rm/add')}>
           新增
         </Button>,
       ]}

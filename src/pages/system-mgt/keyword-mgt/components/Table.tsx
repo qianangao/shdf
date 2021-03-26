@@ -3,8 +3,8 @@ import { Button } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 
-const Table = ({ logAudit, dispatch, openModifyModal }) => {
-  const { tableRef } = logAudit;
+const Table = ({ keywrod, dispatch, openModifyModal }) => {
+  const { tableRef } = keywrod;
   const deletewd = params => {
     const { keyWordId } = params;
     /* eslint-disable no-new */
@@ -25,7 +25,8 @@ const Table = ({ logAudit, dispatch, openModifyModal }) => {
       width: 64,
     },
     { title: '关键字', align: 'center', dataIndex: 'keyWord' },
-
+    { title: '创建人  ', align: 'center', dataIndex: 'createUser' },
+    { title: '创建时间', align: 'center', dataIndex: 'createTime', valueType: 'date' },
     {
       title: '操作',
       valueType: 'option',
@@ -63,7 +64,6 @@ const Table = ({ logAudit, dispatch, openModifyModal }) => {
       headerTitle="关键字使用"
       actionRef={tableRef}
       scroll={{ x: 'max-content' }}
-      rowSelection={[]}
       request={async params => getList(params)}
       toolBarRender={() => [
         <Button type="primary" onClick={() => openModifyModal()}>
@@ -75,7 +75,7 @@ const Table = ({ logAudit, dispatch, openModifyModal }) => {
   );
 };
 
-export default connect(({ logAudit, global }) => ({
-  logAudit,
+export default connect(({ keywrod, global }) => ({
+  keywrod,
   enums: global.enums,
 }))(Table);

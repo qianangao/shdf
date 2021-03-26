@@ -7,6 +7,18 @@ const Table = ({ defenseEngineering, openModifyModal, dispatch }) => {
   const { tableRef } = defenseEngineering;
   const [projectId, setProjectId] = useState('');
   let status = true;
+  const deleteData = params => {
+    /* eslint-disable no-new */
+    new Promise(resolve => {
+      dispatch({
+        type: 'defenseEngineering/deleteEngineData',
+        payload: {
+          dataId: params.dataId ? params.dataId : '',
+        },
+        resolve,
+      });
+    });
+  };
   const columns = [
     {
       title: '序号',
@@ -53,8 +65,10 @@ const Table = ({ defenseEngineering, openModifyModal, dispatch }) => {
       width: 220,
       fixed: 'right',
       render: (dom, logData) => [
+        <a onClick={() => openModifyModal(logData)}>查看</a>,
         <a onClick={() => openModifyModal(logData)}>编辑</a>,
-        // <a onClick={() => deletewd(logData)}>删除</a>,
+        <a>上报</a>,
+        <a onClick={() => deleteData(logData)}>删除</a>,
       ],
     },
   ];
@@ -104,20 +118,19 @@ const Table = ({ defenseEngineering, openModifyModal, dispatch }) => {
     }
   });
   const getReceivingList = params =>
+    /* eslint-disable no-new */
     new Promise(resolve => {
       dispatch({
         type: 'defenseEngineering/getEngineList',
         payload: {
           ...params,
           projectId,
-          // type: status ? undefined : '0 ',
         },
         resolve,
       });
     });
   const getChange = () => {
     status = !status;
-    // getReceivingList({ pageSize: 20, current: 1 });
     tableRef.current.reloadAndRest();
   };
 

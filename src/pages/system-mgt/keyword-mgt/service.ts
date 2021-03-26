@@ -29,7 +29,7 @@ export async function update(params) {
  * @param {*} params
  */
 export async function deletekw(params) {
-  return request(`/key-words`, {
+  return request(`/key-words/?keyWordId=${params.keyWordId}`, {
     method: 'DELETE',
     data: params,
   });

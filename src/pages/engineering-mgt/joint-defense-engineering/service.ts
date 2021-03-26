@@ -295,6 +295,26 @@ export async function addEngineData(params: any) {
     data: params,
   });
 }
+/**
+ * 修改工程数据
+ * @param params
+ */
+export async function updateEngineData(params: any) {
+  return request(`/project-data`, {
+    method: 'PUT',
+    data: params,
+  });
+}
+/**
+ * 删除工程数据
+ * @param params
+ */
+export async function deleteEngineData(params: any) {
+  return request(`/project-data?dataId=${params.keyWordId}`, {
+    method: 'DELETE',
+    data: params,
+  });
+}
 
 /**
  * 查堵目录列表
