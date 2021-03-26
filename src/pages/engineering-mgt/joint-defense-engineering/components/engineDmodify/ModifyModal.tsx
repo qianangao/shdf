@@ -8,37 +8,9 @@ const ModifyModal = ({ dispatch, actionRef, loading, defenseEngineering }) => {
   const [projectId, setProjectId] = useState('');
   const [detailData, setDetailData] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-  const updateData = infoId => {
-    if (infoId) {
-      new Promise(resolve => {
-        dispatch({
-          type: 'defenseEngineering/getInfoDetail',
-          payload: infoId.toString(),
-          resolve,
-        });
-      }).then(data => {
-        if (data) {
-          const fields = {
-            ...data,
-            fileShow:
-              data.files &&
-              data.files.map(item => {
-                return {
-                  url: item.url,
-                  uid: item.fileId,
-                  name: item.fileName,
-                  status: 'done',
-                };
-              }),
-          };
-          form.setFieldsValue(fields);
-        }
-      });
-    }
-  };
+
   const showModal = infoId => {
     setDetailData(infoId || null);
-    updateData(infoId);
     setModalVisible(true);
   };
 
@@ -96,7 +68,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, defenseEngineering }) => {
 
   return (
     <Modal
-      title="新增工程数据"
+      title={detailData ? '编辑工程数据' : '新增工程数据'}
       centered
       width="580px"
       style={{ paddingBottom: 0 }}
@@ -108,7 +80,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, defenseEngineering }) => {
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <AddressBookForm form={form} />
+      <AddressBookForm form={form} InfoData={detailData} />
     </Modal>
   );
 };

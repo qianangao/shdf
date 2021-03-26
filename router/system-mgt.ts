@@ -40,6 +40,13 @@ const routes = {
       remark: '日志审计',
     },
     {
+      path: '/system-mgt/keyword-mgt',
+      name: 'system-mgt-keyword-mgt',
+      component: './system-mgt/keyword-mgt',
+      icon: 'setting',
+      remark: '词库管理',
+    },
+    {
       path: '/system-mgt',
       redirect: '/system-mgt/organization-mgt',
       hideInMenu: true,
