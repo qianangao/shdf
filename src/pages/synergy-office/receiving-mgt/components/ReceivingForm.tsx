@@ -56,7 +56,7 @@ const ReceivingForm = ({ form, orgInfoData, id }) => {
     {
       label: '保密等级',
       name: 'secrecyLevel',
-      enumsLabel: 'subject_secrecy_level',
+      enumsLabel: 'object_secrecy_level',
       rules: [{ required: true, message: '请选择密级!' }],
     },
     {

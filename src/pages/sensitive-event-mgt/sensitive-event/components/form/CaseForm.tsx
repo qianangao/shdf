@@ -50,7 +50,7 @@ const CaseForm = ({ form, orgInfoData, specialList, id, caseType, onFieldsChange
     {
       label: '保密等级',
       name: 'secrecyLevel',
-      enumsLabel: 'subject_secrecy_level',
+      enumsLabel: 'object_secrecy_level',
       rules: [{ required: true, message: '请选择保密等级!', whitespace: true }],
     },
     {

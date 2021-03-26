@@ -28,7 +28,7 @@ const SpecialProject = ({ dispatch }) => {
     dispatch({
       type: 'global/getEnums',
       payload: {
-        names: ['subject_secrecy_level', 'special_type', 'special_task_state'],
+        names: ['object_secrecy_level', 'special_type', 'special_task_state'],
       },
     });
   }, []);

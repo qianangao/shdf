@@ -91,8 +91,8 @@ const CaresDetailModal = ({ dispatch, receivingMgt, actionRef, enums }) => {
           {enums.urgent_level && enums.urgent_level[receivingDetailData.urgentLevel]}
         </Descriptions.Item>
         <Descriptions.Item label="密             级">
-          {enums.subject_secrecy_level &&
-            enums.subject_secrecy_level[receivingDetailData.secrecyLevel]}
+          {enums.object_secrecy_level &&
+            enums.object_secrecy_level[receivingDetailData.secrecyLevel]}
         </Descriptions.Item>
         <Descriptions.Item label="保  密  期  限">
           {receivingDetailData.secrecyDuration}

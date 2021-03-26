@@ -117,8 +117,7 @@ const EngineeringDescription = ({
           )}
 
           <Descriptions.Item label="保密等级" span={2}>
-            {enums.subject_secrecy_level &&
-              enums.subject_secrecy_level[engineeringForm.secrecyLevel]}
+            {enums.object_secrecy_level && enums.object_secrecy_level[engineeringForm.secrecyLevel]}
           </Descriptions.Item>
           {!visible && (
             <>

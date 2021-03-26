@@ -204,6 +204,16 @@ export async function updateMeeting(params: any) {
   });
 }
 /**
+ * 删除会议
+ * @param params
+ */
+export async function deleteMeeting(params: any) {
+  return request(`/projectMeeting/delete?meetingId=${params}`, {
+    method: 'DELETE',
+    data: params,
+  });
+}
+/**
  * 获取信息报送详情
  * @param params
  */

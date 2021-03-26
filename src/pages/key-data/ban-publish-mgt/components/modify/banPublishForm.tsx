@@ -34,7 +34,7 @@ const BanPublishForm = ({ form }) => {
     },
     { label: '类别', name: 'category', enumsLabel: 'illegal_dict' },
     { label: '关键词', name: 'keyword' },
-    { label: '保密等级', name: 'secrecyLevel', enumsLabel: 'subject_secrecy_level' },
+    { label: '保密等级', name: 'secrecyLevel', enumsLabel: 'object_secrecy_level' },
     {
       name: 'line1',
       type: 'segmentation',

@@ -1,11 +1,16 @@
 import React from 'react';
-import { Button } from 'antd';
+import { Button, Popconfirm } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 
 const MeetingTable = ({ defenseEngineering, meetingModal, dispatch }) => {
   const { meetingTableRef } = defenseEngineering;
-
+  const deleteMeeting = meetingId => {
+    dispatch({
+      type: 'defenseEngineering/deleteMeeting',
+      payload: meetingId,
+    });
+  };
   const columns = [
     {
       title: '序号',
@@ -55,6 +60,14 @@ const MeetingTable = ({ defenseEngineering, meetingModal, dispatch }) => {
         <a key={`${data.meetingId}up`} onClick={() => meetingModal({ meetingId: data.meetingId })}>
           编辑
         </a>,
+        <Popconfirm
+          key={`${data.meetingId}del`}
+          title="确认删除该会议信息吗？"
+          placement="topRight"
+          onConfirm={() => deleteMeeting(data.meetingId)}
+        >
+          <a>删除</a>
+        </Popconfirm>,
       ],
     },
   ];

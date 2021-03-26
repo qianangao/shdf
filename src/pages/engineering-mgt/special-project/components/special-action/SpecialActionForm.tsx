@@ -18,7 +18,7 @@ const SpecialActionForm = ({ form }) => {
       name: 'secrecyLevel',
       span: 4,
       rules: [{ required: true, message: '请选择保密等级!' }],
-      enumsLabel: 'subject_secrecy_level',
+      enumsLabel: 'object_secrecy_level',
     },
     {
       label: '行动描述',

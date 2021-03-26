@@ -26,7 +26,7 @@ const CaseMgt = ({ dispatch }) => {
       type: 'global/getEnums',
       payload: {
         names: [
-          'subject_secrecy_level',
+          'object_secrecy_level',
           'reading_state',
           'urgent_level',
           'spread_channel',
