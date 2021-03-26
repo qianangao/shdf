@@ -47,6 +47,13 @@ const routes = {
       remark: '词库管理',
     },
     {
+      path: '/system-mgt/unread-msg',
+      name: 'system-mgt-unread-msg',
+      component: './system-mgt/unread-msg',
+      icon: 'setting',
+      remark: '未读消息',
+    },
+    {
       path: '/system-mgt',
       redirect: '/system-mgt/organization-mgt',
       hideInMenu: true,

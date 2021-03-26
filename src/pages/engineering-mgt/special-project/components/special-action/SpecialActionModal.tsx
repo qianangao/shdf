@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
-import { Modal } from 'antd';
+import { Modal, message } from 'antd';
 import SpecialActionForm from './SpecialActionForm';
 
 const SpecialActionModal = ({ dispatch, actionRef, loading }) => {
@@ -17,6 +17,7 @@ const SpecialActionModal = ({ dispatch, actionRef, loading }) => {
           uid: item.fileId,
           name: item.fileName,
           status: 'done',
+          secrecyLevel: item.secrecyLevel,
         };
       });
     form.setFieldsValue({ ...data, fileIds: fileInfoList });
@@ -50,15 +51,23 @@ const SpecialActionModal = ({ dispatch, actionRef, loading }) => {
     form
       .validateFields()
       .then(values => {
+        let tempLevel = '';
+        const fileIds =
+          values.fileIds &&
+          values.fileIds.map(item => {
+            if (tempLevel < item.secrecyLevel) {
+              tempLevel = item.secrecyLevel;
+            }
+            return item.uid;
+          });
+        if (tempLevel > values.secrecyLevel) {
+          message.error('附件密级不能大于该数据密级！');
+          return '';
+        }
+        if (actionForm) {
+          values.actionId = actionForm.actionId;
+        }
         return new Promise(resolve => {
-          const fileIds =
-            values.fileIds &&
-            values.fileIds.map(item => {
-              return item.uid;
-            });
-          if (actionForm) {
-            values.actionId = actionForm.actionId;
-          }
           dispatch({
             type: `specialAction/${actionForm ? 'editSpecialAction' : 'addSpecialAction'}`,
             payload: {

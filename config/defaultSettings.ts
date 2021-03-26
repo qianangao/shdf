@@ -14,6 +14,7 @@ const proSettings: DefaultSettings = {
   title: '全国“SHDF”SM信息管理系统',
   pwa: false,
   iconfontUrl: '',
+  wsUrl: 'ws://10.92.119.160:8877',
   menu: {
     locale: true,
   },

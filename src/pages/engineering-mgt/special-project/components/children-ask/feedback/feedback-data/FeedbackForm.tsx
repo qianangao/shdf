@@ -50,7 +50,8 @@ const FeedbackForm = ({ form, openFeedbackReqModal, FeedbackData }) => {
       label: '附件列表',
       name: 'fileIds',
       span: 4,
-      type: 'upload',
+      rules: [{ required: true, message: '请选择附件!' }],
+      type: 'uploadSecrecy',
     },
     {
       label: '反馈要求',
@@ -62,6 +63,7 @@ const FeedbackForm = ({ form, openFeedbackReqModal, FeedbackData }) => {
       label: '反馈要求',
       name: 'specialTaskFeedbackList',
       span: 4,
+      rules: [{ required: true, message: '请选择反馈要求!' }],
       render: <FeedbackDataTable value={FeedbackData} />,
     },
   ];

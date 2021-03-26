@@ -85,7 +85,7 @@ const EditChildrenTaskForm = ({
       name: 'fileIds',
       span: 4,
       disabled,
-      type: 'upload',
+      type: 'uploadSecrecy',
     },
     {
       label: '任务进度',

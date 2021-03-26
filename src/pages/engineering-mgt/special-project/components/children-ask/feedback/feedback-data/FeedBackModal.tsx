@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
-import { Modal } from 'antd';
+import { message, Modal } from 'antd';
 import FeedbackForm from './FeedbackForm';
 
 const FeedbackModal = ({ dispatch, actionRef, loading, openFeedbackReqModal, FeedbackData }) => {
@@ -31,6 +31,7 @@ const FeedbackModal = ({ dispatch, actionRef, loading, openFeedbackReqModal, Fee
                 uid: item.fileId,
                 name: item.fileName,
                 status: 'done',
+                secrecyLevel: item.secrecyLevel,
               };
             });
           form.setFieldsValue({ ...res, fileIds: fileInfoList });
@@ -57,11 +58,19 @@ const FeedbackModal = ({ dispatch, actionRef, loading, openFeedbackReqModal, Fee
     form
       .validateFields()
       .then(values => {
+        let tempLevel = '';
         const fileIds =
           values.fileIds &&
           values.fileIds.map(item => {
+            if (tempLevel < item.secrecyLevel) {
+              tempLevel = item.secrecyLevel;
+            }
             return item.uid;
           });
+        if (tempLevel > values.secrecyLevel) {
+          message.error('附件密级不能大于该数据密级！');
+          return '';
+        }
         return new Promise(resolve => {
           dispatch({
             type: `specialAction/addFeedback`,
@@ -69,8 +78,8 @@ const FeedbackModal = ({ dispatch, actionRef, loading, openFeedbackReqModal, Fee
               ...values,
               fileIds,
               taskId,
-              feedbackId: FeedbackData[0].feedbackId,
-              feedbackType: FeedbackData[0].feedbackType,
+              feedbackId: FeedbackData.length && FeedbackData[0].feedbackId,
+              feedbackType: FeedbackData.length && FeedbackData[0].feedbackType,
             },
             resolve,
           });
