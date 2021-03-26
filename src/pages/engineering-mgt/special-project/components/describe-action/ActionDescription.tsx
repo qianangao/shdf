@@ -103,7 +103,7 @@ const ActionDescription = ({
             </>
           )}
           <Descriptions.Item label="保密等级" span={4}>
-            {enums.subject_secrecy_level && enums.subject_secrecy_level[actionForm.secrecyLevel]}
+            {enums.object_secrecy_level && enums.object_secrecy_level[actionForm.secrecyLevel]}
           </Descriptions.Item>
           <Descriptions.Item label="总体描述" span={4}>
             {actionForm.actionDescription}

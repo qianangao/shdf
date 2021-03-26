@@ -41,7 +41,7 @@ const ClueTable = ({
       title: '地域',
       align: 'center',
       dataIndex: 'region',
-      valueEnum: enums.subject_secrecy_level,
+      valueEnum: enums.object_secrecy_level,
       hideInSearch: true,
     },
     {

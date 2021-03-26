@@ -39,6 +39,7 @@ import {
   getInfoStatistics,
   addEngineData,
   getEngineList,
+  deleteMeeting,
 } from './service';
 
 const Model = {
@@ -187,6 +188,19 @@ const Model = {
       if (!response.error) {
         const result = formatPageData(response);
         resolve && resolve(result);
+      }
+    },
+
+    *deleteMeeting({ payload, resolve }, { call, put }) {
+      const meetingId = payload.toString();
+      const response = yield call(deleteMeeting, meetingId);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('删除成功！');
+
+        yield put({
+          type: 'meetingTableReload',
+        });
       }
     },
     *getMeetingDetail({ payload, resolve }, { call }) {

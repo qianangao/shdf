@@ -216,8 +216,8 @@ const DetailModal = ({ dispatch, actionRef, loading, banPublishDetail, enums }) 
           </Descriptions.Item>
           <Descriptions.Item label="关键词">{banPublishDetail.keyword}</Descriptions.Item>
           <Descriptions.Item label="保密等级" span={2}>
-            {enums.subject_secrecy_level &&
-              enums.subject_secrecy_level[banPublishDetail.secrecyLevel]}
+            {enums.object_secrecy_level &&
+              enums.object_secrecy_level[banPublishDetail.secrecyLevel]}
           </Descriptions.Item>
           <Descriptions.Item label="简介说明" span={3}>
             {banPublishDetail.description}

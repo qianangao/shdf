@@ -19,7 +19,7 @@ const ReceivingMgt = ({ dispatch }) => {
     dispatch({
       type: 'global/getEnums',
       payload: {
-        names: ['subject_secrecy_level', 'reading_state', 'urgent_level', 'handle_type'],
+        names: ['object_secrecy_level', 'reading_state', 'urgent_level', 'handle_type'],
       },
     });
   }, []);

@@ -97,7 +97,7 @@ const CaresDetailModal = ({ dispatch, caseMgt, actionRef, enums }) => {
           {enums.importance_level && enums.importance_level[caseDetailData.importanceLevel]}
         </Descriptions.Item>
         <Descriptions.Item label="保密等级">
-          {enums.subject_secrecy_level && enums.subject_secrecy_level[caseDetailData.secrecyLevel]}
+          {enums.object_secrecy_level && enums.object_secrecy_level[caseDetailData.secrecyLevel]}
         </Descriptions.Item>
         <Descriptions.Item label="立案时间">{caseDetailData.registerTime}</Descriptions.Item>
         <Descriptions.Item label="紧急程度">
