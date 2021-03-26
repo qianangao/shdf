@@ -12,6 +12,13 @@ const routes = {
       remark: '单位管理',
     },
     {
+      path: '/system-mgt/UnitManagement',
+      name: 'system-mgt-organization-mgt',
+      component: './system-mgt/UnitManagement',
+      icon: 'setting',
+      remark: '组织管理',
+    },
+    {
       path: '/system-mgt/user-mgt',
       name: 'system-mgt-user-mgt',
       component: './system-mgt/user-mgt',
