@@ -226,7 +226,7 @@ const RelevancyModal = ({ dispatch, actionRef, loading, enums, defenseEngineerin
       title: '地域',
       align: 'center',
       dataIndex: 'region',
-      valueEnum: enums.subject_secrecy_level,
+      valueEnum: enums.object_secrecy_level,
       // width: 200,
       hideInSearch: true,
     },

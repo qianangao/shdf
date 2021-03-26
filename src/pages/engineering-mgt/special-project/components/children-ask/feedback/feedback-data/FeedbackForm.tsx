@@ -19,7 +19,7 @@ const FeedbackForm = ({ form, openFeedbackReqModal, FeedbackData }) => {
       label: '保密等级',
       name: 'secrecyLevel',
       span: 4,
-      enumsLabel: 'subject_secrecy_level',
+      enumsLabel: 'object_secrecy_level',
       rules: [{ required: true, message: '请选择保密等级' }],
     },
     {

@@ -23,7 +23,7 @@ const ClueManagement = ({ dispatch }) => {
       type: 'global/getEnums',
       payload: {
         names: [
-          'subject_secrecy_level',
+          'object_secrecy_level',
           'clue_circulation_type',
           'clue_reported_object_type',
           'object_secrecy_level',
