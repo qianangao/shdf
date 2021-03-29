@@ -16,7 +16,7 @@ export async function getOrgTreeById(params) {
  * @param {*} params
  */
 export async function getOrgTree(params?: any) {
-  return request(`/organization/child`, {
+  return request(`/org/tree`, {
     method: 'GET',
     params,
   });
