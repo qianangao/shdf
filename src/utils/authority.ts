@@ -42,5 +42,7 @@ export function checkAuthority(val: string) {
   if (authorizedList && authorizedList.indexOf(val) > -1) {
     return true;
   }
-  return false;
+
+  // TEMP 临时判断均具备权限
+  return true;
 }

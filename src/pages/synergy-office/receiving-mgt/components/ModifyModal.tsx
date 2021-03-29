@@ -30,7 +30,6 @@ const ModifyModal = ({ dispatch, actionRef, loading, receivingMgt }) => {
       actionRef.current = { showModal };
     }
 
-    // TEMP: /synergy-office/receiving-mgt?id=3319410276314415104&type=modify
     if (query.get('type') === 'modify' && query.get('id')) {
       showModal({ receiptId: query.get('id') });
     }
