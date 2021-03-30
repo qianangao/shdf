@@ -191,7 +191,8 @@ const CaseMgt = ({ form, id, orgInfoData, specialList, caseType, onFieldsChange 
     {
       label: '相关附件',
       name: 'fileList',
-      type: 'upload',
+      type: 'uploadSecrecy',
+      span: 3,
     },
   ];
 

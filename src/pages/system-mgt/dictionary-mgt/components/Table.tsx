@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Modal, Popconfirm } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
+import {getSecrecyRowClassName} from "@/utils/secrecy";
 
 const Table = ({ smDictionaryMgt, openModifyModal, changeTypeId, dispatch }) => {
   const { tableRef } = smDictionaryMgt;
@@ -59,6 +60,7 @@ const Table = ({ smDictionaryMgt, openModifyModal, changeTypeId, dispatch }) => 
       rowKey="dictTypeId"
       headerTitle="字典信息"
       actionRef={tableRef}
+      rowClassName={getSecrecyRowClassName}
       columnsStyle={{ cursor: 'pointer' }}
       scroll={{ x: 'max-content' }}
       style={{ cursor: 'pointer' }}

@@ -3,6 +3,7 @@ import ProTable from '@ant-design/pro-table';
 import { connect, history } from 'umi';
 import { BellFilled } from '@ant-design/icons';
 import moment from 'moment';
+import {getSecrecyRowClassName} from "@/utils/secrecy";
 
 const Table = ({ dispatch }) => {
   const formatterTime = val => {
@@ -77,6 +78,7 @@ const Table = ({ dispatch }) => {
       }}
       style={{ cursor: 'pointer' }}
       size="small"
+      rowClassName={getSecrecyRowClassName}
       search={false}
       options={false}
       pagination={{ simple: true, defaultPageSize: 10 }}
