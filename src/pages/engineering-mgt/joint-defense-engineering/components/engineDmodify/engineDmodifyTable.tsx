@@ -4,7 +4,7 @@ import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 
 const Table = ({ defenseEngineering, openModifyModal, dispatch }) => {
-  const { tableRef } = defenseEngineering;
+  const { tableRef, engineEditshow } = defenseEngineering;
   const [projectId, setProjectId] = useState('');
   let status = true;
   const deleteData = params => {
@@ -19,6 +19,17 @@ const Table = ({ defenseEngineering, openModifyModal, dispatch }) => {
       });
     });
   };
+  const report = params =>
+    /* eslint-disable no-new */
+    new Promise(resolve => {
+      dispatch({
+        type: 'defenseEngineering/reportEngineData',
+        payload: {
+          dataId: params,
+        },
+        resolve,
+      });
+    });
   const columns = [
     {
       title: '序号',
@@ -59,6 +70,14 @@ const Table = ({ defenseEngineering, openModifyModal, dispatch }) => {
       hideInSearch: true,
     },
     {
+      title: '上报状态',
+      align: 'center',
+      dataIndex: 'isReport',
+      hideInSearch: true,
+      render: text => <span>{text === 0 ? '未上报' : '已上报'}</span>,
+    },
+
+    {
       title: '操作',
       valueType: 'option',
       align: 'center',
@@ -66,9 +85,11 @@ const Table = ({ defenseEngineering, openModifyModal, dispatch }) => {
       fixed: 'right',
       render: (dom, logData) => [
         <a onClick={() => openModifyModal(logData)}>查看</a>,
-        <a onClick={() => openModifyModal(logData)}>编辑</a>,
-        <a>上报</a>,
-        <a onClick={() => deleteData(logData)}>删除</a>,
+        <a onClick={() => openModifyModal(logData)}>{engineEditshow === 0 ? '编辑' : ''}</a>,
+        <a onClick={() => report(logData.dataId)}>
+          {logData.isReport === 0 && defenseEngineering.yearOrtot !== 'null' ? '上报' : ''}
+        </a>,
+        <a onClick={() => deleteData(logData)}>{engineEditshow === 0 ? '删除' : ''}</a>,
       ],
     },
   ];
@@ -129,6 +150,7 @@ const Table = ({ defenseEngineering, openModifyModal, dispatch }) => {
         resolve,
       });
     });
+
   const getChange = () => {
     status = !status;
     tableRef.current.reloadAndRest();

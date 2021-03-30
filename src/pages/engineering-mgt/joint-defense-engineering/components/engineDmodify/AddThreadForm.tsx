@@ -15,7 +15,6 @@ const AddThreadForm = ({ form, InfoData }) => {
       type: 'date',
       span: 4,
     },
-
     {
       label: '宣传物品涉疆',
       name: 'publicityMaterialsSJ',

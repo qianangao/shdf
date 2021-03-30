@@ -10,7 +10,6 @@ const EngineeringDescription = ({
   engineeringForm,
   defenseEngineeringModal,
   annualDefenseEngineeringModal,
-  tempProvinceModal,
   loading,
 }) => {
   const [visible, setVisible] = useState(false);
@@ -57,7 +56,7 @@ const EngineeringDescription = ({
           title=""
           extra={
             <>
-              {!visible && (
+              {/* {!visible && (
                 <Button
                   type="primary"
                   style={{ marginRight: 8 }}
@@ -65,7 +64,7 @@ const EngineeringDescription = ({
                 >
                   新增临时省份
                 </Button>
-              )}
+              )} */}
               {visible ? (
                 <Button
                   type="primary"

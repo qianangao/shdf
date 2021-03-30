@@ -274,6 +274,16 @@ export async function addInfoAn(params: any) {
     data: params,
   });
 }
+/**
+ * 删除信息报送
+ * @param params
+ */
+export async function deleteInfoAn(params: any) {
+  return request(`/project-information?ids=${params.infoId}`, {
+    method: 'DELETE',
+    data: params,
+  });
+}
 
 /**
  * 获取工程数据列表
@@ -313,6 +323,16 @@ export async function deleteEngineData(params: any) {
   return request(`/project-data?dataId=${params.keyWordId}`, {
     method: 'DELETE',
     data: params,
+  });
+}
+/**
+ * 上报工程数据列表
+ * @param params
+ */
+export async function reportEngineData(params: any) {
+  return request(`/project-data/report`, {
+    method: 'GET',
+    params,
   });
 }
 

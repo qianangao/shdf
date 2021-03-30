@@ -42,6 +42,8 @@ import {
   deleteMeeting,
   updateEngineData,
   deleteEngineData,
+  reportEngineData,
+  deleteInfoAn,
 } from './service';
 
 const Model = {
@@ -65,6 +67,8 @@ const Model = {
     infoAnListData: {},
     infoStatistics: {},
     infnAnObj: {},
+    engineDataStatus: true,
+    engineEditshow: 0,
   },
 
   effects: {
@@ -507,7 +511,7 @@ const Model = {
 
       const response = yield call(getInfoAnList, params);
       if (!response.error) {
-        const { records, current, total } = response;
+        const { records, current, total } = response.result;
         const result = {
           data: records,
           page: current,
@@ -568,6 +572,16 @@ const Model = {
         });
       }
     },
+    *deleteInfoAn({ payload, resolve }, { call, put }) {
+      const response = yield call(deleteInfoAn, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('删除成功！');
+        yield put({
+          type: 'tableReload',
+        });
+      }
+    },
 
     // 信息数据统计
     *getInfoStatistics({ payload, resolve }, { call, select }) {
@@ -616,7 +630,7 @@ const Model = {
         });
       }
     },
-    *getEngineList({ payload, resolve }, { call, select }) {
+    *getEngineList({ payload, resolve }, { call, select, put }) {
       const projectId = yield select(state => state.defenseEngineering.projectId);
       const projectPid = yield select(state => state.defenseEngineering.projectPid);
       const params = {
@@ -627,9 +641,8 @@ const Model = {
         projectPid,
       };
       const response = yield call(getEngineList, params);
-
       if (!response.error) {
-        const { records, current, total } = response;
+        const { records, current, total } = response.result;
         const result = {
           data: records,
           page: current,
@@ -640,6 +653,12 @@ const Model = {
 
         resolve && resolve(result);
       }
+      yield put({
+        type: 'save',
+        payload: {
+          engineEditshow: response.status,
+        },
+      });
     },
 
     *updateEngineData({ payload, resolve }, { call, put }) {
@@ -662,6 +681,24 @@ const Model = {
         });
       }
     },
+    *reportEngineData({ payload, resolve }, { call, select }) {
+      const projectId = yield select(state => state.defenseEngineering.projectId);
+      const params = {
+        ...payload,
+        projectId,
+      };
+      const response = yield call(reportEngineData, params);
+      message.success(response.message);
+      resolve && resolve(response);
+    },
+    // *changeEngineStatus({ payload }, { put }) {
+    //   yield put({
+    //     type: 'save',
+    //     payload: {
+    //       engineDataStatus: false,
+    //     },
+    //   });
+    // },
   },
 
   reducers: {
