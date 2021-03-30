@@ -1,6 +1,6 @@
 import { message } from 'antd';
 import { downloadXlsFile } from '@/utils';
-import { getReceivingCode } from '@/pages/synergy-office/receiving-mgt/service';
+import { getReceivingCode } from '@/pages/synergy-office/document-mgt/service';
 import moment from 'moment';
 import {
   getCaseList,
@@ -18,6 +18,7 @@ import {
   recordApproval,
   getRecordDetail,
   supervise,
+  applySupervise,
   completed,
   evaluateFeedback,
   evaluate,
@@ -173,6 +174,7 @@ const Model = {
               uid: item.fileId,
               name: item.fileName,
               status: 'done',
+              secrecyLevel: item.secrecyLevel,
             };
           });
         response.regionObj = { label: response.region, value: response.regionCode };
@@ -373,6 +375,16 @@ const Model = {
     },
     *supervise({ payload, resolve }, { call, put }) {
       const response = yield call(supervise, payload);
+
+      if (!response.error) {
+        resolve && resolve(response);
+        yield put({
+          type: 'tableReload',
+        });
+      }
+    },
+    *applySupervise({ payload, resolve }, { call, put }) {
+      const response = yield call(applySupervise, payload);
 
       if (!response.error) {
         resolve && resolve(response);

@@ -3,6 +3,7 @@ import ProTable from '@ant-design/pro-table';
 import { connect, history } from 'umi';
 import { SoundFilled } from '@ant-design/icons';
 import moment from 'moment';
+import {getSecrecyRowClassName} from "@/utils/secrecy";
 
 const Table = ({ dispatch }) => {
   const formatterTime = val => {
@@ -58,6 +59,7 @@ const Table = ({ dispatch }) => {
         };
       }}
       search={false}
+      rowClassName={getSecrecyRowClassName}
       options={false}
       pagination={{ simple: true, defaultPageSize: 10 }}
       request={async params => getDictList(params)}

@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Modal, Popconfirm } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
+import {getSecrecyRowClassName} from "@/utils/secrecy";
 
 const FieldTable = ({ smDictionaryMgt, openDictModifyModal, dictTypeId, dispatch }) => {
   const { fieldTableRef } = smDictionaryMgt;
@@ -55,6 +56,7 @@ const FieldTable = ({ smDictionaryMgt, openDictModifyModal, dictTypeId, dispatch
     <ProTable
       rowKey="code"
       headerTitle="字段信息"
+      rowClassName={getSecrecyRowClassName}
       actionRef={fieldTableRef}
       search={false}
       destroyOnClose

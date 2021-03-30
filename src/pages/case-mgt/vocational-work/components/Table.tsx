@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { Button, Modal, Popconfirm, message } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
+import {getSecrecyRowClassName} from "@/utils/secrecy";
 
 const Table = ({
   caseMgt,
@@ -125,7 +126,7 @@ const Table = ({
     }
   };
 
-  const createSuperviseButton = caseData => {
+  const createRecordButton = caseData => {
     const ApplyCase = (
       <a key={`${caseData.caseId}app_re`} onClick={() => openApplyCaseModal(caseData)}>
         申请备案
@@ -151,6 +152,22 @@ const Table = ({
         备案信息
       </a>
     );
+
+    switch (caseData.recordState) {
+      case 0: // 未备案
+        return [ApplyCase];
+      case 1: // 备案审批中
+        return [Recall, RecordApproval];
+      case 2: // 备案不通过
+        return [RecordApproval, RecordDetail];
+      case 3: // 已备案
+        return [RecordDetail];
+      default:
+        return [ApplyCase];
+    }
+  };
+
+  const createSuperviseButton = caseData => {
     const ApplySupervise = (
       <a key={`${caseData.caseId}app_do`} onClick={() => openApplySuperviseModal(caseData)}>
         申请督办
@@ -182,23 +199,17 @@ const Table = ({
       </a>
     );
 
-    switch (caseData.caseSuperviseState) {
+    switch (caseData.superviseState) {
       case 0: // 未备案
-        return [ApplyCase];
+        return [ApplySupervise , Supervise];
       case 1: // 备案审批中
-        return [Recall, RecordApproval];
+        return [rollbackSupervise , SuperviseApproval];
       case 2: // 备案不通过
-        return [RecordApproval, RecordDetail];
+        return [SuperviseApproval , SuperviseDetail];
       case 3: // 已备案
-        return [ApplySupervise, Supervise, RecordDetail];
-      case 4: // 督办审批中
-        return [rollbackSupervise, SuperviseApproval];
-      case 5: // 督办不通过
-        return [SuperviseApproval, SuperviseDetail];
-      case 6: // 督办中
         return [SuperviseDetail];
       default:
-        return [ApplyCase];
+        return [ApplySupervise];
     }
   };
 
@@ -244,15 +255,32 @@ const Table = ({
       render: (dom, caseData) => createButton(caseData),
     },
     {
-      title: '备案督办状态',
+      title: '备案状态',
       align: 'center',
-      dataIndex: 'caseSuperviseState',
+      dataIndex: 'recordState',
       valueEnum: enums.case_supervise_state,
       fixed: 'right',
       width: 60,
     },
     {
-      title: '备案督办操作',
+      title: '备案操作',
+      valueType: 'option',
+      align: 'center',
+      dataIndex: 'receiptId',
+      width: 180,
+      fixed: 'right',
+      render: (dom, caseData) => createRecordButton(caseData),
+    },
+    {
+      title: '督办状态',
+      align: 'center',
+      dataIndex: 'superviseState',
+      valueEnum: enums.case_supervise_state,
+      fixed: 'right',
+      width: 60,
+    },
+    {
+      title: '督办操作',
       valueType: 'option',
       align: 'center',
       dataIndex: 'receiptId',
@@ -315,6 +343,7 @@ const Table = ({
       actionRef={tableRef}
       rowKey="caseId"
       headerTitle="案件列表"
+      rowClassName={getSecrecyRowClassName}
       rowSelection={[]}
       scroll={{ x: 'max-content' }}
       request={async params => getReceivingList(params)}

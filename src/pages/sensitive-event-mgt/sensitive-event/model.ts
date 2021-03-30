@@ -1,6 +1,6 @@
 import { message } from 'antd';
 import { downloadXlsFile } from '@/utils';
-import { getReceivingCode } from '@/pages/synergy-office/receiving-mgt/service';
+import { getReceivingCode } from '@/pages/synergy-office/document-mgt/service';
 import moment from 'moment';
 import {
   getList,
@@ -196,6 +196,7 @@ const Model = {
               uid: item.fileId,
               name: item.fileName,
               status: 'done',
+              secrecyLevel: item.secrecyLevel,
             };
           });
         response.regionObj = { label: response.region, value: response.regionCode };

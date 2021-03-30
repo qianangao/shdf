@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { Button, Modal, Popconfirm, message } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
+import { getSecrecyRowClassName } from '@/utils/secrecy';
 
 const Table = ({
   sensitiveMgt,
@@ -246,6 +247,7 @@ const Table = ({
       rowKey="eventId"
       headerTitle="敏感事件列表"
       rowSelection={[]}
+      rowClassName={getSecrecyRowClassName}
       scroll={{ x: 'max-content' }}
       request={async params => getList(params)}
       toolBarRender={(_, { selectedRowKeys }) => [

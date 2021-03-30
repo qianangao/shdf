@@ -4,11 +4,24 @@ const routes = {
   remark: '协同办公',
   routes: [
     {
-      path: '/synergy-office/receiving-mgt',
-      name: 'synergy-office-receiving-mgt',
-      component: './synergy-office/receiving-mgt',
+      path: '/synergy-office/document-mgt',
+      name: 'synergy-office-document-mgt',
       icon: 'reconciliation',
-      remark: '收文管理',
+      remark: '公文管理',
+      routes: [
+        {
+          path: '/synergy-office/document-mgt/release-management',
+          name: 'synergy-office-document-mgt/release-management',
+          component: './synergy-office/document-mgt/release-management',
+          remark: '发布管理',
+        },
+        {
+          path: '/synergy-office/document-mgt/receive-management',
+          name: 'synergy-office-document-mgt/receive-management',
+          component: './synergy-office/document-mgt/receive-management',
+          remark: '接收管理',
+        },
+      ],
     },
     {
       path: '/synergy-office/address-book',
@@ -39,7 +52,7 @@ const routes = {
     },
     {
       path: '/synergy-office',
-      redirect: '/synergy-office/receiving-mgt',
+      redirect: '/synergy-office/address-book',
       hideInMenu: true,
     },
   ],

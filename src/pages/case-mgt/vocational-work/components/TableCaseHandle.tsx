@@ -2,6 +2,7 @@ import React from 'react';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import { Button } from 'antd';
+import {getSecrecyRowClassName} from "@/utils/secrecy";
 
 const TableCaseHandle = ({ dispatch, id, caseMgt, openCaseHandleModal, isDetail }) => {
   const { tableHandleRef } = caseMgt;
@@ -56,6 +57,7 @@ const TableCaseHandle = ({ dispatch, id, caseMgt, openCaseHandleModal, isDetail 
       actionRef={tableHandleRef}
       rowKey="transmitId"
       headerTitle="案件办理"
+      rowClassName={getSecrecyRowClassName}
       search={false}
       options={false}
       pagination={{ pageSizeOptions: ['5'], defaultPageSize: 5, simple: true }}

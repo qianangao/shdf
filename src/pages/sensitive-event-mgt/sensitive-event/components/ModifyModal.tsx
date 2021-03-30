@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { connect, useLocation } from 'umi';
-import { Modal } from 'antd';
+import {message, Modal} from 'antd';
 import CueAssociation from '@/components/CueAssociation';
 import OrgInfoForm from './form/CaseForm';
 import TableCaseHandle from './TableCaseHandle';
@@ -80,6 +80,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, sensitiveMgt, caseMgt }) =>
     form
       .validateFields()
       .then(values => {
+        let tempLevel = '';
         // values.specialActionIds = values.specialActionIds ? [values.specialActionIds] : [];
         values.platformType = Array.isArray(values.platformType)
           ? values.platformType.join(',')
@@ -91,11 +92,20 @@ const ModifyModal = ({ dispatch, actionRef, loading, sensitiveMgt, caseMgt }) =>
         let filesStr = '';
         if (values.fileList && values.fileList.length > 0) {
           const ids = values.fileList.map(item => {
+            if (tempLevel < item.secrecyLevel) {
+              tempLevel = item.secrecyLevel;
+            }
             return item.uid;
           });
           filesStr = ids.join(',');
           delete values.fileList;
         }
+
+        if (tempLevel > values.secrecyLevel) {
+          message.error('附件密级不能大于该数据密级！');
+          return '';
+        }
+
         values.fileIds = filesStr;
         values.regionCode = values.regionObj ? values.regionObj.value : null;
         values.region = values.regionObj ? values.regionObj.label : null;

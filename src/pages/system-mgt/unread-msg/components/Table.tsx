@@ -3,7 +3,7 @@ import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import moment from 'moment';
 
-const Table = ({ logAudit, dispatch, openDetailModal }) => {
+const Table = ({ logAudit, dispatch, openDetailModal , enums}) => {
   const { tableRef } = logAudit;
 
   const formatterTime = val => {
@@ -14,9 +14,10 @@ const Table = ({ logAudit, dispatch, openDetailModal }) => {
     {
       title: '消息ID',
       dataIndex: 'messageId',
+      hideInSearch: true,
       align: 'center',
     },
-    { title: '类型', align: 'center', dataIndex: 'messageType' },
+    { title: '类型', align: 'center', dataIndex: 'messageType' ,  hideInSearch: true,},
     { title: '名称', align: 'center', dataIndex: 'sendUserName', hideInSearch: true },
     // { title: '操作内容', align: 'center', dataIndex: 'sketch', hideInSearch: true },
     {
@@ -31,6 +32,12 @@ const Table = ({ logAudit, dispatch, openDetailModal }) => {
       align: 'center',
       dataIndex: 'businessType',
       hideInSearch: true,
+    },
+    {
+      title: '标记',
+      align: 'center',
+      dataIndex: 'businessType',
+      valueEnum: enums.reading_state,
     },
     {
       title: '操作',
@@ -59,7 +66,6 @@ const Table = ({ logAudit, dispatch, openDetailModal }) => {
   return (
     <ProTable
       rowKey="id"
-      search={false}
       headerTitle="未读消息列表"
       actionRef={tableRef}
       scroll={{ x: 'max-content' }}
