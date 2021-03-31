@@ -17,28 +17,23 @@ const InstitutionForm = ({ form }) => {
     {
       label: '机构类别',
       name: 'category',
-      rules: [{ required: true, message: '请选择机构类别!' }],
     },
     {
       label: '所在地区',
       name: 'area',
       // enumsLabel: 'dict_sex',
-      rules: [{ required: true, message: '请输入所在地区!' }],
     },
     {
       label: '中文地址',
       name: 'address',
-      rules: [{ required: true, message: '请输入中文地址!' }],
     },
     {
       label: '英文地址',
       name: 'addressEn',
-      rules: [{ required: true, message: '请输入英文地址!' }],
     },
     {
       label: '机构代码',
       name: 'code',
-      rules: [{ required: true, message: '请输入机构代码!' }],
     },
     {
       label: '联系人员',

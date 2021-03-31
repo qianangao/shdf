@@ -11,6 +11,9 @@ import {
   exportAddressBook,
   importAddressBook,
   getUserDetail,
+  getRoleList,
+  addRole,
+  getAddroleList,
 } from './service';
 
 const Model = {
@@ -19,6 +22,7 @@ const Model = {
     tableRef: {},
     addressListData: {},
     usetListData: {},
+    getAddroleData: {},
   },
   effects: {
     *getUserList({ payload, resolve }, { call }) {
@@ -40,7 +44,55 @@ const Model = {
         // });
       }
     },
+    *getAddroleList({ payload, resolve }, { call, put }) {
+      const params = {
+        ...payload,
+        pageNum: payload.current ? payload.current : 1,
+        pageSize: payload.pageSize ? payload.pageSize : 20,
+      };
+      delete params.current;
+      const response = yield call(getAddroleList, params);
+      if (!response.error) {
+        const result = formatPageData(response);
 
+        resolve && resolve(result);
+        yield put({
+          type: 'save',
+          payload: {
+            getAddroleData: result,
+          },
+        });
+      }
+    },
+    *getRoleList({ payload, resolve }, { call, put }) {
+      const params = {
+        ...payload,
+        pageNum: payload.current ? payload.current : 1,
+        pageSize: payload.pageSize ? payload.pageSize : 20,
+      };
+      delete params.current;
+      const response = yield call(getRoleList, params);
+      if (!response.error) {
+        const result = formatPageData(response);
+        resolve && resolve(result);
+        yield put({
+          type: 'save',
+          payload: {
+            addressListData: result,
+          },
+        });
+      }
+    },
+    *addRole({ payload, resolve }, { call, put }) {
+      const response = yield call(addRole, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('新增成功！');
+        yield put({
+          type: 'tableReload',
+        });
+      }
+    },
     *getUserDetail({ payload, resolve }, { call, put }) {
       const response = yield call(getUserDetail, payload);
       if (!response.error) {

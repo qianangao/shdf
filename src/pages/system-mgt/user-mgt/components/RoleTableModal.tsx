@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
 import { Modal } from 'antd';
 import AddressBookForm from './AddressBookForm';
+import RoleTable from './RoleTable';
 
-const ModifyModal = ({ dispatch, actionRef, loading }) => {
+const TableModifyModal = ({ dispatch, actionRef, loading }) => {
   const [form] = AddressBookForm.useForm();
   const [userId, setuserId] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
@@ -68,7 +69,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
 
   return (
     <Modal
-      title={userId ? '编辑用户' : '新增用户'}
+      title="用户角色列表"
       centered
       width="90vw"
       style={{ paddingBottom: 0 }}
@@ -80,11 +81,11 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <AddressBookForm form={form} />
+      <RoleTable />
     </Modal>
   );
 };
 
 export default connect(({ loading }) => ({
   loading: loading.models.smDictionaryMgt,
-}))(ModifyModal);
+}))(TableModifyModal);
