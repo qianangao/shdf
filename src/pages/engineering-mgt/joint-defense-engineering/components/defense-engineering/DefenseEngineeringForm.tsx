@@ -4,6 +4,7 @@ import { connect } from 'umi';
 import { checkPhone } from '@/utils/validators';
 import ProvinceListTable from '../province-list/ProvinceListTable';
 import TempProvinceTable from '../temp-province-addlist/TempProvinceTable';
+import OrgSelectInput from '@/components/OrgMultiSelectInput/OrgSelectInput';
 
 const DefenseEngineeringForm = ({ form, add, edit }) => {
   const [tableData, setTableData] = useState([]);
@@ -73,10 +74,12 @@ const DefenseEngineeringForm = ({ form, add, edit }) => {
       label: '牵头省份',
       name: 'provinceCode',
       span: 4,
-      rules: [
-        { required: true, message: '请输入牵头省份!', whitespace: true },
-        { max: 30, message: '长度请小于30位!' },
-      ],
+      // rules: [
+      //   { required: true, message: '请输入牵头省份!', whitespace: true },
+      //   { max: 30, message: '长度请小于30位!' },
+      // ],
+      rules: [{ required: true, message: '请选择牵头省份!' }],
+      render: <OrgSelectInput />,
     },
     {
       label: '成员省份列表',

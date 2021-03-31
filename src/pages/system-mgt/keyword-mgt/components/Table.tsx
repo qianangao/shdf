@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
+import { getSecrecyRowClassName } from '@/utils/secrecy';
 
 const Table = ({ keywrod, dispatch, openModifyModal }) => {
   const { tableRef } = keywrod;
@@ -64,6 +65,7 @@ const Table = ({ keywrod, dispatch, openModifyModal }) => {
       headerTitle="关键字使用"
       actionRef={tableRef}
       scroll={{ x: 'max-content' }}
+      rowClassName={getSecrecyRowClassName}
       request={async params => getList(params)}
       toolBarRender={() => [
         <Button type="primary" onClick={() => openModifyModal()}>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
+import { getSecrecyRowClassName } from '@/utils/secrecy';
 
 const Table = ({ defenseEngineering, openModifyModal, dispatch }) => {
   const { tableRef, engineEditshow } = defenseEngineering;
@@ -166,6 +167,7 @@ const Table = ({ defenseEngineering, openModifyModal, dispatch }) => {
           scroll={{ x: 'max-content' }}
           request={async params => getReceivingList(params)}
           style={{ display: status ? 'block' : 'none' }}
+          rowClassName={getSecrecyRowClassName}
           toolBarRender={() => [
             <Button type="primary" onClick={() => openModifyModal()}>
               {defenseEngineering.yearOrtot !== 'null' ? '新增' : ''}

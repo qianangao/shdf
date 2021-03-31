@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Modal, Tabs } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
-
+import { getSecrecyRowClassName } from '@/utils/secrecy';
 import Bar from '@/components/Charts/BarChart/index';
 
 const { TabPane } = Tabs;
@@ -170,6 +170,7 @@ const Table = ({ defenseEngineering, openModifyModal, dispatch, openDetailModify
             rowKey="receiptId"
             headerTitle="工程数据"
             scroll={{ x: 'max-content' }}
+            rowClassName={getSecrecyRowClassName}
             request={async params => getReceivingList(params)}
             toolBarRender={(_, { selectedRowKeys }) => [
               <Button type="primary" onClick={() => openModifyModal()}>
