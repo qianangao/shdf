@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'umi';
+import { connect, useLocation } from 'umi';
 import { Descriptions, Modal, Spin } from 'antd';
 import { formatDateStr } from '@/utils/format';
 import ProTable from '@ant-design/pro-table';
 import ProcessInfo from '../process/ProcessInfo';
 
+const useQuery = () => new URLSearchParams(useLocation().search);
 const DetailModal = ({
   dispatch,
   actionRef,
@@ -13,6 +14,7 @@ const DetailModal = ({
   enums,
   cueAssociationList,
 }) => {
+  const query = useQuery();
   const [clueId, setClueId] = useState(undefined);
   const [circulationId, setCirculationId] = useState(undefined);
   const [modalVisible, setModalVisible] = useState(false);
@@ -38,6 +40,14 @@ const DetailModal = ({
 
     if (actionRef && typeof actionRef !== 'function') {
       actionRef.current = { showModal };
+    }
+
+    if (
+      query.get('type') === 'modify' &&
+      query.get('id') &&
+      (query.get('status') === '0' || query.get('status') === '-1')
+    ) {
+      showModal(query.get('id'), clueDetailData.sourceClueId);
     }
   }, []);
 

@@ -73,8 +73,8 @@ const ModifyProjectTaskModal = ({
       actionRef.current = { showModal };
     }
 
-    if (query.get('type') === 'modify' && query.get('id')) {
-      showModal({ caseId: query.get('id') });
+    if (query.get('type') === 'modify' && query.get('id') && query.get('status') === '2') {
+      showModal({ id: query.get('id'), disabled: false, add: true });
     }
   }, []);
 

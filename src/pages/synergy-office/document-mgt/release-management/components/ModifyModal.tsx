@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { message, Modal, Spin } from 'antd';
-import { connect, useLocation } from 'umi';
+import { connect } from 'umi';
 import InstitutionForm from './InstitutionForm';
 
-const useQuery = () => new URLSearchParams(useLocation().search);
-
 const ModifyModal = ({ dispatch, actionRef, loading }) => {
-  const query = useQuery();
   const [form]: any = InstitutionForm.useForm();
   const [noticeId, setNoticeId] = useState(undefined);
   const [modalVisible, setModalVisible] = useState(false);
@@ -66,10 +63,6 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
     if (actionRef && typeof actionRef !== 'function') {
       actionRef.current = { showModal };
     }
-
-    if (query.get('type') === 'modify' && query.get('id')) {
-      showModal({ id: query.get('id') });
-    }
   }, []);
 
   useEffect(() => {
@@ -103,7 +96,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       }
       const remindWays = values.remindWays ? values.remindWays.join(',') : '';
       const fileIds = files ? files.join(',') : '';
-      values.visibleRange =  values.visibleRangeOrg;
+      values.visibleRange = values.visibleRangeOrg;
       return new Promise(resolve => {
         dispatch({
           type: `documentMgt/${noticeId ? 'updateAnnouncement' : 'addAnnouncement'}`,

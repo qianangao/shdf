@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'umi';
+import { connect, useLocation } from 'umi';
 import { Button, Modal } from 'antd';
 import OrgInfoForm from './form/RecordApprovalForm';
 
+const useQuery = () => new URLSearchParams(useLocation().search);
 const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
+  const query = useQuery();
   const [form] = OrgInfoForm.useForm();
   const [superviseApprovalModalVisible, setModalVisible] = useState(false);
   const [detailData, setDetailData] = useState(null);
@@ -30,6 +32,10 @@ const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
 
     if (actionRef && typeof actionRef !== 'function') {
       actionRef.current = { showModal };
+    }
+
+    if (query.get('type') === 'modify' && query.get('id') && query.get('status') === '3') {
+      showModal({ caseId: query.get('id') });
     }
   }, []);
 
