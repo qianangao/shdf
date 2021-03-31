@@ -3,6 +3,7 @@ import { Button, message } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import moment from 'moment';
+import {getSecrecyRowClassName} from "@/utils/secrecy";
 
 const Table = ({ logAudit, dispatch, openDetailModal }) => {
   const { tableRef } = logAudit;
@@ -67,6 +68,7 @@ const Table = ({ logAudit, dispatch, openDetailModal }) => {
     <ProTable
       rowKey="id"
       headerTitle="日志列表"
+      rowClassName={getSecrecyRowClassName}
       actionRef={tableRef}
       scroll={{ x: 'max-content' }}
       request={async params => getList(params)}

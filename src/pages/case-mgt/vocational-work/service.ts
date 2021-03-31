@@ -185,6 +185,16 @@ export async function supervise(params) {
  * 编辑
  * @param {*} params
  */
+export async function applySupervise(params) {
+  return request(`/shdfCase/applySupervise/${params.id}`, {
+    method: 'POST',
+    data: params,
+  });
+}
+/**
+ * 编辑
+ * @param {*} params
+ */
 export async function completed(params) {
   return request(`/shdfCase/caseFinish/${params.id}`, {
     method: 'GET',
