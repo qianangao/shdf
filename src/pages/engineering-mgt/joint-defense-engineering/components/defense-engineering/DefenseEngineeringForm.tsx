@@ -4,7 +4,7 @@ import { connect } from 'umi';
 import { checkPhone } from '@/utils/validators';
 import ProvinceListTable from '../province-list/ProvinceListTable';
 import TempProvinceTable from '../temp-province-addlist/TempProvinceTable';
-import OrgSelectInput from '@/components/OrgMultiSelectInput/OrgSelectInput';
+import OrgSelectInput from '@/components/OrgMultiSelectInput/selectSingleInput';
 
 const DefenseEngineeringForm = ({ form, add, edit }) => {
   const [tableData, setTableData] = useState([]);

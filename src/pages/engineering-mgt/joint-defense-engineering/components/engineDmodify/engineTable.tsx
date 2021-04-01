@@ -30,7 +30,8 @@ const Table = ({ defenseEngineering, openModifyModal, dispatch }) => {
         resolve,
       });
     });
-  const columns = [
+
+  const involve = [
     {
       title: '序号',
       dataIndex: 'index',
@@ -46,27 +47,27 @@ const Table = ({ defenseEngineering, openModifyModal, dispatch }) => {
       hideInSearch: true,
     },
     {
-      title: '宣传品数量',
+      title: '涉疆',
       align: 'center',
-      dataIndex: 'publicityMaterialsNumber',
+      dataIndex: 'sjnum',
       hideInSearch: true,
     },
     {
-      title: '查办案件工程数量',
+      title: '涉藏',
       align: 'center',
-      dataIndex: 'investigationHandlingCaseNumber',
+      dataIndex: 'sznum',
       hideInSearch: true,
     },
     {
-      title: '删除网络信息数量',
+      title: '涉宗教',
       align: 'center',
-      dataIndex: 'networkInformationNumber',
+      dataIndex: 'szjnum',
       hideInSearch: true,
     },
     {
-      title: '非法出版数量',
+      title: '涉其他',
       align: 'center',
-      dataIndex: 'illegalPublicationNumber',
+      dataIndex: 'qtnum',
       hideInSearch: true,
     },
     {
@@ -76,7 +77,6 @@ const Table = ({ defenseEngineering, openModifyModal, dispatch }) => {
       hideInSearch: true,
       render: text => <span>{text === 0 ? '未上报' : '已上报'}</span>,
     },
-
     {
       title: '操作',
       valueType: 'option',
@@ -93,7 +93,6 @@ const Table = ({ defenseEngineering, openModifyModal, dispatch }) => {
       ],
     },
   ];
-
   useEffect(() => {
     if (defenseEngineering.projectId) {
       setProjectId(defenseEngineering.projectId);
@@ -126,43 +125,8 @@ const Table = ({ defenseEngineering, openModifyModal, dispatch }) => {
             {defenseEngineering.yearOrtot !== 'null' ? '新增' : ''}
           </Button>,
         ]}
-        columns={columns}
+        columns={involve}
       />
-
-      {/* {status ? (
-        <ProTable
-          actionRef={tableRef}
-          rowKey="receiptId"
-          headerTitle="工程数据"
-          scroll={{ x: 'max-content' }}
-          request={async params => getReceivingList(params)}
-          style={{ display: status ? 'block' : 'none' }}
-          rowClassName={getSecrecyRowClassName}
-          toolBarRender={() => [
-            <Button type="primary" onClick={() => openModifyModal()}>
-              {defenseEngineering.yearOrtot !== 'null' ? '新增' : ''}
-            </Button>,
-            <Button onClick={() => getChange()}>切换</Button>,
-          ]}
-          columns={columns}
-        />
-      ) : (
-        <ProTable
-          actionRef={tableRef}
-          rowKey="receiptId"
-          headerTitle="工程数据"
-          scroll={{ x: 'max-content' }}
-          style={{ display: status ? 'none' : 'block' }}
-          request={async params => getReceivingList(params)}
-          toolBarRender={() => [
-            <Button type="primary" onClick={() => openModifyModal()}>
-              {defenseEngineering.yearOrtot !== 'null' ? '新增' : ''}
-            </Button>,
-            <Button onClick={() => getChange()}>切换</Button>,
-          ]}
-          columns={columns1}
-        />
-      )} */}
     </div>
   );
 };
