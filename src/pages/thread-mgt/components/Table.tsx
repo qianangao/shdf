@@ -17,6 +17,7 @@ const Table = ({
   processRefModal,
   enums,
   dispatch,
+  // concludeRefModal
 }) => {
   const { tableRef } = emClueManagement;
   const uploadLgbListRef = useRef();

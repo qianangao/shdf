@@ -81,6 +81,18 @@ export async function hostAssociation(params: any) {
   });
 }
 /**
+ * 办结
+ * @param params
+ * concludeTheMatter
+ */
+export async function concludeTheMatter(params: any) {
+  return request(`/clue/conclude`, {
+    method: 'POST',
+    data: params,
+  });
+}
+
+/**
  * 获取编码
  * @param params
  */

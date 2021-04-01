@@ -22,6 +22,7 @@ import {
   exportClue,
   importClue,
   getCueAssociation,
+  concludeTheMatter,
 } from './service';
 
 const Model = {
@@ -125,6 +126,15 @@ const Model = {
       if (!response.error) {
         resolve && resolve(response);
         message.success('线索新增成功！');
+        yield put({
+          type: 'tableReload',
+        });
+      }
+    },
+    *concludeTheMatter({ payload, resolve }, { call, put }) {
+      const response = yield call(concludeTheMatter, payload);
+      if (!response.error) {
+        resolve && resolve(response);
         yield put({
           type: 'tableReload',
         });
