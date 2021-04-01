@@ -51,7 +51,7 @@ const CaresDetailModal = ({ dispatch, caseMgt, actionRef }) => {
         </Button>,
       ]}
     >
-      <Descriptions size="middle" column={3}>
+      <Descriptions size="middle" column={2}>
         <Descriptions.Item label="申请时间">{recordDetailData.applyTime}</Descriptions.Item>
         <Descriptions.Item label="申请人">{recordDetailData.applyUser}</Descriptions.Item>
         <Descriptions.Item label="申请备注">{recordDetailData.applyRemarks}</Descriptions.Item>

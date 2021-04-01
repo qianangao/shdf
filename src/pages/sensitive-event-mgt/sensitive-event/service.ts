@@ -152,6 +152,16 @@ export async function getRecordDetail(params) {
   });
 }
 /**
+ * 获取详情
+ * @param {*} params
+ */
+export async function getRecordApprovalDetail(params) {
+  return request(`/sensitiveEvent/queryApplyApproval/${params.id}`, {
+    method: 'GET',
+    // params,
+  });
+}
+/**
  * 编辑
  * @param {*} params
  */
