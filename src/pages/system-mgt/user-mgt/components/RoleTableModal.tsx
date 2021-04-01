@@ -68,8 +68,9 @@ const TableModifyModal = ({ dispatch, actionRef, loading }) => {
   const handleOk = () => {
     new Promise(resolve => {
       dispatch({
-        type: `userMgt/${userId ? 'updateUser' : 'addUser'}`,
+        type: `userMgt/useraddRole`,
         payload: {
+          userId,
           roleIds: targetKeys,
         },
         resolve,

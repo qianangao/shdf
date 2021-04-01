@@ -14,7 +14,7 @@ import {
   addRole,
   getAddroleList,
   getRoleList,
-  // useraddRole,
+  useraddRole,
 } from './service';
 
 const Model = {
@@ -24,6 +24,7 @@ const Model = {
     addressListData: {},
     usetListData: {},
     getAddroleData: {},
+    getRoleData: {},
   },
   effects: {
     *getUserList({ payload, resolve }, { call }) {
@@ -47,6 +48,7 @@ const Model = {
     },
     *getAddroleList({ payload, resolve }, { call, put }) {
       const response = yield call(getAddroleList, payload);
+
       if (!response.error) {
         resolve && resolve(response);
         yield put({
@@ -59,6 +61,7 @@ const Model = {
     },
     *getRoleList({ payload, resolve }, { call, put }) {
       const response = yield call(getRoleList, payload);
+
       if (!response.error) {
         resolve && resolve(response);
         yield put({
@@ -66,6 +69,16 @@ const Model = {
           payload: {
             getRoleData: response,
           },
+        });
+      }
+    },
+    *useraddRole({ payload, resolve }, { call, put }) {
+      const response = yield call(useraddRole, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('角色添加成功');
+        yield put({
+          type: 'tableReload',
         });
       }
     },

@@ -8,7 +8,7 @@ import SpecialActionModal from './components/special-action/SpecialActionModal';
 import AnnualSpecialActionModal from './components/annual-special-action/AnnualSpecialActionModal';
 import DownModal from './components/children-ask/down/DownModal';
 import ModifyModal from './components/children-ask/edit-children-task/ModifyModal';
-import FeedbackModal from './components/children-ask/feedback/feedback-data/FeedbackModal';
+import FeedbackModal from './components/children-ask/feedback/feedback-data/FeedBackModal';
 import FeedbackRequestModal from './components/children-ask/FeedbackRequestModal';
 import FeedbackDetailModal from './components/children-ask/feedback/feedback-detail/FeedbackDetailModal';
 // import ChildrenTaskForm from './components/childrenTask/editChildrenTask/EditChildrenTaskForm'
