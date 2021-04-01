@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'umi';
+import { connect, useLocation } from 'umi';
 import { message, Modal } from 'antd';
 import FeedbackForm from './FeedbackForm';
 
+const useQuery = () => new URLSearchParams(useLocation().search);
 const FeedbackModal = ({ dispatch, actionRef, loading, openFeedbackReqModal, FeedbackData }) => {
+  const query = useQuery();
   const [form] = FeedbackForm.useForm();
   const [modalVisible, setModalVisible] = useState(false);
   const [taskId, setTaskId] = useState('');
@@ -46,6 +48,10 @@ const FeedbackModal = ({ dispatch, actionRef, loading, openFeedbackReqModal, Fee
 
     if (actionRef && typeof actionRef !== 'function') {
       actionRef.current = { showModal };
+    }
+
+    if (query.get('type') === 'modify' && query.get('id') && query.get('status') === '1') {
+      showModal({ id: query.get('id'), disabled: false, add: true });
     }
   }, []);
 

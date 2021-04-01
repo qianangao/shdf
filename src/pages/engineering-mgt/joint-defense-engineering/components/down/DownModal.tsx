@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'umi';
+import { connect, useLocation } from 'umi';
 import { Modal, Tree } from 'antd';
 
+const useQuery = () => new URLSearchParams(useLocation().search);
 const DownModal = ({ dispatch, actionRef, loading, roleTree }) => {
+  const query = useQuery();
   const [modalVisible, setModalVisible] = useState(false);
   const [id, setId] = useState('');
   const [checkedKeys, setCheckedKeys] = useState([]);
@@ -32,6 +34,10 @@ const DownModal = ({ dispatch, actionRef, loading, roleTree }) => {
 
     if (actionRef && typeof actionRef !== 'function') {
       actionRef.current = { showModal };
+    }
+
+    if (query.get('type') === 'modify' && query.get('id') && query.get('status') === '1') {
+      showModal({ id: query.get('id'), disabled: false, add: true });
     }
   }, []);
 

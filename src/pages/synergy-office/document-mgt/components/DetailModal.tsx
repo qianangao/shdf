@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'umi';
+import { connect, useLocation } from 'umi';
 import { Descriptions, Modal, Spin } from 'antd';
 import { formatDateStr } from '@/utils/format';
 import DetailInfoForm from './DetailInfoForm';
 
+const useQuery = () => new URLSearchParams(useLocation().search);
 const ModifyModal = ({ dispatch, actionRef, loading, announcementData, enums }) => {
+  const query = useQuery();
   const [form]: any = DetailInfoForm.useForm();
   const [noticeId, setNoticeId] = useState(undefined);
   const [status, setStatus] = useState(undefined);
@@ -37,6 +39,10 @@ const ModifyModal = ({ dispatch, actionRef, loading, announcementData, enums }) 
 
     if (actionRef && typeof actionRef !== 'function') {
       actionRef.current = { showModal };
+    }
+
+    if (query.get('type') === 'modify' && query.get('id')) {
+      showModal(query.get('id'), query.get('status'), 'publish');
     }
   }, []);
 

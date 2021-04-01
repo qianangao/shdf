@@ -70,8 +70,8 @@ const ModifyModal = ({
       actionRef.current = { showModal };
     }
 
-    if (query.get('type') === 'modify' && query.get('id')) {
-      showModal({ id: query.get('id') });
+    if (query.get('type') === 'modify' && query.get('id') && query.get('status') === '2') {
+      showModal({ id: query.get('id'), disabled: false });
     }
   }, []);
 

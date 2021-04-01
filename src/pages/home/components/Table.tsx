@@ -3,7 +3,7 @@ import ProTable from '@ant-design/pro-table';
 import { connect, history } from 'umi';
 import { BellFilled } from '@ant-design/icons';
 import moment from 'moment';
-import {getSecrecyRowClassName} from "@/utils/secrecy";
+import { getSecrecyRowClassName } from '@/utils/secrecy';
 
 const Table = ({ dispatch }) => {
   const formatterTime = val => {
@@ -39,21 +39,27 @@ const Table = ({ dispatch }) => {
 
   const goDetail = item => {
     const { id } = item;
-    switch (item.type) {
-      case '线索':
-        history.push(`/thread-mgt/thread-mgt0?id=${id}&type=modify`);
+    switch (item.typeCode) {
+      case '1': // 线索
+        history.push(`/thread-mgt/thread-mgt0?id=${id}&type=modify&status=${item.stateCode}`);
         break;
-      case '案件':
-        history.push(`/case-mgt/vocational-work?id=${id}&type=modify`);
+      case '2': // 案件
+        history.push(`/case-mgt/vocational-work?id=${id}&type=modify&status=${item.stateCode}`);
         break;
-      case '敏感事件':
-        history.push(`/sensitive-event-mgt/sensitive-event?id=${id}&type=modify`);
+      case '3': // 敏感事件
+        history.push(
+          `/sensitive-event-mgt/sensitive-event?id=${id}&type=modify&status=${item.stateCode}`,
+        );
         break;
-      case '专项行动':
-        history.push(`/engineering-mgt/special-project?id=${id}&type=modify`);
+      case '4': // 专项行动
+        history.push(
+          `/engineering-mgt/special-project?id=${id}&type=modify&status=${item.stateCode}`,
+        );
         break;
-      case '联防工程':
-        history.push(`/engineering-mgt/joint-defense-engineering?id=${id}&type=modify`);
+      case '5': // 联防工程
+        history.push(
+          `/engineering-mgt/joint-defense-engineering?id=${id}&type=modify&status=${item.stateCode}`,
+        );
         break;
       default:
         break;
