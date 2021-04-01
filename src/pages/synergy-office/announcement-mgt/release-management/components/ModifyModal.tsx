@@ -66,8 +66,9 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       actionRef.current = { showModal };
     }
 
-    if (query.get('type') === 'modify' && query.get('id')) {
-      showModal({ id: query.get('id') });
+    // @ts-ignore
+    if (query.get('type') === 'modify' && query.get('id') && query.get('stateCode') === '0') {
+      showModal(query.get('id'));
     }
   }, []);
 

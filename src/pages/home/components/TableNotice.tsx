@@ -3,7 +3,7 @@ import ProTable from '@ant-design/pro-table';
 import { connect, history } from 'umi';
 import { SoundFilled } from '@ant-design/icons';
 import moment from 'moment';
-import {getSecrecyRowClassName} from "@/utils/secrecy";
+import { getSecrecyRowClassName } from '@/utils/secrecy';
 
 const Table = ({ dispatch }) => {
   const formatterTime = val => {
@@ -37,8 +37,10 @@ const Table = ({ dispatch }) => {
       });
     });
 
-  const goDetail = id => {
-    history.push(`/synergy-office/announcement-mgt/release-management?id=${id}&type=modify`);
+  const goDetail = obj => {
+    history.push(
+      `/synergy-office/announcement-mgt/release-management?id=${obj.noticeId}&type=modify&stateCode=${obj.stateCode}`,
+    );
   };
 
   return (
@@ -54,7 +56,7 @@ const Table = ({ dispatch }) => {
       onRow={record => {
         return {
           onClick: () => {
-            goDetail(record.id);
+            goDetail(record);
           },
         };
       }}
