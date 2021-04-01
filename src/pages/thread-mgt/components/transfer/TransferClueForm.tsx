@@ -1,9 +1,9 @@
 import React from 'react';
-import { Descriptions } from 'antd';
+import { Descriptions, Radio } from 'antd';
 import AdvancedForm from '@/components/AdvancedForm';
-import OrgSelectInput from '@/components/OrgMultiSelectInput/OrgSelectInput';
+import OrgMultiSelectInput from '@/components/OrgMultiSelectInput/index';
 
-const TransferClueForm = ({ form, fieldChangeHander, optType }) => {
+const TransferClueForm = ({ form, fieldChangeHander }) => {
   const formItems = [
     {
       name: '',
@@ -44,8 +44,17 @@ const TransferClueForm = ({ form, fieldChangeHander, optType }) => {
       label: '转办单位',
       name: 'unitList',
       rules: [{ required: true, message: '请选择转办单位!' }],
-      render: <OrgSelectInput optionType={optType} />,
+      render: <OrgMultiSelectInput />,
     },
+    // {
+    //   label: '组织树',
+    //   name: 'orgIds',
+    //   span: 4,
+    //   rules: [{ required: true, message: '请选择!' }],
+    //   render: (
+    //     <OrgMultiSelectInput />
+    //   ),
+    // },
 
     {
       label: '转办要求',
@@ -53,6 +62,28 @@ const TransferClueForm = ({ form, fieldChangeHander, optType }) => {
       type: 'textarea',
       rules: [{ required: true, message: '请输入转办要求!' }],
       span: 2,
+    },
+    {
+      label: ' 是否满足立案条件',
+      name: 'satisfyCase',
+      render: (
+        <Radio.Group>
+          <Radio value={1}>是</Radio>
+          <Radio value={0}>否</Radio>
+        </Radio.Group>
+      ),
+      rules: [{ required: true, message: '请选择是否满足立案条件!' }],
+    },
+    {
+      label: '是否涉及敏感事件',
+      name: 'involveSensitive',
+      render: (
+        <Radio.Group>
+          <Radio value={1}>是</Radio>
+          <Radio value={0}>否</Radio>
+        </Radio.Group>
+      ),
+      rules: [{ required: true, message: '请选择是否涉及敏感事件!' }],
     },
   ];
 

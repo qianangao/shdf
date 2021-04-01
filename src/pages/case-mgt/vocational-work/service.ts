@@ -172,6 +172,26 @@ export async function getRecordDetail(params) {
   });
 }
 /**
+ * 获取详情
+ * @param {*} params
+ */
+export async function getRecordApprovalDetail(params) {
+  return request(`/shdfCase/queryApplyApproval/${params.id}`, {
+    method: 'GET',
+    params,
+  });
+}
+/**
+ * 获取详情
+ * @param {*} params
+ */
+export async function getSuperviseApprovalDetail(params) {
+  return request(`/shdfCase/queryApplySupervise/${params.id}`, {
+    method: 'GET',
+    params,
+  });
+}
+/**
  * 编辑
  * @param {*} params
  */
@@ -242,7 +262,7 @@ export async function superviseApproval(params) {
   });
 }
 /**
- * 获取详情
+ * 获取督办审批信息
  * @param {*} params
  */
 export async function getSuperviseDetail(params) {

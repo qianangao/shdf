@@ -5,7 +5,7 @@ import TransferClueForm from './TransferClueForm';
 
 const ModifyModal = ({ dispatch, actionRef, loading }) => {
   const [form] = TransferClueForm.useForm();
-  const [circulationType, setCirculationType] = useState('');
+  const [circulationType, setCirculationType] = useState('2');
   const [detailData, setDetailData] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -50,6 +50,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
               ...values,
               circulationId: detailData.sourceClueId,
               clueId: detailData.clueId,
+              unitList: values.unitList.map(item => item.id),
             },
             resolve,
           });
