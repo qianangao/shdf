@@ -61,7 +61,6 @@ const DefenseEngineeringModal = ({ dispatch, actionRef, loading }) => {
     form
       .validateFields()
       .then(values => {
-        values.provinceCode = values.provinceCode.join('');
         let tempLevel = '';
         const fileIds =
           values.fileIds &&
