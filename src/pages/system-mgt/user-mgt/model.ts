@@ -11,6 +11,10 @@ import {
   exportAddressBook,
   importAddressBook,
   getUserDetail,
+  addRole,
+  getAddroleList,
+  getRoleList,
+  useraddRole,
 } from './service';
 
 const Model = {
@@ -19,6 +23,8 @@ const Model = {
     tableRef: {},
     addressListData: {},
     usetListData: {},
+    getAddroleData: {},
+    getRoleData: {},
   },
   effects: {
     *getUserList({ payload, resolve }, { call }) {
@@ -40,7 +46,52 @@ const Model = {
         // });
       }
     },
+    *getAddroleList({ payload, resolve }, { call, put }) {
+      const response = yield call(getAddroleList, payload);
 
+      if (!response.error) {
+        resolve && resolve(response);
+        yield put({
+          type: 'save',
+          payload: {
+            getAddroleData: response,
+          },
+        });
+      }
+    },
+    *getRoleList({ payload, resolve }, { call, put }) {
+      const response = yield call(getRoleList, payload);
+
+      if (!response.error) {
+        resolve && resolve(response);
+        yield put({
+          type: 'save',
+          payload: {
+            getRoleData: response,
+          },
+        });
+      }
+    },
+    *useraddRole({ payload, resolve }, { call, put }) {
+      const response = yield call(useraddRole, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('角色添加成功');
+        yield put({
+          type: 'tableReload',
+        });
+      }
+    },
+    *addRole({ payload, resolve }, { call, put }) {
+      const response = yield call(addRole, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('新增成功！');
+        yield put({
+          type: 'tableReload',
+        });
+      }
+    },
     *getUserDetail({ payload, resolve }, { call, put }) {
       const response = yield call(getUserDetail, payload);
       if (!response.error) {

@@ -11,12 +11,15 @@ const BanPublishForm = ({ form }) => {
       render: <Descriptions title="基本信息" size="middle" />,
     },
     { label: 'id', name: 'publicationId', hidden: true },
-    { label: '中文名称', name: 'name' },
-    { label: '英文名称', name: 'nameEnglish' },
+    { label: '中文名称', name: 'name', rules: [{ required: true, message: '请输入中文名称!' }] },
+    {
+      label: '英文名称',
+      name: 'nameEnglish',
+      rules: [{ required: true, message: '请输入英文名称!' }],
+    },
     {
       label: '作者及编著者',
       name: 'author',
-      rules: [{ required: true, message: '请输入作者及编著者!' }],
     },
     { label: '出版机构', name: 'organization' },
     { label: '发行商', name: 'publisher' },
@@ -24,13 +27,11 @@ const BanPublishForm = ({ form }) => {
     {
       label: '定价',
       name: 'price',
-      rules: [{ required: true, message: '请输入定价!' }],
     },
     {
       label: '出版日期',
       name: 'publicationDate',
       type: 'date',
-      rules: [{ required: true, message: '请选择出版日期!' }],
     },
     { label: '类别', name: 'category', enumsLabel: 'illegal_dict' },
     { label: '关键词', name: 'keyword' },
@@ -54,7 +55,6 @@ const BanPublishForm = ({ form }) => {
       label: '备注说明',
       name: 'remarks',
       type: 'textarea',
-      rules: [{ required: true, message: '请输入备注说明!' }],
     },
     {
       name: 'identificationResults',
@@ -89,7 +89,7 @@ const BanPublishForm = ({ form }) => {
     {
       label: '相关附件',
       name: 'files',
-      type: 'upload',
+      type: 'uploadSecrecy',
     },
     {
       label: '相关视频',

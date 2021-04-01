@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { Button, message, Popconfirm } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
+import { getSecrecyRowClassName } from '@/utils/secrecy';
 
 const Table = ({
   kdBanPublishMgt,
@@ -143,6 +144,7 @@ const Table = ({
       rowKey="publicationId"
       headerTitle="非法出版物"
       actionRef={tableRef}
+      rowClassName={getSecrecyRowClassName}
       rowSelection={[]}
       scroll={{ x: 'max-content' }}
       request={async params => getKeyBanPublishList(params)}
