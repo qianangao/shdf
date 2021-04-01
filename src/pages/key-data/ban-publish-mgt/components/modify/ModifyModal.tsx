@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
-import { Modal, Spin } from 'antd';
+import { Modal, Spin, message } from 'antd';
 import BanPublishForm from './banPublishForm';
 
 const ModifyModal = ({ dispatch, actionRef, loading }) => {
@@ -55,6 +55,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
                   uid: item.fileId,
                   name: item.fileName,
                   status: 'done',
+                  secrecyLevel: item.secrecyLevel,
                 };
               }),
             video:
@@ -79,11 +80,19 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
     form
       .validateFields()
       .then((values: any) => {
+        let tempLevel = '';
         const fileIds =
-          values.files &&
-          values.files.map((item: { uid: any }) => {
+          values.fileIds &&
+          values.fileIds.map(item => {
+            if (tempLevel < item.secrecyLevel) {
+              tempLevel = item.secrecyLevel;
+            }
             return item.uid;
           });
+        if (tempLevel > values.secrecyLevel) {
+          message.error('附件密级不能大于该数据密级！');
+          return '';
+        }
         const videoInfoList =
           values.video &&
           values.video.map((item: any) => {

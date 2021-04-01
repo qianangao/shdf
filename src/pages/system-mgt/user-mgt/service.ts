@@ -88,3 +88,56 @@ export async function exportAddressBook(params) {
     params,
   });
 }
+
+/**
+ * 新增角色
+ * @param params
+ */
+export async function addRole(params: any) {
+  return request(`/role-user`, {
+    method: 'POST',
+    data: params,
+  });
+}
+/**
+ * 用户删除角色
+ * @param params
+ */
+export async function deleteRole(params: any) {
+  return request(`/user/${params}`, {
+    method: 'DELETE',
+    data: params,
+  });
+}
+
+/**
+ * 获取用户可添加角色详情
+ * @param params
+ */
+export async function getAddroleList(params: any) {
+  return request(`/role-user/find/add-role`, {
+    method: 'GET',
+    params,
+  });
+}
+
+/**
+ * 获取用户角色列表
+ * @param params
+ */
+export async function getRoleList(params: any) {
+  return request(`/role-user`, {
+    method: 'GET',
+    params,
+  });
+}
+/**
+ * 用户维护角色角色
+ * @param params
+ */
+export async function useraddRole(params: any) {
+  return request(`/role-user`, {
+    method: 'POST',
+    data: params,
+  });
+}

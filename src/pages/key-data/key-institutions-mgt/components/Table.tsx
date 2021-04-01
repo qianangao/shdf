@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { Button, Popconfirm, message } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
+import { getSecrecyRowClassName } from '@/utils/secrecy';
 
 const Table = ({
   kdKeyInstitutionsMgt,
@@ -138,6 +139,7 @@ const Table = ({
       rowKey="orgId"
       headerTitle="重点机构"
       actionRef={tableRef}
+      rowClassName={getSecrecyRowClassName}
       rowSelection={[]}
       scroll={{ x: 'max-content' }}
       request={async params => getKeyInstitutions(params)}

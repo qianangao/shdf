@@ -1,12 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
 import { Modal } from 'antd';
-import AddressBookForm from './AddressBookForm';
+import AddRoleForm from './AddRoleForm';
 
-const ModifyModal = ({ dispatch, actionRef, loading }) => {
-  const [form] = AddressBookForm.useForm();
-  const [userId, setuserId] = useState(null);
+const AddRoleModal = ({ dispatch, actionRef, loading }) => {
+  const [form] = AddRoleForm.useForm();
+  // const [userId, setuserId] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
+
+  const showModal = userIds => {
+    // setuserId(userIds || null);
+    updateData(userIds);
+    setModalVisible(true);
+  };
+
   const updateData = userIds => {
     if (userIds) {
       new Promise(resolve => {
@@ -16,21 +23,9 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
           resolve,
         });
       }).then(res => {
-        if (res)
-          form.setFieldsValue({
-            ...res,
-            orgObj: {
-              name: res.orgName,
-              id: res.orgId,
-            },
-          });
+        if (res) form.setFieldsValue({ ...res });
       });
     }
-  };
-  const showModal = userIds => {
-    setuserId(userIds || null);
-    updateData(userIds);
-    setModalVisible(true);
   };
 
   useEffect(() => {
@@ -44,7 +39,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
   }, []);
 
   const hideModal = () => {
-    setuserId(null);
+    // setuserId(null);
     setModalVisible(false);
     form.resetFields();
   };
@@ -55,11 +50,9 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       .then(values => {
         return new Promise(resolve => {
           dispatch({
-            type: `userMgt/${userId ? 'updateUser' : 'addUser'}`,
+            type: `userMgt/addRole`,
             payload: {
               ...values,
-              orgId: values.orgObj.id,
-              orgName: values.orgObj.name,
             },
             resolve,
           });
@@ -75,9 +68,9 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
 
   return (
     <Modal
-      title={userId ? '编辑用户' : '新增用户'}
+      title="新增角色"
       centered
-      width="90vw"
+      width="580px"
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',
@@ -87,11 +80,11 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <AddressBookForm form={form} />
+      <AddRoleForm form={form} />
     </Modal>
   );
 };
 
 export default connect(({ loading }) => ({
   loading: loading.models.smDictionaryMgt,
-}))(ModifyModal);
+}))(AddRoleModal);

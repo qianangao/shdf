@@ -4,7 +4,14 @@ import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import { getSecrecyRowClassName } from '@/utils/secrecy';
 
-const Table = ({ userMgt, openModifyModal, openDetailModal, dispatch }) => {
+const Table = ({
+  userMgt,
+  openModifyModal,
+  openDetailModal,
+  openRoleTableModal,
+  openAddRoleModal,
+  dispatch,
+}) => {
   const { tableRef } = userMgt;
   const formRef = useRef();
   // const uploadLgbListRef = useRef();
@@ -48,8 +55,11 @@ const Table = ({ userMgt, openModifyModal, openDetailModal, dispatch }) => {
           placement="topRight"
           onConfirm={() => deleteUser(data.userId)}
         >
-          <a>删除</a>,
+          <a>删除</a>
         </Popconfirm>,
+        <a key={`${data.userId}up`} onClick={() => openRoleTableModal(data.userId)}>
+          角色
+        </a>,
       ],
     },
   ];
@@ -77,6 +87,9 @@ const Table = ({ userMgt, openModifyModal, openDetailModal, dispatch }) => {
         toolBarRender={_ => [
           <Button type="primary" onClick={() => openModifyModal()}>
             新增
+          </Button>,
+          <Button type="primary" onClick={() => openAddRoleModal()}>
+            新增角色
           </Button>,
         ]}
         columns={columns}

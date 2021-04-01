@@ -3,10 +3,17 @@ import { connect } from 'umi';
 import { Modal } from 'antd';
 import AddressBookForm from './AddressBookForm';
 
-const ModifyModal = ({ dispatch, actionRef, loading }) => {
+const TableModifyModal = ({ dispatch, actionRef, loading }) => {
   const [form] = AddressBookForm.useForm();
   const [userId, setuserId] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
+
+  const showModal = userIds => {
+    setuserId(userIds || null);
+    updateData(userIds);
+    setModalVisible(true);
+  };
+
   const updateData = userIds => {
     if (userIds) {
       new Promise(resolve => {
@@ -16,21 +23,9 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
           resolve,
         });
       }).then(res => {
-        if (res)
-          form.setFieldsValue({
-            ...res,
-            orgObj: {
-              name: res.orgName,
-              id: res.orgId,
-            },
-          });
+        if (res) form.setFieldsValue({ ...res });
       });
     }
-  };
-  const showModal = userIds => {
-    setuserId(userIds || null);
-    updateData(userIds);
-    setModalVisible(true);
   };
 
   useEffect(() => {
@@ -58,8 +53,6 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
             type: `userMgt/${userId ? 'updateUser' : 'addUser'}`,
             payload: {
               ...values,
-              orgId: values.orgObj.id,
-              orgName: values.orgObj.name,
             },
             resolve,
           });
@@ -75,9 +68,9 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
 
   return (
     <Modal
-      title={userId ? '编辑用户' : '新增用户'}
+      title={userId ? '编辑通讯录' : '新增通讯录'}
       centered
-      width="90vw"
+      width="580px"
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',
@@ -94,4 +87,4 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
 
 export default connect(({ loading }) => ({
   loading: loading.models.smDictionaryMgt,
-}))(ModifyModal);
+}))(TableModifyModal);
