@@ -173,10 +173,16 @@ const Table = ({
     { title: '线索编号', align: 'center', dataIndex: 'clueNumber' },
     { title: '线索名称', align: 'center', dataIndex: 'clueName' },
     {
+      title: '线索时间',
+      align: 'center',
+      dataIndex: 'createTime',
+      valueType: 'date',
+    },
+    {
       title: '线索类型',
       align: 'center',
       dataIndex: 'clueType',
-      hideInSearch: true,
+      hideInSearch: false,
       valueEnum: enums.clue_type,
     },
     {

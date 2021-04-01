@@ -9,13 +9,13 @@ const ModifyModal = ({ dispatch, actionRef, loading, sensitiveMgt }) => {
   const [form] = OrgInfoForm.useForm();
   const [recordApprovalModalVisible, setModalVisible] = useState(false);
   const [detailData, setDetailData] = useState(null);
-  const { recordDetailData } = sensitiveMgt;
+  const { recordApprovalDetailData } = sensitiveMgt;
   const showModal = items => {
     // 获取详情
     if (items) {
       // 获取详情
       dispatch({
-        type: 'sensitiveMgt/getRecordDetail',
+        type: 'sensitiveMgt/getRecordApprovalDetail',
         payload: {
           id: items.eventId,
         },
@@ -95,7 +95,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, sensitiveMgt }) => {
         </Button>,
       ]}
     >
-      <OrgInfoForm form={form} orgInfoData={recordDetailData} />
+      <OrgInfoForm form={form} orgInfoData={recordApprovalDetailData} />
     </Modal>
   );
 };

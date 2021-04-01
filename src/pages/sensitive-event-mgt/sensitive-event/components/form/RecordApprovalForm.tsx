@@ -26,13 +26,15 @@ const RecordApprovalForm = ({ form, orgInfoData }) => {
     // 显示老干部信息-公共组件
     <>
       <Descriptions size="middle" column={2} title="备案申请">
-        <Descriptions.Item label="申请时间">{orgInfoData.applyTime}</Descriptions.Item>
-        <Descriptions.Item label="申请人">{orgInfoData.applyUser}</Descriptions.Item>
+        <Descriptions.Item label="申请时间">{orgInfoData.createTime}</Descriptions.Item>
+        <Descriptions.Item label="申请人">{orgInfoData.createUser}</Descriptions.Item>
+      </Descriptions>
+      <Descriptions size="middle" column={1}>
         <Descriptions.Item label="申请备注">{orgInfoData.applyRemarks}</Descriptions.Item>
       </Descriptions>
       <Descriptions size="middle" column={2} title="备案审批">
-        <Descriptions.Item label="审批时间">{orgInfoData.approvalTime}</Descriptions.Item>
-        <Descriptions.Item label="审批人">{orgInfoData.approvalOpinion}</Descriptions.Item>
+        <Descriptions.Item label="审批时间">{orgInfoData.lastUpdateTime}</Descriptions.Item>
+        <Descriptions.Item label="审批人">{orgInfoData.approvalUser}</Descriptions.Item>
       </Descriptions>
     </>
   );
