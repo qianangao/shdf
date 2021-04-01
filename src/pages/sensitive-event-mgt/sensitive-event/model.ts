@@ -12,6 +12,7 @@ import {
   getAuthorize,
   add,
   updateCase,
+  getRecordApprovalDetail,
   applyCase,
   addCaseHandle,
   recall,
@@ -37,6 +38,7 @@ const Model = {
     memberListData: {},
     detailData: {},
     recordDetailData: {},
+    recordApprovalDetailData: {},
     authorizeData: {},
     caseFileData: {},
     trendsDetailData: {},
@@ -337,6 +339,19 @@ const Model = {
           type: 'save',
           payload: {
             recordDetailData: response,
+          },
+        });
+      }
+    },
+    *getRecordApprovalDetail({ payload, resolve }, { call, put }) {
+      const response = yield call(getRecordApprovalDetail, payload);
+
+      if (!response.error) {
+        resolve && resolve(response);
+        yield put({
+          type: 'save',
+          payload: {
+            recordApprovalDetailData: response,
           },
         });
       }

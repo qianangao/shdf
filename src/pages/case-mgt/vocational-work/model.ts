@@ -17,6 +17,8 @@ import {
   recall,
   recordApproval,
   getRecordDetail,
+  getRecordApprovalDetail,
+  getSuperviseApprovalDetail,
   supervise,
   applySupervise,
   completed,
@@ -40,6 +42,8 @@ const Model = {
     memberListData: {},
     caseDetailData: {},
     recordDetailData: {},
+    recordApprovalDetailData: {},
+    superviseApprovalDetailData: {},
     authorizeData: {},
     caseDetailClueList: {},
     caseFileData: {},
@@ -369,6 +373,32 @@ const Model = {
           type: 'save',
           payload: {
             recordDetailData: response,
+          },
+        });
+      }
+    },
+    *getRecordApprovalDetail({ payload, resolve }, { call, put }) {
+      const response = yield call(getRecordApprovalDetail, payload);
+
+      if (!response.error) {
+        resolve && resolve(response);
+        yield put({
+          type: 'save',
+          payload: {
+            recordApprovalDetailData: response,
+          },
+        });
+      }
+    },
+    *getSuperviseApprovalDetail({ payload, resolve }, { call, put }) {
+      const response = yield call(getSuperviseApprovalDetail, payload);
+
+      if (!response.error) {
+        resolve && resolve(response);
+        yield put({
+          type: 'save',
+          payload: {
+            superviseApprovalDetailData: response,
           },
         });
       }
