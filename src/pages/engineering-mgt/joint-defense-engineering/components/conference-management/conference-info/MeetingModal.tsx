@@ -38,6 +38,7 @@ const MeetingModal = ({ dispatch, actionRef, loading }) => {
                 uid: item.fileId,
                 name: item.fileName,
                 status: 'done',
+                secrecyLevel: item.secrecyLevel,
               };
             });
           form.setFieldsValue({ ...res, fileIds: fileInfoList });
@@ -69,11 +70,19 @@ const MeetingModal = ({ dispatch, actionRef, loading }) => {
       form
         .validateFields()
         .then(values => {
+          let tempLevel = '';
           const fileIds =
             values.fileIds &&
             values.fileIds.map(item => {
+              if (tempLevel < item.secrecyLevel) {
+                tempLevel = item.secrecyLevel;
+              }
               return item.uid;
             });
+          if (tempLevel > values.secrecyLevel) {
+            message.error('附件密级不能大于该数据密级！');
+            return '';
+          }
           return new Promise(resolve => {
             dispatch({
               type: `defenseEngineering/${detailData ? 'updateMeeting' : 'addMeeting'}`,

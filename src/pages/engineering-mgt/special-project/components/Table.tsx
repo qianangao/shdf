@@ -2,6 +2,8 @@ import React from 'react';
 import { Button, Popconfirm } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
+import { getSecrecyRowClassName } from '@/utils/secrecy';
+import { checkAuthority } from '@/utils/authority';
 import ActionDescription from './describe-action/ActionDescription';
 
 const Table = ({
@@ -54,7 +56,20 @@ const Table = ({
       hideInSearch: true,
       valueEnum: enums.special_task_state,
     },
-    { title: '任务描述', align: 'center', dataIndex: 'taskDescription', hideInSearch: true },
+    {
+      title: '年度',
+      align: 'center',
+      dataIndex: 'taskYear',
+      hideInSearch: true,
+    },
+    {
+      title: '任务描述',
+      align: 'center',
+      dataIndex: 'taskDescription',
+      width: 180,
+      hideInSearch: true,
+      ellipsis: true,
+    },
     {
       title: '操作',
       valueType: 'option',
@@ -66,28 +81,40 @@ const Table = ({
         <a
           key={`${data.taskId}view`}
           onClick={() => openModifyModal({ id: data.taskId, disabled: true, visible: false })}
+          hidden={!checkAuthority('em/sa/task/detail')}
         >
           查看
         </a>,
         <a
           key={`${data.taskId}up`}
           onClick={() => openModifyModal({ id: data.taskId, disabled: false })}
+          hidden={!checkAuthority('em/sa/task/update')}
         >
           {data.taskState === 0 && '修改'}
         </a>,
-        <a key={`${data.taskId}down`} onClick={() => openDownModal(data.taskId)}>
+        <a
+          key={`${data.taskId}down`}
+          onClick={() => openDownModal(data.taskId)}
+          hidden={!checkAuthority('em/sa/task/deploy')}
+        >
           {data.taskState === 0 && '下发'}
         </a>,
-        <a key={`${data.taskId}back`} onClick={() => openFeedbackModal(data.taskId)}>
+        <a
+          key={`${data.taskId}back`}
+          onClick={() => openFeedbackModal(data.taskId)}
+          hidden={!checkAuthority('em/sa/task/feedback')}
+        >
           {data.taskState === 1 && '反馈'}
         </a>,
         <Popconfirm
-          title="你确定要删除该反馈要求吗？"
+          title="你确定要删除该子任务吗？"
           onConfirm={() => confirmDelete(data.taskId)}
           okText="是"
           cancelText="否"
         >
-          <a key={`${data.taskId}del`}>{data.taskState === 0 && '删除'}</a>
+          <a key={`${data.taskId}del`} hidden={!checkAuthority('em/sa/task/delete')}>
+            {data.taskState === 0 && '删除'}
+          </a>
         </Popconfirm>,
       ],
     },
@@ -106,10 +133,15 @@ const Table = ({
           rowKey="taskId"
           headerTitle="子任务"
           actionRef={tableRef}
+          rowClassName={getSecrecyRowClassName}
           scroll={{ x: 'max-content' }}
           request={async params => getChildrenTaskList(params)}
           toolBarRender={_ => [
-            <Button type="primary" onClick={() => openAddModal({ visible: true })}>
+            <Button
+              type="primary"
+              hidden={!checkAuthority('em/sa/task/add')}
+              onClick={() => openAddModal({ visible: true })}
+            >
               新增子任务
             </Button>,
           ]}

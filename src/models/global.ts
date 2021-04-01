@@ -129,7 +129,6 @@ const GlobalModel = {
       const response = yield call(getOrgTree, payload);
       if (!response.error) {
         resolve && resolve(response);
-
         yield put({
           type: 'save',
           payload: {

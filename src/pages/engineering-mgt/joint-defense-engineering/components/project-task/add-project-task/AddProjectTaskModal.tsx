@@ -79,7 +79,7 @@ const AddProjectTaskModal = ({ dispatch, actionRef, loading, defenseEngineering 
       bodyStyle={{
         padding: '30px 60px',
       }}
-      zIndex={2000}
+      // zIndex={2000}
       visible={modalVisible}
       onOk={handleOk}
       confirmLoading={loading}

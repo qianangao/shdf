@@ -21,32 +21,6 @@ const DownModal = ({ dispatch, actionRef, loading, roleTree }) => {
   useEffect(() => {
     getTreeData();
   }, []);
-  //
-  // const [provinceData, setProvinceData] = useState([]);
-  // const [targetKeys, setTargetKeys] = useState([]);
-  // const [selectedKeys, setSelectedKeys] = useState([]);
-  // const onChange = nextTargetKeys => {
-  //   setTargetKeys(nextTargetKeys);
-  // };
-
-  // const onSelectChange = (sourceSelectedKeys, targetSelectedKeys) => {
-  //   setSelectedKeys([...sourceSelectedKeys, ...targetSelectedKeys]);
-  // };
-
-  // useEffect(() => {
-  //   new Promise(resolve => {
-  //     dispatch({
-  //       type: 'defenseEngineering/provinceData',
-  //       resolve,
-  //     });
-  //   }).then(res => {
-  //     const arr = [];
-  //     for (let i = 0; i < res.length; i++) {
-  //       arr.push({ key: res[i].orgId, title: res[i].orgName });
-  //     }
-  //     setProvinceData([...arr]);
-  //   });
-  // }, []);
 
   const showModal = Id => {
     if (Id) setId(Id);

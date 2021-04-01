@@ -4,7 +4,7 @@ import AdvancedForm from '@/components/AdvancedForm';
 // import FeedbackTable from './FeedbackTable';
 import TaskProgressTable from '../TaskProgressTable';
 import SummaryFeedbackTable from '../feedback/SummaryFeedbackTable';
-// import SummaryFeedbackTable_2 from '../feedback/SummaryFeedbackTable_2';
+import StageFeedbackTable from '../feedback/StageFeedbackTable';
 
 const EditChildrenTaskForm = ({
   form,
@@ -14,6 +14,22 @@ const EditChildrenTaskForm = ({
   openAddModal,
   feedbackDetailModal,
 }) => {
+  const checkStartDate = (rule, value, callback) => {
+    const endValue = form.getFieldValue('endDate');
+    if (endValue && endValue < value) {
+      callback(new Error('开始日期应不晚于结束日期!'));
+    } else {
+      callback();
+    }
+  };
+  const checkEndDate = (rule, value, callback) => {
+    const startValue = form.getFieldValue('startDate');
+    if (startValue && startValue > value) {
+      callback(new Error('结束日期应不早于开始日期!'));
+    } else {
+      callback();
+    }
+  };
   const formItems = [
     // { label: 'id', name: 'bookId', hidden: true },
     {
@@ -47,7 +63,12 @@ const EditChildrenTaskForm = ({
       name: 'startDate',
       span: 4,
       disabled,
-      rules: [{ required: true, message: '请选择开始日期' }],
+      rules: [
+        { required: true, message: '请选择开始日期' },
+        {
+          validator: checkStartDate,
+        },
+      ],
       type: 'date',
     },
     {
@@ -55,12 +76,19 @@ const EditChildrenTaskForm = ({
       name: 'endDate',
       span: 4,
       disabled,
-      rules: [{ required: true, message: '请选择截止日期!' }],
+      rules: [
+        { required: true, message: '请选择截止日期!' },
+        {
+          validator: checkEndDate,
+        },
+      ],
       type: 'date',
     },
     {
-      name: 'segmentation',
-      type: 'segmentation',
+      label: '年度',
+      name: 'taskYear',
+      span: 4,
+      rules: [{ required: true, message: '请输入年度!' }],
     },
     {
       label: '任务描述',
@@ -68,18 +96,25 @@ const EditChildrenTaskForm = ({
       span: 4,
       disabled,
       rules: [
-        { required: true, message: '请输入!' },
-        { max: 300, min: 0, message: '输入文字过长，内容不能超过300字' },
+        { required: true, message: '请输入任务描述!' },
+        { max: 300, min: 0, message: '输入文字过长，内容不能超过300字!' },
       ],
       type: 'textarea',
     },
     {
-      label: '反馈要求',
-      name: 'feedbackRequire',
+      label: '阶段反馈要求',
+      name: 'stageTaskFeedbackList',
+      span: 4,
+      render: <StageFeedbackTable disabled={disabled} visible={visible} />,
+    },
+    {
+      label: '总结反馈要求',
+      name: 'specialTaskFeedbackList',
       span: 4,
       disabled,
       render: <SummaryFeedbackTable disabled={disabled} visible={visible} />,
     },
+
     {
       label: '附件列表',
       name: 'fileIds',

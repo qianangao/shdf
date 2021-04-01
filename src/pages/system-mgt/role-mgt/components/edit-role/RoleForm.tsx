@@ -1,27 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import AdvancedForm from '@/components/AdvancedForm';
-import { Select, Tree } from 'antd';
+import { Select } from 'antd';
+import OrgMultiSelectInput from '@/components/OrgMultiSelectInput/index';
 
-const RoleForm = ({ form, onTreeChange, roleTree, publicRole, orgIds }) => {
-  const [checkedKeys, setCheckedKeys] = useState([]);
+const RoleForm = ({ form, publicRole }) => {
+  // const [checkedKeys, setCheckedKeys] = useState([]);
   const [value, setValue] = React.useState('');
   useEffect(() => {
     setValue(publicRole);
   }, [publicRole]);
 
-  useEffect(() => {
-    setCheckedKeys([]);
-    setCheckedKeys([...orgIds]);
-  }, [orgIds]);
+  // useEffect(() => {
+  //   setCheckedKeys([]);
+  //   setCheckedKeys([...orgIds]);
+  // }, [orgIds]);
 
   const onChange = v => {
     setValue(v);
   };
 
-  const onCheckHandler = keys => {
-    setCheckedKeys([...keys]);
-    onTreeChange && onTreeChange(keys);
-  };
+  // const onCheckHandler = keys => {
+  //   setCheckedKeys([...keys]);
+  //   onTreeChange && onTreeChange(keys);
+  // };
 
   const formItems = [
     {
@@ -58,7 +59,8 @@ const RoleForm = ({ form, onTreeChange, roleTree, publicRole, orgIds }) => {
       visible: value === '0',
       rules: [{ required: value === '0', message: '请选择!' }],
       render: (
-        <Tree checkable onCheck={onCheckHandler} checkedKeys={checkedKeys} treeData={roleTree} />
+        <OrgMultiSelectInput />
+        // <Tree checkable onCheck={onCheckHandler} checkedKeys={checkedKeys} treeData={roleTree} />
       ),
     },
   ];

@@ -1,0 +1,7 @@
+.ant-message-notice-content {
+  z-index: 4000;
+}
+
+.notshow {
+  display: none;
+}
