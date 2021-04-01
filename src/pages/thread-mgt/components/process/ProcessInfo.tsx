@@ -128,7 +128,13 @@ const ProcessInfo = ({ dispatch, clueId, circulationId, processListData, enums, 
       <Descriptions title={title || '办理信息'} column={{ xxl: 4, xl: 3, lg: 2 }} />
       {processListData && (
         <List
-          style={{ background: '#fff', padding: '0px 10px 30px 10px' }}
+          style={{
+            background: '#fff',
+            padding: '0px 10px 30px 10px',
+            height: '350px',
+            border: '1px solid #ccc',
+            overflowY: 'auto',
+          }}
           split={false}
           dataSource={processListData}
           renderItem={item => (

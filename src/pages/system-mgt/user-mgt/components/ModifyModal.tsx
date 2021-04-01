@@ -68,9 +68,9 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
 
   return (
     <Modal
-      title={userId ? '编辑通讯录' : '新增通讯录'}
+      title={userId ? '编辑用户' : '新增用户'}
       centered
-      width="580px"
+      width="90vw"
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',
