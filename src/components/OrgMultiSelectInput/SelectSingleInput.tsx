@@ -78,10 +78,12 @@ const SelectInput = ({ value, OrganizationTree, onChange, dispatch }) => {
     if (value && value.length > 0) {
       const nameArr = [];
       const idArr = [];
-      value.forEach(({ name, id }) => {
-        nameArr.push(name);
-        idArr.push(id);
-      });
+      if (Array.isArray(value)) {
+        value.forEach(({ name, id }) => {
+          nameArr.push(name);
+          idArr.push(id);
+        });
+      }
 
       setValueName(nameArr.join(', '));
       setCheckedKeys({

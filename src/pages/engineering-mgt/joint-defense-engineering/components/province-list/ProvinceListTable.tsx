@@ -3,6 +3,7 @@ import { Button, Table, Popconfirm, Modal } from 'antd';
 import { connect } from 'umi';
 import AdvancedForm from '@/components/AdvancedForm';
 import { checkPhone } from '@/utils/validators';
+import OrgSelectInput from '@/components/OrgMultiSelectInput/SelectSingleInput';
 
 const ProvinceListTable = ({
   projectProvinceEntityList,
@@ -72,10 +73,7 @@ const ProvinceListTable = ({
       label: '成员省份名称',
       name: 'provinceCode',
       span: 4,
-      rules: [
-        { required: true, message: '请输入名称!', whitespace: true },
-        { max: 30, message: '长度请小于30位!' },
-      ],
+      render: <OrgSelectInput />,
     },
     {
       label: '联络员',
@@ -105,7 +103,15 @@ const ProvinceListTable = ({
       dataIndex: 'id',
       key: 'id',
     },
-    { title: '成员省份', align: 'center', dataIndex: 'provinceCode' },
+    {
+      title: '成员省份',
+      align: 'center',
+      dataIndex: 'provinceCode',
+      valueType: 'option',
+      render: (dom, logData) => [
+        <span>{logData.provinceCode.name ? logData.provinceCode.name : logData.provinceCode}</span>,
+      ],
+    },
     { title: '联络员', align: 'center', dataIndex: 'contacts' },
     { title: '联系电话', align: 'center', dataIndex: 'contactPhone' },
     {
@@ -149,7 +155,7 @@ const ProvinceListTable = ({
         bodyStyle={{
           padding: '30px 60px',
         }}
-        zIndex={3000}
+        zIndex={1000}
       >
         <AdvancedForm fields={formItems} form={form} />
       </Modal>
