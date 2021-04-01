@@ -23,7 +23,14 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
           resolve,
         });
       }).then(res => {
-        if (res) form.setFieldsValue({ ...res });
+        if (res)
+          form.setFieldsValue({
+            ...res,
+            orgObj: {
+              name: res.orgName,
+              id: res.orgId,
+            },
+          });
       });
     }
   };
@@ -53,6 +60,8 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
             type: `userMgt/${userId ? 'updateUser' : 'addUser'}`,
             payload: {
               ...values,
+              orgId: values.orgObj.id,
+              orgName: values.orgObj.name,
             },
             resolve,
           });

@@ -1,32 +1,44 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
-import { Modal } from 'antd';
-import AddressBookForm from './AddressBookForm';
-import RoleTable from './RoleTable';
+import { Modal, Transfer } from 'antd';
 
 const TableModifyModal = ({ dispatch, actionRef, loading }) => {
-  const [form] = AddressBookForm.useForm();
   const [userId, setuserId] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
+  const [roleDatas, setRoleDatas] = useState([]);
+  const [targetKeys, setTargetKeys] = useState([]);
+  const [selectedKeys, setSelectedKeys] = useState([]);
 
-  const showModal = userIds => {
-    setuserId(userIds || null);
-    updateData(userIds);
-    setModalVisible(true);
-  };
-
-  const updateData = userIds => {
+  const getRole = userIds => {
     if (userIds) {
       new Promise(resolve => {
         dispatch({
-          type: 'userMgt/getUserDetail',
+          type: 'userMgt/getRoleList',
           payload: { userIds },
           resolve,
         });
-      }).then(res => {
-        if (res) form.setFieldsValue({ ...res });
-      });
+      })
+        .then(data => {
+          setRoleDatas(data.map(item => ({ ...item, key: item.roleId })));
+
+          return new Promise(resolve => {
+            dispatch({
+              type: 'userMgt/getAddRoleList',
+              payload: { userIds },
+              resolve,
+            });
+          });
+        })
+        .then(data => {
+          const targetIds = data.map(item => item.roleId);
+          setTargetKeys(targetIds);
+        });
     }
+  };
+  const showModal = userIds => {
+    setuserId(userIds || null);
+    getRole(userIds);
+    setModalVisible(true);
   };
 
   useEffect(() => {
@@ -42,24 +54,27 @@ const TableModifyModal = ({ dispatch, actionRef, loading }) => {
   const hideModal = () => {
     setuserId(null);
     setModalVisible(false);
-    form.resetFields();
+  };
+
+  const onChange = nextTargetKeys => {
+    setTargetKeys(nextTargetKeys);
+  };
+
+  const onSelectChange = (sourceSelectedKeys, targetSelectedKeys) => {
+    setSelectedKeys([...sourceSelectedKeys, ...targetSelectedKeys]);
   };
 
   const handleOk = () => {
-    form
-      .validateFields()
-      .then(values => {
-        return new Promise(resolve => {
-          dispatch({
-            type: `userMgt/${userId ? 'updateUser' : 'addUser'}`,
-            payload: {
-              ...values,
-            },
-            resolve,
-          });
-        });
-      })
-      .then(() => {
+    new Promise(resolve => {
+      dispatch({
+        type: `userMgt/${userId ? 'updateUser' : 'addUser'}`,
+        payload: {
+          roleIds: targetKeys,
+        },
+        resolve,
+      });
+    })
+      .then(_ => {
         hideModal();
       })
       .catch(info => {
@@ -71,7 +86,7 @@ const TableModifyModal = ({ dispatch, actionRef, loading }) => {
     <Modal
       title="用户角色列表"
       centered
-      width="90vw"
+      width="50vw"
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',
@@ -81,7 +96,15 @@ const TableModifyModal = ({ dispatch, actionRef, loading }) => {
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <RoleTable />
+      <Transfer
+        dataSource={roleDatas}
+        titles={['角色列表', '已选角色']}
+        targetKeys={targetKeys}
+        selectedKeys={selectedKeys}
+        onChange={onChange}
+        onSelectChange={onSelectChange}
+        render={item => item.name}
+      />
     </Modal>
   );
 };

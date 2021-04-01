@@ -11,9 +11,10 @@ import {
   exportAddressBook,
   importAddressBook,
   getUserDetail,
-  getRoleList,
   addRole,
   getAddroleList,
+  getRoleList,
+  // useraddRole,
 } from './service';
 
 const Model = {
@@ -45,40 +46,25 @@ const Model = {
       }
     },
     *getAddroleList({ payload, resolve }, { call, put }) {
-      const params = {
-        ...payload,
-        pageNum: payload.current ? payload.current : 1,
-        pageSize: payload.pageSize ? payload.pageSize : 20,
-      };
-      delete params.current;
-      const response = yield call(getAddroleList, params);
+      const response = yield call(getAddroleList, payload);
       if (!response.error) {
-        const result = formatPageData(response);
-
-        resolve && resolve(result);
+        resolve && resolve(response);
         yield put({
           type: 'save',
           payload: {
-            getAddroleData: result,
+            getAddroleData: response,
           },
         });
       }
     },
     *getRoleList({ payload, resolve }, { call, put }) {
-      const params = {
-        ...payload,
-        pageNum: payload.current ? payload.current : 1,
-        pageSize: payload.pageSize ? payload.pageSize : 20,
-      };
-      delete params.current;
-      const response = yield call(getRoleList, params);
+      const response = yield call(getRoleList, payload);
       if (!response.error) {
-        const result = formatPageData(response);
-        resolve && resolve(result);
+        resolve && resolve(response);
         yield put({
           type: 'save',
           payload: {
-            addressListData: result,
+            getRoleData: response,
           },
         });
       }

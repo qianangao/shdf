@@ -88,16 +88,6 @@ export async function exportAddressBook(params) {
     params,
   });
 }
-/**
- * 查询用户角色列表
- * @param params
- */
-export async function getRoleList(params: any) {
-  return request(`/role-user`, {
-    method: 'GET',
-    params,
-  });
-}
 
 /**
  * 新增角色
@@ -128,5 +118,26 @@ export async function getAddroleList(params: any) {
   return request(`/role-user/find/add-role`, {
     method: 'GET',
     params,
+  });
+}
+
+/**
+ * 获取用户角色列表
+ * @param params
+ */
+export async function getRoleList(params: any) {
+  return request(`/role-user`, {
+    method: 'GET',
+    params,
+  });
+}
+/**
+ * 用户维护角色角色
+ * @param params
+ */
+export async function useraddRole(params: any) {
+  return request(`/role-user`, {
+    method: 'POST',
+    data: params,
   });
 }
