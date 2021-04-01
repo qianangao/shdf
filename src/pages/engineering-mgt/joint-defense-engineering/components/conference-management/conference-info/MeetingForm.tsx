@@ -25,7 +25,7 @@ const MeetingForm = ({ form, disabled }) => {
       name: 'startTime',
       span: 4,
       disabled,
-      rules: [{ required: true, message: '请选择截止日期!' }],
+      rules: [{ required: true, message: '请选择会议时间!' }],
       type: 'date',
     },
     {
@@ -40,7 +40,7 @@ const MeetingForm = ({ form, disabled }) => {
       name: 'secrecyLevel',
       span: 4,
       disabled,
-      rules: [{ required: true, message: '请选择保密等级' }],
+      rules: [{ required: true, message: '请选择保密等级!' }],
       enumsLabel: 'object_secrecy_level',
     },
     {
@@ -49,8 +49,8 @@ const MeetingForm = ({ form, disabled }) => {
       span: 4,
       disabled,
       rules: [
-        { required: true, message: '请输入!' },
-        { max: 300, min: 0, message: '输入文字过长，内容不能超过300字' },
+        { required: true, message: '请输入参会人员!' },
+        { max: 300, min: 0, message: '输入文字过长，内容不能超过300字!' },
       ],
       type: 'textarea',
     },
@@ -60,8 +60,8 @@ const MeetingForm = ({ form, disabled }) => {
       span: 4,
       disabled,
       rules: [
-        { required: true, message: '请输入!' },
-        { max: 500, min: 0, message: '输入文字过长，内容不能超过500字' },
+        { required: true, message: '请输入会议纪要!' },
+        { max: 500, min: 0, message: '输入文字过长，内容不能超过500字!' },
       ],
       type: 'textarea',
     },
@@ -70,7 +70,7 @@ const MeetingForm = ({ form, disabled }) => {
       name: 'fileIds',
       span: 4,
       disabled,
-      type: 'upload',
+      type: 'uploadSecrecy',
     },
   ];
 

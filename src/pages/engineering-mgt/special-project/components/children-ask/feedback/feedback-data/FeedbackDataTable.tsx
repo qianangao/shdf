@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table } from 'antd';
 import { connect } from 'umi';
+import { getSecrecyRowClassName } from '@/utils/secrecy';
 
 const FeedbackTableData = ({ FeedbackData }) => {
   const [dataSource, setDataSource] = useState([]);
@@ -21,18 +22,25 @@ const FeedbackTableData = ({ FeedbackData }) => {
       key: 'id',
     },
     { title: '名称', align: 'center', dataIndex: 'feedbackName' },
-    {
-      title: '反馈类型',
-      align: 'center',
-      dataIndex: 'feedbackType',
-      render: text => <span>{text === 0 ? '总反馈' : '阶段反馈'}</span>,
-    },
+    // {
+    //   title: '反馈类型',
+    //   align: 'center',
+    //   dataIndex: 'feedbackType',
+    //   render: text => <span>{text === 0 ? '总反馈' : '阶段反馈'}</span>,
+    // },
     { title: '开始日期', align: 'center', dataIndex: 'startDate' },
     { title: '截止日期', align: 'center', dataIndex: 'endDate' },
     { title: '反馈要求', align: 'center', dataIndex: 'feedbackRequire' },
   ];
 
-  return <Table dataSource={dataSource} columns={columns} rowKey="taskId" />;
+  return (
+    <Table
+      dataSource={dataSource}
+      columns={columns}
+      rowKey="taskId"
+      rowClassName={getSecrecyRowClassName}
+    />
+  );
 };
 
 export default connect(({ specialAction }) => ({

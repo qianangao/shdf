@@ -4,6 +4,7 @@ import AdvancedForm from '@/components/AdvancedForm';
 // import FeedbackTable from './FeedbackTable';
 import TaskProgressTable from '../TaskProgressTable';
 import SummaryFeedbackTable from '../SummaryFeedbackTable';
+import StageFeedbackTable from '../StageFeedbackTable';
 
 const EditProjectTaskForm = ({
   form,
@@ -16,6 +17,23 @@ const EditProjectTaskForm = ({
   const [tableData, setTableData] = useState([]);
   const onChange = data => {
     setTableData([...data]);
+  };
+
+  const checkStartDate = (rule, value, callback) => {
+    const endValue = form.getFieldValue('endDate');
+    if (endValue && endValue < value) {
+      callback(new Error('开始日期应不晚于结束日期!'));
+    } else {
+      callback();
+    }
+  };
+  const checkEndDate = (rule, value, callback) => {
+    const startValue = form.getFieldValue('startDate');
+    if (startValue && startValue > value) {
+      callback(new Error('结束日期应不早于开始日期!'));
+    } else {
+      callback();
+    }
   };
 
   const formItems = [
@@ -34,7 +52,7 @@ const EditProjectTaskForm = ({
       name: 'taskStatus',
       span: 4,
       disabled,
-      rules: [{ required: true, message: '请选择任务状态' }],
+      rules: [{ required: true, message: '请选择任务状态!' }],
       enumsLabel: 'special_task_state',
     },
     {
@@ -42,7 +60,7 @@ const EditProjectTaskForm = ({
       name: 'secrecyLevel',
       span: 4,
       disabled,
-      rules: [{ required: true, message: '请选择保密等级' }],
+      rules: [{ required: true, message: '请选择保密等级!' }],
       enumsLabel: 'object_secrecy_level',
     },
     {
@@ -50,7 +68,12 @@ const EditProjectTaskForm = ({
       name: 'startDate',
       span: 4,
       disabled,
-      rules: [{ required: true, message: '请选择开始日期' }],
+      rules: [
+        { required: true, message: '请选择开始日期!' },
+        {
+          validator: checkStartDate,
+        },
+      ],
       type: 'date',
     },
     {
@@ -58,7 +81,12 @@ const EditProjectTaskForm = ({
       name: 'endDate',
       span: 4,
       disabled,
-      rules: [{ required: true, message: '请选择截止日期!' }],
+      rules: [
+        { required: true, message: '请选择截止日期!' },
+        {
+          validator: checkEndDate,
+        },
+      ],
       type: 'date',
     },
     {
@@ -67,14 +95,29 @@ const EditProjectTaskForm = ({
       span: 4,
       disabled,
       rules: [
-        { required: true, message: '请输入!' },
-        { max: 300, min: 0, message: '输入文字过长，内容不能超过300字' },
+        { required: true, message: '请输入任务描述!' },
+        { max: 300, min: 0, message: '输入文字过长，内容不能超过300字!' },
       ],
       type: 'textarea',
     },
     {
-      label: '反馈要求',
+      label: '阶段反馈要求',
       name: 'feedbackRequireList',
+      span: 4,
+      disabled,
+      render: (
+        <StageFeedbackTable
+          disabled={disabled}
+          visible={visible}
+          add={add}
+          onChange={onChange}
+          value={tableData}
+        />
+      ),
+    },
+    {
+      label: '总结反馈要求',
+      name: 'sumFeedbackRequireList',
       span: 4,
       disabled,
       render: (

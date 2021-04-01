@@ -7,8 +7,14 @@ const ModifyRoleModal = ({ dispatch, actionRef, loading, roleTree }) => {
   const [form] = RoleForm.useForm();
   const [detailData, setDetailData] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-  const [publicRole, setPublicRole] = useState('');
+  const [publicRole, setPublicRole] = useState('1');
   const [orgIds, setOrgIds] = useState([]);
+
+  useEffect(() => {
+    dispatch({
+      type: 'smRoleMgt/getRoleTree',
+    });
+  }, []);
 
   const updateData = roleId => {
     new Promise(resolve => {
@@ -52,18 +58,28 @@ const ModifyRoleModal = ({ dispatch, actionRef, loading, roleTree }) => {
 
   const onChange = keys => {
     setOrgIds([...keys]);
+    form.setFieldsValue({ orgIds: [...keys] });
   };
 
   const handleOk = () => {
     form
       .validateFields()
       .then(values => {
+        values.orgIds =
+          values.orgIds &&
+          values.orgIds.map(item => {
+            return item.id;
+          });
+        // if (values.publicRole === '1') {
+        //   values.orgIds = [];
+        // } else {
+        //   values.orgIds = [...orgIds];
+        // }
         return new Promise(resolve => {
           dispatch({
             type: `smRoleMgt/${detailData ? 'updateRole' : 'addRole'}`,
             payload: {
               ...values,
-              orgIds: (values.publicRole === '0' && orgIds) || [],
               roleId: detailData && detailData.toString(),
             },
             resolve,

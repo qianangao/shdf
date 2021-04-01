@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Button } from 'antd';
 import { connect } from 'umi';
+import { getSecrecyRowClassName } from '@/utils/secrecy';
+import { checkAuthority } from '@/utils/authority';
 
 const TaskProgressTable = ({ dispatch, taskProgressList, head, feedbackDetailModal }) => {
   const [dataSource, setDataSource] = useState([]);
@@ -17,7 +19,7 @@ const TaskProgressTable = ({ dispatch, taskProgressList, head, feedbackDetailMod
     if (head) {
       const arr = [];
       setColumns([]);
-      Object.keys(head).forEach(function (key) {
+      Object.keys(head).forEach(key => {
         if (key === 'province') {
           arr.push({ title: head[key], dataIndex: key, align: 'center' });
         } else {
@@ -43,10 +45,15 @@ const TaskProgressTable = ({ dispatch, taskProgressList, head, feedbackDetailMod
 
   return (
     <>
-      <Button type="primary" onClick={() => exportData()}>
+      <Button type="primary" onClick={() => exportData()} hidden={!checkAuthority('em/sa/export')}>
         导出
       </Button>
-      <Table dataSource={dataSource} columns={columns} rowKey="province" />
+      <Table
+        dataSource={dataSource}
+        columns={columns}
+        rowKey="province"
+        rowClassName={getSecrecyRowClassName}
+      />
     </>
   );
 };

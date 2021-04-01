@@ -6,12 +6,6 @@ import FeedbackDetailForm from './FeedbackDetailForm';
 const FeedbackDetailModal = ({ dispatch, actionRef, loading }) => {
   const [form] = FeedbackDetailForm.useForm();
   const [modalVisible, setModalVisible] = useState(false);
-  const showModal = id => {
-    if (id) {
-      setModalVisible(true);
-      updateData(id);
-    }
-  };
   const updateData = id => {
     if (id) {
       new Promise(resolve => {
@@ -30,6 +24,7 @@ const FeedbackDetailModal = ({ dispatch, actionRef, loading }) => {
                 uid: item.fileId,
                 name: item.fileName,
                 status: 'done',
+                secrecyLevel: item.secrecyLevel,
               };
             });
           form.setFieldsValue({ ...res, fileIds: fileInfoList });
@@ -39,6 +34,13 @@ const FeedbackDetailModal = ({ dispatch, actionRef, loading }) => {
       form.setFieldsValue({});
     }
   };
+  const showModal = id => {
+    if (id) {
+      setModalVisible(true);
+      updateData(id);
+    }
+  };
+
   useEffect(() => {
     if (actionRef && typeof actionRef === 'function') {
       actionRef({ showModal });

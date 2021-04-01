@@ -9,12 +9,6 @@ const FeedbackModal = ({ dispatch, actionRef, loading, openFeedbackReqModal, Fee
   const [form] = FeedbackForm.useForm();
   const [modalVisible, setModalVisible] = useState(false);
   const [taskId, setTaskId] = useState('');
-  const showModal = id => {
-    setTaskId(id);
-    updateData(id);
-    setModalVisible(true);
-  };
-
   const updateData = id => {
     if (id) {
       new Promise(resolve => {
@@ -41,6 +35,12 @@ const FeedbackModal = ({ dispatch, actionRef, loading, openFeedbackReqModal, Fee
       });
     }
   };
+  const showModal = id => {
+    setTaskId(id);
+    updateData(id);
+    setModalVisible(true);
+  };
+
   useEffect(() => {
     if (actionRef && typeof actionRef === 'function') {
       actionRef({ showModal });
@@ -112,7 +112,7 @@ const FeedbackModal = ({ dispatch, actionRef, loading, openFeedbackReqModal, Fee
       onOk={handleOk}
       confirmLoading={loading}
       onCancel={hideModal}
-      zIndex={2000}
+      // zIndex={2000}
     >
       <FeedbackForm form={form} openFeedbackReqModal={openFeedbackReqModal} />
     </Modal>

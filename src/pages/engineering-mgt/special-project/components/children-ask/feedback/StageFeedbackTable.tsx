@@ -2,57 +2,28 @@ import React, { useState, useEffect } from 'react';
 import { Button, Table, Popconfirm, Modal, message } from 'antd';
 import { connect } from 'umi';
 import AdvancedForm from '@/components/AdvancedForm';
+import './index.css';
 import { getSecrecyRowClassName } from '@/utils/secrecy';
 
-const SummaryFeedbackTable = ({
-  summaryListData,
-  disabled = false,
-  onChange,
-  add = false,
-  edit = false,
-}) => {
+const StageFeedbackTable = ({ visible, stageListData, disabled, onChange, add = false }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [dataSource, setDataSource] = useState([]);
-
-  const checkStartDate = (rule, value, callback) => {
-    const endValue = form.getFieldValue('endDate');
-    if (endValue && endValue < value) {
-      callback(new Error('开始日期应不晚于结束日期!'));
-    } else {
-      callback();
-    }
-  };
-  const checkEndDate = (rule, value, callback) => {
-    const startValue = form.getFieldValue('startDate');
-    if (startValue && startValue > value) {
-      callback(new Error('结束日期应不早于开始日期!'));
-    } else {
-      callback();
-    }
-  };
-
   useEffect(() => {
-    if (edit) {
+    if (add) {
       setDataSource([]);
     } else {
-      setDataSource([...summaryListData]);
+      setDataSource([...stageListData]);
     }
-  }, [summaryListData]);
+  }, [stageListData]);
 
   const [form] = AdvancedForm.useForm();
   const [id, setId] = useState(1);
-
-  const confirmDelete = ele => {
+  const confirmDelete = ids => {
     const data = dataSource;
     data.forEach(item => {
-      if (item.id === ele.id || item.feedbackId === ele.feedbackId) {
-        for (let i = 0; i < data.length; i++) {
-          if (data[i].feedbackId === ele.feedbackId) {
-            data.splice(i, 1);
-          }
-        }
+      if (item.id === ids) {
+        data.splice(ids - 1, 1);
         setDataSource([...data]);
-        onChange && onChange([...data]);
       }
     });
   };
@@ -70,6 +41,7 @@ const SummaryFeedbackTable = ({
     form.validateFields().then(values => {
       setId(id + 1);
       values.id = id;
+      values.feedbackType = '1';
       const arr = [];
       arr.push(values);
       setDataSource([...dataSource, ...arr]);
@@ -77,6 +49,23 @@ const SummaryFeedbackTable = ({
       message.success('新增反馈要求成功！');
       handleCancel();
     });
+  };
+
+  const checkStartDate = (rule, value, callback) => {
+    const endValue = form.getFieldValue('endDate');
+    if (endValue && endValue < value) {
+      callback(new Error('开始日期应不晚于结束日期!'));
+    } else {
+      callback();
+    }
+  };
+  const checkEndDate = (rule, value, callback) => {
+    const startValue = form.getFieldValue('startDate');
+    if (startValue && startValue > value) {
+      callback(new Error('结束日期应不早于开始日期!'));
+    } else {
+      callback();
+    }
   };
 
   const formItems = [
@@ -130,7 +119,7 @@ const SummaryFeedbackTable = ({
       name: 'feedbackRequire',
       span: 4,
       rules: [
-        { required: true, message: '请输入反馈要求!' },
+        { required: true, message: '请新增反馈要求!' },
         { max: 300, min: 0, message: '输入文字过长，内容不能超过300字!' },
       ],
       type: 'textarea',
@@ -155,31 +144,52 @@ const SummaryFeedbackTable = ({
     // },
     { title: '开始日期', align: 'center', dataIndex: 'startDate' },
     { title: '截止日期', align: 'center', dataIndex: 'endDate' },
-    { title: '反馈要求', align: 'center', dataIndex: 'feedbackRequire' },
+    {
+      title: '反馈要求',
+      align: 'center',
+      dataIndex: 'feedbackRequire',
+      width: 200,
+      ellipsis: true,
+    },
     {
       title: '操作',
       dataIndex: 'action',
-      valueType: 'action',
       key: 'action',
-      align: 'center',
+      className: add === true ? '' : 'notshow',
       render: (dom, data, index) => [
         <Popconfirm
           title="你确定要删除该反馈要求吗？"
-          onConfirm={() => confirmDelete({ id: index + 1, feedbackId: data.feedbackId })}
+          onConfirm={() => confirmDelete(index + 1)}
           okText="是"
           cancelText="否"
         >
-          <Button type="link" size="small" disabled={disabled}>
+          <Button type="link" size="small">
             {add && '删除'}
           </Button>
         </Popconfirm>,
       ],
+
+      // render: (dom, data,index) => [
+      //   <Popconfirm
+      //     title="你确定要删除该反馈要求吗？"
+      //     onConfirm={() => confirmDelete(index)}
+      //     okText="是"
+      //     cancelText="否"
+      //   >
+      //     <a key={`${data.id}del`}>
+      //       {add && '删除'}
+      //     </a>
+      //   </Popconfirm>,
+      //   <a key={`${data.id}sel`} onClick={() => handleSelect(data.feedbackId)}>
+      //     {select && '选择'}
+      //   </a>,
+      // ],
     },
   ];
 
   return (
     <div>
-      {add && (
+      {visible && (
         <Button
           type="primary"
           onClick={() => addFeedback()}
@@ -196,7 +206,7 @@ const SummaryFeedbackTable = ({
         rowClassName={getSecrecyRowClassName}
       />
       <Modal
-        title="阶段反馈要求"
+        title="新增反馈要求"
         visible={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
@@ -214,6 +224,7 @@ const SummaryFeedbackTable = ({
   );
 };
 
-export default connect(({ defenseEngineering }) => ({
-  summaryListData: defenseEngineering.summaryListData,
-}))(SummaryFeedbackTable);
+export default connect(({ specialAction }) => ({
+  stageListData: specialAction.stageListData,
+  specialAction,
+}))(StageFeedbackTable);

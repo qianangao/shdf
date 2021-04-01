@@ -5,6 +5,22 @@ import AdvancedForm from '@/components/AdvancedForm';
 import FeedbackDataTable from './FeedbackDataTable';
 
 const FeedbackForm = ({ form, openFeedbackReqModal, FeedbackData }) => {
+  const checkStartDate = (rule, value, callback) => {
+    const endValue = form.getFieldValue('endDate');
+    if (endValue && endValue < value) {
+      callback(new Error('开始日期应不晚于结束日期!'));
+    } else {
+      callback();
+    }
+  };
+  const checkEndDate = (rule, value, callback) => {
+    const startValue = form.getFieldValue('startDate');
+    if (startValue && startValue > value) {
+      callback(new Error('结束日期应不早于开始日期!'));
+    } else {
+      callback();
+    }
+  };
   const formItems = [
     {
       label: '任务名称',
@@ -26,14 +42,22 @@ const FeedbackForm = ({ form, openFeedbackReqModal, FeedbackData }) => {
       label: '实际开始日期',
       name: 'startDate',
       span: 4,
-      // rules: [{ required: true, message: '请选择开始日期' }],
+      rules: [
+        {
+          validator: checkStartDate,
+        },
+      ],
       type: 'date',
     },
     {
       label: '实际截止日期',
       name: 'endDate',
       span: 4,
-      // rules: [{ required: true, message: '请选择截止日期!' }],
+      rules: [
+        {
+          validator: checkEndDate,
+        },
+      ],
       type: 'date',
     },
     {
@@ -54,7 +78,7 @@ const FeedbackForm = ({ form, openFeedbackReqModal, FeedbackData }) => {
       type: 'uploadSecrecy',
     },
     {
-      label: '反馈要求',
+      label: '反馈类型',
       name: 'stageRequest',
       span: 4,
       render: <Button onClick={() => openFeedbackReqModal()}>选择反馈要求</Button>,
@@ -63,7 +87,7 @@ const FeedbackForm = ({ form, openFeedbackReqModal, FeedbackData }) => {
       label: '反馈要求',
       name: 'specialTaskFeedbackList',
       span: 4,
-      rules: [{ required: true, message: '请选择反馈要求!' }],
+      // rules: [{ required: true, message: '请选择反馈要求!' }],
       render: <FeedbackDataTable value={FeedbackData} />,
     },
   ];

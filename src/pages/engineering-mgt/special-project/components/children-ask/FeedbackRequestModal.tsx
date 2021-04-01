@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
 import { Modal } from 'antd';
-import SummaryFeedbackTable from './feedback/SummaryFeedbackTable';
+import FeedbackTable from './feedback/FeedbackTable';
 
 const FeedbackRequestModal = ({ actionRef, loading }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -41,13 +41,13 @@ const FeedbackRequestModal = ({ actionRef, loading }) => {
       bodyStyle={{
         padding: '30px 60px',
       }}
-      zIndex={4000}
+      // zIndex={4000}
       visible={modalVisible}
       onOk={handleOk}
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <SummaryFeedbackTable onChange={onChange} select />
+      <FeedbackTable onChange={onChange} />
     </Modal>
   );
 };
