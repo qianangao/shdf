@@ -3,6 +3,7 @@ import { Button, message, Modal } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import { getSecrecyRowClassName } from '@/utils/secrecy';
+import { checkAuthority } from '@/utils/authority';
 
 const Table = ({ emAddressBook, dispatch, enums }) => {
   const { tableRef } = emAddressBook;
@@ -131,7 +132,11 @@ const Table = ({ emAddressBook, dispatch, enums }) => {
           // <Button type="primary" onClick={() => openModifyModal()}>
           //   新增
           // </Button>,
-          <Button type="primary" onClick={() => templateDownload()}>
+          <Button
+            type="primary"
+            onClick={() => templateDownload()}
+            hidden={!checkAuthority('so/ab/download')}
+          >
             模板下载
           </Button>,
           <>
@@ -147,6 +152,7 @@ const Table = ({ emAddressBook, dispatch, enums }) => {
               onClick={() => {
                 uploadLgbListRef.current.click();
               }}
+              hidden={!checkAuthority('so/ab/import')}
             >
               导入
             </Button>
@@ -156,6 +162,7 @@ const Table = ({ emAddressBook, dispatch, enums }) => {
             onClick={() => {
               exportDetailData(selectedRowKeys);
             }}
+            hidden={!checkAuthority('so/ab/export')}
           >
             导出
           </Button>,

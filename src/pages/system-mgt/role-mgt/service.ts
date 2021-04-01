@@ -4,10 +4,9 @@ import request from '@/utils/request';
  * 获取单位树
  *
  */
-export async function getRoleTree(params) {
+export async function getRoleTree() {
   return request(`/organization/child/all`, {
     method: 'GET',
-    params,
   });
 }
 

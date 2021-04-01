@@ -77,14 +77,14 @@ const AddchildrenTaskModal = ({ dispatch, actionRef, loading, specialAction }) =
 
   return (
     <Modal
-      title="子任务信息"
+      title="新建子任务"
       centered
       width="90vw"
       style={{ paddingBottom: 0, zIndex: 100 }}
       bodyStyle={{
         padding: '30px 60px',
       }}
-      zIndex={2000}
+      // zIndex={2000}
       visible={modalVisible}
       onOk={handleOk}
       confirmLoading={loading}

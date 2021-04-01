@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Descriptions, Popconfirm, Card, Spin } from 'antd';
 import { connect } from 'umi';
+import { checkAuthority } from '@/utils/authority';
 import ProvinceListTable from '../province-list/ProvinceListTable';
 import TempProvinceTable from '../temp-province-list/TempProvinceTable';
 
@@ -71,6 +72,7 @@ const EngineeringDescription = ({
                   type="primary"
                   onClick={() => annualDefenseEngineeringModal({ edit: true, engineeringForm })}
                   style={{ marginRight: 8 }}
+                  hidden={!checkAuthority('em/dep/update')}
                 >
                   编辑
                 </Button>
@@ -79,6 +81,7 @@ const EngineeringDescription = ({
                   type="primary"
                   onClick={() => defenseEngineeringModal({ edit: true, engineeringForm })}
                   style={{ marginRight: 8 }}
+                  hidden={!checkAuthority('em/dep/update')}
                 >
                   编辑
                 </Button>
@@ -90,7 +93,9 @@ const EngineeringDescription = ({
                 placement="topRight"
                 onConfirm={() => deleteEngineeringData(engineeringForm.projectId)}
               >
-                <Button type="primary">删除</Button>
+                <Button type="primary" hidden={!checkAuthority('em/dep/delete')}>
+                  删除
+                </Button>
               </Popconfirm>
             </>
           }

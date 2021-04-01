@@ -106,7 +106,7 @@ const FeedbackModal = ({ dispatch, actionRef, loading, openFeedbackReqModal, Fee
       onOk={handleOk}
       confirmLoading={loading}
       onCancel={hideModal}
-      zIndex={2000}
+      // zIndex={2000}
     >
       <FeedbackForm form={form} openFeedbackReqModal={openFeedbackReqModal} />
     </Modal>

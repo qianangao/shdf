@@ -81,7 +81,7 @@ const ProvinceListTable = ({
       label: '联络员',
       name: 'contacts',
       span: 4,
-      rules: [{ required: true, message: '请输入联络员' }],
+      rules: [{ required: true, message: '请输入联络员!' }],
     },
     {
       label: '联系电话',

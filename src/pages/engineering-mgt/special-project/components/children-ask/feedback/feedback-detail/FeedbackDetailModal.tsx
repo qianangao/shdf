@@ -30,6 +30,7 @@ const FeedbackDetailModal = ({ dispatch, actionRef, loading }) => {
                 uid: item.fileId,
                 name: item.fileName,
                 status: 'done',
+                secrecyLevel: item.secrecyLevel,
               };
             });
           form.setFieldsValue({ ...res, fileIds: fileInfoList });

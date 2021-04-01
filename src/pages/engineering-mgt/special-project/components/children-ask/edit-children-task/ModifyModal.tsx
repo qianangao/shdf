@@ -125,7 +125,7 @@ const ModifyModal = ({
 
   return (
     <Modal
-      title={disabled ? '查看任务' : '修改任务'}
+      title={disabled ? '查看子任务' : '修改子任务'}
       centered
       width="90vw"
       style={{ paddingBottom: 0 }}

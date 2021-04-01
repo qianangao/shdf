@@ -1,6 +1,7 @@
 import React from 'react';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
+import { getSecrecyRowClassName } from '@/utils/secrecy';
 
 const FeedbackTable = ({ specialAction, dispatch }) => {
   const { feedTableRef } = specialAction;
@@ -45,6 +46,7 @@ const FeedbackTable = ({ specialAction, dispatch }) => {
         rowKey="feedbackId"
         actionRef={feedTableRef}
         scroll={{ x: 'max-content' }}
+        rowClassName={getSecrecyRowClassName}
         request={async params => getChildrenTaskList(params)}
         columns={columns}
       />

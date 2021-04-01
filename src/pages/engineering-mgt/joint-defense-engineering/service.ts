@@ -210,8 +210,20 @@ export async function updateMeeting(params: any) {
 export async function deleteMeeting(params: any) {
   return request(`/projectMeeting/delete?meetingId=${params}`, {
     method: 'DELETE',
-    data: params,
+    // data: params,
   });
+}
+/**
+ * 上报会议
+ * @param params
+ */
+export async function exportMeeting(params: any) {
+  return request(
+    `/projectMeeting/report?meetingId=${params.meetingId}&projectId=${params.projectId}`,
+    {
+      method: 'GET',
+    },
+  );
 }
 /**
  * 获取信息报送详情

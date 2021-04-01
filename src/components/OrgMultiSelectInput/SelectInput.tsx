@@ -10,7 +10,7 @@ let treeItems = new Map();
  * 单位多选组件
  * @param param0 出入参格式为： [{ name, id }]
  */
-const OrgMultiSelectInput = ({ value, OrganizationTree, onChange, dispatch }) => {
+const SelectInput = ({ value, OrganizationTree, onChange, dispatch }) => {
   const [orgSelectModalVisible, setVisible] = useState(false);
   const [valueName, setValueName] = useState('');
 
@@ -116,7 +116,16 @@ const OrgMultiSelectInput = ({ value, OrganizationTree, onChange, dispatch }) =>
   // };
 
   const onCheckHandler = keys => {
-    setCheckedKeys(keys);
+    let key = {};
+    if (keys.checked.length <= 1) {
+      key = keys;
+    } else {
+      const arr = [];
+      arr.push(keys.checked[keys.checked.length - 1]);
+      key.checked = arr;
+      key.halfChecked = [];
+    }
+    setCheckedKeys(key);
   };
 
   const onExpandHandler = keys => {
@@ -139,7 +148,7 @@ const OrgMultiSelectInput = ({ value, OrganizationTree, onChange, dispatch }) =>
     });
 
     setValueName(nameArr.join(', '));
-    onChange && onChange(orgArr);
+    onChange && onChange(orgArr && orgArr[0]);
     setVisible(false);
   };
 
@@ -188,4 +197,4 @@ const OrgMultiSelectInput = ({ value, OrganizationTree, onChange, dispatch }) =>
 export default connect(({ global }) => ({
   OrganizationTree: global.OrganizationTree,
   enums: global.enums,
-}))(OrgMultiSelectInput);
+}))(SelectInput);

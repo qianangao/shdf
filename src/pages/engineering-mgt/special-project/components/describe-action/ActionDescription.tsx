@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Descriptions, Popconfirm, Card, Spin } from 'antd';
 import AdvancedForm from '@/components/AdvancedForm';
 import { connect } from 'umi';
+import { checkAuthority } from '@/utils/authority';
 
 const ActionDescription = ({
   dispatch,
@@ -62,6 +63,7 @@ const ActionDescription = ({
                   type="primary"
                   onClick={() => annualSpecialActionModal(actionForm)}
                   style={{ marginRight: 8 }}
+                  hidden={!checkAuthority('em/sa/update')}
                 >
                   编辑
                 </Button>
@@ -70,6 +72,7 @@ const ActionDescription = ({
                   type="primary"
                   onClick={() => specialActionModal(actionForm)}
                   style={{ marginRight: 8 }}
+                  hidden={!checkAuthority('em/sa/update')}
                 >
                   编辑
                 </Button>
@@ -80,7 +83,9 @@ const ActionDescription = ({
                 placement="topRight"
                 onConfirm={() => deleteSpecialAction(actionForm.actionId)}
               >
-                <Button type="primary">删除</Button>
+                <Button type="primary" hidden={!checkAuthority('em/sa/delete')}>
+                  删除
+                </Button>
               </Popconfirm>
               ,
             </>
@@ -91,13 +96,13 @@ const ActionDescription = ({
           </Descriptions.Item>
           {visible && (
             <>
-              <Descriptions.Item label="行动年度" span={2}>
-                {actionForm.actionYear}
+              <Descriptions.Item label="行动编号" span={2}>
+                {actionForm.actionId}
               </Descriptions.Item>
               <Descriptions.Item label="开始日期" span={2}>
                 {actionForm.startDate}
               </Descriptions.Item>
-              <Descriptions.Item label="结束日期" span={2}>
+              <Descriptions.Item label="截止日期" span={2}>
                 {actionForm.endDate}
               </Descriptions.Item>
             </>
@@ -105,7 +110,7 @@ const ActionDescription = ({
           <Descriptions.Item label="保密等级" span={4}>
             {enums.object_secrecy_level && enums.object_secrecy_level[actionForm.secrecyLevel]}
           </Descriptions.Item>
-          <Descriptions.Item label="总体描述" span={4}>
+          <Descriptions.Item label="行动描述" span={4}>
             {actionForm.actionDescription}
           </Descriptions.Item>
           {fileList(actionForm.fileInfoList)}
