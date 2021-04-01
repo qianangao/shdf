@@ -1,11 +1,10 @@
 import React from 'react';
 import AdvancedForm from '@/components/AdvancedForm';
 import { Checkbox } from 'antd';
-import StaffMultiSelectInput from '@/components/StaffMultiSelectInput';
 import { getUseInfo, USER_INFO } from '@/utils/cookie';
 import OrgSelectInput from '@/components/OrgMultiSelectInput/OrgSelectInput';
 
-const InstitutionForm = ({ form, fieldChangeHander, optType }) => {
+const InstitutionForm = ({ form, fieldChangeHander }) => {
   const formItems = [
     { label: 'id', name: 'noticeId', hidden: true },
     {
@@ -33,30 +32,11 @@ const InstitutionForm = ({ form, fieldChangeHander, optType }) => {
       enumsLabel: 'object_secrecy_level',
     },
     {
-      label: '选择类型',
-      name: 'selectType',
-      rules: [{ required: true, message: '请选择类型!' }],
-      initialValue: '1',
-      enumsItems: {
-        '1': '选择人员',
-        '2': '选择单位',
-      },
+      label: '可见范围',
+      name: 'visibleRangeOrg',
+      rules: [{ required: true, message: '请选择可见范围!' }],
+      render: <OrgSelectInput />,
     },
-    optType && optType === '1'
-      ? {
-          label: '可见范围',
-          name: 'visibleRange',
-          span: 3,
-          disabled: true,
-          rules: [{ required: true, message: '请选择可见范围!' }],
-          render: <StaffMultiSelectInput />,
-        }
-      : {
-          label: '可见范围',
-          name: 'visibleRangeOrg',
-          rules: [{ required: true, message: '请选择可见范围!' }],
-          render: <OrgSelectInput />,
-        },
     {
       label: '公告内容',
       name: 'noticeContent',

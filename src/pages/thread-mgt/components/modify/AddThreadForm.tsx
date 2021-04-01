@@ -16,6 +16,7 @@ const AddThreadForm = ({ form }) => {
       name: 'clueId',
       hidden: true,
     },
+
     {
       label: '线索名称',
       name: 'clueName',
@@ -31,7 +32,12 @@ const AddThreadForm = ({ form }) => {
       rules: [{ required: true, message: '请选择线索类型!' }],
     },
     {
-      label: '线索编号',
+      label: '关键词',
+      name: 'bigint',
+      rules: [{ message: '请输入关键词!' }],
+    },
+    {
+      label: '发文文号',
       name: 'clueNumber',
       disabled: 'true',
       rules: [{ required: true, message: '请重新获取线索编号!' }],
@@ -41,6 +47,23 @@ const AddThreadForm = ({ form }) => {
       name: 'clueSource',
       enumsLabel: 'clue_source',
       rules: [{ required: true, message: '请选择线索来源!' }],
+    },
+    {
+      label: '发文时间',
+      name: 'createTime',
+      type: 'date',
+      rules: [{ required: true, message: '请选择发文时间!' }],
+    },
+    {
+      label: '涉及地方',
+      name: 'involvingLocal',
+      render: <ProvinceCascaderInput />,
+      rules: [{ required: true, message: '请输入发生地域!' }],
+    },
+    {
+      label: '摘要',
+      name: 'clueRemarks',
+      rules: [{ required: true, message: '请选择摘要' }],
     },
     {
       label: '重要程度',

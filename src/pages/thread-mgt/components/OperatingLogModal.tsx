@@ -39,6 +39,7 @@ const OperatingLogModal = ({ dispatch, actionRef, tableRef, enums }) => {
       fixed: 'left',
       width: 64,
     },
+
     { title: '日志时间', align: 'center', dataIndex: 'createTime', valueType: 'dateTime' },
     { title: '操作人员', align: 'center', dataIndex: 'createUser' },
     {
