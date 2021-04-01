@@ -56,6 +56,7 @@ const TableModifyModal = ({ dispatch, actionRef, loading }) => {
     setModalVisible(false);
   };
 
+  // xx
   const onChange = nextTargetKeys => {
     setTargetKeys(nextTargetKeys);
   };
