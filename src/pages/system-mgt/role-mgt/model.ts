@@ -29,14 +29,14 @@ const Model = {
     tableRef: {},
   },
   effects: {
-    *getRoleTree({ payload, resolve }, { call, put }) {
+    *getRoleTree({ resolve }, { call, put }) {
       yield put({
         type: 'save',
         payload: {
           loading: true,
         },
       });
-      const response = yield call(getRoleTree, payload);
+      const response = yield call(getRoleTree);
       if (!response.error) {
         resolve && resolve(response);
         yield put({
@@ -44,12 +44,12 @@ const Model = {
           payload: {
             roleTree: response,
             loading: false,
-            orgId: response[0].key,
+            // orgId: response[0].key,
           },
         });
-        yield put({
-          type: 'tableReload',
-        });
+        // yield put({
+        //   type: 'tableReload',
+        // });
       }
     },
 

@@ -51,7 +51,7 @@ const DefenseEngineeringForm = ({ form, add, edit }) => {
       label: '保密等级',
       name: 'secrecyLevel',
       span: 4,
-      rules: [{ required: true, message: '请选择保密等级' }],
+      rules: [{ required: true, message: '请选择保密等级!' }],
       enumsLabel: 'object_secrecy_level',
     },
     {
@@ -59,8 +59,8 @@ const DefenseEngineeringForm = ({ form, add, edit }) => {
       name: 'describe',
       span: 4,
       rules: [
-        { required: true, message: '请输入!' },
-        { max: 300, min: 0, message: '输入文字过长，内容不能超过300字' },
+        { required: true, message: '请输入工程描述!' },
+        { max: 300, min: 0, message: '输入文字过长，内容不能超过300字!' },
       ],
       type: 'textarea',
     },

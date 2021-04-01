@@ -70,8 +70,8 @@ const ModifyModal = ({
       actionRef.current = { showModal };
     }
 
-    if (query.get('type') === 'modify' && query.get('id')) {
-      showModal({ id: query.get('id') });
+    if (query.get('type') === 'modify' && query.get('id') && query.get('status') === '2') {
+      showModal({ id: query.get('id'), disabled: false });
     }
   }, []);
 
@@ -125,7 +125,7 @@ const ModifyModal = ({
 
   return (
     <Modal
-      title={disabled ? '查看任务' : '修改任务'}
+      title={disabled ? '查看子任务' : '修改子任务'}
       centered
       width="90vw"
       style={{ paddingBottom: 0 }}

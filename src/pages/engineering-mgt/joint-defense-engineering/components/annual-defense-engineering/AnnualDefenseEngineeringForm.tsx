@@ -27,12 +27,29 @@ const DefenseEngineeringForm = ({ dispatch, form, isShow }) => {
     };
   }, []);
 
+  const checkStartDate = (rule, value, callback) => {
+    const endValue = form.getFieldValue('endTime');
+    if (endValue && endValue < value) {
+      callback(new Error('开始日期应不晚于结束日期!'));
+    } else {
+      callback();
+    }
+  };
+  const checkEndDate = (rule, value, callback) => {
+    const startValue = form.getFieldValue('startTime');
+    if (startValue && startValue > value) {
+      callback(new Error('结束日期应不早于开始日期!'));
+    } else {
+      callback();
+    }
+  };
+
   const formItems = [
     {
       label: '工程选项',
       name: 'projectId',
       span: 4,
-      rules: [{ required: true, message: '请选择工程名称' }],
+      rules: [{ required: true, message: '请选择联防工程!' }],
       visible: isShow,
       render: (
         <Select allowClear>
@@ -58,21 +75,31 @@ const DefenseEngineeringForm = ({ dispatch, form, isShow }) => {
       label: '开始日期',
       name: 'startTime',
       span: 4,
-      rules: [{ required: true, message: '请选择开始日期' }],
+      rules: [
+        { required: true, message: '请选择开始日期!' },
+        {
+          validator: checkStartDate,
+        },
+      ],
       type: 'date',
     },
     {
       label: '截止日期',
       name: 'endTime',
       span: 4,
-      rules: [{ required: true, message: '请选择结束日期!' }],
+      rules: [
+        { required: true, message: '请选择结束日期!' },
+        {
+          validator: checkEndDate,
+        },
+      ],
       type: 'date',
     },
     {
       label: '保密等级',
       name: 'secrecyLevel',
       span: 4,
-      rules: [{ required: true, message: '请选择保密等级' }],
+      rules: [{ required: true, message: '请选择保密等级!' }],
       enumsLabel: 'object_secrecy_level',
     },
     {
@@ -80,8 +107,8 @@ const DefenseEngineeringForm = ({ dispatch, form, isShow }) => {
       name: 'describe',
       span: 4,
       rules: [
-        { required: true, message: '请输入!' },
-        { max: 300, min: 0, message: '输入文字过长，内容不能超过300字' },
+        { required: true, message: '请输入工程描述!' },
+        { max: 300, min: 0, message: '输入文字过长，内容不能超过300字!' },
       ],
       type: 'textarea',
     },

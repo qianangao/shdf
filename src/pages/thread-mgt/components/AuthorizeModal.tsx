@@ -1,9 +1,11 @@
 import { Modal, Form } from 'antd';
 import React, { useState, useEffect } from 'react';
-import { connect } from 'umi';
+import { connect, useLocation } from 'umi';
 import StaffMultiSelectInput from '@/components/StaffMultiSelectInput';
 
+const useQuery = () => new URLSearchParams(useLocation().search);
 const AuthorizeModal = ({ dispatch, loading, actionRef }) => {
+  const query = useQuery();
   const [form] = Form.useForm();
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -21,6 +23,17 @@ const AuthorizeModal = ({ dispatch, loading, actionRef }) => {
 
     if (actionRef && typeof actionRef !== 'function') {
       actionRef.current = { showModal };
+    }
+
+    if (
+      query.get('type') === 'modify' &&
+      query.get('id') &&
+      (query.get('status') === '1' ||
+        query.get('status') === '3' ||
+        query.get('status') === '4' ||
+        query.get('status') === '5')
+    ) {
+      showModal(query.get('id'));
     }
   }, []);
 

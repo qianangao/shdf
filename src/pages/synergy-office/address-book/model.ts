@@ -18,11 +18,26 @@ const Model = {
   state: {
     tableRef: {},
     addressListData: {},
+    orgId: '',
   },
   effects: {
-    *getAddressBook({ payload, resolve }, { call, put }) {
+    *getListTable({ payload }, { put }) {
+      yield put({
+        type: 'save',
+        payload: {
+          orgId: payload.orgId,
+        },
+      });
+      yield put({
+        type: 'tableReload',
+      });
+    },
+
+    *getAddressBook({ payload, resolve }, { call, put, select }) {
+      const orgId = yield select(state => state.emAddressBook.orgId);
       const params = {
         ...payload,
+        orgId: orgId || '',
         pageNum: payload.current ? payload.current : 1,
         pageSize: payload.pageSize ? payload.pageSize : 20,
       };

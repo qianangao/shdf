@@ -40,6 +40,7 @@ import {
   addEngineData,
   getEngineList,
   deleteMeeting,
+  exportMeeting,
 } from './service';
 
 const Model = {
@@ -58,17 +59,22 @@ const Model = {
     projectTemporaryProvinceEntityList: [],
     provinceData: [],
     feedListData: [],
+    stageListData: [],
+    summaryListData: [],
     taskProgressList: [],
     head: [],
     infoAnListData: {},
     infoStatistics: {},
     infnAnObj: {},
+    status: '',
   },
 
   effects: {
-    *getMeetingList({ payload, resolve }, { call }) {
+    *getMeetingList({ payload, resolve }, { call, put, select }) {
+      const projectPid = yield select(state => state.defenseEngineering.projectPid);
       const params = {
         ...payload,
+        projectPid,
         pageNum: payload.current ? payload.current : 1,
         pageSize: payload.pageSize ? payload.pageSize : 20,
       };
@@ -82,8 +88,14 @@ const Model = {
       delete params.current;
       const response = yield call(getMeetingList, params);
       if (!response.error) {
-        const result = formatPageData(response);
+        const result = formatPageData(response.result);
         resolve && resolve(result);
+        yield put({
+          type: 'save',
+          payload: {
+            status: response.status,
+          },
+        });
       }
     },
     *getEngineeringBanPublishList({ payload, resolve }, { call }) {
@@ -198,6 +210,16 @@ const Model = {
         resolve && resolve(response);
         message.success('删除成功！');
 
+        yield put({
+          type: 'meetingTableReload',
+        });
+      }
+    },
+    *exportMeeting({ payload, resolve }, { call, put }) {
+      const response = yield call(exportMeeting, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('上报成功！');
         yield put({
           type: 'meetingTableReload',
         });
@@ -392,10 +414,21 @@ const Model = {
         response.taskStatus += '';
         response.projectId += '';
         resolve && resolve(response);
+        const stageListData = [];
+        const summaryListData = [];
+        response.feedbackRequireList.forEach(item => {
+          if (item.feedbackType === 0) {
+            summaryListData.push(item);
+          } else {
+            stageListData.push(item);
+          }
+        });
         yield put({
           type: 'save',
           payload: {
             taskId: payload.taskId,
+            summaryListData,
+            stageListData,
             feedListData: response.feedbackRequireList,
             taskProgressList: response.taskProgressList,
             head: response.head,

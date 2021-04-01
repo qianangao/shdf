@@ -3,7 +3,7 @@ import ProTable from '@ant-design/pro-table';
 import { connect, history } from 'umi';
 import { ProfileFilled } from '@ant-design/icons';
 import moment from 'moment';
-import {getSecrecyRowClassName} from "@/utils/secrecy";
+import { getSecrecyRowClassName } from '@/utils/secrecy';
 
 const Table = ({ dispatch }) => {
   const formatterTime = val => {
@@ -12,16 +12,16 @@ const Table = ({ dispatch }) => {
 
   const columns = [
     {
-      title: '文档标题',
-      dataIndex: 'name',
+      title: '公文标题',
+      dataIndex: 'documentTitle',
       align: 'center',
     },
-    { title: '文号', align: 'center', dataIndex: 'docNo' },
-    { title: '状态', align: 'center', dataIndex: 'state' },
+    { title: '发布人', align: 'center', dataIndex: 'publishUser' },
+    { title: '状态', align: 'center', dataIndex: 'readingState' },
     {
-      title: '办理时间',
+      title: '发布时间',
       align: 'center',
-      dataIndex: 'startTime',
+      dataIndex: 'publishTime',
       render: formatterTime,
     },
   ];
@@ -29,16 +29,19 @@ const Table = ({ dispatch }) => {
   const getDictList = params =>
     new Promise(resolve => {
       dispatch({
-        type: 'home/getReceivingList',
+        type: 'documentMgt/getReceiveList',
         payload: {
           ...params,
+          isReading: 0,
         },
         resolve,
       });
     });
 
-  const goDetail = id => {
-    history.push(`/synergy-office/receiving-mgt?id=${id}&type=modify`);
+  const goDetail = (id, status) => {
+    history.push(
+      `/synergy-office/document-mgt/receive-management?id=${id}&type=modify&status=${status}`,
+    );
   };
 
   return (
@@ -47,14 +50,14 @@ const Table = ({ dispatch }) => {
       onRow={record => {
         return {
           onClick: () => {
-            goDetail(record.receiptId);
+            goDetail(record.documentId, record.readingState);
           },
         };
       }}
       style={{ cursor: 'pointer' }}
       headerTitle={
         <div>
-          <ProfileFilled style={{ color: '#6DA76C' }} /> 收文
+          <ProfileFilled style={{ color: '#6DA76C' }} /> 公文待阅
         </div>
       }
       size="small"

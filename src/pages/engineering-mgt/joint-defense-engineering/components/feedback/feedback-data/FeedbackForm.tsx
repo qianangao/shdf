@@ -7,6 +7,22 @@ import AdvancedForm from '@/components/AdvancedForm';
 import FeedbackDataTable from './FeedbackDataTable';
 
 const FeedbackForm = ({ form, feedbackRequestModal, FeedbackData }) => {
+  const checkStartDate = (rule, value, callback) => {
+    const endValue = form.getFieldValue('endDate');
+    if (endValue && endValue < value) {
+      callback(new Error('开始日期应不晚于结束日期!'));
+    } else {
+      callback();
+    }
+  };
+  const checkEndDate = (rule, value, callback) => {
+    const startValue = form.getFieldValue('startDate');
+    if (startValue && startValue > value) {
+      callback(new Error('结束日期应不早于开始日期!'));
+    } else {
+      callback();
+    }
+  };
   const formItems = [
     // { label: '任务ID', name: 'taskId', hiddenInTable: true },
     {
@@ -23,20 +39,28 @@ const FeedbackForm = ({ form, feedbackRequestModal, FeedbackData }) => {
       name: 'secrecyLevel',
       span: 4,
       enumsLabel: 'object_secrecy_level',
-      rules: [{ required: true, message: '请选择保密等级' }],
+      rules: [{ required: true, message: '请选择保密等级!' }],
     },
     {
-      label: '开始日期',
+      label: '实际开始日期',
       name: 'startDate',
       span: 4,
-      // rules: [{ required: true, message: '请选择开始日期' }],
+      rules: [
+        {
+          validator: checkStartDate,
+        },
+      ],
       type: 'date',
     },
     {
-      label: '截止日期',
+      label: '实际截止日期',
       name: 'endDate',
       span: 4,
-      // rules: [{ required: true, message: '请选择截止日期!' }],
+      rules: [
+        {
+          validator: checkEndDate,
+        },
+      ],
       type: 'date',
     },
     {
@@ -44,8 +68,8 @@ const FeedbackForm = ({ form, feedbackRequestModal, FeedbackData }) => {
       name: 'feedbackContent',
       span: 4,
       rules: [
-        { required: true, message: '请输入!' },
-        { max: 300, min: 0, message: '输入文字过长，内容不能超过300字' },
+        { required: true, message: '请输入反馈信息!' },
+        { max: 300, min: 0, message: '输入文字过长,内容不能超过300字' },
       ],
       type: 'textarea',
     },
@@ -57,7 +81,7 @@ const FeedbackForm = ({ form, feedbackRequestModal, FeedbackData }) => {
       type: 'uploadSecrecy',
     },
     {
-      label: '反馈要求',
+      label: '反馈类型',
       name: 'stageRequest',
       span: 4,
       render: <Button onClick={() => feedbackRequestModal()}>选择反馈要求</Button>,

@@ -15,11 +15,10 @@ const AddressBook = ({ dispatch }) => {
       },
     });
   }, []);
-
-  const orgChangeHander = deptId => {
+  const orgChangeHander = orgId => {
     dispatch({
-      type: 'emAddressBook/getAddressBook',
-      payload: { deptId },
+      type: 'emAddressBook/getListTable',
+      payload: { orgId },
     });
   };
 

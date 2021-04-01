@@ -4,8 +4,8 @@ import { connect } from 'umi';
 import AdvancedForm from '@/components/AdvancedForm';
 import { getSecrecyRowClassName } from '@/utils/secrecy';
 
-const SummaryFeedbackTable = ({
-  summaryListData,
+const StageFeedbackTable = ({
+  stageListData,
   disabled = false,
   onChange,
   add = false,
@@ -35,9 +35,9 @@ const SummaryFeedbackTable = ({
     if (edit) {
       setDataSource([]);
     } else {
-      setDataSource([...summaryListData]);
+      setDataSource([...stageListData]);
     }
-  }, [summaryListData]);
+  }, [stageListData]);
 
   const [form] = AdvancedForm.useForm();
   const [id, setId] = useState(1);
@@ -215,5 +215,5 @@ const SummaryFeedbackTable = ({
 };
 
 export default connect(({ defenseEngineering }) => ({
-  summaryListData: defenseEngineering.summaryListData,
-}))(SummaryFeedbackTable);
+  stageListData: defenseEngineering.stageListData,
+}))(StageFeedbackTable);

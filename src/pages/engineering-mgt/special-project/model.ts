@@ -30,6 +30,8 @@ const Model = {
     feedDetailTableRef: {},
     taskListData: {},
     feedListData: [],
+    stageListData: [],
+    summaryListData: [],
     taskProgressList: [],
     feedData: {},
     FeedbackData: [],
@@ -133,12 +135,23 @@ const Model = {
         response.secrecyLevel += '';
         response.taskState += '';
         resolve && resolve(response);
+        const stageListData = [];
+        const summaryListData = [];
+        response.feedbackRequireList.forEach(item => {
+          if (item.feedbackType === 0) {
+            summaryListData.push(item);
+          } else {
+            stageListData.push(item);
+          }
+        });
         yield put({
           type: 'save',
           payload: {
             taskStatus: response.taskState,
             taskId: payload.taskId,
             feedListData: response.feedbackRequireList,
+            summaryListData,
+            stageListData,
             taskProgressList: response.taskProgressList,
             head: response.head,
           },

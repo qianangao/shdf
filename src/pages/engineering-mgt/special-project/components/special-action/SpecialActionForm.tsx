@@ -27,7 +27,7 @@ const SpecialActionForm = ({ form }) => {
       type: 'textarea',
       rules: [
         { required: true, message: '请输入行动描述!' },
-        { max: 300, min: 0, message: '输入文字过长，内容不能超过300字' },
+        { max: 300, min: 0, message: '输入文字过长，内容不能超过300字!' },
       ],
     },
     {
