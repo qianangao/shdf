@@ -6,19 +6,19 @@ const AddThreadForm = ({ form, InfoData }) => {
     {
       label: '上报省份',
       name: 'reportProvince',
-      span: 4,
+      span: 1,
       rules: [{ required: true, message: '请输入上报省份!' }],
     },
     {
       label: '上报时间',
       name: 'reportDate',
       type: 'date',
-      span: 4,
+      span: 1,
     },
     {
       label: '宣传物品涉疆',
       name: 'publicityMaterialsSJ',
-      span: 4,
+      span: 1,
       rules: [
         {
           required: true,
@@ -30,7 +30,7 @@ const AddThreadForm = ({ form, InfoData }) => {
     {
       label: '宣传物品涉藏',
       name: 'publicityMaterialsSZ',
-      span: 4,
+      span: 1,
       rules: [
         {
           required: true,
@@ -42,7 +42,7 @@ const AddThreadForm = ({ form, InfoData }) => {
     {
       label: '宣传物品涉宗教',
       name: 'publicityMaterialsSZJ',
-      span: 4,
+      span: 1,
       rules: [
         {
           required: true,
@@ -54,7 +54,7 @@ const AddThreadForm = ({ form, InfoData }) => {
     {
       label: '宣传物品其他',
       name: 'publicityMaterialsQT',
-      span: 4,
+      span: 1,
       rules: [
         {
           required: true,
@@ -67,7 +67,7 @@ const AddThreadForm = ({ form, InfoData }) => {
     {
       label: '删除网络信息涉疆',
       name: 'networkInformationSJ',
-      span: 4,
+      span: 1,
       rules: [
         {
           required: true,
@@ -79,7 +79,7 @@ const AddThreadForm = ({ form, InfoData }) => {
     {
       label: '删除网络信息涉藏',
       name: 'networkInformationSZ',
-      span: 4,
+      span: 1,
       rules: [
         {
           required: true,
@@ -91,7 +91,7 @@ const AddThreadForm = ({ form, InfoData }) => {
     {
       label: '删除网络信息涉宗教',
       name: 'networkInformationSZJ',
-      span: 4,
+      span: 1,
       rules: [
         {
           required: true,
@@ -103,7 +103,7 @@ const AddThreadForm = ({ form, InfoData }) => {
     {
       label: '删除网络信息其他',
       name: 'networkInformationQT',
-      span: 4,
+      span: 1,
       rules: [
         {
           required: true,
@@ -116,7 +116,7 @@ const AddThreadForm = ({ form, InfoData }) => {
     {
       label: '查办案件工程涉疆',
       name: 'investigationHandlingCaseSJ',
-      span: 4,
+      span: 1,
       rules: [
         {
           required: true,
@@ -128,7 +128,7 @@ const AddThreadForm = ({ form, InfoData }) => {
     {
       label: '查办案件工程涉藏',
       name: 'investigationHandlingCaseSZ',
-      span: 4,
+      span: 1,
       rules: [
         {
           required: true,
@@ -140,7 +140,7 @@ const AddThreadForm = ({ form, InfoData }) => {
     {
       label: '查办案件工程涉宗教',
       name: 'investigationHandlingCaseSZJ',
-      span: 4,
+      span: 1,
       rules: [
         {
           required: true,
@@ -152,7 +152,7 @@ const AddThreadForm = ({ form, InfoData }) => {
     {
       label: '查办案件工程其他',
       name: 'investigationHandlingCaseQT',
-      span: 4,
+      span: 1,
       rules: [
         {
           required: true,
@@ -164,7 +164,7 @@ const AddThreadForm = ({ form, InfoData }) => {
     {
       label: '非法出版涉疆',
       name: 'illegalPublicationSJ',
-      span: 4,
+      span: 1,
       rules: [
         {
           required: true,
@@ -176,7 +176,7 @@ const AddThreadForm = ({ form, InfoData }) => {
     {
       label: '非法出版涉藏',
       name: 'illegalPublicationSZ',
-      span: 4,
+      span: 1,
       rules: [
         {
           required: true,
@@ -188,7 +188,7 @@ const AddThreadForm = ({ form, InfoData }) => {
     {
       label: '非法出版涉宗教',
       name: 'illegalPublicationSZJ',
-      span: 4,
+      span: 1,
       rules: [
         {
           required: true,
@@ -200,7 +200,7 @@ const AddThreadForm = ({ form, InfoData }) => {
     {
       label: '非法出版其他',
       name: 'illegalPublicationQT',
-      span: 4,
+      span: 1,
       rules: [
         {
           required: true,

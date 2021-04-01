@@ -70,7 +70,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, defenseEngineering }) => {
     <Modal
       title={detailData ? '编辑工程数据' : '新增工程数据'}
       centered
-      width="580px"
+      width="90vw"
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',

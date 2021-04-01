@@ -132,9 +132,9 @@ const EngineeringDescription = ({
                 {engineeringForm.contactInformation}
               </Descriptions.Item>
               <Descriptions.Item label="牵头省份" span={4}>
-                {engineeringForm.provinceCode.name
-                  ? engineeringForm.provinceCode.name
-                  : engineeringForm.provinceCode}
+                {/* {engineeringForm.provinceCode.name
+                  ? engineeringForm.provinceCode.name */}
+                {engineeringForm.provinceCode}
               </Descriptions.Item>
             </>
           )}
