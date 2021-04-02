@@ -42,6 +42,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, emClueManagement }) => {
                   uid: item.fileId,
                   name: item.fileName,
                   status: 'done',
+                  secrecyLevel: item.secrecyLevel,
                 };
               }),
             regionObj: { label: data.region, value: data.regionCode },
@@ -85,11 +86,19 @@ const ModifyModal = ({ dispatch, actionRef, loading, emClueManagement }) => {
     form
       .validateFields()
       .then((values: any) => {
+        let tempLevel = '';
         const fileIds =
           values.files &&
           values.files.map((item: { uid: any }) => {
+            if (tempLevel < item.secrecyLevel) {
+              tempLevel = item.secrecyLevel;
+            }
             return item.uid;
           });
+        if (tempLevel > values.secrecyLevel) {
+          message.error('附件密级不能大于该数据密级！');
+          return '';
+        }
         const regionCode = values.regionObj && values.regionObj.value;
         const region = values.regionObj && values.regionObj.label;
 

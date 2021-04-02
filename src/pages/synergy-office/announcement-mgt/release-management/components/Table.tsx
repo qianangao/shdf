@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Modal, Popconfirm } from 'antd';
 import ProTable from '@ant-design/pro-table';
+import { getSecrecyRowClassName } from '@/utils/secrecy';
 import { connect } from 'umi';
 
 const Table = ({
@@ -191,6 +192,7 @@ const Table = ({
       headerTitle="公告列表"
       actionRef={tableRef}
       scroll={{ x: 'max-content' }}
+      rowClassName={getSecrecyRowClassName}
       request={async params => getAnnouncementList(params)}
       toolBarRender={(_, { selectedRowKeys }) => [
         <Button type="primary" onClick={() => openModifyModal()}>
