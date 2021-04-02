@@ -7,7 +7,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
   const [form] = ConcludeBookForm.useForm();
   const [conclude, setConclude] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-  // const [concludeStaus, setConcludeStaus] = useState('');
+  const [concludeStaus, setConcludeStaus] = useState('');
   const showModal = data => {
     setConclude(data);
     setModalVisible(true);
@@ -49,9 +49,9 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       })
       .then(() => {
         hideModal();
-        // if(concludeStaus === '0') {
-
-        // }
+        if (concludeStaus === '0') {
+          setModalVisible(false);
+        }
       })
       .catch(info => {
         console.error('Validate Failed:', info);

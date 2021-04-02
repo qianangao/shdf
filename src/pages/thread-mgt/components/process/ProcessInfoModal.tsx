@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'umi';
 import { Form, Input, Modal, Radio, Spin, Button } from 'antd';
-// import { getUseInfo, USER_INFO } from '@/utils/cookie';
+import { getUseInfo, USER_INFO } from '@/utils/cookie';
 import ProcessInfo from './ProcessInfo';
 import CommitExamineModal from './CommitExamineModal';
-// transferModal,
-const ProcessInfoModal = ({ dispatch, actionRef, loading, concludeRefModal }) => {
+
+const ProcessInfoModal = ({ dispatch, actionRef, loading, transferModal, concludeRefModal }) => {
   const [form] = Form.useForm();
   const commitModelRef = useRef({});
   const [modalVisible, setModalVisible] = useState(false);
@@ -13,13 +13,13 @@ const ProcessInfoModal = ({ dispatch, actionRef, loading, concludeRefModal }) =>
   const [approvalType, setApprovalType] = useState(0);
   const [clueData, setClueData] = useState({ clueId: undefined, sourceClueId: undefined });
 
-  // const showCommitExamine = () => {
-  //   commitModelRef.current.showModal(clueData.clueId, clueData.sourceClueId);
-  // };
-  // const showTransferClue = () => {
-  //   transferModal(clueData);
-  //   hideModal();
-  // };
+  const showCommitExamine = () => {
+    commitModelRef.current.showModal(clueData.clueId, clueData.sourceClueId);
+  };
+  const showTransferClue = () => {
+    transferModal(clueData);
+    hideModal();
+  };
 
   useEffect(() => {
     if (actionRef && typeof actionRef === 'function') {
@@ -48,70 +48,70 @@ const ProcessInfoModal = ({ dispatch, actionRef, loading, concludeRefModal }) =>
     form.resetFields();
   };
 
-  // const feedbackClue = () => {
-  //   form
-  //     .validateFields()
-  //     .then((values: any) => {
-  //       return new Promise(resolve => {
-  //         dispatch({
-  //           type: 'emClueManagement/feedbackClue',
-  //           payload: {
-  //             sourceUnit: getUseInfo(USER_INFO)
-  //               ? JSON.parse(getUseInfo(USER_INFO)).orgName
-  //               : 'SHDF办公室',
-  //             clueId: clueData.clueId,
-  //             circulationId: clueData.sourceClueId,
-  //             ...values,
-  //           },
-  //           resolve,
-  //         });
-  //       });
-  //     })
-  //     .then(() => {
-  //       hideModal();
-  //     })
-  //     .catch((info: any) => {
-  //       console.error('Validate Failed:', info);
-  //     });
-  // };
+  const feedbackClue = () => {
+    form
+      .validateFields()
+      .then((values: any) => {
+        return new Promise(resolve => {
+          dispatch({
+            type: 'emClueManagement/feedbackClue',
+            payload: {
+              sourceUnit: getUseInfo(USER_INFO)
+                ? JSON.parse(getUseInfo(USER_INFO)).orgName
+                : 'SHDF办公室',
+              clueId: clueData.clueId,
+              circulationId: clueData.sourceClueId,
+              ...values,
+            },
+            resolve,
+          });
+        });
+      })
+      .then(() => {
+        hideModal();
+      })
+      .catch((info: any) => {
+        console.error('Validate Failed:', info);
+      });
+  };
 
-  // const commitApproval = () => {
-  //   form
-  //     .validateFields()
-  //     .then((values: any) => {
-  //       return new Promise(resolve => {
-  //         dispatch({
-  //           type: 'emClueManagement/approvalClue',
-  //           payload: {
-  //             clueId: clueData.clueId,
-  //             approvalResult: approvalType,
-  //             ...values,
-  //           },
-  //           resolve,
-  //         });
-  //       });
-  //     })
-  //     .then(() => {
-  //       if (approvalType === 2 && form.getFieldValue(['clueType']) === 1) {
-  //         showTransferClue();
-  //       } else {
-  //         hideModal();
-  //       }
-  //     })
-  //     .catch((info: any) => {
-  //       console.error('Validate Failed:', info);
-  //     });
-  // };
+  const commitApproval = () => {
+    form
+      .validateFields()
+      .then((values: any) => {
+        return new Promise(resolve => {
+          dispatch({
+            type: 'emClueManagement/approvalClue',
+            payload: {
+              clueId: clueData.clueId,
+              approvalResult: approvalType,
+              ...values,
+            },
+            resolve,
+          });
+        });
+      })
+      .then(() => {
+        if (approvalType === 2 && form.getFieldValue(['clueType']) === 1) {
+          showTransferClue();
+        } else {
+          hideModal();
+        }
+      })
+      .catch((info: any) => {
+        console.error('Validate Failed:', info);
+      });
+  };
 
-  // const handleOk = () => {
-  //   if (category === 'submit') {
-  //     showCommitExamine();
-  //   } else if (category === 'feedback') {
-  //     feedbackClue();
-  //   } else if (category === 'approval') {
-  //     commitApproval();
-  //   }
-  // };
+  const handleOk = () => {
+    if (category === 'submit') {
+      showCommitExamine();
+    } else if (category === 'feedback') {
+      feedbackClue();
+    } else if (category === 'approval') {
+      commitApproval();
+    }
+  };
 
   const createModalTitle = () => {
     let modalTitle = '线索办结';
@@ -184,6 +184,7 @@ const ProcessInfoModal = ({ dispatch, actionRef, loading, concludeRefModal }) =>
       ]}
       confirmLoading={loading}
       visible={modalVisible}
+      onOk={handleOk}
     >
       <Spin spinning={loading}>
         <ProcessInfo clueId={clueData.clueId} circulationId={clueData.sourceClueId} />

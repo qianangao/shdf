@@ -63,7 +63,7 @@ const ClueManagement = ({ dispatch }) => {
     processRef.current.showModal(item, type);
   };
   const concludeRefModal = (item: any) => {
-    concludeRef.current.hidden(item);
+    concludeRef.current.showModal(item);
   };
 
   return (

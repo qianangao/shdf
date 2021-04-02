@@ -16,7 +16,6 @@ const AddThreadForm = ({ form }) => {
       name: 'clueId',
       hidden: true,
     },
-
     {
       label: '线索名称',
       name: 'clueName',
@@ -26,44 +25,33 @@ const AddThreadForm = ({ form }) => {
       ],
     },
     {
-      label: '线索类型',
-      name: 'clueType',
-      enumsLabel: 'clue_type',
-      rules: [{ required: true, message: '请选择线索类型!' }],
-    },
-    {
-      label: '关键词',
-      name: 'bigint',
-      rules: [{ message: '请输入关键词!' }],
-    },
-    {
-      label: '发文文号',
-      name: 'clueNumber',
-      disabled: 'true',
-      rules: [{ required: true, message: '请重新获取线索编号!' }],
-    },
-    {
-      label: '线索来源',
-      name: 'clueSource',
-      enumsLabel: 'clue_source',
-      rules: [{ required: true, message: '请选择线索来源!' }],
-    },
-    {
       label: '发文时间',
       name: 'createTime',
       type: 'date',
       rules: [{ required: true, message: '请选择发文时间!' }],
     },
     {
-      label: '涉及地方',
-      name: 'involvingLocal',
-      render: <ProvinceCascaderInput />,
-      rules: [{ required: true, message: '请输入发生地域!' }],
-    },
-    {
       label: '摘要',
       name: 'clueRemarks',
       rules: [{ required: true, message: '请选择摘要' }],
+    },
+    {
+      label: '线索类型',
+      name: 'clueType',
+      enumsLabel: 'clue_type',
+      rules: [{ required: true, message: '请选择线索类型!' }],
+    },
+    {
+      label: '发文文号',
+      name: 'clueNumber',
+      disabled: 'true',
+      rules: [{ required: true, message: '请重新获取发文文号!' }],
+    },
+    {
+      label: '线索来源',
+      name: 'clueSource',
+      enumsLabel: 'clue_source',
+      rules: [{ required: true, message: '请选择线索来源!' }],
     },
     {
       label: '重要程度',
@@ -89,7 +77,7 @@ const AddThreadForm = ({ form }) => {
       type: 'date',
     },
     {
-      label: '发生地域',
+      label: '涉及地方',
       name: 'regionObj',
       render: <ProvinceCascaderInput />,
       rules: [{ required: true, message: '请选择发生地域!' }],
@@ -208,7 +196,7 @@ const AddThreadForm = ({ form }) => {
     {
       label: '附件',
       name: 'files',
-      type: 'upload',
+      type: 'uploadSecrecy',
     },
   ];
   return <AdvancedForm form={form} fields={formItems} />;
