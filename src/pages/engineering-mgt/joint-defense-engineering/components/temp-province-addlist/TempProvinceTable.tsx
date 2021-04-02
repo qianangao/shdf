@@ -70,21 +70,25 @@ const ProvinceListTable = ({
 
   const formItems = [
     {
-      label: '成员省份名称',
+      label: '临时省份',
       name: 'provinceCode',
-      span: 4,
+      span: 2,
       render: <OrgSelectInput />,
     },
     {
-      label: '联络员',
-      name: 'contacts',
-      span: 4,
-      rules: [{ required: true, message: '请输入联络员!' }],
+      label: '年份',
+      name: 'year',
+      span: 2,
     },
     {
-      label: '联系电话',
+      label: '联络人',
+      name: 'contacts',
+      span: 2,
+    },
+    {
+      label: '联络电话',
       name: 'contactPhone',
-      span: 4,
+      span: 2,
       rules: [
         { required: true, message: '请输入手机号码!' },
         {
@@ -104,7 +108,7 @@ const ProvinceListTable = ({
       key: 'id',
     },
     {
-      title: '成员省份',
+      title: '成员省份名称',
       align: 'center',
       dataIndex: 'provinceCode',
       valueType: 'option',
@@ -114,6 +118,7 @@ const ProvinceListTable = ({
     },
     { title: '联络员', align: 'center', dataIndex: 'contacts' },
     { title: '联系电话', align: 'center', dataIndex: 'contactPhone' },
+    { title: '年份', align: 'center', dataIndex: 'year' },
     {
       title: '操作',
       dataIndex: 'action',
@@ -145,7 +150,7 @@ const ProvinceListTable = ({
       </Button>
       <Table dataSource={dataSource} columns={columns} rowKey="provinceId" style={style} />
       <Modal
-        title="成员省份"
+        title="临时省份"
         visible={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}

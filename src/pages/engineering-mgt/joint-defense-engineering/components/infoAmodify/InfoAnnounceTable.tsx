@@ -2,13 +2,13 @@ import React from 'react';
 import { Button, Modal, Tabs } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
-
+import { getSecrecyRowClassName } from '@/utils/secrecy';
 import Bar from '@/components/Charts/BarChart/index';
 
 const { TabPane } = Tabs;
 
 const Table = ({ defenseEngineering, openModifyModal, dispatch, openDetailModifyModal }) => {
-  const { tableRef } = defenseEngineering;
+  const { tableRef, engineEditshow } = defenseEngineering;
   const { tableRef1 } = defenseEngineering;
   const releaseInfoAn = params =>
     new Promise(resolve => {
@@ -26,7 +26,28 @@ const Table = ({ defenseEngineering, openModifyModal, dispatch, openDetailModify
       },
     });
   };
-
+  const deleteData = (params: any) =>
+    /* eslint-disable no-new */
+    new Promise(resolve => {
+      dispatch({
+        type: 'defenseEngineering/deleteInfoAn',
+        payload: {
+          infoId: params,
+        },
+        resolve,
+      });
+    });
+  const report = (params: any) =>
+    /* eslint-disable no-new */
+    new Promise(resolve => {
+      dispatch({
+        type: 'defenseEngineering/reportEngineData',
+        payload: {
+          dataId: params,
+        },
+        resolve,
+      });
+    });
   const columns = [
     {
       title: '序号',
@@ -44,6 +65,13 @@ const Table = ({ defenseEngineering, openModifyModal, dispatch, openDetailModify
       dataIndex: 'reportDate',
       valueType: 'date',
       hideInSearch: true,
+    },
+    {
+      title: '上报状态',
+      align: 'center',
+      dataIndex: 'isReport',
+      hideInSearch: true,
+      render: text => <span>{text === 0 ? '未上报' : '已上报'}</span>,
     },
     {
       title: '上报日期',
@@ -78,11 +106,17 @@ const Table = ({ defenseEngineering, openModifyModal, dispatch, openDetailModify
         <a key={`${data.infoId}up`} onClick={() => openDetailModifyModal(data.infoId)}>
           查看
         </a>,
+        <a onClick={() => report(data.infoId)}>
+          {data.isReport === 0 && defenseEngineering.yearOrtot !== 'null' ? '上报' : ''}
+        </a>,
         <a key={`${data.infoId}up`} onClick={() => openModifyModal(data.infoId)}>
-          编辑
+          {engineEditshow === 0 ? '编辑' : ''}
         </a>,
         <a key={`${data.infoId}up`} onClick={() => releaseInfoAn(data.infoId)}>
           {data.infoPublish === 0 ? '发布' : ''}
+        </a>,
+        <a key={`${data.infoId}up`} onClick={() => deleteData(data.infoId)}>
+          {engineEditshow === 0 ? '删除' : ''}
         </a>,
       ],
     },
@@ -136,6 +170,7 @@ const Table = ({ defenseEngineering, openModifyModal, dispatch, openDetailModify
             rowKey="receiptId"
             headerTitle="工程数据"
             scroll={{ x: 'max-content' }}
+            rowClassName={getSecrecyRowClassName}
             request={async params => getReceivingList(params)}
             toolBarRender={(_, { selectedRowKeys }) => [
               <Button type="primary" onClick={() => openModifyModal()}>

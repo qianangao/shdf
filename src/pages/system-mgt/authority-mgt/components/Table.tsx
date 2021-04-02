@@ -7,7 +7,14 @@ import { checkAuthority } from '@/utils/authority';
 
 const Table = ({ authorityMgt, authModal, dispatch, enums }) => {
   const { tableRef } = authorityMgt;
-
+  const deleteAuth = permessionId => {
+    dispatch({
+      type: 'authorityMgt/deleteAuth',
+      payload: {
+        permessionId,
+      },
+    });
+  };
   const columns = [
     // {
     //   title: '序号',
@@ -76,15 +83,6 @@ const Table = ({ authorityMgt, authModal, dispatch, enums }) => {
         resolve,
       });
     });
-
-  const deleteAuth = permessionId => {
-    dispatch({
-      type: 'authorityMgt/deleteAuth',
-      payload: {
-        permessionId,
-      },
-    });
-  };
 
   return (
     <ProTable

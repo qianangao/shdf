@@ -40,7 +40,7 @@ const AddThreadForm = ({ form }) => {
     {
       label: '附件',
       name: 'fileShow',
-      type: 'upload',
+      type: 'uploadSecrecy',
       span: 4,
     },
   ];
