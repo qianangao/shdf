@@ -40,6 +40,10 @@ import {
   addEngineData,
   getEngineList,
   deleteMeeting,
+  updateEngineData,
+  deleteEngineData,
+  reportEngineData,
+  deleteInfoAn,
   exportMeeting,
 } from './service';
 
@@ -66,6 +70,8 @@ const Model = {
     infoAnListData: {},
     infoStatistics: {},
     infnAnObj: {},
+    engineDataStatus: true,
+    engineEditshow: 0,
     status: '',
   },
 
@@ -538,7 +544,7 @@ const Model = {
 
       const response = yield call(getInfoAnList, params);
       if (!response.error) {
-        const { records, current, total } = response;
+        const { records, current, total } = response.result;
         const result = {
           data: records,
           page: current,
@@ -599,6 +605,16 @@ const Model = {
         });
       }
     },
+    *deleteInfoAn({ payload, resolve }, { call, put }) {
+      const response = yield call(deleteInfoAn, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('删除成功！');
+        yield put({
+          type: 'tableReload',
+        });
+      }
+    },
 
     // 信息数据统计
     *getInfoStatistics({ payload, resolve }, { call, select }) {
@@ -629,7 +645,7 @@ const Model = {
       const projectId = yield select(state => state.defenseEngineering.projectId);
       const projectPid = yield select(state => state.defenseEngineering.projectPid);
       const params = {
-        projectId,
+        projectId: projectPid === projectId ? undefined : projectId,
         projectPid,
       };
       const response = yield call(getInfoStatistics, params);
@@ -647,7 +663,7 @@ const Model = {
         });
       }
     },
-    *getEngineList({ payload, resolve }, { call, select }) {
+    *getEngineList({ payload, resolve }, { call, select, put }) {
       const projectId = yield select(state => state.defenseEngineering.projectId);
       const projectPid = yield select(state => state.defenseEngineering.projectPid);
       const params = {
@@ -658,9 +674,8 @@ const Model = {
         projectPid,
       };
       const response = yield call(getEngineList, params);
-
       if (!response.error) {
-        const { records, current, total } = response;
+        const { records, current, total } = response.result;
         const result = {
           data: records,
           page: current,
@@ -671,7 +686,52 @@ const Model = {
 
         resolve && resolve(result);
       }
+      yield put({
+        type: 'save',
+        payload: {
+          engineEditshow: response.status,
+        },
+      });
     },
+
+    *updateEngineData({ payload, resolve }, { call, put }) {
+      const response = yield call(updateEngineData, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('修改成功！');
+        yield put({
+          type: 'tableReload',
+        });
+      }
+    },
+    *deleteEngineData({ payload, resolve }, { call, put }) {
+      const response = yield call(deleteEngineData, payload);
+      if (!response.error) {
+        resolve && resolve(response);
+        message.success('删除成功！');
+        yield put({
+          type: 'tableReload',
+        });
+      }
+    },
+    *reportEngineData({ payload, resolve }, { call, select }) {
+      const projectId = yield select(state => state.defenseEngineering.projectId);
+      const params = {
+        ...payload,
+        projectId,
+      };
+      const response = yield call(reportEngineData, params);
+      message.success(response.message);
+      resolve && resolve(response);
+    },
+    // *changeEngineStatus({ payload }, { put }) {
+    //   yield put({
+    //     type: 'save',
+    //     payload: {
+    //       engineDataStatus: false,
+    //     },
+    //   });
+    // },
   },
 
   reducers: {

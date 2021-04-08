@@ -90,7 +90,7 @@ const AddThreadForm = ({ dispatch, statistical }) => {
             <Row justify="space-around">
               <Col span={8}>
                 <Form.Item label="时间范围" name="timeRange" {...rangeConfig}>
-                  <RangePicker format="YYYY-MM-DD" />
+                  <RangePicker format="YYYY-MM-DD" style={{ width: '100%' }} />
                 </Form.Item>
               </Col>
               <Col span={8}>
@@ -189,7 +189,7 @@ const AddThreadForm = ({ dispatch, statistical }) => {
           <Button onClick={() => {}}>更 多 项</Button>
         </Card>
       </Col> */}
-      <Card style={{ width: '100%', height: '60vh', marginTop: '30px' }}>
+      <Card style={{ width: '100%', height: '400px', marginTop: '30px' }}>
         <BrokenLine dispatch={dispatch} searchData={searchData} chartData={chartData} />
       </Card>
     </Row>

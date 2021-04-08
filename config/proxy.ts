@@ -13,7 +13,11 @@ export default {
       target: 'http://10.92.119.243:8888/',
       // target: 'http://10.92.119.13:8877/',
       // target: 'http://10.92.119.160:8877/',
+<<<<<<< HEAD
       // target: 'http://10.92.119.243:8877/',
+=======
+      target: 'http://10.92.119.243:8888/',
+>>>>>>> bbc27ea38173d958f628122f0f78485b0fe02cc3
       // target: 'http://10.92.119.248:8877/',
       changeOrigin: true,
       pathRewrite: { '^': '' },

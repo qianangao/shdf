@@ -7,13 +7,6 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
   const [form] = AddressBookForm.useForm();
   const [userId, setuserId] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-
-  const showModal = userIds => {
-    setuserId(userIds || null);
-    updateData(userIds);
-    setModalVisible(true);
-  };
-
   const updateData = userIds => {
     if (userIds) {
       new Promise(resolve => {
@@ -33,6 +26,11 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
           });
       });
     }
+  };
+  const showModal = userIds => {
+    setuserId(userIds || null);
+    updateData(userIds);
+    setModalVisible(true);
   };
 
   useEffect(() => {

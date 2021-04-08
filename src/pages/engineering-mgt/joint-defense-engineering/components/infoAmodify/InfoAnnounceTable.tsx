@@ -1,14 +1,15 @@
 import React from 'react';
-import { Button, Modal, Tabs } from 'antd';
+import { Button, Tabs } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
-
+import { getSecrecyRowClassName } from '@/utils/secrecy';
 import Bar from '@/components/Charts/BarChart/index';
+// import { checkAuthority } from '@/utils/authority';
 
 const { TabPane } = Tabs;
 
 const Table = ({ defenseEngineering, openModifyModal, dispatch, openDetailModifyModal }) => {
-  const { tableRef } = defenseEngineering;
+  const { tableRef, engineEditshow } = defenseEngineering;
   const { tableRef1 } = defenseEngineering;
   const releaseInfoAn = params =>
     new Promise(resolve => {
@@ -18,15 +19,36 @@ const Table = ({ defenseEngineering, openModifyModal, dispatch, openDetailModify
         resolve,
       });
     });
-  const deleteReceiving = id => {
-    dispatch({
-      type: 'receivingMgt/deleteReceiving',
-      payload: {
-        id,
-      },
+  // const deleteReceiving = id => {
+  //   dispatch({
+  //     type: 'receivingMgt/deleteReceiving',
+  //     payload: {
+  //       id,
+  //     },
+  //   });
+  // };
+  const deleteData = (params: any) =>
+    /* eslint-disable no-new */
+    new Promise(resolve => {
+      dispatch({
+        type: 'defenseEngineering/deleteInfoAn',
+        payload: {
+          infoId: params,
+        },
+        resolve,
+      });
     });
-  };
-
+  const report = (params: any) =>
+    /* eslint-disable no-new */
+    new Promise(resolve => {
+      dispatch({
+        type: 'defenseEngineering/reportEngineData',
+        payload: {
+          dataId: params,
+        },
+        resolve,
+      });
+    });
   const columns = [
     {
       title: '序号',
@@ -44,6 +66,13 @@ const Table = ({ defenseEngineering, openModifyModal, dispatch, openDetailModify
       dataIndex: 'reportDate',
       valueType: 'date',
       hideInSearch: true,
+    },
+    {
+      title: '上报状态',
+      align: 'center',
+      dataIndex: 'isReport',
+      hideInSearch: true,
+      render: text => <span>{text === 0 ? '未上报' : '已上报'}</span>,
     },
     {
       title: '上报日期',
@@ -75,14 +104,39 @@ const Table = ({ defenseEngineering, openModifyModal, dispatch, openDetailModify
       width: 180,
       fixed: 'right',
       render: (dom, data) => [
-        <a key={`${data.infoId}up`} onClick={() => openDetailModifyModal(data.infoId)}>
+        <a
+          key={`${data.infoId}up`}
+          onClick={() => openDetailModifyModal(data.infoId)}
+          // hidden={!checkAuthority('em/dep/is/detail')}
+        >
           查看
         </a>,
-        <a key={`${data.infoId}up`} onClick={() => openModifyModal(data.infoId)}>
-          编辑
+        <a
+          onClick={() => report(data.infoId)}
+          // hidden={!checkAuthority('em/dep/is/deploy')}
+        >
+          {data.isReport === 0 && defenseEngineering.yearOrtot !== 'null' ? '上报' : ''}
         </a>,
-        <a key={`${data.infoId}up`} onClick={() => releaseInfoAn(data.infoId)}>
+        <a
+          key={`${data.infoId}up`}
+          onClick={() => openModifyModal(data.infoId)}
+          // hidden={!checkAuthority('em/dep/is/update')}
+        >
+          {engineEditshow === 0 ? '编辑' : ''}
+        </a>,
+        <a
+          key={`${data.infoId}up`}
+          onClick={() => releaseInfoAn(data.infoId)}
+          // hidden={!checkAuthority('em/dep/is/publish')}
+        >
           {data.infoPublish === 0 ? '发布' : ''}
+        </a>,
+        <a
+          key={`${data.infoId}up`}
+          onClick={() => deleteData(data.infoId)}
+          // hidden={!checkAuthority('em/dep/is/delete')}
+        >
+          {engineEditshow === 0 ? '删除' : ''}
         </a>,
       ],
     },
@@ -136,25 +190,30 @@ const Table = ({ defenseEngineering, openModifyModal, dispatch, openDetailModify
             rowKey="receiptId"
             headerTitle="工程数据"
             scroll={{ x: 'max-content' }}
+            rowClassName={getSecrecyRowClassName}
             request={async params => getReceivingList(params)}
-            toolBarRender={(_, { selectedRowKeys }) => [
-              <Button type="primary" onClick={() => openModifyModal()}>
+            toolBarRender={() => [
+              <Button
+                type="primary"
+                onClick={() => openModifyModal()}
+                // hidden={!checkAuthority('em/dep/is/add')}
+              >
                 新增
               </Button>,
-              selectedRowKeys && selectedRowKeys.length && (
-                <Button
-                  onClick={() => {
-                    Modal.confirm({
-                      title: '确认删除所选择单位？该操作不可恢复',
-                      onOk: () => {
-                        deleteReceiving(selectedRowKeys);
-                      },
-                    });
-                  }}
-                >
-                  批量删除
-                </Button>
-              ),
+              // selectedRowKeys && selectedRowKeys.length && (
+              //   <Button
+              //     onClick={() => {
+              //       Modal.confirm({
+              //         title: '确认删除所选择单位？该操作不可恢复',
+              //         onOk: () => {
+              //           deleteReceiving(selectedRowKeys);
+              //         },
+              //       });
+              //     }}
+              //   >
+              //     批量删除
+              //   </Button>
+              // ),
             ]}
             columns={columns}
           />

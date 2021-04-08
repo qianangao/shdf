@@ -1,31 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
 import { Modal } from 'antd';
-import AddressBookForm from './AddressBookForm';
+import KeywordForm from './KeywordForm';
 
-const TableModifyModal = ({ dispatch, actionRef, loading }) => {
-  const [form] = AddressBookForm.useForm();
-  const [userId, setuserId] = useState(null);
-  const [modalVisible, setModalVisible] = useState(false);
+const ModifyModal = ({ dispatch, actionRef, loading }) => {
+  const [form] = KeywordForm.useForm();
+  const [orgInfoData, setOrgInfoData] = useState(null);
+  const [modifyModalVisible, setModalVisible] = useState(false);
 
-  const showModal = userIds => {
-    setuserId(userIds || null);
-    updateData(userIds);
+  const showModal = items => {
+    setOrgInfoData(items || null);
     setModalVisible(true);
-  };
-
-  const updateData = userIds => {
-    if (userIds) {
-      new Promise(resolve => {
-        dispatch({
-          type: 'userMgt/getUserDetail',
-          payload: { userIds },
-          resolve,
-        });
-      }).then(res => {
-        if (res) form.setFieldsValue({ ...res });
-      });
-    }
   };
 
   useEffect(() => {
@@ -39,8 +24,8 @@ const TableModifyModal = ({ dispatch, actionRef, loading }) => {
   }, []);
 
   const hideModal = () => {
-    setuserId(null);
     setModalVisible(false);
+    setOrgInfoData(null);
     form.resetFields();
   };
 
@@ -50,9 +35,10 @@ const TableModifyModal = ({ dispatch, actionRef, loading }) => {
       .then(values => {
         return new Promise(resolve => {
           dispatch({
-            type: `userMgt/${userId ? 'updateUser' : 'addUser'}`,
+            type: `keywrod/${orgInfoData ? 'update' : 'add'}`,
             payload: {
               ...values,
+              keyWordId: orgInfoData ? orgInfoData.keyWordId : undefined,
             },
             resolve,
           });
@@ -68,23 +54,24 @@ const TableModifyModal = ({ dispatch, actionRef, loading }) => {
 
   return (
     <Modal
-      title={userId ? '编辑通讯录' : '新增通讯录'}
+      title={orgInfoData ? '编辑关键字' : '新增关键字'}
       centered
-      width="580px"
+      width={680}
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',
       }}
-      visible={modalVisible}
+      visible={modifyModalVisible}
       onOk={handleOk}
+      forceRender
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <AddressBookForm form={form} />
+      <KeywordForm form={form} orgInfoData={orgInfoData} />
     </Modal>
   );
 };
 
 export default connect(({ loading }) => ({
-  loading: loading.models.smDictionaryMgt,
-}))(TableModifyModal);
+  loading: loading.models.orgTree,
+}))(ModifyModal);
