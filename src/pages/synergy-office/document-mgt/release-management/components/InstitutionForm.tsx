@@ -2,7 +2,7 @@ import React from 'react';
 import AdvancedForm from '@/components/AdvancedForm';
 import { Checkbox } from 'antd';
 import { getUseInfo, USER_INFO } from '@/utils/cookie';
-import OrgSelectInput from '@/components/OrgMultiSelectInput/OrgSelectInput';
+import OrgSelectInput from '@/components/OrgMultiSelectInput/SelectInput';
 
 const InstitutionForm = ({ form, fieldChangeHander }) => {
   const formItems = [
@@ -33,6 +33,7 @@ const InstitutionForm = ({ form, fieldChangeHander }) => {
     },
     {
       label: '可见范围',
+      span: 2,
       name: 'visibleRangeOrg',
       rules: [{ required: true, message: '请选择可见范围!' }],
       render: <OrgSelectInput />,

@@ -2,24 +2,28 @@ const routes = {
   path: '/synergy-office',
   name: 'synergy-office',
   remark: '协同办公',
+  authority: 'so',
   routes: [
     {
       path: '/synergy-office/document-mgt',
       name: 'synergy-office-document-mgt',
       icon: 'reconciliation',
       remark: '公文管理',
+      authority: 'so/dm',
       routes: [
         {
           path: '/synergy-office/document-mgt/release-management',
           name: 'synergy-office-document-mgt/release-management',
           component: './synergy-office/document-mgt/release-management',
           remark: '发布管理',
+          authority: 'so/dm/rm',
         },
         {
           path: '/synergy-office/document-mgt/receive-management',
           name: 'synergy-office-document-mgt/receive-management',
           component: './synergy-office/document-mgt/receive-management',
           remark: '接收管理',
+          authority: 'so/dm/rec',
         },
       ],
     },

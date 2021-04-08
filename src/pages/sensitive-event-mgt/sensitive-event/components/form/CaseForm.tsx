@@ -113,7 +113,7 @@ const CaseForm = ({ form, orgInfoData, specialList, id, caseType, onFieldsChange
     },
     {
       label: '涉案金额',
-      name: 'caseAmount',
+      name: 'caseMoney',
     },
     {
       label: '抓获人数',

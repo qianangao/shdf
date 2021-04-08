@@ -1,7 +1,8 @@
 import React from 'react';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
-import {getSecrecyRowClassName} from "@/utils/secrecy";
+import { getSecrecyRowClassName } from '@/utils/secrecy';
+import { checkAuthority } from '@/utils/authority';
 
 const Table = ({ documentMgt, openDetailModal, dispatch, enums }) => {
   const { tableRef } = documentMgt;
@@ -47,6 +48,7 @@ const Table = ({ documentMgt, openDetailModal, dispatch, enums }) => {
       fixed: 'right',
       render: (dom: any, data: any) => [
         <a
+          hidden={!checkAuthority('so/dm/rec/detail')}
           key={`${data.documentId}detail`}
           onClick={() => openDetailModal(data.documentId, data.documentStatus, 'publish')}
         >
