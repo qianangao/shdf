@@ -3,6 +3,7 @@ import { Button, message, Popconfirm } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import CueAssociation from '@/components/CueAssociation';
+import { getSecrecyRowClassName } from '@/utils/secrecy';
 import AssociationDesc from './AssociationDesc';
 
 let tempSelectData = [];
@@ -17,6 +18,7 @@ const Table = ({
   processRefModal,
   enums,
   dispatch,
+  // concludeRefModal
 }) => {
   const { tableRef } = emClueManagement;
   const uploadLgbListRef = useRef();
@@ -274,6 +276,7 @@ const Table = ({
         rowKey="clueId"
         headerTitle="线索列表"
         actionRef={tableRef}
+        rowClassName={getSecrecyRowClassName}
         scroll={{ x: 'max-content' }}
         rowSelection={{
           onChange: (keys, rows) => {

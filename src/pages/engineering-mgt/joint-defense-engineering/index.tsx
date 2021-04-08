@@ -25,6 +25,7 @@ import AItable from './components/infoAmodify/InfoAnnounceTable';
 import InfoAnModal from './components/infoAmodify/ModifyModal';
 import InfoAnDetailModal from './components/infoAmodify/DetailModifyModal';
 import EngineTable from './components/engineDmodify/engineDmodifyTable';
+import EngineinvolveTable from './components/engineDmodify/engineTable';
 import EngineModal from './components/engineDmodify/ModifyModal';
 import DefenseEngineeringModal from './components/defense-engineering/DefenseEngineeringModal';
 import AnnualDefenseEngineeringModal from './components/annual-defense-engineering/AnnualDefenseEngineeringModal';
@@ -50,6 +51,7 @@ const JointDefenseEngineering = ({ dispatch, defenseEngineering }) => {
   const engineDmodifyRef = useRef({});
   const [tableType, setTableType] = useState('annualWork');
   const [accountTableType, setAccountTableType] = useState('checkDirectory');
+  const [engineeringTableType, setEngineeringTableType] = useState('involve');
   const { yearOrtot, projectId } = defenseEngineering;
 
   const tabYears = [
@@ -70,6 +72,10 @@ const JointDefenseEngineering = ({ dispatch, defenseEngineering }) => {
     { label: '重点单位', id: 'keyInstitution' },
     { label: '重点人物', id: 'keyPerson' },
   ];
+  const EngineerTabs = [
+    { label: '涉及', id: 'involve' },
+    { label: '数量', id: 'number' },
+  ];
 
   useEffect(() => {
     dispatch({
@@ -82,6 +88,7 @@ const JointDefenseEngineering = ({ dispatch, defenseEngineering }) => {
   useEffect(() => {
     setTableType('annualWork');
     setAccountTableType('checkDirectory');
+    setEngineeringTableType('involve');
   }, [projectId]);
 
   const onTabChange = id => {
@@ -90,6 +97,9 @@ const JointDefenseEngineering = ({ dispatch, defenseEngineering }) => {
 
   const onAccountTabChange = id => {
     setAccountTableType(id);
+  };
+  const onEngineTabChange = id => {
+    setEngineeringTableType(id);
   };
 
   const onTabChangeyear = id => {
@@ -171,7 +181,18 @@ const JointDefenseEngineering = ({ dispatch, defenseEngineering }) => {
             />
           )}
           {tableType === 'engineeringData' && (
-            <EngineTable openModifyModal={openEngineModifyModal} />
+            <TypeSelectLayout
+              tabs={EngineerTabs}
+              onTabChange={onEngineTabChange}
+              activeKey={engineeringTableType}
+            >
+              {engineeringTableType === 'involve' && (
+                <EngineinvolveTable openModifyModal={openEngineModifyModal} />
+              )}
+              {engineeringTableType === 'number' && (
+                <EngineTable openModifyModal={openEngineModifyModal} />
+              )}
+            </TypeSelectLayout>
           )}
           {tableType === 'engineeringAccount' && (
             <TypeSelectLayout
@@ -226,7 +247,18 @@ const JointDefenseEngineering = ({ dispatch, defenseEngineering }) => {
             <MeetingTable meetingModal={meetingModal} />
           )}
           {tableType === 'engineeringDataYears' && (
-            <EngineTable openModifyModal={openEngineModifyModal} />
+            <TypeSelectLayout
+              tabs={EngineerTabs}
+              onTabChange={onEngineTabChange}
+              activeKey={engineeringTableType}
+            >
+              {engineeringTableType === 'involve' && (
+                <EngineinvolveTable openModifyModal={openEngineModifyModal} />
+              )}
+              {engineeringTableType === 'number' && (
+                <EngineTable openModifyModal={openEngineModifyModal} />
+              )}
+            </TypeSelectLayout>
           )}
           {tableType === 'CommunicationsYears' && (
             <AItable

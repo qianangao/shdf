@@ -1,35 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
 import { Modal } from 'antd';
-import AddressBookForm from './AddressBookForm';
+import ConcludeBookForm from './concludeBookForm';
 
 const ModifyModal = ({ dispatch, actionRef, loading }) => {
-  const [form] = AddressBookForm.useForm();
-  const [userId, setuserId] = useState(null);
+  const [form] = ConcludeBookForm.useForm();
+  const [conclude, setConclude] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-  const updateData = userIds => {
-    if (userIds) {
-      new Promise(resolve => {
-        dispatch({
-          type: 'userMgt/getUserDetail',
-          payload: { userIds },
-          resolve,
-        });
-      }).then(res => {
-        if (res)
-          form.setFieldsValue({
-            ...res,
-            orgObj: {
-              name: res.orgName,
-              id: res.orgId,
-            },
-          });
-      });
-    }
-  };
-  const showModal = userIds => {
-    setuserId(userIds || null);
-    updateData(userIds);
+  const [concludeStaus, setConcludeStaus] = useState('');
+  const showModal = data => {
+    setConclude(data);
     setModalVisible(true);
   };
 
@@ -44,22 +24,24 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
   }, []);
 
   const hideModal = () => {
-    setuserId(null);
     setModalVisible(false);
     form.resetFields();
+    setConcludeStaus('');
   };
 
   const handleOk = () => {
     form
       .validateFields()
       .then(values => {
+        setConcludeStaus(values.AdministrativePrompt);
         return new Promise(resolve => {
           dispatch({
-            type: `userMgt/${userId ? 'updateUser' : 'addUser'}`,
+            type: 'emClueManagement/concludeTheMatter',
             payload: {
-              ...values,
-              orgId: values.orgObj.id,
-              orgName: values.orgObj.name,
+              clueId: conclude.clueId,
+              circulationId: conclude.sourceClueId,
+              processingResults: 2,
+              opinion: values.opinion,
             },
             resolve,
           });
@@ -67,6 +49,9 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       })
       .then(() => {
         hideModal();
+        if (concludeStaus === '0') {
+          setModalVisible(false);
+        }
       })
       .catch(info => {
         console.error('Validate Failed:', info);
@@ -75,9 +60,9 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
 
   return (
     <Modal
-      title={userId ? '编辑用户' : '新增用户'}
+      title="转办提示"
       centered
-      width="90vw"
+      width="580px"
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',
@@ -87,7 +72,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      <AddressBookForm form={form} />
+      <ConcludeBookForm form={form} />
     </Modal>
   );
 };

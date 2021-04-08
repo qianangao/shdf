@@ -19,7 +19,7 @@ const TaskProgressTable = ({ dispatch, taskProgressList, head, feedbackDetailMod
     if (head) {
       const arr = [];
       setColumns([]);
-      Object.keys(head).forEach(function (key) {
+      Object.keys(head).forEach(key => {
         if (key === 'province') {
           arr.push({ title: head[key], dataIndex: key, align: 'center' });
         } else {

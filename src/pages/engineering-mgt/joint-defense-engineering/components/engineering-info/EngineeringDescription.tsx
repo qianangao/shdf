@@ -3,7 +3,7 @@ import { Button, Descriptions, Popconfirm, Card, Spin } from 'antd';
 import { connect } from 'umi';
 import { checkAuthority } from '@/utils/authority';
 import ProvinceListTable from '../province-list/ProvinceListTable';
-import TempProvinceTable from '../temp-province-list/TempProvinceTable';
+import TempProvinceTable from '../temp-province-addlist/TempProvinceTable';
 
 const EngineeringDescription = ({
   enums,
@@ -11,7 +11,6 @@ const EngineeringDescription = ({
   engineeringForm,
   defenseEngineeringModal,
   annualDefenseEngineeringModal,
-  tempProvinceModal,
   loading,
 }) => {
   const [visible, setVisible] = useState(false);
@@ -58,7 +57,7 @@ const EngineeringDescription = ({
           title=""
           extra={
             <>
-              {!visible && (
+              {/* {!visible && (
                 <Button
                   type="primary"
                   style={{ marginRight: 8 }}
@@ -66,7 +65,7 @@ const EngineeringDescription = ({
                 >
                   新增临时省份
                 </Button>
-              )}
+              )} */}
               {visible ? (
                 <Button
                   type="primary"
@@ -133,6 +132,8 @@ const EngineeringDescription = ({
                 {engineeringForm.contactInformation}
               </Descriptions.Item>
               <Descriptions.Item label="牵头省份" span={4}>
+                {/* {engineeringForm.provinceCode.name
+                  ? engineeringForm.provinceCode.name */}
                 {engineeringForm.provinceCode}
               </Descriptions.Item>
             </>
