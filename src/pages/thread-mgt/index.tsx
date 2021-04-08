@@ -19,6 +19,7 @@ const ClueManagement = ({ dispatch }) => {
   const hostRef = useRef({});
   const processRef = useRef({});
   const concludeRef = useRef({});
+  // const concealRef = useRef({});
 
   useEffect(() => {
     dispatch({
@@ -65,6 +66,10 @@ const ClueManagement = ({ dispatch }) => {
   const concludeRefModal = (item: any) => {
     concludeRef.current.showModal(item);
   };
+  // 隐藏继续办理模态框
+  // const concealRefModal = (item: any) => {
+  //   concealRef.current.hideModal(item);
+  // };
 
   return (
     <>
@@ -77,6 +82,7 @@ const ClueManagement = ({ dispatch }) => {
         hostRefModal={hostRefModal}
         processRefModal={processRefModal}
         concludeRefModal={concludeRefModal}
+        // concealRefModal={concealRefModal}
       />
       <DetailModal actionRef={detailRef} />
       <ModifyModal actionRef={modifyRef} />
@@ -84,12 +90,14 @@ const ClueManagement = ({ dispatch }) => {
       <OperatingLogModal actionRef={logRef} />
       <TransferClueModal actionRef={transferRef} />
       <HostClueModal actionRef={hostRef} />
-      <ConcludeModal actionRef={concludeRef} />
-      {/* <Clewconclude actionRef={concludeRef} /> */}
+      {/* <ConcludeModal actionRef={concludeRef} reffN={processRef}/> */}
+      <ConcludeModal actionRef={concludeRef} reffN={processRef} />
+      {/* <ConcludeModal actionRef={{ concludeRef, concealRef }} /> */}
       <ProcessInfoModal
         actionRef={processRef}
         transferModal={transferModal}
         concludeRefModal={concludeRefModal}
+        // concealRefModal={concealRefModal}
       />
     </>
   );

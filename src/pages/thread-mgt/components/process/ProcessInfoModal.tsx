@@ -15,6 +15,7 @@ const ProcessInfoModal = ({ dispatch, actionRef, loading, transferModal, conclud
 
   const showCommitExamine = () => {
     commitModelRef.current.showModal(clueData.clueId, clueData.sourceClueId);
+    // commitModelRef.current.handleModal(clueData.clueId, clueData.sourceClueId);
   };
   const showTransferClue = () => {
     transferModal(clueData);

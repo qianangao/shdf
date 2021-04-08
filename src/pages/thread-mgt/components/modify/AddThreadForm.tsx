@@ -24,17 +24,17 @@ const AddThreadForm = ({ form }) => {
         { min: 0, max: 100, message: '线索名称长度最多100字!' },
       ],
     },
-    {
-      label: '发文时间',
-      name: 'createTime',
-      type: 'date',
-      rules: [{ required: true, message: '请选择发文时间!' }],
-    },
-    {
-      label: '摘要',
-      name: 'clueRemarks',
-      rules: [{ required: true, message: '请选择摘要' }],
-    },
+    // {
+    //   label: '发文时间',
+    //   name: 'createTime',
+    //   type: 'date',
+    //   rules: [{ required: true, message: '请选择发文时间!' }],
+    // },
+    // {
+    //   label: '摘要',
+    //   name: 'clueRemarks',
+    //   rules: [{ required: true, message: '请选择摘要' }],
+    // },
     {
       label: '线索类型',
       name: 'clueType',
@@ -53,6 +53,13 @@ const AddThreadForm = ({ form }) => {
       enumsLabel: 'clue_source',
       rules: [{ required: true, message: '请选择线索来源!' }],
     },
+    {
+      label: '涉及地方',
+      name: 'regionObj',
+      render: <ProvinceCascaderInput />,
+      rules: [{ required: true, message: '请选择发生地域!' }],
+    },
+
     {
       label: '重要程度',
       name: 'importance',
@@ -77,23 +84,40 @@ const AddThreadForm = ({ form }) => {
       type: 'date',
     },
     {
-      label: '涉及地方',
-      name: 'regionObj',
+      label: '发生地域',
+      name: 'region',
       render: <ProvinceCascaderInput />,
-      rules: [{ required: true, message: '请选择发生地域!' }],
+      rules: [{ required: true, message: '请选择发生涉及地方!' }],
+    },
+    {
+      label: '关键词',
+      name: 'keyWordId',
+      rules: [
+        { required: true, message: '请输入关键词!' },
+        { min: 0, max: 100, message: '关键词称长度最多100字!' },
+      ],
     },
     {
       label: '相关出版物',
       name: 'relatedPublications',
       type: 'textarea',
     },
+    {
+      label: '关键词',
+      name: 'keyWordId',
+      rules: [
+        { required: true, message: '请输入关键词!' },
+        { min: 0, max: 100, message: '关键词称长度最多100字!' },
+      ],
+    },
+
     // {
     //   label: '所属联防工程',
     //   name: 'orgName',
     //   render: <OrgMultiSelectInput />,
     // },
     {
-      label: '线索描述',
+      label: '摘要',
       name: 'clueRemarks',
       type: 'textarea',
       span: 2,

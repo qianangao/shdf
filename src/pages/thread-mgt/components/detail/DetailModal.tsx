@@ -168,6 +168,11 @@ const DetailModal = ({
           style={{ marginBottom: 30 }}
         >
           <Descriptions.Item label="线索名称">{clueDetailData.clueName}</Descriptions.Item>
+          <Descriptions.Item label="发文时间">
+            {formatDateStr(clueDetailData.createTime, 'YYYY-MM-DD')}
+          </Descriptions.Item>
+          <Descriptions.Item label="摘要">{clueDetailData.clueRemarks}</Descriptions.Item>
+          <Descriptions.Item label="发文文号">{clueDetailData.clueNumber}</Descriptions.Item>
           <Descriptions.Item label="线索类型">
             {enums.clue_type && enums.clue_type[clueDetailData.clueType]}
           </Descriptions.Item>
@@ -187,13 +192,13 @@ const DetailModal = ({
           <Descriptions.Item label="接报日期">
             {formatDateStr(clueDetailData.receivingTime, 'YYYY-MM-DD')}
           </Descriptions.Item>
-          <Descriptions.Item label="发生地域">{clueDetailData.region}</Descriptions.Item>
+          <Descriptions.Item label="涉及地方">{clueDetailData.region}</Descriptions.Item>
           <Descriptions.Item label="相关出版物">
             {clueDetailData.relatedPublications}
           </Descriptions.Item>
-          <Descriptions.Item label="线索描述" span={3}>
+          {/* <Descriptions.Item label="线索描述" span={3}>
             {clueDetailData.clueRemarks}
-          </Descriptions.Item>
+          </Descriptions.Item> */}
         </Descriptions>
         <Descriptions
           title="举报信息"
