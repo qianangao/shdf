@@ -3,7 +3,7 @@ import { Button } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import { getSecrecyRowClassName } from '@/utils/secrecy';
-import { checkAuthority } from '@/utils/authority';
+// import { checkAuthority } from '@/utils/authority';
 
 const Table = ({ keywrod, dispatch, openModifyModal }) => {
   const { tableRef } = keywrod;
@@ -40,7 +40,7 @@ const Table = ({ keywrod, dispatch, openModifyModal }) => {
         <a
           key={`${logData.id}up`}
           onClick={() => openModifyModal(logData)}
-          hidden={!checkAuthority('sm/km/update')}
+          // hidden={!checkAuthority('sm/km/update')}
         >
           编辑
         </a>,
@@ -50,7 +50,7 @@ const Table = ({ keywrod, dispatch, openModifyModal }) => {
         <a
           key={`${logData.id}up`}
           onClick={() => deletewd(logData)}
-          hidden={!checkAuthority('sm/km/delete')}
+          // hidden={!checkAuthority('sm/km/delete')}
         >
           删除
         </a>,
@@ -80,7 +80,7 @@ const Table = ({ keywrod, dispatch, openModifyModal }) => {
         <Button
           type="primary"
           onClick={() => openModifyModal()}
-          hidden={!checkAuthority('sm/km/add')}
+          // hidden={!checkAuthority('sm/km/add')}
         >
           新增
         </Button>,

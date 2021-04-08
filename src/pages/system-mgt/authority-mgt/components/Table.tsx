@@ -3,7 +3,7 @@ import { Button, Popconfirm } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import { getSecrecyRowClassName } from '@/utils/secrecy';
-import { checkAuthority } from '@/utils/authority';
+// import { checkAuthority } from '@/utils/authority';
 
 const Table = ({ authorityMgt, authModal, dispatch, enums }) => {
   const { tableRef } = authorityMgt;
@@ -44,7 +44,7 @@ const Table = ({ authorityMgt, authModal, dispatch, enums }) => {
         <a
           key={`${roleData.permessionId}up`}
           onClick={() => authModal({ id: roleData.permessionId })}
-          hidden={!checkAuthority('sm/am/update')}
+          // hidden={!checkAuthority('sm/am/update')}
         >
           修改
         </a>,
@@ -54,7 +54,10 @@ const Table = ({ authorityMgt, authModal, dispatch, enums }) => {
           placement="topRight"
           onConfirm={() => deleteAuth(roleData.permessionId)}
         >
-          <a key={`${roleData.permessionId}del`} hidden={!checkAuthority('sm/am/delete')}>
+          <a
+            key={`${roleData.permessionId}del`}
+            // hidden={!checkAuthority('sm/am/delete')}
+          >
             删除
           </a>
         </Popconfirm>,
@@ -67,7 +70,7 @@ const Table = ({ authorityMgt, authModal, dispatch, enums }) => {
               visible: true,
             })
           }
-          hidden={!checkAuthority('sm/am/newChild')}
+          // hidden={!checkAuthority('sm/am/newChild')}
         >
           新建子资源
         </a>,
@@ -95,7 +98,11 @@ const Table = ({ authorityMgt, authModal, dispatch, enums }) => {
       scroll={{ x: 'max-content' }}
       request={async params => getRoleList(params)}
       toolBarRender={_ => [
-        <Button type="primary" onClick={() => authModal()} hidden={!checkAuthority('sm/am/add')}>
+        <Button
+          type="primary"
+          onClick={() => authModal()}
+          // hidden={!checkAuthority('sm/am/add')}
+        >
           新增
         </Button>,
       ]}
