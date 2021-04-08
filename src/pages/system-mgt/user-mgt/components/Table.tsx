@@ -9,7 +9,7 @@ const Table = ({
   openModifyModal,
   openDetailModal,
   openRoleTableModal,
-  openAddRoleModal,
+  // openAddRoleModal,
   dispatch,
 }) => {
   const { tableRef } = userMgt;
@@ -88,9 +88,9 @@ const Table = ({
           <Button type="primary" onClick={() => openModifyModal()}>
             新增
           </Button>,
-          <Button type="primary" onClick={() => openAddRoleModal()}>
-            新增角色
-          </Button>,
+          // <Button type="primary" onClick={() => openAddRoleModal()}>
+          //   新增角色
+          // </Button>,
         ]}
         columns={columns}
       />
