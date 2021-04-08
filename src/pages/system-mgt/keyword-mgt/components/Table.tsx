@@ -3,6 +3,7 @@ import { Button } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import { getSecrecyRowClassName } from '@/utils/secrecy';
+// import { checkAuthority } from '@/utils/authority';
 
 const Table = ({ keywrod, dispatch, openModifyModal }) => {
   const { tableRef } = keywrod;
@@ -36,13 +37,21 @@ const Table = ({ keywrod, dispatch, openModifyModal }) => {
       width: 220,
       fixed: 'right',
       render: (dom, logData) => [
-        <a key={`${logData.id}up`} onClick={() => openModifyModal(logData)}>
+        <a
+          key={`${logData.id}up`}
+          onClick={() => openModifyModal(logData)}
+          // hidden={!checkAuthority('sm/km/update')}
+        >
           编辑
         </a>,
         // <a key={`${logData.id}detail`} onClick={() => useWord(logData)}>
         //   使用
         // </a>,
-        <a key={`${logData.id}up`} onClick={() => deletewd(logData)}>
+        <a
+          key={`${logData.id}up`}
+          onClick={() => deletewd(logData)}
+          // hidden={!checkAuthority('sm/km/delete')}
+        >
           删除
         </a>,
       ],
@@ -68,7 +77,11 @@ const Table = ({ keywrod, dispatch, openModifyModal }) => {
       rowClassName={getSecrecyRowClassName}
       request={async params => getList(params)}
       toolBarRender={() => [
-        <Button type="primary" onClick={() => openModifyModal()}>
+        <Button
+          type="primary"
+          onClick={() => openModifyModal()}
+          // hidden={!checkAuthority('sm/km/add')}
+        >
           新增
         </Button>,
       ]}
