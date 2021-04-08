@@ -114,7 +114,7 @@ export async function deleteRole(params: any) {
  * 获取用户可添加角色详情
  * @param params
  */
-export async function getAddroleList(params: any) {
+export async function getAddRoleList(params: any) {
   return request(`/role-user/find/add-role`, {
     method: 'GET',
     params,
