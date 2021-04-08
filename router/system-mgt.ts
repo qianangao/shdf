@@ -61,7 +61,7 @@ const routes = {
       component: './system-mgt/keyword-mgt',
       icon: 'setting',
       remark: '词库管理',
-      authority: 'sm-km',
+      // authority: 'sm-km',
     },
     {
       path: '/system-mgt/unread-msg',
