@@ -63,28 +63,28 @@ const Table = ({
           onClick={() =>
             modifyProjectTaskModal({ id: data.taskId, disabled: true, visible: false })
           }
-          // hidden={!checkAuthority('em/dep/task/detail')}
+          // hidden={!checkAuthority('em/dep/taskDetail')}
         >
           查看
         </a>,
         <a
           key={`${data.taskId}up`}
           onClick={() => modifyProjectTaskModal({ id: data.taskId, disabled: false, add: true })}
-          // hidden={!checkAuthority('em/dep/task/update')}
+          // hidden={!checkAuthority('em/dep/taskUpdate')}
         >
           {data.taskStatus === 0 && '修改'}
         </a>,
         <a
           key={`${data.taskId}down`}
           onClick={() => downModal(data.taskId)}
-          // hidden={!checkAuthority('em/dep/task/deploy')}
+          // hidden={!checkAuthority('em/dep/taskDeploy')}
         >
           {data.taskStatus === 0 && '下发'}
         </a>,
         <a
           key={`${data.taskId}back`}
           onClick={() => feedbackModal(data.taskId)}
-          // hidden={!checkAuthority('em/dep/task/feedback')}
+          // hidden={!checkAuthority('em/dep/taskFeedback')}
         >
           {data.taskStatus === 1 && '反馈'}
         </a>,
@@ -96,7 +96,7 @@ const Table = ({
         >
           <a
             key={`${data.taskId}del`}
-            //  hidden={!checkAuthority('em/dep/task/delete')}
+            //  hidden={!checkAuthority('em/dep/taskDelete')}
           >
             {data.taskStatus === 0 && '删除'}
           </a>
@@ -135,7 +135,7 @@ const Table = ({
             <Button
               type="primary"
               onClick={() => addProjectTaskModal()}
-              // hidden={!checkAuthority('em/dep/task/add')}
+              // hidden={!checkAuthority('em/dep/taskAdd')}
             >
               新增子任务
             </Button>,
