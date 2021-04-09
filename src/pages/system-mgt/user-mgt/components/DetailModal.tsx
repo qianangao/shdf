@@ -37,7 +37,7 @@ const DetailModal = ({ dispatch, actionRef, loading, usetListData, enums }) => {
 
   return (
     <Modal
-      title="重点人物详情"
+      title="用户详情"
       centered
       width="90vw"
       style={{ paddingBottom: 0 }}

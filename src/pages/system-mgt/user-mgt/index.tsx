@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { connect } from 'umi';
-import OrgTreeLayout from '@/layouts/OrgTreeLayout';
+// import OrgTreeLayout from '@/layouts/OrgTreeLayout';
 import Table from './components/Table';
 import ModifyModal from './components/ModifyModal';
 import DetailModal from './components/DetailModal';
@@ -23,12 +23,12 @@ const AddUser = ({ dispatch }) => {
     });
   }, []);
 
-  const orgChangeHander = userId => {
-    dispatch({
-      type: 'userMgt/getUserList',
-      payload: { userId },
-    });
-  };
+  // const orgChangeHander = userId => {
+  //   dispatch({
+  //     type: 'userMgt/getUserList',
+  //     payload: { userId },
+  //   });
+  // };
   const openDetailModal = (personId: any) => {
     detailRef.current.showModal(personId);
   };
@@ -45,7 +45,8 @@ const AddUser = ({ dispatch }) => {
   //   tableModifyRef.current.showModal(item);
   // };
   return (
-    <OrgTreeLayout onOrgSelect={orgChangeHander}>
+    // <OrgTreeLayout onOrgSelect={orgChangeHander}>
+    <div>
       <Table
         openModifyModal={openModifyModal}
         openDetailModal={openDetailModal}
@@ -57,7 +58,8 @@ const AddUser = ({ dispatch }) => {
       <RoleTableModal actionRef={roleTableRef} />
       <AddRoleModal actionRef={addRoleRef} />
       {/* <TableModifyModal actionRef={tableModifyRef} /> */}
-    </OrgTreeLayout>
+    </div>
+    // </OrgTreeLayout>
   );
 };
 

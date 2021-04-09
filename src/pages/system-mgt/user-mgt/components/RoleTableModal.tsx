@@ -10,13 +10,12 @@ const TableModifyModal = ({ dispatch, actionRef, loading }) => {
   const [selectedKeys, setSelectedKeys] = useState([]);
   // const [getMoveKeys, setGetMoveKeys] = useState();
   // const [getDirection, setGetDirection] = useState();
-
-  const getRole = userIds => {
-    if (userIds) {
+  const getRole = id => {
+    if (id) {
       new Promise(resolve => {
         dispatch({
           type: 'userMgt/getAddRoleList',
-          payload: { userIds },
+          payload: { id },
           resolve,
         });
       }).then(data => {
@@ -31,7 +30,7 @@ const TableModifyModal = ({ dispatch, actionRef, loading }) => {
         return new Promise(resolve => {
           dispatch({
             type: 'userMgt/getRoleList',
-            payload: { userIds },
+            payload: { id },
             resolve,
           });
         }).then(res => {
@@ -82,9 +81,9 @@ const TableModifyModal = ({ dispatch, actionRef, loading }) => {
       });
     }
   };
-  const showModal = userIds => {
-    setuserId(userIds || null);
-    getRole(userIds);
+  const showModal = id => {
+    setuserId(id || null);
+    getRole(id);
     setModalVisible(true);
   };
 
@@ -119,7 +118,7 @@ const TableModifyModal = ({ dispatch, actionRef, loading }) => {
       dispatch({
         type: `userMgt/useraddRole`,
         payload: {
-          userId,
+          id: userId,
           roleIds: targetKeys,
         },
         resolve,
@@ -164,6 +163,8 @@ const TableModifyModal = ({ dispatch, actionRef, loading }) => {
   );
 };
 
-export default connect(({ loading }) => ({
+export default connect(({ loading, userMgt }) => ({
+  getAddroleData: userMgt.userMgt,
+  getRoleData: userMgt.getRoleData,
   loading: loading.models.smDictionaryMgt,
 }))(TableModifyModal);
