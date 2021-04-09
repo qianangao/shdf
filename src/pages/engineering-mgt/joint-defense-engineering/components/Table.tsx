@@ -3,7 +3,7 @@ import { Button, Popconfirm } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import { getSecrecyRowClassName } from '@/utils/secrecy';
-import { checkAuthority } from '@/utils/authority';
+// import { checkAuthority } from '@/utils/authority';
 import EngineeringDescription from './engineering-info/EngineeringDescription';
 
 const Table = ({
@@ -63,28 +63,28 @@ const Table = ({
           onClick={() =>
             modifyProjectTaskModal({ id: data.taskId, disabled: true, visible: false })
           }
-          hidden={!checkAuthority('em/dep/task/detail')}
+          // hidden={!checkAuthority('em/dep/task/detail')}
         >
           查看
         </a>,
         <a
           key={`${data.taskId}up`}
           onClick={() => modifyProjectTaskModal({ id: data.taskId, disabled: false, add: true })}
-          hidden={!checkAuthority('em/dep/task/update')}
+          // hidden={!checkAuthority('em/dep/task/update')}
         >
           {data.taskStatus === 0 && '修改'}
         </a>,
         <a
           key={`${data.taskId}down`}
           onClick={() => downModal(data.taskId)}
-          hidden={!checkAuthority('em/dep/task/deploy')}
+          // hidden={!checkAuthority('em/dep/task/deploy')}
         >
           {data.taskStatus === 0 && '下发'}
         </a>,
         <a
           key={`${data.taskId}back`}
           onClick={() => feedbackModal(data.taskId)}
-          hidden={!checkAuthority('em/dep/task/feedback')}
+          // hidden={!checkAuthority('em/dep/task/feedback')}
         >
           {data.taskStatus === 1 && '反馈'}
         </a>,
@@ -94,7 +94,10 @@ const Table = ({
           okText="是"
           cancelText="否"
         >
-          <a key={`${data.taskId}del`} hidden={!checkAuthority('em/dep/task/delete')}>
+          <a
+            key={`${data.taskId}del`}
+            //  hidden={!checkAuthority('em/dep/task/delete')}
+          >
             {data.taskStatus === 0 && '删除'}
           </a>
         </Popconfirm>,
@@ -132,7 +135,7 @@ const Table = ({
             <Button
               type="primary"
               onClick={() => addProjectTaskModal()}
-              hidden={!checkAuthority('em/dep/task/add')}
+              // hidden={!checkAuthority('em/dep/task/add')}
             >
               新增子任务
             </Button>,

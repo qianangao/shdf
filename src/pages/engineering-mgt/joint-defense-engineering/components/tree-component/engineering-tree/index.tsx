@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Tree, Button, Row, Col, Input, Spin } from 'antd';
 import { connect } from 'umi';
-import { checkAuthority } from '@/utils/authority';
+// import { checkAuthority } from '@/utils/authority';
 import styles from './index.less';
 
 const EngineeringTree = ({
@@ -65,7 +65,7 @@ const EngineeringTree = ({
           <Button
             type="primary"
             onClick={() => defenseEngineeringModal({ add: true })}
-            hidden={!checkAuthority('em/dep/addProject')}
+            // hidden={!checkAuthority('em/dep/addProject')}
           >
             新增工程
           </Button>
@@ -74,7 +74,7 @@ const EngineeringTree = ({
           <Button
             type="primary"
             onClick={() => annualDefenseEngineeringModal()}
-            hidden={!checkAuthority('em/dep/addAnnual')}
+            // hidden={!checkAuthority('em/dep/addAnnual')}
           >
             新增年度工程
           </Button>

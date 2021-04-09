@@ -1,7 +1,7 @@
 import React from 'react';
 import AdvancedForm from '@/components/AdvancedForm';
 import { checkPhone, checkEmail } from '@/utils/validators';
-import OrgSelectInput from '@/components/OrgMultiSelectInput/OrgSelectInput';
+import OrgMultiSelectInput from '@/components/OrgMultiSelectInput/index';
 
 const AddressBookForm = ({ form }) => {
   const formItems = [
@@ -40,7 +40,7 @@ const AddressBookForm = ({ form }) => {
       name: 'orgObj',
       span: 1,
       rules: [{ required: true, message: '请选择所在机构!' }],
-      render: <OrgSelectInput />,
+      render: <OrgMultiSelectInput />,
     },
     {
       label: '用户性别',
