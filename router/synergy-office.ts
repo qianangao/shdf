@@ -2,6 +2,7 @@ const routes = {
   path: '/synergy-office',
   name: 'synergy-office',
   remark: '协同办公',
+  // authority:'so',
   routes: [
     {
       path: '/synergy-office/document-mgt',
@@ -28,6 +29,7 @@ const routes = {
       name: 'synergy-office-address-book',
       component: './synergy-office/address-book',
       icon: 'read',
+      // authority:'so/ab',
       remark: '通讯录',
     },
     {

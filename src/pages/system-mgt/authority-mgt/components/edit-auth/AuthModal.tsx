@@ -25,13 +25,13 @@ const AuthModal = ({ dispatch, loading, actionRef }) => {
         setParentId(item.parentId);
       }
       if (item.visible) {
-        setTitle('新增子资源');
+        setTitle('新增子权限');
       }
       if (item.id) {
-        setTitle('编辑资源');
+        setTitle('编辑权限');
       }
     } else {
-      setTitle('新增资源');
+      setTitle('新增权限');
     }
     setModalVisible(true);
   };

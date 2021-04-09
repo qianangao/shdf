@@ -1,17 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { connect, useLocation } from 'umi';
-import { Modal, Tree } from 'antd';
+import { Modal } from 'antd';
+import OrgMultiSelectInput from '@/components/OrgMultiSelectInput/index';
 
 const useQuery = () => new URLSearchParams(useLocation().search);
-const DownModal = ({ dispatch, actionRef, loading, roleTree }) => {
+const DownModal = ({ dispatch, actionRef, loading }) => {
   const query = useQuery();
   const [modalVisible, setModalVisible] = useState(false);
   const [id, setId] = useState('');
-  const [checkedKeys, setCheckedKeys] = useState([]);
-
-  const onCheckHandler = keys => {
-    setCheckedKeys(keys);
+  const [valueData, setValueData] = useState([]);
+  // const [checkedKeys, setCheckedKeys] = useState([]);
+  const onChange = data => {
+    setValueData([...data]);
   };
+  // const onCheckHandler = keys => {
+  //   setCheckedKeys(keys);
+  // };
   const getTreeData = () => {
     dispatch({
       type: 'smRoleMgt/getRoleTree',
@@ -43,16 +47,18 @@ const DownModal = ({ dispatch, actionRef, loading, roleTree }) => {
 
   const hideModal = () => {
     setModalVisible(false);
-    setCheckedKeys([]);
+    // setCheckedKeys([]);
+    setValueData([]);
   };
 
   const handleOk = () => {
-    const keys = checkedKeys.join(',');
+    // const keys = checkedKeys.join(',');
     return new Promise(resolve => {
       dispatch({
         type: `defenseEngineering/deployProjectTaskList`,
         payload: {
-          targetProvince: keys,
+          // targetProvince: keys,
+          targetProvinceList: valueData,
           taskId: id,
         },
         resolve,
@@ -80,11 +86,12 @@ const DownModal = ({ dispatch, actionRef, loading, roleTree }) => {
       confirmLoading={loading}
       onCancel={hideModal}
     >
-      {roleTree && roleTree.length ? (
+      <OrgMultiSelectInput onChange={onChange} value={valueData} />
+      {/* {roleTree && roleTree.length ? (
         <Tree checkable onCheck={onCheckHandler} checkedKeys={checkedKeys} treeData={roleTree} />
       ) : (
         <></>
-      )}
+      )} */}
       {/* <Transfer
         dataSource={provinceData}
         titles={['选择省份']}
@@ -99,7 +106,6 @@ const DownModal = ({ dispatch, actionRef, loading, roleTree }) => {
   );
 };
 
-export default connect(({ loading, smRoleMgt }) => ({
+export default connect(({ loading }) => ({
   loading: loading.models.smDictionaryMgt,
-  roleTree: smRoleMgt.roleTree,
 }))(DownModal);
