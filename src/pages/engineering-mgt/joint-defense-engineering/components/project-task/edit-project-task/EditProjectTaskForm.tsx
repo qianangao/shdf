@@ -47,14 +47,14 @@ const EditProjectTaskForm = ({
         { max: 30, message: '长度请小于30位!' },
       ],
     },
-    {
-      label: '任务状态',
-      name: 'taskStatus',
-      span: 4,
-      disabled,
-      rules: [{ required: true, message: '请选择任务状态!' }],
-      enumsLabel: 'special_task_state',
-    },
+    // {
+    //   label: '任务状态',
+    //   name: 'taskStatus',
+    //   span: 4,
+    //   disabled,
+    //   rules: [{ required: true, message: '请选择任务状态!' }],
+    //   enumsLabel: 'special_task_state',
+    // },
     {
       label: '保密等级',
       name: 'secrecyLevel',

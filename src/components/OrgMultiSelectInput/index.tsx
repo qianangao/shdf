@@ -127,7 +127,6 @@ const OrgMultiSelectInput = ({ value, OrganizationTree, onChange, dispatch }) =>
   const handleOk = () => {
     const orgArr = [];
     const nameArr = [];
-
     checkedKeys.checked.forEach(id => {
       const name = treeItems.get(`${id}`);
 
@@ -137,7 +136,6 @@ const OrgMultiSelectInput = ({ value, OrganizationTree, onChange, dispatch }) =>
         name,
       });
     });
-
     setValueName(nameArr.join(', '));
     onChange && onChange(orgArr);
     setVisible(false);
