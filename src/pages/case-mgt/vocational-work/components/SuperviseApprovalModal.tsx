@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useLocation } from 'umi';
 import { Button, Modal } from 'antd';
-import OrgInfoForm from './form/RecordApprovalForm';
+import OrgInfoForm from './form/SuperviseApprovalForm';
 
 const useQuery = () => new URLSearchParams(useLocation().search);
 const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
@@ -9,13 +9,13 @@ const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
   const [form] = OrgInfoForm.useForm();
   const [superviseApprovalModalVisible, setModalVisible] = useState(false);
   const [detailData, setDetailData] = useState(null);
-  const { recordDetailData } = caseMgt;
+  const { superviseApprovalDetailData } = caseMgt;
   const showModal = items => {
     // 获取详情
     if (items) {
       // 获取详情
       dispatch({
-        type: 'caseMgt/getSuperviseDetail',
+        type: 'caseMgt/getSuperviseApprovalDetail',
         payload: {
           id: items.caseId,
         },
@@ -95,7 +95,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, caseMgt }) => {
         </Button>,
       ]}
     >
-      <OrgInfoForm form={form} orgInfoData={recordDetailData} />
+      <OrgInfoForm form={form} orgInfoData={superviseApprovalDetailData} />
     </Modal>
   );
 };

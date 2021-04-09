@@ -7,13 +7,6 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
   const [form] = AddressBookForm.useForm();
   const [userId, setuserId] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-
-  const showModal = userIds => {
-    setuserId(userIds || null);
-    updateData(userIds);
-    setModalVisible(true);
-  };
-
   const updateData = userIds => {
     if (userIds) {
       new Promise(resolve => {
@@ -23,9 +16,21 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
           resolve,
         });
       }).then(res => {
-        if (res) form.setFieldsValue({ ...res });
+        if (res)
+          form.setFieldsValue({
+            ...res,
+            orgObj: {
+              name: res.orgName,
+              id: res.orgId,
+            },
+          });
       });
     }
+  };
+  const showModal = userIds => {
+    setuserId(userIds || null);
+    updateData(userIds);
+    setModalVisible(true);
   };
 
   useEffect(() => {
@@ -53,6 +58,8 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
             type: `userMgt/${userId ? 'updateUser' : 'addUser'}`,
             payload: {
               ...values,
+              orgId: values.orgObj.id,
+              orgName: values.orgObj.name,
             },
             resolve,
           });
@@ -68,9 +75,9 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
 
   return (
     <Modal
-      title={userId ? '编辑通讯录' : '新增通讯录'}
+      title={userId ? '编辑用户' : '新增用户'}
       centered
-      width="580px"
+      width="90vw"
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',

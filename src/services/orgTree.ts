@@ -26,7 +26,7 @@ export async function getOrgTree(params?: any) {
  * @param {*} params
  */
 export async function getCoOrganizerOrganization(params?: any) {
-  return request(`/organization/sameLevel`, {
+  return request(`/org/tree`, {
     method: 'GET',
     params,
   });

@@ -8,6 +8,7 @@ import TransferClueModal from './components/transfer/TransferClueModal';
 import HostClueModal from './components/host/HostClueModal';
 import AuthorizeModal from './components/AuthorizeModal';
 import DetailModal from './components/detail/DetailModal';
+import ConcludeModal from './components/conclude/concludeModal';
 
 const ClueManagement = ({ dispatch }) => {
   const detailRef = useRef({});
@@ -17,6 +18,7 @@ const ClueManagement = ({ dispatch }) => {
   const transferRef = useRef({});
   const hostRef = useRef({});
   const processRef = useRef({});
+  const concludeRef = useRef({});
 
   useEffect(() => {
     dispatch({
@@ -60,6 +62,10 @@ const ClueManagement = ({ dispatch }) => {
   const processRefModal = (item: any, type: any) => {
     processRef.current.showModal(item, type);
   };
+  const concludeRefModal = (item: any) => {
+    concludeRef.current.showModal(item);
+  };
+
   return (
     <>
       <Table
@@ -70,6 +76,7 @@ const ClueManagement = ({ dispatch }) => {
         transferModal={transferModal}
         hostRefModal={hostRefModal}
         processRefModal={processRefModal}
+        concludeRefModal={concludeRefModal}
       />
       <DetailModal actionRef={detailRef} />
       <ModifyModal actionRef={modifyRef} />
@@ -77,7 +84,13 @@ const ClueManagement = ({ dispatch }) => {
       <OperatingLogModal actionRef={logRef} />
       <TransferClueModal actionRef={transferRef} />
       <HostClueModal actionRef={hostRef} />
-      <ProcessInfoModal actionRef={processRef} transferModal={transferModal} />
+      <ConcludeModal actionRef={concludeRef} />
+      {/* <Clewconclude actionRef={concludeRef} /> */}
+      <ProcessInfoModal
+        actionRef={processRef}
+        transferModal={transferModal}
+        concludeRefModal={concludeRefModal}
+      />
     </>
   );
 };

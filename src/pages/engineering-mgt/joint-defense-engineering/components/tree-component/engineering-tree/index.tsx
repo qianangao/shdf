@@ -87,7 +87,7 @@ const EngineeringTree = ({
         placeholder="工程名称"
         enterButton="查询"
         onSearch={engineeringSearchHandler}
-        hidden={!checkAuthority('em/dep/query')}
+        // hidden={!checkAuthority('em/dep/query')}
       />
       <Spin spinning={loading}>
         {engineeringTree && engineeringTree.length ? (

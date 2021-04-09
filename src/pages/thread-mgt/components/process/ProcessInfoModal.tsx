@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { connect } from 'umi';
-import { Form, Input, Modal, Radio, Spin } from 'antd';
+import { Form, Input, Modal, Radio, Spin, Button } from 'antd';
 import { getUseInfo, USER_INFO } from '@/utils/cookie';
 import ProcessInfo from './ProcessInfo';
 import CommitExamineModal from './CommitExamineModal';
 
-const ProcessInfoModal = ({ dispatch, actionRef, transferModal, loading }) => {
+const ProcessInfoModal = ({ dispatch, actionRef, loading, transferModal, concludeRefModal }) => {
   const [form] = Form.useForm();
   const commitModelRef = useRef({});
   const [modalVisible, setModalVisible] = useState(false);
@@ -136,22 +136,55 @@ const ProcessInfoModal = ({ dispatch, actionRef, transferModal, loading }) => {
     form.setFieldsValue({ clueType: '' });
   };
 
+  const completed = () => {
+    return new Promise(resolve => {
+      dispatch({
+        type: 'emClueManagement/concludeTheMatter',
+        payload: {
+          clueId: clueData.clueId,
+          circulationId: clueData.sourceClueId,
+          processingResults: 1,
+        },
+        resolve,
+      });
+    });
+    // .then(res => {
+    //   handleModal();
+    // });
+  };
+  const handleModal = () => {
+    setModalVisible(false);
+  };
+
   return (
     <Modal
       title={createModalTitle()}
       centered
       destroyOnClose
       width="90vw"
+      onCancel={handleModal}
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',
         height: 'calc(95vh - 108px)',
         overflow: 'auto',
       }}
+      footer={[
+        <Button key="back" onClick={completed} style={{ margin: '0 auto' }}>
+          办结
+        </Button>,
+        <Button
+          key="submit"
+          type="primary"
+          loading={loading}
+          onClick={() => concludeRefModal(clueData)}
+        >
+          继续办理
+        </Button>,
+      ]}
       confirmLoading={loading}
       visible={modalVisible}
       onOk={handleOk}
-      onCancel={hideModal}
     >
       <Spin spinning={loading}>
         <ProcessInfo clueId={clueData.clueId} circulationId={clueData.sourceClueId} />

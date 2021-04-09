@@ -89,7 +89,7 @@ const ActionTree = ({
         placeholder="行动名称"
         enterButton="查询"
         onSearch={actionSearchHander}
-        hidden={!checkAuthority('em/sa/query')}
+        // hidden={!checkAuthority('em/sa/query')}
       />
       <Spin spinning={loading}>
         {actionTree && actionTree.length ? (

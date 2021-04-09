@@ -1,4 +1,5 @@
 import React from 'react';
+import { getSecrecyRowClassName } from '@/utils/secrecy';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 
@@ -78,6 +79,7 @@ const Table = ({ soAnnouncementMgt, openDetailModal, replyModal, dispatch, enums
       headerTitle="公告列表"
       actionRef={tableRef}
       scroll={{ x: 'max-content' }}
+      rowClassName={getSecrecyRowClassName}
       request={async params => getReceiveList(params)}
       columns={columns}
     />

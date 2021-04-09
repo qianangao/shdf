@@ -1,6 +1,7 @@
 import React from 'react';
 import AdvancedForm from '@/components/AdvancedForm';
 import { checkPhone, checkEmail } from '@/utils/validators';
+import OrgSelectInput from '@/components/OrgMultiSelectInput/OrgSelectInput';
 
 const AddressBookForm = ({ form }) => {
   const formItems = [
@@ -35,17 +36,18 @@ const AddressBookForm = ({ form }) => {
       ],
     },
     {
+      label: '所在机构',
+      name: 'orgObj',
+      span: 1,
+      rules: [{ required: true, message: '请选择所在机构!' }],
+      render: <OrgSelectInput />,
+    },
+    {
       label: '用户性别',
       name: 'sex',
       span: 1,
       rules: [{ required: true, message: '请选择用户性别!' }],
       enumsLabel: 'dict_sex',
-    },
-    {
-      label: '所在机构',
-      name: 'orgId',
-      span: 1,
-      rules: [{ required: true, message: '请输入所在机构!' }],
     },
     {
       label: '数据来源',
@@ -79,12 +81,6 @@ const AddressBookForm = ({ form }) => {
       name: 'jobLevel',
       span: 1,
       rules: [{ required: true, message: '请输入职!' }],
-    },
-    {
-      label: '所在机构名称',
-      name: 'orgName',
-      span: 1,
-      rules: [{ required: true, message: '请输入所在机构名称!' }],
     },
     {
       label: '序号',

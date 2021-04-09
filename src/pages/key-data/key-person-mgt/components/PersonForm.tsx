@@ -3,6 +3,18 @@ import AdvancedForm from '@/components/AdvancedForm';
 import { Input } from 'antd';
 
 const PersonForm = ({ form }) => {
+  const validate = (rule, value, callback) => {
+    const obj = form.getFieldsValue(['personName', 'personNameEn', 'nickname']);
+    if (
+      (obj.personName !== '' && obj.personName !== null && obj.personName !== undefined) ||
+      (obj.personNameEn !== '' && obj.personNameEn !== null && obj.personNameEn !== undefined) ||
+      (obj.nickname !== '' && obj.nickname !== null && obj.nickname !== undefined)
+    ) {
+      callback();
+    } else {
+      callback('中文姓名，英文姓名，外号必填一个');
+    }
+  };
   const formItems = [
     { label: 'id', name: 'personId', hidden: true },
     {
@@ -14,21 +26,22 @@ const PersonForm = ({ form }) => {
     {
       label: '中文姓名',
       name: 'personName',
-      rules: [{ required: true, message: '请输入中文姓名!' }],
+      rules: [{ required: true, validator: validate }],
     },
     {
       label: '英文姓名',
       name: 'personNameEn',
+      rules: [{ required: true, validator: validate }],
     },
     {
       label: '外号',
       name: 'nickname',
+      rules: [{ required: true, validator: validate }],
     },
     {
       label: '性别',
       name: 'sex',
       enumsLabel: 'dict_sex',
-      rules: [{ required: true, message: '请选择性别!' }],
     },
     {
       label: '生日',

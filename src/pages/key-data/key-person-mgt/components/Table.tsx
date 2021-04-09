@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { Button, message, Popconfirm } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
+import { getSecrecyRowClassName } from '@/utils/secrecy';
 
 const Table = ({
   kdKeyPersonMgt,
@@ -146,6 +147,7 @@ const Table = ({
       rowKey="personId"
       headerTitle="重点人物"
       actionRef={tableRef}
+      rowClassName={getSecrecyRowClassName}
       rowSelection={[]}
       scroll={{ x: 'max-content' }}
       request={async params => getKeyPerson(params)}

@@ -3,12 +3,17 @@ import AdvancedForm from '@/components/AdvancedForm';
 import { connect } from 'umi';
 import { checkPhone } from '@/utils/validators';
 import ProvinceListTable from '../province-list/ProvinceListTable';
-// import TempProvinceTable from '../temp-province-list/TempProvinceTable';
+import TempProvinceTable from '../temp-province-addlist/TempProvinceTable';
+import OrgSelectInput from '@/components/OrgMultiSelectInput/SelectSingleInput';
 
 const DefenseEngineeringForm = ({ form, add, edit }) => {
   const [tableData, setTableData] = useState([]);
+  const [tableDatatemp, setTableDatatemp] = useState([]);
   const onChange = data => {
     setTableData([...data]);
+  };
+  const onChangetemp = data => {
+    setTableDatatemp([...data]);
   };
 
   const formItems = [
@@ -69,17 +74,28 @@ const DefenseEngineeringForm = ({ form, add, edit }) => {
       label: '牵头省份',
       name: 'provinceCode',
       span: 4,
-      rules: [
-        { required: true, message: '请输入牵头省份!', whitespace: true },
-        { max: 30, message: '长度请小于30位!' },
-      ],
+      // rules: [
+      //   { required: true, message: '请输入牵头省份!', whitespace: true },
+      //   { max: 30, message: '长度请小于30位!' },
+      // ],
+      rules: [{ required: true, message: '请选择牵头省份!' }],
+      render: <OrgSelectInput />,
     },
     {
-      label: '省份列表',
+      label: '成员省份列表',
       name: 'projectProvinceEntityList',
       span: 4,
       // rules: [{ required: true, message: '请输入!' }],
       render: <ProvinceListTable onChange={onChange} value={tableData} add={add} edit={edit} />,
+    },
+    {
+      label: '临时省份列表',
+      name: 'temporaryProvinceEntityList',
+      span: 4,
+      // rules: [{ required: true, message: '请输入!' }],
+      render: (
+        <TempProvinceTable onChange={onChangetemp} value={tableDatatemp} add={add} edit={edit} />
+      ),
     },
     {
       label: '附件列表',

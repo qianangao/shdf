@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
-import { Modal } from 'antd';
+import { Modal, message } from 'antd';
 import AddressBookForm from './AddThreadForm';
 
 const ModifyModal = ({ dispatch, actionRef, loading, defenseEngineering }) => {
@@ -8,12 +8,6 @@ const ModifyModal = ({ dispatch, actionRef, loading, defenseEngineering }) => {
   const [projectId, setProjectId] = useState('');
   const [detailData, setDetailData] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-
-  const showModal = infoId => {
-    setDetailData(infoId || null);
-    updateData(infoId);
-    setModalVisible(true);
-  };
 
   const updateData = infoId => {
     if (infoId) {
@@ -35,6 +29,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, defenseEngineering }) => {
                   uid: item.fileId,
                   name: item.fileName,
                   status: 'done',
+                  secrecyLevel: item.secrecyLevel,
                 };
               }),
           };
@@ -42,6 +37,11 @@ const ModifyModal = ({ dispatch, actionRef, loading, defenseEngineering }) => {
         }
       });
     }
+  };
+  const showModal = infoId => {
+    setDetailData(infoId || null);
+    updateData(infoId);
+    setModalVisible(true);
   };
 
   useEffect(() => {
@@ -65,15 +65,30 @@ const ModifyModal = ({ dispatch, actionRef, loading, defenseEngineering }) => {
     form.resetFields();
   };
 
-  const handleOk = () => {
+  const handleOk = (): void => {
     form
       .validateFields()
-      .then(values => {
-        const fileIds =
-          values.fileShow &&
-          values.fileShow.map(item => {
-            return item.uid;
+      .then((values: any) => {
+        const fileIds: any[] = [];
+        let tempLevel = '';
+        values.fileShow &&
+          values.fileShow.forEach((item: any) => {
+            fileIds.push(item.uid);
+            if (tempLevel < item.secrecyLevel) {
+              tempLevel = item.secrecyLevel;
+            }
           });
+
+        if (tempLevel > values.secrecyLevel) {
+          message.error('附件密级不能大于该数据密级！');
+          return '';
+        }
+
+        // const fileIds =
+        //   values.fileShow &&
+        //   values.fileShow.map(item => {
+        //     return item.uid;
+        //   });
         return new Promise(resolve => {
           dispatch({
             type: `defenseEngineering/${detailData ? 'updateInfoAn' : 'addInfoAn'}`,
