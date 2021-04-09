@@ -48,7 +48,6 @@ const Model = {
     },
     *getAddRoleList({ payload, resolve }, { call, put }) {
       const response = yield call(getAddRoleList, payload);
-
       if (!response.error) {
         resolve && resolve(response);
         yield put({
@@ -61,7 +60,6 @@ const Model = {
     },
     *getRoleList({ payload, resolve }, { call, put }) {
       const response = yield call(getRoleList, payload);
-
       if (!response.error) {
         resolve && resolve(response);
         yield put({
