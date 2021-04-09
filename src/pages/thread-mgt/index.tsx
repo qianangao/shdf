@@ -67,8 +67,8 @@ const ClueManagement = ({ dispatch }) => {
     concludeRef.current.showModal(item);
   };
   // 隐藏继续办理模态框
-  // const concealRefModal = (item: any) => {
-  //   concealRef.current.hideModal(item);
+  // const concealRefModal = () => {
+  //   processRef.current.hideModal();
   // };
 
   return (

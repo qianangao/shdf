@@ -1,10 +1,36 @@
-import React from 'react';
-import { Descriptions } from 'antd';
+import React, { useEffect } from 'react';
+import { Descriptions, AutoComplete } from 'antd';
 import AdvancedForm from '@/components/AdvancedForm';
 import ProvinceCascaderInput from '@/components/ProvinceCascaderInput';
+import { connect } from 'umi';
 import { checkEmail, checkPhoneOrTelephone, checkPost } from '@/utils/validators';
 
-const AddThreadForm = ({ form }) => {
+const AddThreadForm = ({ form, dispatch }) => {
+  const [options, setOptions] = React.useState<{ value: string }[]>([]);
+  // const onSearch = (searchText: string) => {
+  //   // console.log(searchText);
+  // };
+  // const onSelect = (data: string) => {
+  //   // console.log('onSelect', data);
+  // };
+  useEffect(() => {
+    getList({ pageSize: 1000 });
+  }, []);
+  const getList = params => {
+    new Promise(resolve => {
+      dispatch({
+        type: 'emClueManagement/getList',
+        payload: { ...params },
+        resolve,
+      });
+    }).then(res => {
+      const keys = [];
+      res.data.map(item => {
+        return keys.push({ value: item.keyWord });
+      });
+      setOptions(keys);
+    });
+  };
   const formItems = [
     {
       name: '',
@@ -93,24 +119,27 @@ const AddThreadForm = ({ form }) => {
       label: '关键词',
       name: 'keyWordId',
       rules: [
-        { required: true, message: '请输入关键词!' },
+        { required: false, message: '请输入关键词!' },
         { min: 0, max: 100, message: '关键词称长度最多100字!' },
       ],
+      render: (
+        <AutoComplete
+          options={options}
+          onSelect={onSelect}
+          onSearch={onSearch}
+          placeholder="请输入关键词!"
+        />
+      ),
+      // enumsItems: {
+      //   '1': '交办',
+      //   '2': '协办',
+      // }
     },
     {
       label: '相关出版物',
       name: 'relatedPublications',
       type: 'textarea',
     },
-    {
-      label: '关键词',
-      name: 'keyWordId',
-      rules: [
-        { required: true, message: '请输入关键词!' },
-        { min: 0, max: 100, message: '关键词称长度最多100字!' },
-      ],
-    },
-
     // {
     //   label: '所属联防工程',
     //   name: 'orgName',
@@ -226,4 +255,8 @@ const AddThreadForm = ({ form }) => {
   return <AdvancedForm form={form} fields={formItems} />;
 };
 AddThreadForm.useForm = AdvancedForm.useForm;
-export default AddThreadForm;
+// export default AddThreadForm;
+export default connect(({ emClueManagement, global }) => ({
+  emClueManagement,
+  enums: global.enums,
+}))(AddThreadForm);

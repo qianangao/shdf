@@ -23,6 +23,7 @@ import {
   importClue,
   getCueAssociation,
   concludeTheMatter,
+  getList,
 } from './service';
 
 const Model = {
@@ -37,6 +38,18 @@ const Model = {
     tableRef: {},
   },
   effects: {
+    *getList({ payload, resolve }, { call }) {
+      const params = {
+        ...payload,
+        pageNum: payload.current,
+        pageSize: payload.pageSize,
+      };
+      const response = yield call(getList, params);
+      if (!response.error) {
+        const result = formatPageData(response);
+        resolve && resolve(result);
+      }
+    },
     *getAllClues({ payload, resolve }, { call, put }) {
       const params = {
         ...payload,
@@ -266,6 +279,9 @@ const Model = {
     },
   },
   reducers: {
+    saveKeysLists(state, { payload }) {
+      return { ...state, ...payload };
+    },
     save(state, { payload }) {
       return { ...state, ...payload };
     },

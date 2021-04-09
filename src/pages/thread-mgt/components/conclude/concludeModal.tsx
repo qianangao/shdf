@@ -24,8 +24,6 @@ const ModifyModal = ({ dispatch, actionRef, loading, reffN }) => {
   }, []);
 
   const hideModal = () => {
-    // console.log(reffN);
-    // console.log(reffN.handleModal);
     setModalVisible(false);
     form.resetFields();
     setConcludeStaus('');
@@ -50,7 +48,14 @@ const ModifyModal = ({ dispatch, actionRef, loading, reffN }) => {
         });
       })
       .then(() => {
-        // console.log(1111);
+        const event = new CustomEvent('changeLanguage', {
+          detail: {
+            data: '11111',
+          },
+          bubbles: true, // 是否冒泡
+          cancelable: false, // 是否取消默认事件
+        });
+        window.dispatchEvent(event);
         hideModal();
         if (concludeStaus === '0') {
           setModalVisible(false);

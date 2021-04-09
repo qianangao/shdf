@@ -15,7 +15,6 @@ const ProcessInfoModal = ({ dispatch, actionRef, loading, transferModal, conclud
 
   const showCommitExamine = () => {
     commitModelRef.current.showModal(clueData.clueId, clueData.sourceClueId);
-    // commitModelRef.current.handleModal(clueData.clueId, clueData.sourceClueId);
   };
   const showTransferClue = () => {
     transferModal(clueData);
@@ -23,6 +22,13 @@ const ProcessInfoModal = ({ dispatch, actionRef, loading, transferModal, conclud
   };
 
   useEffect(() => {
+    window.addEventListener(
+      'changeLanguage',
+      function () {
+        handleModal();
+      },
+      false,
+    );
     if (actionRef && typeof actionRef === 'function') {
       actionRef({ showModal });
     }
@@ -61,7 +67,7 @@ const ProcessInfoModal = ({ dispatch, actionRef, loading, transferModal, conclud
                 ? JSON.parse(getUseInfo(USER_INFO)).orgName
                 : 'SHDF办公室',
               clueId: clueData.clueId,
-              circulationId: clueData.sourceClueId,
+              // circulationId: clueData.sourceClueId,
               ...values,
             },
             resolve,

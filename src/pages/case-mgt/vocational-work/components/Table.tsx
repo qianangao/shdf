@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { Button, Modal, Popconfirm, message } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
-import {getSecrecyRowClassName} from "@/utils/secrecy";
+import { getSecrecyRowClassName } from '@/utils/secrecy';
 
 const Table = ({
   caseMgt,
@@ -201,11 +201,11 @@ const Table = ({
 
     switch (caseData.superviseState) {
       case 0: // 未备案
-        return [ApplySupervise , Supervise];
+        return [ApplySupervise, Supervise];
       case 1: // 备案审批中
-        return [rollbackSupervise , SuperviseApproval];
+        return [rollbackSupervise, SuperviseApproval];
       case 2: // 备案不通过
-        return [SuperviseApproval , SuperviseDetail];
+        return [SuperviseApproval, SuperviseDetail];
       case 3: // 已备案
         return [SuperviseDetail];
       default:

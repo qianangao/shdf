@@ -89,7 +89,7 @@ const TransferClueForm = ({ form, fieldChangeHander }) => {
     {
       label: '反馈截止时间',
       name: 'deadline',
-      type: 'date',
+      type: 'dateTime',
       rules: [{ required: true, message: '请反馈截止时间!' }],
     },
   ];
