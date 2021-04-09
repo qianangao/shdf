@@ -44,5 +44,5 @@ export function checkAuthority(val: string) {
   }
 
   // TEMP 临时判断均具备权限
-  return true;
+  return false;
 }

@@ -3,12 +3,12 @@ import { connect } from 'umi';
 import { Modal } from 'antd';
 import RoleForm from './RoleForm';
 
-const ModifyRoleModal = ({ dispatch, actionRef, loading, roleTree }) => {
+const ModifyRoleModal = ({ dispatch, actionRef, loading }) => {
   const [form] = RoleForm.useForm();
   const [detailData, setDetailData] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [publicRole, setPublicRole] = useState('1');
-  const [orgIds, setOrgIds] = useState([]);
+  // const [orgIds, setOrgIds] = useState([]);
 
   useEffect(() => {
     dispatch({
@@ -25,7 +25,7 @@ const ModifyRoleModal = ({ dispatch, actionRef, loading, roleTree }) => {
       });
     }).then(res => {
       setPublicRole(res.publicRole);
-      setOrgIds([...res.orgIds]);
+      // setOrgIds([...res.orgIds]);
       if (res) form.setFieldsValue({ ...res });
     });
   };
@@ -53,23 +53,23 @@ const ModifyRoleModal = ({ dispatch, actionRef, loading, roleTree }) => {
     form.resetFields();
     setDetailData(null);
     setPublicRole('');
-    setOrgIds([]);
+    // setOrgIds([]);
   };
 
-  const onChange = keys => {
-    setOrgIds([...keys]);
-    form.setFieldsValue({ orgIds: [...keys] });
-  };
+  // const onChange = keys => {
+  //   setOrgIds([...keys]);
+  //   form.setFieldsValue({ orgIds: [...keys] });
+  // };
 
   const handleOk = () => {
     form
       .validateFields()
       .then(values => {
-        values.orgIds =
-          values.orgIds &&
-          values.orgIds.map(item => {
-            return item.id;
-          });
+        // values.orgIds =
+        //   values.orgIds &&
+        //   values.orgIds.map(item => {
+        //     return item.id;
+        //   });
         // if (values.publicRole === '1') {
         //   values.orgIds = [];
         // } else {
@@ -110,16 +110,16 @@ const ModifyRoleModal = ({ dispatch, actionRef, loading, roleTree }) => {
     >
       <RoleForm
         form={form}
-        roleTree={roleTree}
+        // roleTree={roleTree}
         publicRole={publicRole}
-        orgIds={orgIds}
-        onTreeChange={onChange}
+        // orgIds={orgIds}
+        // onTreeChange={onChange}
       />
     </Modal>
   );
 };
 
-export default connect(({ loading, smRoleMgt }) => ({
+export default connect(({ loading }) => ({
   loading: loading.models.smDictionaryMgt,
-  roleTree: smRoleMgt.roleTree,
+  // roleTree: smRoleMgt.roleTree,
 }))(ModifyRoleModal);

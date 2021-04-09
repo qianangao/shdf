@@ -19,7 +19,8 @@ const OrgTree = ({
   const getTreeData = () => {
     new Promise(resolve => {
       dispatch({
-        type: 'global/getAllOrganization',
+        // type: 'global/getAllOrganization',
+        type: 'global/getOrganization',
         payload: { orgId: allLevel ? undefined : getCookie(USER_ORG_ID) },
         resolve,
       });
