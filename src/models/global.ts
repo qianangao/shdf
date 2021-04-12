@@ -63,7 +63,9 @@ const GlobalModel = {
       const response = yield call(getDictionary, payload);
 
       if (!response.error && response[0]) {
-        const isCommon = response[0].dicType === 0; // dicType 0、系统运行性类 1、业务类
+        // 暂无全局字段
+        // const isCommon = response[0].dicType === 0; // dicType 0、系统运行性类 1、业务类
+        const isSecurity = dictTypeCode === 'object_secrecy_level'; // 密级数据不进行缓存
         const items = {};
         response.forEach(item => {
           items[item.dictCode] = item.dictName || '';
@@ -73,7 +75,8 @@ const GlobalModel = {
           type: 'saveEnum',
           payload: {
             key: dictTypeCode,
-            timestamp: isCommon ? 0 : new Date().getTime(),
+            // 密级数据不进行缓存
+            timestamp: isSecurity ? 1 : new Date().getTime(),
             items,
           },
         });
