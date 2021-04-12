@@ -120,7 +120,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
 
   return (
     <Modal
-      title={noticeId ? '编辑公告' : '新建公告'}
+      title={noticeId ? '编辑公文' : '新建公文'}
       centered
       destroyOnClose
       width="90vw"

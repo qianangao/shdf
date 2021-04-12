@@ -2,7 +2,8 @@ import React from 'react';
 import { Button, Modal, Popconfirm } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
-import {getSecrecyRowClassName} from "@/utils/secrecy";
+import { getSecrecyRowClassName } from '@/utils/secrecy';
+import { checkAuthority } from '@/utils/authority';
 
 const FieldTable = ({ smDictionaryMgt, openDictModifyModal, dictTypeId, dispatch }) => {
   const { fieldTableRef } = smDictionaryMgt;
@@ -21,7 +22,11 @@ const FieldTable = ({ smDictionaryMgt, openDictModifyModal, dictTypeId, dispatch
       fixed: 'right',
 
       render: (dom: any, dictData: { dictId: any }) => [
-        <a key={`${dictData.dictId}up`} onClick={() => openDictModifyModal(dictData, 1)}>
+        <a
+          key={`${dictData.dictId}up`}
+          onClick={() => openDictModifyModal(dictData, 1)}
+          hidden={!checkAuthority('sm/dim/update')}
+        >
           编辑
         </a>,
         <Popconfirm
@@ -30,7 +35,7 @@ const FieldTable = ({ smDictionaryMgt, openDictModifyModal, dictTypeId, dispatch
           placement="topRight"
           onConfirm={() => deleteFields([dictData.dictId])}
         >
-          <a>删除</a>
+          <a hidden={!checkAuthority('sm/dim/update')}>删除</a>
         </Popconfirm>,
       ],
     },
@@ -64,7 +69,11 @@ const FieldTable = ({ smDictionaryMgt, openDictModifyModal, dictTypeId, dispatch
       request={async params => getFieldList(params)}
       toolBarRender={(_, { selectedRowKeys }) => [
         dictTypeId && (
-          <Button type="primary" onClick={() => openDictModifyModal(dictTypeId)}>
+          <Button
+            type="primary"
+            onClick={() => openDictModifyModal(dictTypeId)}
+            hidden={!checkAuthority('sm/dim/update')}
+          >
             新增
           </Button>
         ),

@@ -34,7 +34,7 @@ const routes = {
       component: './system-mgt/role-mgt',
       icon: 'setting',
       remark: '角色管理',
-      // authority: 'sm-rm',
+      authority: 'sm/rm',
     },
     {
       path: '/system-mgt/authority-mgt',
@@ -42,7 +42,7 @@ const routes = {
       component: './system-mgt/authority-mgt',
       icon: 'setting',
       remark: '权限管理',
-      // authority: 'sm-am',
+      authority: 'sm/am',
     },
     {
       path: '/system-mgt/dictionary-mgt',
@@ -50,6 +50,7 @@ const routes = {
       component: './system-mgt/dictionary-mgt',
       icon: 'setting',
       remark: '字典管理',
+      authority: 'sm/dim',
     },
     {
       path: '/system-mgt/log-audit',
@@ -57,6 +58,7 @@ const routes = {
       component: './system-mgt/log-audit',
       icon: 'setting',
       remark: '日志审计',
+      authority: 'sm/lm',
     },
     {
       path: '/system-mgt/keyword-mgt',
@@ -64,7 +66,7 @@ const routes = {
       component: './system-mgt/keyword-mgt',
       icon: 'setting',
       remark: '词库管理',
-      // authority: 'sm-km',
+      authority: 'sm/km',
     },
     {
       path: '/system-mgt/unread-msg',

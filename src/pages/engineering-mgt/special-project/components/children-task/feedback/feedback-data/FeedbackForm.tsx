@@ -36,7 +36,7 @@ const FeedbackForm = ({ form, openFeedbackReqModal, FeedbackData }) => {
       name: 'secrecyLevel',
       span: 4,
       enumsLabel: 'object_secrecy_level',
-      rules: [{ required: true, message: '请选择保密等级' }],
+      rules: [{ required: true, message: '请选择保密等级!' }],
     },
     {
       label: '实际开始日期',

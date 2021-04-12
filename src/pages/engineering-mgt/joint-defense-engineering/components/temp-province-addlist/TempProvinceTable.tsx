@@ -90,7 +90,7 @@ const ProvinceListTable = ({
       name: 'contactPhone',
       span: 2,
       rules: [
-        { required: true, message: '请输入手机号码!' },
+        { required: true, message: '请输入联络电话!' },
         {
           validator: checkPhone,
         },
@@ -108,7 +108,7 @@ const ProvinceListTable = ({
       key: 'id',
     },
     {
-      title: '成员省份名称',
+      title: '临时省份',
       align: 'center',
       dataIndex: 'provinceCode',
       valueType: 'option',

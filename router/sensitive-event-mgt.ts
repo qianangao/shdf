@@ -2,6 +2,7 @@ const routes = {
   path: '/sensitive-event-mgt',
   name: 'sensitive-event-mgt',
   remark: '敏感事件管理',
+  authority: 'sem',
   routes: [
     {
       path: '/sensitive-event-mgt',
@@ -14,6 +15,7 @@ const routes = {
       component: './sensitive-event-mgt/sensitive-event',
       icon: 'setting',
       remark: '敏感事件管理',
+      authority: 'sem',
     },
   ],
 };
