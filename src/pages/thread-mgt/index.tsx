@@ -7,7 +7,7 @@ import OperatingLogModal from './components/OperatingLogModal';
 import TransferClueModal from './components/transfer/TransferClueModal';
 import HostClueModal from './components/host/HostClueModal';
 import AuthorizeModal from './components/AuthorizeModal';
-import DetailModal from './components/detail/DetailModal';
+import DetailModal from './components/host/detail/DetailModal';
 import ConcludeModal from './components/conclude/concludeModal';
 
 const ClueManagement = ({ dispatch }) => {

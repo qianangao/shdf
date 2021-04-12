@@ -3,7 +3,7 @@ import { connect } from 'umi';
 import { Modal } from 'antd';
 import ConcludeBookForm from './concludeBookForm';
 
-const ModifyModal = ({ dispatch, actionRef, loading, reffN }) => {
+const ModifyModal = ({ dispatch, actionRef, loading }) => {
   const [form] = ConcludeBookForm.useForm();
   const [conclude, setConclude] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
@@ -60,8 +60,6 @@ const ModifyModal = ({ dispatch, actionRef, loading, reffN }) => {
         if (concludeStaus === '0') {
           setModalVisible(false);
           // props.concealRef;
-
-          reffN && reffN.handleModal();
         }
       })
       .catch(info => {

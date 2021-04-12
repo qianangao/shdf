@@ -305,7 +305,7 @@ const Table = ({
             线索串并联
           </Button>,
           <Button type="primary" onClick={() => openModifyModal()}>
-            新增11
+            新增
           </Button>,
           <Button type="primary" onClick={() => templateDownload()}>
             模板下载

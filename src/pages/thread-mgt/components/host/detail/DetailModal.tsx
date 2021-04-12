@@ -3,7 +3,7 @@ import { connect, useLocation } from 'umi';
 import { Descriptions, Modal, Spin } from 'antd';
 import { formatDateStr } from '@/utils/format';
 import ProTable from '@ant-design/pro-table';
-import ProcessInfo from '../process/ProcessInfo';
+import ProcessInfo from '../../process/ProcessInfo';
 
 const useQuery = () => new URLSearchParams(useLocation().search);
 const DetailModal = ({

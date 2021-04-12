@@ -1,18 +1,23 @@
 import React, { useEffect } from 'react';
-import { Descriptions, AutoComplete } from 'antd';
+import { Descriptions, AutoComplete, Select } from 'antd';
 import AdvancedForm from '@/components/AdvancedForm';
 import ProvinceCascaderInput from '@/components/ProvinceCascaderInput';
 import { connect } from 'umi';
 import { checkEmail, checkPhoneOrTelephone, checkPost } from '@/utils/validators';
+import { LocalCache } from '@/utils/storage';
+
+const { Option } = Select;
 
 const AddThreadForm = ({ form, dispatch }) => {
   const [options, setOptions] = React.useState<{ value: string }[]>([]);
-  // const onSearch = (searchText: string) => {
-  //   // console.log(searchText);
-  // };
-  // const onSelect = (data: string) => {
-  //   // console.log('onSelect', data);
-  // };
+  const onSearch = () => {
+    // searchText: string
+    // console.log(searchText);
+  };
+  const onSelect = () => {
+    // data: string
+    // console.log('onSelect', data);
+  };
   useEffect(() => {
     getList({ pageSize: 1000 });
   }, []);
@@ -31,6 +36,10 @@ const AddThreadForm = ({ form, dispatch }) => {
       setOptions(keys);
     });
   };
+
+  // function selecthandleChange(value) {
+  //   console.log(`selected ${value}`);
+  // }
   const formItems = [
     {
       name: '',
@@ -82,8 +91,15 @@ const AddThreadForm = ({ form, dispatch }) => {
     {
       label: '涉及地方',
       name: 'regionObj',
-      render: <ProvinceCascaderInput />,
-      rules: [{ required: true, message: '请选择发生地域!' }],
+      rules: [{ required: true, message: '请选择涉及地方!' }],
+      render: (
+        // onChange={selecthandleChange}
+        <Select>
+          {LocalCache.get('areaInfo').map(item => (
+            <Option key={item.value}>{item.label}</Option>
+          ))}
+        </Select>
+      ),
     },
 
     {
@@ -113,7 +129,7 @@ const AddThreadForm = ({ form, dispatch }) => {
       label: '发生地域',
       name: 'region',
       render: <ProvinceCascaderInput />,
-      rules: [{ required: true, message: '请选择发生涉及地方!' }],
+      rules: [{ required: true, message: '请选择发生地域!' }],
     },
     {
       label: '关键词',
@@ -150,7 +166,7 @@ const AddThreadForm = ({ form, dispatch }) => {
       name: 'clueRemarks',
       type: 'textarea',
       span: 2,
-      rules: [{ min: 0, max: 300, message: '线索描述长度最多300字!' }],
+      rules: [{ min: 0, max: 300, message: '摘要描述长度最多300字!' }],
     },
     {
       name: 'line',
