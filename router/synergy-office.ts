@@ -32,6 +32,7 @@ const routes = {
       name: 'synergy-office-address-book',
       component: './synergy-office/address-book',
       icon: 'read',
+      // authority:'so/ab',
       remark: '通讯录',
     },
     {

@@ -16,7 +16,7 @@ export async function getUserList(params: any) {
  * @param params
  */
 export async function getUserDetail(params: any) {
-  return request(`/user/${params.userIds}`, {
+  return request(`/user/${params.userId}`, {
     method: 'GET',
     // params,
   });
@@ -114,7 +114,7 @@ export async function deleteRole(params: any) {
  * 获取用户可添加角色详情
  * @param params
  */
-export async function getAddroleList(params: any) {
+export async function getAddRoleList(params: any) {
   return request(`/role-user/find/add-role`, {
     method: 'GET',
     params,
@@ -122,7 +122,7 @@ export async function getAddroleList(params: any) {
 }
 
 /**
- * 获取用户角色列表
+ * 获取用户已添加角色列表
  * @param params
  */
 export async function getRoleList(params: any) {

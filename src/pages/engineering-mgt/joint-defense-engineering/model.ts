@@ -385,7 +385,7 @@ const Model = {
           type: 'save',
           payload: {
             engineeringForm: response,
-            projectProvinceEntityList: response.projectProvinceEntityList,
+            projectProvinceEntityList: response.projectProvinceEntityList || [],
             projectTemporaryProvinceEntityList: response.projectTemporaryProvinceEntityList,
           },
         });

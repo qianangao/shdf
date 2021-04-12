@@ -9,7 +9,7 @@ const Table = ({
   openModifyModal,
   openDetailModal,
   openRoleTableModal,
-  openAddRoleModal,
+  // openAddRoleModal,
   dispatch,
 }) => {
   const { tableRef } = userMgt;
@@ -32,9 +32,10 @@ const Table = ({
       width: 64,
     },
     // { title: '序号', align: 'center', dataIndex: 'index', hideInSearch: true },
-    { title: '编码', align: 'center', dataIndex: 'userCode', hideInSearch: true },
     { title: '姓名', align: 'center', dataIndex: 'userName' },
+    { title: '编码', align: 'center', dataIndex: 'userCode', hideInSearch: true },
     { title: '状态', align: 'center', dataIndex: 'userStatus' },
+    { title: '电子邮箱', align: 'center', dataIndex: 'email' },
     {
       title: '操作',
       valueType: 'option',
@@ -80,17 +81,17 @@ const Table = ({
         headerTitle="人员列表"
         actionRef={tableRef}
         formRef={formRef}
-        rowSelection={[]}
         rowClassName={getSecrecyRowClassName}
+        rowSelection={[]}
         scroll={{ x: 'max-content' }}
         request={async params => getUserList(params)}
         toolBarRender={_ => [
           <Button type="primary" onClick={() => openModifyModal()}>
             新增
           </Button>,
-          <Button type="primary" onClick={() => openAddRoleModal()}>
-            新增角色
-          </Button>,
+          // <Button type="primary" onClick={() => openAddRoleModal()}>
+          //   新增角色
+          // </Button>,
         ]}
         columns={columns}
       />

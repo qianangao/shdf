@@ -2,6 +2,7 @@ const routes = {
   path: '/analysis',
   name: 'analysis',
   remark: '智能分析',
+  authority: 'an',
   routes: [
     {
       path: '/analysis',
@@ -13,6 +14,7 @@ const routes = {
       name: 'analysis-statistics',
       component: './analysis/statistics',
       remark: '统计分析',
+      authority: 'an/as',
       // icon: 'folder',
     },
     {
@@ -20,6 +22,7 @@ const routes = {
       name: 'analysis-trend',
       component: './analysis/trend',
       remark: '趋势分析',
+      authority: 'an/at',
       // icon: 'folder',
     },
   ],

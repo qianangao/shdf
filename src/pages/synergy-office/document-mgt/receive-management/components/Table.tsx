@@ -17,14 +17,14 @@ const Table = ({ documentMgt, openDetailModal, dispatch, enums }) => {
       width: 64,
     },
     {
-      title: '公告ID',
+      title: '公文ID',
       dataIndex: 'documentId',
       align: 'center',
       width: 140,
       hideInSearch: true,
     },
 
-    { title: '公告标题', align: 'center', dataIndex: 'documentTitle' },
+    { title: '公文标题', align: 'center', dataIndex: 'documentTitle' },
     { title: '发布人', align: 'center', dataIndex: 'publishUser' },
     {
       title: '保存时间',

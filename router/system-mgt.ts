@@ -32,6 +32,7 @@ const routes = {
       component: './system-mgt/role-mgt',
       icon: 'setting',
       remark: '角色管理',
+      authority: 'sm/rm',
     },
     {
       path: '/system-mgt/authority-mgt',
@@ -39,6 +40,7 @@ const routes = {
       component: './system-mgt/authority-mgt',
       icon: 'setting',
       remark: '权限管理',
+      authority: 'sm/am',
     },
     {
       path: '/system-mgt/dictionary-mgt',
@@ -62,6 +64,7 @@ const routes = {
       component: './system-mgt/keyword-mgt',
       icon: 'setting',
       remark: '词库管理',
+      authority: 'sm/km',
     },
     {
       path: '/system-mgt/unread-msg',

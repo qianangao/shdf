@@ -37,7 +37,7 @@ const Table = ({
     const PUBLISH = (
       <Popconfirm
         key={`${data.documentId}publish`}
-        title="确认发布该公告信息吗？"
+        title="确认发布该公文信息吗？"
         placement="topRight"
         onConfirm={() => publishAnnouncement(data.documentId)}
       >
@@ -47,7 +47,7 @@ const Table = ({
     const DELETE = (
       <Popconfirm
         key={`${data.documentId}del`}
-        title="确认删除该公告信息吗？"
+        title="确认删除该公文信息吗？"
         placement="topRight"
         onConfirm={() => deleteAnnouncement(data.documentId)}
       >
@@ -66,7 +66,7 @@ const Table = ({
     const ROLLBACK = (
       <Popconfirm
         key={`${data.documentId}rollback`}
-        title="确认撤回该公告信息吗？"
+        title="确认撤回该公文信息吗？"
         placement="topRight"
         onConfirm={() => rollbackOrCloseAnnouncement(data.documentId, 0)}
       >
@@ -76,7 +76,7 @@ const Table = ({
     const CLOSE = (
       <Popconfirm
         key={`${data.documentId}close`}
-        title="确认关闭该公告信息吗？"
+        title="确认关闭该公文信息吗？"
         placement="topRight"
         onConfirm={() => rollbackOrCloseAnnouncement(data.documentId, 1)}
       >

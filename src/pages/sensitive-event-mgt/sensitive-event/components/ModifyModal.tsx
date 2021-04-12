@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'umi';
-import { message, Modal } from 'antd';
+import { message, Modal, Button } from 'antd';
 import CueAssociation from '@/components/CueAssociation';
 import OrgInfoForm from './form/CaseForm';
 import TableCaseHandle from './TableCaseHandle';
@@ -147,6 +147,10 @@ const ModifyModal = ({ dispatch, actionRef, loading, sensitiveMgt, caseMgt }) =>
     return true;
   };
 
+  const reset = () => {
+    form.resetFields();
+  };
+
   const onFieldsChange = item => {
     if (item[0].name[0] === 'eventType') {
       setCaseType(item[0].value);
@@ -166,6 +170,14 @@ const ModifyModal = ({ dispatch, actionRef, loading, sensitiveMgt, caseMgt }) =>
       onOk={handleOk}
       confirmLoading={loading}
       onCancel={hideModal}
+      footer={[
+        <Button key="back" onClick={sensitiveDetailData ? hideModal : reset}>
+          sensitiveDetailData ? 重置 : 取消
+        </Button>,
+        <Button key="submit" type="primary" loading={loading} onClick={handleOk}>
+          保存
+        </Button>,
+      ]}
     >
       <OrgInfoForm
         form={form}

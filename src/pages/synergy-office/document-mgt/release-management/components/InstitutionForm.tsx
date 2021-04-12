@@ -8,12 +8,12 @@ const InstitutionForm = ({ form, fieldChangeHander }) => {
   const formItems = [
     { label: 'id', name: 'documentId', hidden: true },
     {
-      label: '公告标题',
+      label: '公文标题',
       name: 'documentTitle',
       span: 3,
       rules: [
-        { required: true, message: '请输入公告标题!' },
-        { max: 40, min: 0, message: '输入文字过长，公告标题不能超过40字' },
+        { required: true, message: '请输入公文标题!' },
+        { max: 40, min: 0, message: '输入文字过长，公文标题不能超过40字' },
       ],
     },
     {
@@ -39,13 +39,13 @@ const InstitutionForm = ({ form, fieldChangeHander }) => {
       render: <OrgSelectInput />,
     },
     {
-      label: '公告内容',
+      label: '公文内容',
       name: 'documentContent',
       type: 'editor',
       span: 3,
       rules: [
-        { required: true, message: '请输入公告内容!' },
-        { max: 10000, min: 0, message: '输入文字过长，公告内容不能超过10000字' },
+        { required: true, message: '请输入公文内容!' },
+        { max: 10000, min: 0, message: '输入文字过长，公文内容不能超过10000字' },
       ],
     },
     {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Tree, Button, Row, Col, Input, Spin } from 'antd';
 import { connect } from 'umi';
-import { checkAuthority } from '@/utils/authority';
+// import { checkAuthority } from '@/utils/authority';
 import styles from './index.less';
 
 const ActionTree = ({
@@ -66,7 +66,7 @@ const ActionTree = ({
             type="primary"
             onClick={() => specialActionModal()}
             size="small"
-            hidden={!checkAuthority('em/sa/addSpecial')}
+            // hidden={!checkAuthority('em/sa/addSpecial')}
           >
             新增专项行动
           </Button>
@@ -76,7 +76,7 @@ const ActionTree = ({
             type="primary"
             onClick={() => annualSpecialActionModal()}
             size="small"
-            hidden={!checkAuthority('em/sa/addAnnual')}
+            // hidden={!checkAuthority('em/sa/addAnnual')}
           >
             新增年度专项行动
           </Button>
@@ -89,7 +89,7 @@ const ActionTree = ({
         placeholder="行动名称"
         enterButton="查询"
         onSearch={actionSearchHander}
-        hidden={!checkAuthority('em/sa/query')}
+        // hidden={!checkAuthority('em/sa/query')}
       />
       <Spin spinning={loading}>
         {actionTree && actionTree.length ? (

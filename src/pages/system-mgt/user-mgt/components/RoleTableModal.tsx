@@ -8,36 +8,82 @@ const TableModifyModal = ({ dispatch, actionRef, loading }) => {
   const [roleDatas, setRoleDatas] = useState([]);
   const [targetKeys, setTargetKeys] = useState([]);
   const [selectedKeys, setSelectedKeys] = useState([]);
-
-  const getRole = userIds => {
-    if (userIds) {
+  // const [getMoveKeys, setGetMoveKeys] = useState();
+  // const [getDirection, setGetDirection] = useState();
+  const getRole = id => {
+    if (id) {
       new Promise(resolve => {
         dispatch({
-          type: 'userMgt/getRoleList',
-          payload: { userIds },
+          type: 'userMgt/getAddRoleList',
+          payload: { id },
           resolve,
         });
-      })
-        .then(data => {
-          setRoleDatas(data.map(item => ({ ...item, key: item.roleId })));
+      }).then(data => {
+        // setRoleDatas(data.map(item => ({ ...item, key: item.roleId })));
+        //  console.log('data===',data);
 
-          return new Promise(resolve => {
-            dispatch({
-              type: 'userMgt/getAddRoleList',
-              payload: { userIds },
-              resolve,
-            });
+        // const roleDatasId = data.map(item => ({ ...item, key: item.roleId }));
+        // setRoleDatas(roleDatasId);
+
+        // console.log(roleDatas);
+
+        return new Promise(resolve => {
+          dispatch({
+            type: 'userMgt/getRoleList',
+            payload: { id },
+            resolve,
           });
-        })
-        .then(data => {
-          const targetIds = data.map(item => item.roleId);
-          setTargetKeys(targetIds);
+        }).then(res => {
+          let roleDatasArr = [];
+          roleDatasArr = data.concat(res);
+
+          const roleDatasArrId = roleDatasArr.map(item => ({ ...item, key: item.roleId }));
+
+          setRoleDatas(roleDatasArrId);
+
+          // for (let n = 0; n < roleDatasArr.length - 1; n++) {
+          //   if (roleDatasArr[n].key == getMoveKeys && getDirection == 'right') {
+          //     res.push(roleDatasArr[n]);
+          //     console.log('right', res);
+          //   } else if (roleDatasArr[n].key == getMoveKeys && getDirection == 'left') {
+          //     res.splice(
+          //       res.findIndex(e => e.roleDatasArr[n].key == getMoveKeys),
+          //       1,
+          //     );
+          //     console.log('left', res);
+          //   }
+          // }
+          // console.log('添加后res=====', res);
+          const targetIds = res.map(item => ({ ...item, key: item.roleId }));
+
+          const selectItem = [];
+          for (const item of roleDatasArrId) {
+            for (const index of targetIds) {
+              if (item.key === index.key) {
+                selectItem.push(item.key);
+              }
+            }
+          }
+          // targetIds.map(item => {
+          //   roleDatasId.map(value => {
+          //     console.log(value.key);
+          //     console.log(item);
+          //     if (value.key === item) {
+          //       // selectItem.push(item.key);
+          //       console.log(value.key);
+          //     }
+          //   });
+          // });
+
+          setTargetKeys(selectItem);
+          setSelectedKeys(selectItem);
         });
+      });
     }
   };
-  const showModal = userIds => {
-    setuserId(userIds || null);
-    getRole(userIds);
+  const showModal = id => {
+    setuserId(id || null);
+    getRole(id);
     setModalVisible(true);
   };
 
@@ -59,6 +105,8 @@ const TableModifyModal = ({ dispatch, actionRef, loading }) => {
   // xx
   const onChange = nextTargetKeys => {
     setTargetKeys(nextTargetKeys);
+    // setGetMoveKeys(moveKeys);
+    // setGetDirection(direction);
   };
 
   const onSelectChange = (sourceSelectedKeys, targetSelectedKeys) => {
@@ -70,7 +118,7 @@ const TableModifyModal = ({ dispatch, actionRef, loading }) => {
       dispatch({
         type: `userMgt/useraddRole`,
         payload: {
-          userId,
+          id: userId,
           roleIds: targetKeys,
         },
         resolve,
@@ -100,6 +148,10 @@ const TableModifyModal = ({ dispatch, actionRef, loading }) => {
     >
       <Transfer
         dataSource={roleDatas}
+        listStyle={{
+          width: '45%',
+          height: 400,
+        }}
         titles={['角色列表', '已选角色']}
         targetKeys={targetKeys}
         selectedKeys={selectedKeys}
@@ -111,6 +163,8 @@ const TableModifyModal = ({ dispatch, actionRef, loading }) => {
   );
 };
 
-export default connect(({ loading }) => ({
+export default connect(({ loading, userMgt }) => ({
+  getAddroleData: userMgt.userMgt,
+  getRoleData: userMgt.getRoleData,
   loading: loading.models.smDictionaryMgt,
 }))(TableModifyModal);

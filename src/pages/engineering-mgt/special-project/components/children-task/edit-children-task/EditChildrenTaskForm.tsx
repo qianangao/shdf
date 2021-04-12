@@ -55,7 +55,7 @@ const EditChildrenTaskForm = ({
       name: 'secrecyLevel',
       span: 4,
       disabled,
-      rules: [{ required: true, message: '请选择保密等级' }],
+      rules: [{ required: true, message: '请选择保密等级!' }],
       enumsLabel: 'object_secrecy_level',
     },
     {

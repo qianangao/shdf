@@ -54,7 +54,7 @@ const RoleForm = ({ form, publicRole }) => {
     },
     {
       label: '组织树',
-      name: 'orgIds',
+      name: 'orgIdsList',
       span: 4,
       visible: value === '0',
       rules: [{ required: value === '0', message: '请选择!' }],

@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import AdvancedForm from '@/components/AdvancedForm';
 import { connect } from 'umi';
 import { checkPhone } from '@/utils/validators';
+import OrgSelectInput from '@/components/OrgMultiSelectInput/SelectSingleInput';
 import ProvinceListTable from '../province-list/ProvinceListTable';
 import TempProvinceTable from '../temp-province-addlist/TempProvinceTable';
-import OrgSelectInput from '@/components/OrgMultiSelectInput/SelectSingleInput';
 
 const DefenseEngineeringForm = ({ form, add, edit }) => {
   const [tableData, setTableData] = useState([]);

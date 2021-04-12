@@ -3,6 +3,7 @@ import { Button } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import { getSecrecyRowClassName } from '@/utils/secrecy';
+import { checkAuthority } from '@/utils/authority';
 
 const Table = ({ defenseEngineering, openModifyModal, dispatch }) => {
   const { tableRef, engineEditshow } = defenseEngineering;
@@ -84,12 +85,18 @@ const Table = ({ defenseEngineering, openModifyModal, dispatch }) => {
       width: 220,
       fixed: 'right',
       render: (dom, logData) => [
-        <a onClick={() => openModifyModal(logData)}>查看</a>,
-        <a onClick={() => openModifyModal(logData)}>{engineEditshow === 0 ? '编辑' : ''}</a>,
-        <a onClick={() => report(logData.dataId)}>
+        <a onClick={() => openModifyModal(logData)} hidden={!checkAuthority('em/dep/en/detail')}>
+          查看
+        </a>,
+        <a onClick={() => openModifyModal(logData)} hidden={!checkAuthority('em/dep/en/update')}>
+          {engineEditshow === 0 ? '编辑' : ''}
+        </a>,
+        <a onClick={() => report(logData.dataId)} hidden={!checkAuthority('em/dep/en/deploy')}>
           {logData.isReport === 0 && defenseEngineering.yearOrtot !== 'null' ? '上报' : ''}
         </a>,
-        <a onClick={() => deleteData(logData)}>{engineEditshow === 0 ? '删除' : ''}</a>,
+        <a onClick={() => deleteData(logData)} hidden={!checkAuthority('em/dep/en/delete')}>
+          {engineEditshow === 0 ? '删除' : ''}
+        </a>,
       ],
     },
   ];
@@ -122,7 +129,11 @@ const Table = ({ defenseEngineering, openModifyModal, dispatch }) => {
         request={async params => getReceivingList(params)}
         rowClassName={getSecrecyRowClassName}
         toolBarRender={() => [
-          <Button type="primary" onClick={() => openModifyModal()}>
+          <Button
+            type="primary"
+            onClick={() => openModifyModal()}
+            hidden={!checkAuthority('em/dep/en/add')}
+          >
             {defenseEngineering.yearOrtot !== 'null' ? '新增' : ''}
           </Button>,
         ]}

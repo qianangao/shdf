@@ -26,7 +26,7 @@ const AuthForm = ({ form, visible = false }) => {
       label: '权限类型',
       name: 'permessionType',
       span: 4,
-      rules: [{ required: true, message: '请输入资源权限!' }],
+      rules: [{ required: true, message: '请输入权限类型!' }],
       enumsLabel: 'system_permession',
     },
     {

@@ -188,7 +188,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, announcementData, enums }) 
 
   return (
     <Modal
-      title="公告详情"
+      title="公文详情"
       centered
       width="90vw"
       style={{ paddingBottom: 0 }}
@@ -204,10 +204,10 @@ const ModifyModal = ({ dispatch, actionRef, loading, announcementData, enums }) 
     >
       <Spin spinning={loading}>
         <Descriptions title="基本信息" column={{ xxl: 3, xl: 3, lg: 3, md: 2, sm: 2, xs: 1 }}>
-          <Descriptions.Item label="公告标题" span={3}>
+          <Descriptions.Item label="公文标题" span={3}>
             {announcementData.documentTitle}
           </Descriptions.Item>
-          <Descriptions.Item label="公告创建时间">
+          <Descriptions.Item label="公文创建时间">
             {formatDateStr(announcementData.createTime, 'YYYY-MM-DD HH:mm:ss')}
           </Descriptions.Item>
           <Descriptions.Item label="保密等级">
@@ -217,10 +217,10 @@ const ModifyModal = ({ dispatch, actionRef, loading, announcementData, enums }) 
           <Descriptions.Item label="发布单位" span={1}>
             {announcementData.publishDept}
           </Descriptions.Item>
-          <Descriptions.Item label="公告可见范围" span={3}>
+          <Descriptions.Item label="公文可见范围" span={3}>
             {visibleRange}
           </Descriptions.Item>
-          <Descriptions.Item label="公告内容" span={3}>
+          <Descriptions.Item label="公文内容" span={3}>
             <div
               dangerouslySetInnerHTML={{
                 __html: announcementData.documentContent,
@@ -232,7 +232,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, announcementData, enums }) 
         {createItem()}
         {type === 'publish' && status === 7 && (
           <Descriptions
-            title="公告处理信息"
+            title="公文处理信息"
             column={{ xxl: 3, xl: 3, lg: 3, md: 2, sm: 2, xs: 1 }}
             style={{ marginTop: 30 }}
           >

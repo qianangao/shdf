@@ -179,7 +179,7 @@ const Table = ({
     {
       title: '事件地域',
       align: 'center',
-      dataIndex: 'belongRegional',
+      dataIndex: 'region',
       hideInSearch: true,
     },
     {

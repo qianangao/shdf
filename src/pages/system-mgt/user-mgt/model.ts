@@ -12,7 +12,7 @@ import {
   importAddressBook,
   getUserDetail,
   addRole,
-  getAddroleList,
+  getAddRoleList,
   getRoleList,
   useraddRole,
 } from './service';
@@ -46,9 +46,8 @@ const Model = {
         // });
       }
     },
-    *getAddroleList({ payload, resolve }, { call, put }) {
-      const response = yield call(getAddroleList, payload);
-
+    *getAddRoleList({ payload, resolve }, { call, put }) {
+      const response = yield call(getAddRoleList, payload);
       if (!response.error) {
         resolve && resolve(response);
         yield put({
@@ -61,7 +60,6 @@ const Model = {
     },
     *getRoleList({ payload, resolve }, { call, put }) {
       const response = yield call(getRoleList, payload);
-
       if (!response.error) {
         resolve && resolve(response);
         yield put({

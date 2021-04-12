@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { Button, Popconfirm, message, Modal } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
+import { getSecrecyRowClassName } from '@/utils/secrecy';
 
 const Table = ({ guanli, openModifyModal, openDetailModal, dispatch }) => {
   const { tableRef } = guanli;
@@ -135,6 +136,7 @@ const Table = ({ guanli, openModifyModal, openDetailModal, dispatch }) => {
         headerTitle="组织列表"
         actionRef={tableRef}
         formRef={formRef}
+        rowClassName={getSecrecyRowClassName}
         rowSelection={[]}
         scroll={{ x: 'max-content' }}
         request={async params => getOrgList(params)}
