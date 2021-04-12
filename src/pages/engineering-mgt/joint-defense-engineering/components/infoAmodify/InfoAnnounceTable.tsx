@@ -4,7 +4,7 @@ import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import { getSecrecyRowClassName } from '@/utils/secrecy';
 import Bar from '@/components/Charts/BarChart/index';
-// import { checkAuthority } from '@/utils/authority';
+import { checkAuthority } from '@/utils/authority';
 
 const { TabPane } = Tabs;
 
@@ -107,34 +107,31 @@ const Table = ({ defenseEngineering, openModifyModal, dispatch, openDetailModify
         <a
           key={`${data.infoId}up`}
           onClick={() => openDetailModifyModal(data.infoId)}
-          // hidden={!checkAuthority('em/dep/is/detail')}
+          hidden={!checkAuthority('em/dep/is/detail')}
         >
           查看
         </a>,
-        <a
-          onClick={() => report(data.infoId)}
-          // hidden={!checkAuthority('em/dep/is/deploy')}
-        >
+        <a onClick={() => report(data.infoId)} hidden={!checkAuthority('em/dep/is/deploy')}>
           {data.isReport === 0 && defenseEngineering.yearOrtot !== 'null' ? '上报' : ''}
         </a>,
         <a
           key={`${data.infoId}up`}
           onClick={() => openModifyModal(data.infoId)}
-          // hidden={!checkAuthority('em/dep/is/update')}
+          hidden={!checkAuthority('em/dep/is/update')}
         >
           {engineEditshow === 0 ? '编辑' : ''}
         </a>,
         <a
           key={`${data.infoId}up`}
           onClick={() => releaseInfoAn(data.infoId)}
-          // hidden={!checkAuthority('em/dep/is/publish')}
+          hidden={!checkAuthority('em/dep/is/publish')}
         >
           {data.infoPublish === 0 ? '发布' : ''}
         </a>,
         <a
           key={`${data.infoId}up`}
           onClick={() => deleteData(data.infoId)}
-          // hidden={!checkAuthority('em/dep/is/delete')}
+          hidden={!checkAuthority('em/dep/is/delete')}
         >
           {engineEditshow === 0 ? '删除' : ''}
         </a>,
@@ -196,7 +193,7 @@ const Table = ({ defenseEngineering, openModifyModal, dispatch, openDetailModify
               <Button
                 type="primary"
                 onClick={() => openModifyModal()}
-                // hidden={!checkAuthority('em/dep/is/add')}
+                hidden={!checkAuthority('em/dep/is/add')}
               >
                 新增
               </Button>,
