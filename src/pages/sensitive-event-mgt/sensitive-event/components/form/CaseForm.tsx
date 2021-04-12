@@ -17,7 +17,7 @@ const CaseForm = ({ form, orgInfoData, specialList, id, caseType, onFieldsChange
       label: '报送时间',
       name: 'reportTime',
       type: 'dateTime',
-      rules: [{ required: true, message: '请选择送报时间!' }],
+      rules: [{ required: true, message: '请选择报送时间!' }],
     },
     {
       label: '敏感事件名称',
@@ -31,10 +31,10 @@ const CaseForm = ({ form, orgInfoData, specialList, id, caseType, onFieldsChange
       visible: !!id,
     },
     {
-      label: '线索来源',
+      label: '敏感事件来源',
       name: 'eventSource',
       enumsLabel: 'case_source',
-      rules: [{ required: true, message: '请输入案件性质!', whitespace: true }],
+      rules: [{ required: true, message: '请选择敏感事件来源!', whitespace: true }],
     },
     {
       label: '办理部门',
@@ -45,7 +45,7 @@ const CaseForm = ({ form, orgInfoData, specialList, id, caseType, onFieldsChange
       label: '重要程度',
       name: 'importantDegree',
       enumsLabel: 'importance_level',
-      rules: [{ required: true, message: '请输入重要程度!', whitespace: true }],
+      rules: [{ required: true, message: '请选择重要程度!', whitespace: true }],
     },
     {
       label: '保密等级',
@@ -54,28 +54,28 @@ const CaseForm = ({ form, orgInfoData, specialList, id, caseType, onFieldsChange
       rules: [{ required: true, message: '请选择保密等级!', whitespace: true }],
     },
     {
-      label: '立案日期',
-      name: 'createTime',
+      label: '立案时间',
+      name: 'caseTime',
       type: 'dateTime',
-      rules: [{ required: true, message: '请选择立案日期!' }],
+      rules: [{ required: true, message: '请选择立案时间!' }],
     },
     {
       label: '紧急程度',
       name: 'urgencyDegree',
       enumsLabel: 'urgent_level',
-      rules: [{ required: true, message: '请输入紧急程度!', whitespace: true }],
+      rules: [{ required: true, message: '请选择紧急程度!', whitespace: true }],
     },
     {
-      label: '案件类型',
+      label: '敏感事件类型',
       name: 'eventType',
       enumsLabel: 'case_type',
-      rules: [{ required: true, message: '请选择案件办理阶段!', whitespace: true }],
+      rules: [{ required: true, message: '请选择敏感事件类型!', whitespace: true }],
     },
     {
-      label: '案件性质',
+      label: '敏感事件性质',
       name: 'eventNature',
       enumsLabel: 'case_nature',
-      rules: [{ required: true, message: '请输入案件性质!', whitespace: true }],
+      rules: [{ required: true, message: '请选择敏感事件性质!', whitespace: true }],
     },
     {
       label: '专项行动',
@@ -90,7 +90,7 @@ const CaseForm = ({ form, orgInfoData, specialList, id, caseType, onFieldsChange
       name: 'spreadWay',
       enumsLabel: 'spread_channel',
       extraProps: {
-        node: 'multiple',
+        mode: 'multiple',
       },
     },
     {
@@ -113,7 +113,7 @@ const CaseForm = ({ form, orgInfoData, specialList, id, caseType, onFieldsChange
     },
     {
       label: '涉案金额',
-      name: 'caseAmount',
+      name: 'caseMoney',
     },
     {
       label: '抓获人数',
@@ -149,7 +149,7 @@ const CaseForm = ({ form, orgInfoData, specialList, id, caseType, onFieldsChange
       label: '发生地域',
       name: 'regionObj',
       render: <ProvinceCascaderInput />,
-      rules: [{ required: true, message: '请输入地域!' }],
+      rules: [{ required: true, message: '请选择发生地域!' }],
     },
     {
       label: '简要案情',

@@ -14,7 +14,7 @@ import {
   commitExamineAnnouncement,
   auditAnnouncement,
   getReceiveDetail,
-  getReceivingCode
+  getReceivingCode,
 } from './service';
 
 const Model = {
@@ -115,7 +115,7 @@ const Model = {
       const response = yield call(addAnnouncement, payload);
       if (!response.error) {
         resolve && resolve(response);
-        message.success('公告新增成功！');
+        message.success('公文新增成功！');
 
         yield put({
           type: 'tableReload',
@@ -137,7 +137,7 @@ const Model = {
       const response = yield call(updateAnnouncement, payload);
       if (!response.error) {
         resolve && resolve(response);
-        message.success('公告信息修改成功！');
+        message.success('公文信息修改成功！');
 
         yield put({
           type: 'tableReload',
@@ -148,7 +148,7 @@ const Model = {
       const response = yield call(auditAnnouncement, payload);
       if (!response.error) {
         resolve && resolve(response);
-        message.success('公告信息审核成功！');
+        message.success('公文信息审核成功！');
 
         yield put({
           type: 'tableReload',
@@ -159,7 +159,7 @@ const Model = {
       const response = yield call(deleteAnnouncement, payload);
       if (!response.error) {
         resolve && resolve(response);
-        message.success('公告信息删除成功！');
+        message.success('公文信息删除成功！');
 
         yield put({
           type: 'tableReload',
@@ -170,7 +170,7 @@ const Model = {
       const response = yield call(publishAnnouncement, payload);
       if (!response.error) {
         resolve && resolve(response);
-        message.success('公告信息发布成功！');
+        message.success('公文信息发布成功！');
 
         yield put({
           type: 'tableReload',
@@ -181,8 +181,8 @@ const Model = {
       const response = yield call(rollbackOrCloseAnnouncement, payload);
       if (!response.error) {
         resolve && resolve(response);
-        if (payload.handleType === 1) message.success('公告信息关闭成功！');
-        else message.success('公告信息撤回成功！');
+        if (payload.handleType === 1) message.success('公文信息关闭成功！');
+        else message.success('公文信息撤回成功！');
 
         yield put({
           type: 'tableReload',
@@ -193,7 +193,7 @@ const Model = {
       const response = yield call(replyAnnouncement, payload);
       if (!response.error) {
         resolve && resolve(response);
-        message.success('回复公告信息成功！');
+        message.success('回复公文信息成功！');
 
         yield put({
           type: 'tableReload',
