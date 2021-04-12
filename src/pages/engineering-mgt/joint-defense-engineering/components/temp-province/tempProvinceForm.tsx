@@ -25,7 +25,7 @@ const TempProvinceForm = ({ form }) => {
       name: 'contactPhone',
       span: 2,
       rules: [
-        { required: true, message: '请输入手机号码!' },
+        { required: true, message: '请输入联络电话!' },
         {
           validator: checkPhone,
         },

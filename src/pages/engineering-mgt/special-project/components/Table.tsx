@@ -3,7 +3,7 @@ import { Button, Popconfirm } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import { getSecrecyRowClassName } from '@/utils/secrecy';
-// import { checkAuthority } from '@/utils/authority';
+import { checkAuthority } from '@/utils/authority';
 import ActionDescription from './describe-action/ActionDescription';
 
 const Table = ({
@@ -81,28 +81,28 @@ const Table = ({
         <a
           key={`${data.taskId}view`}
           onClick={() => openModifyModal({ id: data.taskId, disabled: true, visible: false })}
-          // hidden={!checkAuthority('em/sa/taskDetail')}
+          hidden={!checkAuthority('em/sa/taskDetail')}
         >
           查看
         </a>,
         <a
           key={`${data.taskId}up`}
           onClick={() => openModifyModal({ id: data.taskId, disabled: false })}
-          // hidden={!checkAuthority('em/sa/taskUpdate')}
+          hidden={!checkAuthority('em/sa/taskUpdate')}
         >
           {data.taskState === 0 && '修改'}
         </a>,
         <a
           key={`${data.taskId}down`}
           onClick={() => openDownModal(data.taskId)}
-          // hidden={!checkAuthority('em/sa/taskDeploy')}
+          hidden={!checkAuthority('em/sa/taskDeploy')}
         >
           {data.taskState === 0 && '下发'}
         </a>,
         <a
           key={`${data.taskId}back`}
           onClick={() => openFeedbackModal(data.taskId)}
-          // hidden={!checkAuthority('em/sa/taskFeedback')}
+          hidden={!checkAuthority('em/sa/taskFeedback')}
         >
           {data.taskState === 1 && '反馈'}
         </a>,
@@ -112,10 +112,7 @@ const Table = ({
           okText="是"
           cancelText="否"
         >
-          <a
-            key={`${data.taskId}del`}
-            // hidden={!checkAuthority('em/sa/taskDelete')}
-          >
+          <a key={`${data.taskId}del`} hidden={!checkAuthority('em/sa/taskDelete')}>
             {data.taskState === 0 && '删除'}
           </a>
         </Popconfirm>,
@@ -142,7 +139,7 @@ const Table = ({
           toolBarRender={_ => [
             <Button
               type="primary"
-              // hidden={!checkAuthority('em/sa/taskAdd')}
+              hidden={!checkAuthority('em/sa/taskAdd')}
               onClick={() => openAddModal({ visible: true })}
             >
               新增子任务

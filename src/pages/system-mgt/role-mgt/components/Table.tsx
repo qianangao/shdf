@@ -3,7 +3,7 @@ import { Button, Popconfirm } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import { getSecrecyRowClassName } from '@/utils/secrecy';
-// import { checkAuthority } from '@/utils/authority';
+import { checkAuthority } from '@/utils/authority';
 
 const Table = ({ smRoleMgt, modifyRoleModal, authorityModal, dispatch }) => {
   const { tableRef } = smRoleMgt;
@@ -49,7 +49,7 @@ const Table = ({ smRoleMgt, modifyRoleModal, authorityModal, dispatch }) => {
           <a
             key={`${roleData.roleId}up`}
             onClick={() => modifyRoleModal(roleData.roleId)}
-            // hidden={!checkAuthority('sm/rm/update')}
+            hidden={!checkAuthority('sm/rm/update')}
           >
             修改
           </a>
@@ -61,10 +61,7 @@ const Table = ({ smRoleMgt, modifyRoleModal, authorityModal, dispatch }) => {
             placement="topRight"
             onConfirm={() => deleteRoles(roleData.roleId)}
           >
-            <a
-              key={`${roleData.roleId}del`}
-              // hidden={!checkAuthority('sm/rm/delete')}
-            >
+            <a key={`${roleData.roleId}del`} hidden={!checkAuthority('sm/rm/delete')}>
               删除
             </a>
           </Popconfirm>
@@ -72,7 +69,7 @@ const Table = ({ smRoleMgt, modifyRoleModal, authorityModal, dispatch }) => {
         <a
           key={`${roleData.roleId}manag`}
           onClick={() => authorityModal(roleData.roleId)}
-          // hidden={!checkAuthority('sm/rm/authority')}
+          hidden={!checkAuthority('sm/rm/authority')}
         >
           权限管理
         </a>,
@@ -92,7 +89,7 @@ const Table = ({ smRoleMgt, modifyRoleModal, authorityModal, dispatch }) => {
         <Button
           type="primary"
           onClick={() => modifyRoleModal()}
-          // hidden={!checkAuthority('sm/rm/add')}
+          hidden={!checkAuthority('sm/rm/add')}
         >
           新增
         </Button>,
