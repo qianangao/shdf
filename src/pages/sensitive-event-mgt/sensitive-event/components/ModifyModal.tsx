@@ -172,7 +172,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, sensitiveMgt, caseMgt }) =>
       onCancel={hideModal}
       footer={[
         <Button key="back" onClick={sensitiveDetailData ? hideModal : reset}>
-          sensitiveDetailData ? 重置 : 取消
+          {sensitiveDetailData ? '取消' : '重置'}
         </Button>,
         <Button key="submit" type="primary" loading={loading} onClick={handleOk}>
           保存
