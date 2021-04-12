@@ -82,11 +82,11 @@ const ProvinceListTable = ({
       rules: [{ required: true, message: '请输入联络员!' }],
     },
     {
-      label: '联系电话',
+      label: '联络电话',
       name: 'contactPhone',
       span: 4,
       rules: [
-        { required: true, message: '请输入手机号码!' },
+        { required: true, message: '请输入联络电话!' },
         {
           validator: checkPhone,
         },
