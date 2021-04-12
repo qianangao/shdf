@@ -2,6 +2,7 @@ const routes = {
   path: '/system-mgt',
   name: 'system-mgt',
   remark: '系统管理',
+  authority: 'sm',
   routes: [
     // {
     //   path: '/system-mgt/organization-mgt',
@@ -17,6 +18,7 @@ const routes = {
       component: './system-mgt/UnitManagement',
       icon: 'setting',
       remark: '组织管理',
+      authority: 'sm/um',
     },
     {
       path: '/system-mgt/user-mgt',
@@ -24,6 +26,7 @@ const routes = {
       component: './system-mgt/user-mgt',
       icon: 'setting',
       remark: '用户管理',
+      authority: 'sm/um',
     },
     {
       path: '/system-mgt/role-mgt',

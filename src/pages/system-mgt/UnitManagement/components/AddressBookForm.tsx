@@ -3,6 +3,24 @@ import AdvancedForm from '@/components/AdvancedForm';
 // import { checkPhone, checkEmail, checkTelephone } from '@/utils/validators';
 
 const AddressBookForm = ({ form }) => {
+  // const isInteger = (rule, value, callback) => {
+  //   if (!value) {
+  //     return callback(new Error('输入不可以为空'));
+  //   }
+  //   setTimeout(() => {
+  //     if (!Number(value)) {
+  //       callback(new Error('请输入正整数'));
+  //     } else {
+  //       const re = /^[0-9]*[1-9][0-9]*$/;
+  //       const rsCheck = re.test(value);
+  //       if (!rsCheck) {
+  //         callback(new Error('请输入正整数'));
+  //       } else {
+  //         callback();
+  //       }
+  //     }
+  //   }, 0);
+  // };
   const formItems = [
     { label: 'id', name: 'orgId', hidden: true, span: 2 },
     // {
@@ -25,12 +43,13 @@ const AddressBookForm = ({ form }) => {
       label: '机构代号',
       name: 'orgCode',
       span: 1.5,
-      rules: [{ required: true, message: '请输入当前职务!' }],
+      rules: [{ required: true, message: '请输入机构代号!' }],
     },
     {
       label: '机构类型',
       name: 'orgKind',
       span: 1.5,
+      rules: [{ required: true, message: '请输入机构类型!' }],
     },
 
     {
@@ -46,31 +65,36 @@ const AddressBookForm = ({ form }) => {
       label: '机构简称',
       name: 'orgSimpleName',
       span: 1.5,
-      rules: [{ required: true, message: '请输入当前职务!' }],
+      rules: [{ required: true, message: '请输入机构简称!' }],
     },
     {
       label: '主管人员',
       name: 'chargePerson',
       span: 1.5,
-      rules: [{ required: true, message: '请输入机构名称!' }],
+      rules: [{ required: true, message: '请输入主管人员!' }],
     },
     {
       label: '职能描述',
       name: 'functionDesc',
       span: 1.5,
-      rules: [{ required: true, message: '请输入机构名称!' }],
+      rules: [{ required: true, message: '请输入职能描述!' }],
     },
     {
       label: '机构分类',
       name: 'orgType',
       span: 1.5,
-      rules: [{ required: true, message: '请输入机构名称!' }],
+      rules: [{ required: true, message: '请输入机构分类!' }],
     },
     {
-      label: '机构命令',
+      label: '机构命令代号',
       name: 'orgOrder',
       span: 1.5,
-      rules: [{ required: true, message: '请输入机构名称!' }],
+      rules: [
+        {
+          required: true,
+          // validator: isInteger
+        },
+      ],
     },
 
     // {

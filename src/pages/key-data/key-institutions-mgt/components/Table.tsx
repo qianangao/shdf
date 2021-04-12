@@ -3,6 +3,7 @@ import { Button, Popconfirm, message } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import { getSecrecyRowClassName } from '@/utils/secrecy';
+import { checkAuthority } from '@/utils/authority';
 
 const Table = ({
   kdKeyInstitutionsMgt,
@@ -51,10 +52,18 @@ const Table = ({
       width: 180,
       fixed: 'right',
       render: (dom: any, data: { orgId: any }) => [
-        <a key={`${data.orgId}up`} onClick={() => openModifyModal(data.orgId)}>
+        <a
+          key={`${data.orgId}up`}
+          onClick={() => openModifyModal(data.orgId)}
+          hidden={!checkAuthority('kd/kim/update')}
+        >
           编辑
         </a>,
-        <a key={`${data.orgId}detail`} onClick={() => openDetailModal(data.orgId)}>
+        <a
+          key={`${data.orgId}detail`}
+          onClick={() => openDetailModal(data.orgId)}
+          hidden={!checkAuthority('kd/kim/detail')}
+        >
           查看
         </a>,
         <Popconfirm
@@ -63,9 +72,13 @@ const Table = ({
           placement="topRight"
           onConfirm={() => deleteKeyInstitutions(data.orgId)}
         >
-          <a>删除</a>
+          <a hidden={!checkAuthority('kd/kim/delete')}>删除</a>
         </Popconfirm>,
-        <a key={`${data.orgId}auth`} onClick={() => openAuthModal(data.orgId)}>
+        <a
+          key={`${data.orgId}auth`}
+          onClick={() => openAuthModal(data.orgId)}
+          hidden={!checkAuthority('kd/kim/authUser')}
+        >
           授权
         </a>,
       ],
@@ -144,10 +157,18 @@ const Table = ({
       scroll={{ x: 'max-content' }}
       request={async params => getKeyInstitutions(params)}
       toolBarRender={(_, { selectedRowKeys }) => [
-        <Button type="primary" onClick={() => openModifyModal()}>
+        <Button
+          type="primary"
+          onClick={() => openModifyModal()}
+          hidden={!checkAuthority('kd/kim/add')}
+        >
           新增
         </Button>,
-        <Button type="primary" onClick={() => templateDownload()}>
+        <Button
+          type="primary"
+          onClick={() => templateDownload()}
+          hidden={!checkAuthority('kd/kim/download')}
+        >
           模板下载
         </Button>,
         <>
@@ -163,6 +184,7 @@ const Table = ({
             onClick={() => {
               uploadRef.current.click();
             }}
+            hidden={!checkAuthority('kd/kim/import')}
           >
             导入
           </Button>
@@ -172,6 +194,7 @@ const Table = ({
           onClick={() => {
             exportInstitution(selectedRowKeys);
           }}
+          hidden={!checkAuthority('kd/kim/export')}
         >
           导出
         </Button>,

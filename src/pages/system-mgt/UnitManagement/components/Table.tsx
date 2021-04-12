@@ -3,6 +3,7 @@ import { Button, Popconfirm, message, Modal } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import { getSecrecyRowClassName } from '@/utils/secrecy';
+import { checkAuthority } from '@/utils/authority';
 
 const Table = ({ guanli, openModifyModal, openDetailModal, dispatch }) => {
   const { tableRef } = guanli;
@@ -25,8 +26,8 @@ const Table = ({ guanli, openModifyModal, openDetailModal, dispatch }) => {
       width: 64,
     },
     { title: '上级机构', align: 'center', dataIndex: 'orgPid', hideInSearch: true },
-    { title: '机构编号', align: 'center', dataIndex: 'orgCode' },
     { title: '机构名称', align: 'center', dataIndex: 'orgName' },
+    { title: '机构编号', align: 'center', dataIndex: 'orgCode' },
     {
       title: '机构简称',
       align: 'center',
@@ -51,10 +52,18 @@ const Table = ({ guanli, openModifyModal, openDetailModal, dispatch }) => {
       width: 180,
       fixed: 'right',
       render: (dom, data) => [
-        <a key={`${data.orgId}detail`} onClick={() => openDetailModal(data.orgId)}>
+        <a
+          key={`${data.orgId}detail`}
+          onClick={() => openDetailModal(data.orgId)}
+          hidden={!checkAuthority('sm/um/detail')}
+        >
           查看
         </a>,
-        <a key={`${data.orgId}up`} onClick={() => openModifyModal(data.orgId)}>
+        <a
+          key={`${data.orgId}up`}
+          onClick={() => openModifyModal(data.orgId)}
+          hidden={!checkAuthority('sm/um/update')}
+        >
           修改
         </a>,
         <Popconfirm
@@ -63,7 +72,7 @@ const Table = ({ guanli, openModifyModal, openDetailModal, dispatch }) => {
           placement="topRight"
           onConfirm={() => deleteOrgList(data.orgId)}
         >
-          <a>删除</a>
+          <a hidden={!checkAuthority('sm/um/detail')}>删除</a>
         </Popconfirm>,
       ],
     },
@@ -141,7 +150,11 @@ const Table = ({ guanli, openModifyModal, openDetailModal, dispatch }) => {
         scroll={{ x: 'max-content' }}
         request={async params => getOrgList(params)}
         toolBarRender={_ => [
-          <Button type="primary" onClick={() => openModifyModal()}>
+          <Button
+            type="primary"
+            onClick={() => openModifyModal()}
+            hidden={!checkAuthority('sm/um/add')}
+          >
             新增
           </Button>,
           // <Button type="primary" onClick={() => templateDownload()}>

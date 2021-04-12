@@ -3,6 +3,7 @@ import { Button, message, Popconfirm } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import { getSecrecyRowClassName } from '@/utils/secrecy';
+import { checkAuthority } from '@/utils/authority';
 
 const Table = ({
   kdBanPublishMgt,
@@ -56,13 +57,25 @@ const Table = ({
       width: 180,
       fixed: 'right',
       render: (dom, data) => [
-        <a key={`${data.publicationId}detail`} onClick={() => openDetailModal(data.publicationId)}>
+        <a
+          key={`${data.publicationId}detail`}
+          onClick={() => openDetailModal(data.publicationId)}
+          hidden={!checkAuthority('kd/bpm/detail')}
+        >
           查看
         </a>,
-        <a key={`${data.publicationId}up`} onClick={() => openModifyModal(data.publicationId)}>
+        <a
+          key={`${data.publicationId}up`}
+          onClick={() => openModifyModal(data.publicationId)}
+          hidden={!checkAuthority('kd/bpm/update')}
+        >
           编辑
         </a>,
-        <a key={`${data.publicationId}auth`} onClick={() => openAuthModal(data.publicationId)}>
+        <a
+          key={`${data.publicationId}auth`}
+          onClick={() => openAuthModal(data.publicationId)}
+          hidden={!checkAuthority('kd/bpm/authUser')}
+        >
           授权
         </a>,
         <Popconfirm
@@ -71,7 +84,7 @@ const Table = ({
           placement="topRight"
           onConfirm={() => deleteBanPublish(data.publicationId)}
         >
-          <a>删除</a>
+          <a hidden={!checkAuthority('kd/bpm/delete')}>删除</a>
         </Popconfirm>,
       ],
     },
@@ -149,10 +162,18 @@ const Table = ({
       scroll={{ x: 'max-content' }}
       request={async params => getKeyBanPublishList(params)}
       toolBarRender={(_, { selectedRowKeys }) => [
-        <Button type="primary" onClick={() => openModifyModal()}>
+        <Button
+          type="primary"
+          onClick={() => openModifyModal()}
+          hidden={!checkAuthority('kd/bpm/add')}
+        >
           新增
         </Button>,
-        <Button type="primary" onClick={() => templateDownload()}>
+        <Button
+          type="primary"
+          onClick={() => templateDownload()}
+          hidden={!checkAuthority('kd/bpm/download')}
+        >
           模板下载
         </Button>,
         <>
@@ -168,6 +189,7 @@ const Table = ({
             onClick={() => {
               uploadRef.current.click();
             }}
+            hidden={!checkAuthority('kd/bpm/import')}
           >
             导入
           </Button>
@@ -177,6 +199,7 @@ const Table = ({
           onClick={() => {
             exportBanPublish(selectedRowKeys);
           }}
+          hidden={!checkAuthority('kd/bpm/export')}
         >
           导出
         </Button>,
