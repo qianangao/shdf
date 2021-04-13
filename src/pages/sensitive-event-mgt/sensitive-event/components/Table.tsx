@@ -3,6 +3,7 @@ import { Button, Modal, Popconfirm, message } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import { getSecrecyRowClassName } from '@/utils/secrecy';
+import { checkAuthority } from '@/utils/authority';
 
 const Table = ({
   sensitiveMgt,
@@ -45,12 +46,20 @@ const Table = ({
   };
   const createButton = caseData => {
     const Cat = (
-      <a key={`${caseData.eventId}cat`} onClick={() => openDetailModal(caseData)}>
+      <a
+        key={`${caseData.eventId}cat`}
+        onClick={() => openDetailModal(caseData)}
+        hidden={!checkAuthority('sem/detail')}
+      >
         查看
       </a>
     );
     const Edit = (
-      <a key={`${caseData.eventId}up`} onClick={() => openModifyModal(caseData)}>
+      <a
+        key={`${caseData.eventId}up`}
+        onClick={() => openModifyModal(caseData)}
+        hidden={!checkAuthority('sem/update')}
+      >
         编辑
       </a>
     );
@@ -61,11 +70,15 @@ const Table = ({
         placement="topRight"
         onConfirm={() => del(caseData.eventId)}
       >
-        <a>删除</a>
+        <a hidden={!checkAuthority('sem/delete')}>删除</a>
       </Popconfirm>
     );
     const Auth = (
-      <a key={`${caseData.eventId}role`} onClick={() => openAuthorizeModal(caseData)}>
+      <a
+        key={`${caseData.eventId}role`}
+        onClick={() => openAuthorizeModal(caseData)}
+        hidden={!checkAuthority('sem/auth')}
+      >
         授权
       </a>
     );
@@ -76,7 +89,7 @@ const Table = ({
         placement="topRight"
         onConfirm={() => completed(caseData.eventId)}
       >
-        <a>办结</a>
+        <a hidden={!checkAuthority('sem/finish')}>办结</a>
       </Popconfirm>
     );
 
@@ -94,7 +107,11 @@ const Table = ({
 
   const createSuperviseButton = caseData => {
     const ApplyCase = (
-      <a key={`${caseData.eventId}app_re`} onClick={() => openApplyCaseModal(caseData)}>
+      <a
+        key={`${caseData.eventId}app_re`}
+        onClick={() => openApplyCaseModal(caseData)}
+        hidden={!checkAuthority('sem/applyRecord')}
+      >
         申请备案
       </a>
     );
@@ -105,16 +122,24 @@ const Table = ({
         placement="topRight"
         onConfirm={() => recall(caseData.eventId)}
       >
-        <a>撤回备案</a>
+        <a hidden={!checkAuthority('sem/recallRecord')}>撤回备案</a>
       </Popconfirm>
     );
     const RecordApproval = (
-      <a key={`${caseData.eventId}re_app`} onClick={() => openRecordApprovalModifyModal(caseData)}>
+      <a
+        key={`${caseData.eventId}re_app`}
+        onClick={() => openRecordApprovalModifyModal(caseData)}
+        hidden={!checkAuthority('sem/approvalRecord')}
+      >
         备案审批
       </a>
     );
     const RecordDetail = (
-      <a key={`${caseData.eventId}in_re`} onClick={() => openRecordDetailModal(caseData)}>
+      <a
+        key={`${caseData.eventId}in_re`}
+        onClick={() => openRecordDetailModal(caseData)}
+        hidden={!checkAuthority('sem/infoRecord')}
+      >
         备案信息
       </a>
     );
@@ -154,7 +179,7 @@ const Table = ({
     {
       title: '事件地域',
       align: 'center',
-      dataIndex: 'belongRegional',
+      dataIndex: 'region',
       hideInSearch: true,
     },
     {
@@ -251,14 +276,23 @@ const Table = ({
       scroll={{ x: 'max-content' }}
       request={async params => getList(params)}
       toolBarRender={(_, { selectedRowKeys }) => [
-        <Button type="primary" onClick={() => openModifyModal()}>
+        <Button
+          type="primary"
+          onClick={() => openModifyModal()}
+          hidden={!checkAuthority('sem/add')}
+        >
           新增
         </Button>,
-        <Button type="primary" onClick={() => templateDownload()}>
+        <Button
+          type="primary"
+          onClick={() => templateDownload()}
+          hidden={!checkAuthority('sem/download')}
+        >
           模板下载
         </Button>,
         <>
           <input
+            hidden={!checkAuthority('sem/inport')}
             type="file"
             name="file"
             onChange={importCase}
@@ -266,6 +300,7 @@ const Table = ({
             ref={uploadLgbListRef}
           />
           <Button
+            hidden={!checkAuthority('sem/inport')}
             type="primary"
             onClick={() => {
               uploadLgbListRef.current.click();
@@ -275,6 +310,7 @@ const Table = ({
           </Button>
         </>,
         <Button
+          hidden={!checkAuthority('sem/export')}
           type="primary"
           onClick={() => {
             exportSensitive(selectedRowKeys);

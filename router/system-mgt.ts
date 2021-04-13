@@ -2,6 +2,7 @@ const routes = {
   path: '/system-mgt',
   name: 'system-mgt',
   remark: '系统管理',
+  authority: 'sm',
   routes: [
     // {
     //   path: '/system-mgt/organization-mgt',
@@ -47,6 +48,7 @@ const routes = {
       component: './system-mgt/dictionary-mgt',
       icon: 'setting',
       remark: '字典管理',
+      authority: 'sm/dim',
     },
     {
       path: '/system-mgt/log-audit',
@@ -54,6 +56,7 @@ const routes = {
       component: './system-mgt/log-audit',
       icon: 'setting',
       remark: '日志审计',
+      authority: 'sm/lm',
     },
     {
       path: '/system-mgt/keyword-mgt',

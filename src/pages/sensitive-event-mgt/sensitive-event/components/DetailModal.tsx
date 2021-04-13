@@ -146,14 +146,14 @@ const CaresDetailModal = ({ dispatch, sensitiveMgt, caseMgt, actionRef, enums })
             <Descriptions.Item label="最高刑期">{detailData.highestPrisonTerm}</Descriptions.Item>
           </>
         )}
-        <Descriptions.Item label="发生地域">{detailData.belongRegional}</Descriptions.Item>
+        <Descriptions.Item label="发生地域">{detailData.region}</Descriptions.Item>
       </Descriptions>
       <Descriptions size="middle" column={1}>
         <Descriptions.Item label="简要案情">{detailData.briefCase}</Descriptions.Item>
-        {detailData.eventType !== 1 ? (
-          <Descriptions.Item label="行政处理结果">{detailData.punishResult}</Descriptions.Item>
+        {detailData.eventType === 1 ? (
+          <Descriptions.Item label="具体判决结果">{detailData.punishResult}</Descriptions.Item>
         ) : (
-          <Descriptions.Item label="案件办理结果">{detailData.convictionsResult}</Descriptions.Item>
+          <Descriptions.Item label="具体判决结果">{detailData.convictionsResult}</Descriptions.Item>
         )}
         {fileList(detailData.fileList)}
       </Descriptions>

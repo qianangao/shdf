@@ -1,7 +1,7 @@
 import { message } from 'antd';
 
 export const getSecrecyRowClassName = item => {
-  if (item && !item.isSecrecyData) {
+  if (item && item.isSecrecyData === false) {
     message.warning({
       key: 'dataError',
       content: '部分数据完整性异常，已标出，请注意辨别',

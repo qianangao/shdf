@@ -1,7 +1,8 @@
 import React from 'react';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
-import {getSecrecyRowClassName} from "@/utils/secrecy";
+import { getSecrecyRowClassName } from '@/utils/secrecy';
+import { checkAuthority } from '@/utils/authority';
 
 const Table = ({ documentMgt, openDetailModal, dispatch, enums }) => {
   const { tableRef } = documentMgt;
@@ -16,14 +17,14 @@ const Table = ({ documentMgt, openDetailModal, dispatch, enums }) => {
       width: 64,
     },
     {
-      title: '公告ID',
+      title: '公文ID',
       dataIndex: 'documentId',
       align: 'center',
       width: 140,
       hideInSearch: true,
     },
 
-    { title: '公告标题', align: 'center', dataIndex: 'documentTitle' },
+    { title: '公文标题', align: 'center', dataIndex: 'documentTitle' },
     { title: '发布人', align: 'center', dataIndex: 'publishUser' },
     {
       title: '保存时间',
@@ -47,6 +48,7 @@ const Table = ({ documentMgt, openDetailModal, dispatch, enums }) => {
       fixed: 'right',
       render: (dom: any, data: any) => [
         <a
+          hidden={!checkAuthority('so/dm/rec/detail')}
           key={`${data.documentId}detail`}
           onClick={() => openDetailModal(data.documentId, data.documentStatus, 'publish')}
         >

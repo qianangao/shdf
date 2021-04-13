@@ -218,6 +218,10 @@ const Model = {
       }
     },
     *update({ payload, resolve }, { call, put }) {
+      if (!payload.eventCode) {
+        const resCode = yield call(getReceivingCode, {});
+        payload.eventCode = `MS${resCode}`;
+      }
       const response = yield call(updateCase, payload);
       if (!response.error) {
         resolve && resolve(response);
@@ -263,7 +267,7 @@ const Model = {
     *add({ payload, resolve }, { call, put }) {
       // 先获取编码
       const resCode = yield call(getReceivingCode, {});
-      payload.caseCode = `MS${resCode}`;
+      payload.eventCode = `MS${resCode}`;
       const response = yield call(add, payload);
       if (!response.error) {
         resolve && resolve(response);
@@ -425,13 +429,13 @@ const Model = {
     *templateDownload({ _ }, { call }) {
       const response = yield call(templateDownload);
       if (!response.error) {
-        yield downloadXlsFile(response, `案件管理模板`);
+        yield downloadXlsFile(response, `敏感事件管理模板`);
       }
     },
     *exportCase({ _ }, { call }) {
       const response = yield call(exportCase);
       if (!response.error) {
-        yield downloadXlsFile(response, `案件管理列表${moment().format('MM-DD HH:mm:ss')}`);
+        yield downloadXlsFile(response, `敏感事件管理列表${moment().format('MM-DD HH:mm:ss')}`);
       }
     },
     *importCase({ payload, resolve }, { call, put }) {
