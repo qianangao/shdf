@@ -4,8 +4,8 @@ import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import CueAssociation from '@/components/CueAssociation';
 import { getSecrecyRowClassName } from '@/utils/secrecy';
-import AssociationDesc from './AssociationDesc';
 import { checkAuthority } from '@/utils/authority';
+import AssociationDesc from './AssociationDesc';
 
 let tempSelectData = [];
 const Table = ({

@@ -225,7 +225,7 @@ const Model = {
       const response = yield call(updateCase, payload);
       if (!response.error) {
         resolve && resolve(response);
-        message.success('案件修改成功！');
+        message.success('敏感事件编辑成功！');
         yield put({
           type: 'tableReload',
         });
@@ -271,7 +271,7 @@ const Model = {
       const response = yield call(add, payload);
       if (!response.error) {
         resolve && resolve(response);
-        message.success('新增案件成功！');
+        message.success('新增敏感事件成功！');
         yield put({
           type: 'tableReload',
         });

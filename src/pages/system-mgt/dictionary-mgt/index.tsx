@@ -46,7 +46,7 @@ const DictionaryMgt = ({ dispatch }) => {
     <>
       <Table openModifyModal={openModifyModal} changeTypeId={changeTypeId} />
       <Drawer
-        title="字段信息"
+        title="字典管理"
         placement="right"
         closable={false}
         width={580}
