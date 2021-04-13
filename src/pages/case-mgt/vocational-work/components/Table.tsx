@@ -3,6 +3,7 @@ import { Button, Modal, Popconfirm, message } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import { getSecrecyRowClassName } from '@/utils/secrecy';
+import { checkAuthority } from '@/utils/authority';
 
 const Table = ({
   caseMgt,
@@ -59,12 +60,20 @@ const Table = ({
   };
   const createButton = caseData => {
     const Cat = (
-      <a key={`${caseData.caseId}cat`} onClick={() => openDetailModal(caseData)}>
+      <a
+        key={`${caseData.caseId}cat`}
+        onClick={() => openDetailModal(caseData)}
+        hidden={!checkAuthority('cm/detail')}
+      >
         查看
       </a>
     );
     const Edit = (
-      <a key={`${caseData.caseId}up`} onClick={() => openModifyModal(caseData)}>
+      <a
+        key={`${caseData.caseId}up`}
+        onClick={() => openModifyModal(caseData)}
+        hidden={!checkAuthority('cm/update')}
+      >
         编辑
       </a>
     );
@@ -75,11 +84,15 @@ const Table = ({
         placement="topRight"
         onConfirm={() => del(caseData.caseId)}
       >
-        <a>删除</a>
+        <a hidden={!checkAuthority('cm/delete')}>删除</a>
       </Popconfirm>
     );
     const Auth = (
-      <a key={`${caseData.caseId}role`} onClick={() => openAuthorizeModal(caseData)}>
+      <a
+        key={`${caseData.caseId}role`}
+        onClick={() => openAuthorizeModal(caseData)}
+        hidden={!checkAuthority('cm/auth')}
+      >
         授权
       </a>
     );
@@ -90,18 +103,26 @@ const Table = ({
         placement="topRight"
         onConfirm={() => completed(caseData.caseId)}
       >
-        <a>办结</a>
+        <a hidden={!checkAuthority('cm/finish')}>办结</a>
       </Popconfirm>
     );
 
     const Evaluate = (
-      <a key={`${caseData.caseId}eval`} onClick={() => openEvaluateModal(caseData)}>
+      <a
+        key={`${caseData.caseId}eval`}
+        onClick={() => openEvaluateModal(caseData)}
+        hidden={!checkAuthority('cm/comment')}
+      >
         评价
       </a>
     );
 
     const EvaluateFeedback = (
-      <a key={`${caseData.caseId}ev_ba`} onClick={() => openEvaluateFeedbackModal(caseData)}>
+      <a
+        key={`${caseData.caseId}ev_ba`}
+        onClick={() => openEvaluateFeedbackModal(caseData)}
+        hidden={!checkAuthority('cm/commentFeedback')}
+      >
         评价反馈
       </a>
     );
@@ -128,7 +149,11 @@ const Table = ({
 
   const createRecordButton = caseData => {
     const ApplyCase = (
-      <a key={`${caseData.caseId}app_re`} onClick={() => openApplyCaseModal(caseData)}>
+      <a
+        key={`${caseData.caseId}app_re`}
+        onClick={() => openApplyCaseModal(caseData)}
+        hidden={!checkAuthority('cm/applyRecord')}
+      >
         申请备案
       </a>
     );
@@ -139,16 +164,24 @@ const Table = ({
         placement="topRight"
         onConfirm={() => recall(caseData.caseId)}
       >
-        <a>撤回备案</a>
+        <a hidden={!checkAuthority('cm/recallRecord')}>撤回备案</a>
       </Popconfirm>
     );
     const RecordApproval = (
-      <a key={`${caseData.caseId}re_app`} onClick={() => openRecordApprovalModifyModal(caseData)}>
+      <a
+        key={`${caseData.caseId}re_app`}
+        onClick={() => openRecordApprovalModifyModal(caseData)}
+        hidden={!checkAuthority('cm/approvalRecord')}
+      >
         备案审批
       </a>
     );
     const RecordDetail = (
-      <a key={`${caseData.caseId}in_re`} onClick={() => openRecordDetailModal(caseData)}>
+      <a
+        key={`${caseData.caseId}in_re`}
+        onClick={() => openRecordDetailModal(caseData)}
+        hidden={!checkAuthority('cm/infoRecord')}
+      >
         备案信息
       </a>
     );
@@ -169,17 +202,29 @@ const Table = ({
 
   const createSuperviseButton = caseData => {
     const ApplySupervise = (
-      <a key={`${caseData.caseId}app_do`} onClick={() => openApplySuperviseModal(caseData)}>
+      <a
+        key={`${caseData.caseId}app_do`}
+        onClick={() => openApplySuperviseModal(caseData)}
+        hidden={!checkAuthority('cm/applySupervise')}
+      >
         申请督办
       </a>
     );
     const Supervise = (
-      <a key={`${caseData.caseId}do`} onClick={() => openSuperviseModal(caseData)}>
+      <a
+        key={`${caseData.caseId}do`}
+        onClick={() => openSuperviseModal(caseData)}
+        hidden={!checkAuthority('cm/supervise')}
+      >
         督办
       </a>
     );
     const SuperviseApproval = (
-      <a key={`${caseData.caseId}pa_do`} onClick={() => openSuperviseApprovalModal(caseData)}>
+      <a
+        key={`${caseData.caseId}pa_do`}
+        onClick={() => openSuperviseApprovalModal(caseData)}
+        hidden={!checkAuthority('cm/approvalSupervise')}
+      >
         督办审批
       </a>
     );
@@ -190,11 +235,15 @@ const Table = ({
         placement="topRight"
         onConfirm={() => recallSupervise(caseData.caseId)}
       >
-        <a>撤回督办</a>
+        <a hidden={!checkAuthority('cm/recallSupervise')}>撤回督办</a>
       </Popconfirm>
     );
     const SuperviseDetail = (
-      <a key={`${caseData.caseId}in_do`} onClick={() => openSuperviseDetailModal(caseData)}>
+      <a
+        key={`${caseData.caseId}in_do`}
+        onClick={() => openSuperviseDetailModal(caseData)}
+        hidden={!checkAuthority('cm/infoSupervise')}
+      >
         督办信息
       </a>
     );
@@ -348,21 +397,27 @@ const Table = ({
       scroll={{ x: 'max-content' }}
       request={async params => getReceivingList(params)}
       toolBarRender={(_, { selectedRowKeys }) => [
-        <Button type="primary" onClick={() => openModifyModal()}>
+        <Button hidden={!checkAuthority('cm/add')} type="primary" onClick={() => openModifyModal()}>
           新增
         </Button>,
-        <Button type="primary" onClick={() => templateDownload()}>
+        <Button
+          type="primary"
+          onClick={() => templateDownload()}
+          hidden={!checkAuthority('cm/download')}
+        >
           模板下载
         </Button>,
         <>
           <input
             type="file"
+            hidden={!checkAuthority('cm/inport')}
             name="file"
             onChange={importCase}
             style={{ display: 'none' }}
             ref={uploadLgbListRef}
           />
           <Button
+            hidden={!checkAuthority('cm/inport')}
             type="primary"
             onClick={() => {
               uploadLgbListRef.current.click();
@@ -372,6 +427,7 @@ const Table = ({
           </Button>
         </>,
         <Button
+          hidden={!checkAuthority('cm/export')}
           type="primary"
           onClick={() => {
             exportCase(selectedRowKeys);

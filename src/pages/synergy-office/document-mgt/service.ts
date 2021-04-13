@@ -1,7 +1,7 @@
 import request from '@/utils/request';
 
 /**
- * 获取公告管理列表
+ * 获取公文管理列表
  * @param params
  */
 export async function getAnnouncementList(params: any) {
@@ -21,7 +21,7 @@ export async function getReceivingCode(params) {
   });
 }
 /**
- * 获取已接收公告管理列表
+ * 获取已接收公文管理列表
  * @param params
  */
 export async function getReceiveList(params: any) {
@@ -32,7 +32,7 @@ export async function getReceiveList(params: any) {
 }
 
 /**
- * 获取公告信息详情
+ * 获取公文信息详情
  * @param params
  */
 export async function getAnnouncementDetail(params: any) {
@@ -43,7 +43,7 @@ export async function getAnnouncementDetail(params: any) {
 }
 
 /**
- * 获取已接收公告信息详情
+ * 获取已接收公文信息详情
  * @param params
  */
 export async function getReceiveDetail(params: any) {
@@ -54,7 +54,7 @@ export async function getReceiveDetail(params: any) {
 }
 
 /**
- * 查询 公告处理情况
+ * 查询 公文处理情况
  * @param params
  */
 export async function getReadInfo(params: any) {
@@ -65,7 +65,7 @@ export async function getReadInfo(params: any) {
 }
 
 /**
- * 新增公告信息
+ * 新增公文信息
  * @param params
  */
 export async function addAnnouncement(params: any) {
@@ -76,7 +76,7 @@ export async function addAnnouncement(params: any) {
 }
 
 /**
- * 提交审核公告信息
+ * 提交审核公文信息
  * @param params
  */
 export async function commitExamineAnnouncement(params: any) {
@@ -87,7 +87,7 @@ export async function commitExamineAnnouncement(params: any) {
 }
 
 /**
- * 审核公告信息
+ * 审核公文信息
  * @param params
  */
 export async function auditAnnouncement(params: any) {
@@ -98,7 +98,7 @@ export async function auditAnnouncement(params: any) {
 }
 
 /**
- * 修改公告信息
+ * 修改公文信息
  * @param params
  */
 export async function updateAnnouncement(params: any) {
@@ -108,7 +108,7 @@ export async function updateAnnouncement(params: any) {
   });
 }
 /**
- * 删除公告信息
+ * 删除公文信息
  * @param params
  */
 export async function deleteAnnouncement(params: any) {
@@ -118,7 +118,7 @@ export async function deleteAnnouncement(params: any) {
   });
 }
 /**
- * 发布公告信息
+ * 发布公文信息
  * @param params
  */
 export async function publishAnnouncement(params: any) {
@@ -128,8 +128,8 @@ export async function publishAnnouncement(params: any) {
   });
 }
 /**
- * 撤回/关闭公告信息
- * @param params noticeId : 公告id,
+ * 撤回/关闭公文信息
+ * @param params noticeId : 公文id,
  * @param handleType : 0 撤回 1 关闭
  */
 export async function rollbackOrCloseAnnouncement(params: any) {
@@ -139,7 +139,7 @@ export async function rollbackOrCloseAnnouncement(params: any) {
   });
 }
 /**
- * 回复公告信息
+ * 回复公文信息
  * @param params
  */
 export async function replyAnnouncement(params: any) {

@@ -2,7 +2,8 @@ import React from 'react';
 import { Button, Modal, Popconfirm } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
-import {getSecrecyRowClassName} from "@/utils/secrecy";
+import { getSecrecyRowClassName } from '@/utils/secrecy';
+import { checkAuthority } from '@/utils/authority';
 
 const Table = ({ smDictionaryMgt, openModifyModal, changeTypeId, dispatch }) => {
   const { tableRef } = smDictionaryMgt;
@@ -24,7 +25,11 @@ const Table = ({ smDictionaryMgt, openModifyModal, changeTypeId, dispatch }) => 
       width: 80,
       fixed: 'right',
       render: (dom: any, receivingData: { dictTypeId: any }) => [
-        <a key={`${receivingData.dictTypeId}up`} onClick={() => openModifyModal(receivingData)}>
+        <a
+          key={`${receivingData.dictTypeId}up`}
+          onClick={() => openModifyModal(receivingData)}
+          hidden={!checkAuthority('sm/dim/updateType')}
+        >
           修改
         </a>,
         <Popconfirm
@@ -33,7 +38,7 @@ const Table = ({ smDictionaryMgt, openModifyModal, changeTypeId, dispatch }) => 
           placement="topRight"
           onConfirm={() => deleteTypes([receivingData.dictTypeId])}
         >
-          <a>删除</a>
+          <a hidden={!checkAuthority('sm/dim/deleteType')}>删除</a>
         </Popconfirm>,
       ],
     },
@@ -73,7 +78,11 @@ const Table = ({ smDictionaryMgt, openModifyModal, changeTypeId, dispatch }) => 
       }}
       request={async params => getFieldList(params)}
       toolBarRender={(_, { selectedRowKeys }) => [
-        <Button type="primary" onClick={() => openModifyModal()}>
+        <Button
+          type="primary"
+          onClick={() => openModifyModal()}
+          hidden={!checkAuthority('sm/dim/addType')}
+        >
           新增
         </Button>,
         selectedRowKeys && selectedRowKeys.length && (

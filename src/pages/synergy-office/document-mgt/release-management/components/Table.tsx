@@ -2,7 +2,8 @@ import React from 'react';
 import { Button, Modal, Popconfirm } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
-import {getSecrecyRowClassName} from "@/utils/secrecy";
+import { getSecrecyRowClassName } from '@/utils/secrecy';
+import { checkAuthority } from '@/utils/authority';
 
 const Table = ({
   documentMgt,
@@ -19,64 +20,73 @@ const Table = ({
       <a
         key={`${data.documentId}detail`}
         onClick={() => detailModal(data.documentId, data.documentStatus, 'publish')}
+        hidden={!checkAuthority('so/dm/rm/detail')}
       >
         查看
       </a>
     );
     const EDIT = (
-      <a key={`${data.documentId}up`} onClick={() => openModifyModal(data.documentId)}>
+      <a
+        key={`${data.documentId}up`}
+        onClick={() => openModifyModal(data.documentId)}
+        hidden={!checkAuthority('so/dm/rel/update')}
+      >
         编辑
       </a>
     );
     const PUBLISH = (
       <Popconfirm
         key={`${data.documentId}publish`}
-        title="确认发布该公告信息吗？"
+        title="确认发布该公文信息吗？"
         placement="topRight"
         onConfirm={() => publishAnnouncement(data.documentId)}
       >
-        <a>发布</a>
+        <a hidden={!checkAuthority('so/dm/rel/release')}>发布</a>
       </Popconfirm>
     );
     const DELETE = (
       <Popconfirm
         key={`${data.documentId}del`}
-        title="确认删除该公告信息吗？"
+        title="确认删除该公文信息吗？"
         placement="topRight"
         onConfirm={() => deleteAnnouncement(data.documentId)}
       >
-        <a>删除</a>
+        <a hidden={!checkAuthority('so/dm/rel/delete')}>删除</a>
       </Popconfirm>
     );
     const TREATMENT = (
-      <a key={`${data.documentId}treatment`} onClick={() => handleSituationModal(data.documentId)}>
+      <a
+        key={`${data.documentId}treatment`}
+        onClick={() => handleSituationModal(data.documentId)}
+        hidden={!checkAuthority('so/dm/rel/delete')}
+      >
         处理情况
       </a>
     );
     const ROLLBACK = (
       <Popconfirm
         key={`${data.documentId}rollback`}
-        title="确认撤回该公告信息吗？"
+        title="确认撤回该公文信息吗？"
         placement="topRight"
         onConfirm={() => rollbackOrCloseAnnouncement(data.documentId, 0)}
       >
-        <a>撤回</a>
+        <a hidden={!checkAuthority('so/dm/rel/delete')}>撤回</a>
       </Popconfirm>
     );
     const CLOSE = (
       <Popconfirm
         key={`${data.documentId}close`}
-        title="确认关闭该公告信息吗？"
+        title="确认关闭该公文信息吗？"
         placement="topRight"
         onConfirm={() => rollbackOrCloseAnnouncement(data.documentId, 1)}
       >
-        <a>关闭</a>
+        <a hidden={!checkAuthority('so/dm/rel/delete')}>关闭</a>
       </Popconfirm>
     );
 
     switch (data.documentStatus) {
       case -3:
-        return [CHECK, EDIT,  PUBLISH];
+        return [CHECK, EDIT, PUBLISH];
       case -1:
         return [CHECK, EDIT];
       case 0:
@@ -181,7 +191,11 @@ const Table = ({
       scroll={{ x: 'max-content' }}
       request={async params => getAnnouncementList(params)}
       toolBarRender={(_, { selectedRowKeys }) => [
-        <Button type="primary" onClick={() => openModifyModal()}>
+        <Button
+          type="primary"
+          onClick={() => openModifyModal()}
+          hidden={!checkAuthority('so/dm/rel/add')}
+        >
           新增
         </Button>,
         selectedRowKeys && selectedRowKeys.length && (
