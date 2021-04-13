@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'umi';
 import TypeSelectLayout from '@/layouts/TypeSelectLayout';
-import ClueDetailModal from '@/pages/thread-mgt/components/detail/DetailModal';
+import ClueDetailModal from '@/pages/thread-mgt/components/host/detail/DetailModal';
 import BanPublishDetailModal from '@/pages/key-data/ban-publish-mgt/components/detail/DetailModal';
 import InstitutionDetailModal from '@/pages/key-data/key-institutions-mgt/components/DetailModal';
 import PersonDetailModal from '@/pages/key-data/key-person-mgt/components/DetailModal';

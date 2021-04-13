@@ -2,6 +2,7 @@ const routes = {
   path: '/thread-mgt',
   name: 'thread-mgt',
   remark: '线索管理',
+  authority: 'tm',
   routes: [
     {
       path: '/thread-mgt/thread-mgt0',
@@ -9,6 +10,7 @@ const routes = {
       component: './thread-mgt',
       icon: 'setting',
       remark: '线索管理',
+      authority: 'tm',
     },
     {
       path: '/thread-mgt',

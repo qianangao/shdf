@@ -92,6 +92,13 @@ export async function concludeTheMatter(params: any) {
   });
 }
 
+// 关键词  queryType: dict
+export async function getList(params) {
+  return request(`/key-words`, {
+    method: 'GET',
+    params,
+  });
+}
 /**
  * 获取编码
  * @param params

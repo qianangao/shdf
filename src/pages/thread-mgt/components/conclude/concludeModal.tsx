@@ -48,9 +48,18 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
         });
       })
       .then(() => {
+        const event = new CustomEvent('changeLanguage', {
+          detail: {
+            data: 'SmallModal',
+          },
+          bubbles: true, // 是否冒泡
+          cancelable: false, // 是否取消默认事件
+        });
+        window.dispatchEvent(event);
         hideModal();
         if (concludeStaus === '0') {
           setModalVisible(false);
+          // props.concealRef;
         }
       })
       .catch(info => {
