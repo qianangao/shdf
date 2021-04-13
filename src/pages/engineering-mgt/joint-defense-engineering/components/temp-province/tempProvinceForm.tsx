@@ -1,7 +1,7 @@
 import React from 'react';
 import AdvancedForm from '@/components/AdvancedForm';
 // import { connect } from 'umi';
-import { checkPhone } from '@/utils/validators';
+// import { checkPhone } from '@/utils/validators';
 
 const TempProvinceForm = ({ form }) => {
   const formItems = [
@@ -24,12 +24,12 @@ const TempProvinceForm = ({ form }) => {
       label: '联络电话',
       name: 'contactPhone',
       span: 2,
-      rules: [
-        { required: true, message: '请输入联络电话!' },
-        {
-          validator: checkPhone,
-        },
-      ],
+      // rules: [
+      //   { required: true, message: '请输入联络电话!' },
+      //   {
+      //     validator: checkPhone,
+      //   },
+      // ],
     },
   ];
   return <AdvancedForm form={form} fields={formItems} />;

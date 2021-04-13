@@ -104,9 +104,9 @@ const EngineeringDescription = ({
               <Descriptions.Item label="工程名称" span={2}>
                 {engineeringForm.projectName}
               </Descriptions.Item>
-              <Descriptions.Item label="工程编号" span={2}>
+              {/* <Descriptions.Item label="工程编号" span={2}>
                 {engineeringForm.projectCode}
-              </Descriptions.Item>
+              </Descriptions.Item> */}
             </>
           )}
           {visible && (
@@ -139,9 +139,9 @@ const EngineeringDescription = ({
             </>
           )}
 
-          <Descriptions.Item label="工程描述" span={4}>
+          {/* <Descriptions.Item label="工程描述" span={4}>
             {engineeringForm.describe}
-          </Descriptions.Item>
+          </Descriptions.Item> */}
           {!visible && (
             <>
               <Descriptions.Item label="成员省份" span={4}>
