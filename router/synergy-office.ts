@@ -40,18 +40,21 @@ const routes = {
       name: 'synergy-office-announcement-mgt',
       icon: 'notification',
       remark: '公告管理',
+      authority: 'so/am/',
       routes: [
         {
           path: '/synergy-office/announcement-mgt/release-management',
           name: 'synergy-office-announcement-mgt/release-management',
           component: './synergy-office/announcement-mgt/release-management',
           remark: '发布管理',
+          authority: 'so/am/rm',
         },
         {
           path: '/synergy-office/announcement-mgt/receive-management',
           name: 'synergy-office-announcement-mgt/receive-management',
           component: './synergy-office/announcement-mgt/receive-management',
           remark: '接收管理',
+          authority: 'so/am/rem',
         },
       ],
     },

@@ -34,11 +34,19 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
     form
       .validateFields()
       .then((values: any) => {
+        let tempLevel = '';
         const fileIds =
           values.files &&
           values.files.map((item: { uid: any }) => {
+            if (tempLevel < item.secrecyLevel) {
+              tempLevel = item.secrecyLevel;
+            }
             return item.uid;
           });
+        if (tempLevel > values.secrecyLevel) {
+          message.error('附件密级不能大于该数据密级！');
+          return '';
+        }
         return new Promise(resolve => {
           dispatch({
             type: `emClueManagement/hostAssociation`,

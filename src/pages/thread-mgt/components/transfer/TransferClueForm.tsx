@@ -85,6 +85,13 @@ const TransferClueForm = ({ form, fieldChangeHander }) => {
       ),
       rules: [{ required: true, message: '请选择是否涉及敏感事件!' }],
     },
+
+    {
+      label: '反馈截止时间',
+      name: 'deadline',
+      type: 'dateTime',
+      rules: [{ required: true, message: '请反馈截止时间!' }],
+    },
   ];
 
   return <AdvancedForm form={form} fields={formItems} fieldChange={fieldChangeHander} />;
