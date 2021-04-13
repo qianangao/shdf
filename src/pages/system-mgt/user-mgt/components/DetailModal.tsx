@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
 import { Descriptions, Modal, Spin } from 'antd';
-import { formatDateStr } from '@/utils/format';
+// import { formatDateStr } from '@/utils/format';
 
 const DetailModal = ({ dispatch, actionRef, loading, usetListData, enums }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -59,9 +59,7 @@ const DetailModal = ({ dispatch, actionRef, loading, usetListData, enums }) => {
           <Descriptions.Item label="用户性别">
             {enums.dict_sex && enums.dict_sex[usetListData.sex]}
           </Descriptions.Item>
-          <Descriptions.Item label="所在机构">
-            {formatDateStr(usetListData.orgId, 'YYYY-MM-DD')}
-          </Descriptions.Item>
+          <Descriptions.Item label="所在机构">{usetListData.orgId}</Descriptions.Item>
           <Descriptions.Item label="数据来源'">{usetListData.source}</Descriptions.Item>
           <Descriptions.Item label="电子邮箱">{usetListData.email} </Descriptions.Item>
           <Descriptions.Item label="职位">{usetListData.positionName} </Descriptions.Item>
@@ -71,14 +69,10 @@ const DetailModal = ({ dispatch, actionRef, loading, usetListData, enums }) => {
           <Descriptions.Item label="职级">
             {enums.nation && enums.nation[usetListData.jobLevel]}
           </Descriptions.Item>
-          <Descriptions.Item label="所在机构名称">
-            {enums.nationality && enums.nationality[usetListData.orgName]}
-          </Descriptions.Item>
+          <Descriptions.Item label="所在机构名称">{usetListData.orgName}</Descriptions.Item>
           <Descriptions.Item label="序号">{usetListData.orderNum}</Descriptions.Item>
           <Descriptions.Item label="用户类型">{usetListData.userType}</Descriptions.Item>
-          <Descriptions.Item label="证件号码">
-            {enums.marital && enums.marital[usetListData.paperNum]}
-          </Descriptions.Item>
+          <Descriptions.Item label="证件号码">{usetListData.paperNum}</Descriptions.Item>
           <Descriptions.Item label="用户密码">
             {enums.education && enums.education[usetListData.loginPwd]}
           </Descriptions.Item>

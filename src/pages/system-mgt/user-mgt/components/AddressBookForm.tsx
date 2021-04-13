@@ -1,9 +1,32 @@
 import React from 'react';
 import AdvancedForm from '@/components/AdvancedForm';
-import { checkPhone, checkEmail } from '@/utils/validators';
+import { checkPhone, checkEmail, isNum } from '@/utils/validators';
 import OrgMultiSelectInput from '@/components/OrgMultiSelectInput/index';
 
 const AddressBookForm = ({ form }) => {
+  // const isNum = (value, callback) => {
+  //   if (!value) {
+  //     return callback(new Error('输入不可以为空'));
+  //   } else if (!Number(value)) {
+  //     callback(new Error('请输入正整数'));
+  //   } else {
+  //     const re = /^[0-9]*[1-9][0-9]*$/;
+  //     const rsCheck = re.test(value);
+  //     if (!rsCheck) {
+  //       callback(new Error('请输入正整数'));
+  //     } else {
+  //       callback();
+  //     }
+  //   }
+  // };
+  // const isNum = (rule, value, callback) => {
+  //   const age = /^[0-9]*$/;
+  //   if (!age.test(value)) {
+  //     callback(new Error('年龄只能为数字'));
+  //   } else {
+  //     callback();
+  //   }
+  // };
   const formItems = [
     { label: 'id', name: 'userId', hidden: true },
     {
@@ -20,12 +43,12 @@ const AddressBookForm = ({ form }) => {
       name: 'userCode',
       span: 1,
       rules: [
-        { required: true, message: '请输入用编码!', whitespace: true },
+        { required: true, message: '请输入用户编码!', whitespace: true },
         { max: 30, message: '姓名长度请小于30位!' },
       ],
     },
     {
-      label: '手机号',
+      label: '手机号码',
       name: 'mobile',
       span: 1,
       rules: [
@@ -69,67 +92,68 @@ const AddressBookForm = ({ form }) => {
       label: '职位',
       name: 'positionName',
       span: 1,
-      // rules: [{ required: true, message: '请输入当前职务!' }],
+      rules: [{ required: true, message: '请输入当前职位!' }],
     },
     {
       label: '证件类型',
       name: 'paperType',
       span: 1,
-      // rules: [{ required: true, message: '请输入证件类型!' }],
+      rules: [{ required: true, message: '请输入证件类型!' }],
     },
     {
       label: '职级',
       name: 'jobLevel',
       span: 1,
-      // rules: [{ required: true, message: '请输入职!' }],
+      rules: [{ required: true, message: '请输入职级!' }],
     },
     {
       label: '序号',
       name: 'orderNum',
       span: 1,
-      // rules: [{ required: true, message: '请输序号!' }],
+      rules: [{ validator: isNum }, { max: 10, message: '序号长度请小于10位!' }],
     },
     {
       label: '用户类型',
       name: 'userType',
       span: 1,
-      // rules: [{ required: true, message: '请输用户类型!' }],
+      rules: [{ required: true, message: '请输入用户类型!' }],
     },
     {
       label: '证件号码',
       name: 'paperNum',
       span: 1,
-      // rules: [{ required: true, message: '请输入职!' }],
+      rules: [{ required: true, message: '请输入证件号码!' }],
     },
     {
       label: '用户密码',
       name: 'loginPwd',
       span: 1,
-      // rules: [{ required: true, message: '请输入密码!' }],
+      rules: [{ required: true, message: '请输入用户密码!' }],
     },
     {
-      label: '登陆名',
+      label: '登录名',
       name: 'loginName',
       span: 1,
-      // rules: [{ required: true, message: '请输入登录名!' }],
+      rules: [{ required: true, message: '请输入登录名!' }],
     },
     {
       label: '用户状态',
       name: 'userStatus',
       span: 1,
-      // rules: [{ required: true, message: '请输入用户状态!' }],
+      rules: [{ required: true, message: '请输入用户状态!' }],
     },
     {
       label: '用户地址',
       name: 'addr',
       span: 1,
-      // rules: [{ required: true, message: '请输入地址!' }],
+      rules: [{ required: true, message: '请输入用户地址!' }],
     },
     {
       label: '出生日期',
       name: 'birthday',
+      type: 'date',
       span: 1,
-      // rules: [{ required: true, message: '请输入出生日期' }],
+      rules: [{ required: true, message: '请输入出生日期' }],
     },
     {
       label: '备注',
