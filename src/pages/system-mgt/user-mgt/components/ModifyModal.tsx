@@ -53,6 +53,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
     form
       .validateFields()
       .then(values => {
+        values.orgId = values.orgObj[0].id;
         return new Promise(resolve => {
           dispatch({
             type: `userMgt/${userId ? 'updateUser' : 'addUser'}`,

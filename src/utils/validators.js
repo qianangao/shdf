@@ -284,7 +284,7 @@ export const checkEmail = (rule, value, callback) => {
 export const isNum = (rule, value, callback) => {
   const reg = /^[0-9]*$/;
   if (value && !reg.test(value)) {
-    callback('输入只能为数字');
+    callback('只能输入正整数数字');
   } else {
     callback();
   }

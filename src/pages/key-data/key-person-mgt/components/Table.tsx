@@ -26,13 +26,13 @@ const Table = ({
       width: 64,
     },
     { title: '姓名', align: 'center', dataIndex: 'personName' },
-    { title: '证件号码', align: 'center', dataIndex: 'idCard' },
     {
       title: '性别',
       align: 'center',
       dataIndex: 'sex',
       valueEnum: enums.dict_sex,
     },
+    { title: '证件号码', align: 'center', dataIndex: 'idCard' },
     { title: '年龄', align: 'center', dataIndex: 'age' },
     {
       title: '出生地',
