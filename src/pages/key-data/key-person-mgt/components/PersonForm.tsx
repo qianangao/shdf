@@ -1,5 +1,6 @@
 import React from 'react';
 import AdvancedForm from '@/components/AdvancedForm';
+import { isNum } from '@/utils/validators';
 import { Input } from 'antd';
 
 const PersonForm = ({ form }) => {
@@ -51,17 +52,14 @@ const PersonForm = ({ form }) => {
     {
       label: '年龄',
       name: 'age',
-      rules: [
-        { required: true, message: '请输入年龄!' },
-        { max: 3, min: 0, message: '年龄输入错误' },
-      ],
+      rules: [{ validator: isNum }, { max: 3, min: 0, message: '年龄输入错误' }],
       render: <Input addonAfter="岁" type="number" />,
     },
     {
       label: '身高',
       name: 'height',
       rules: [
-        { required: true, message: '请输入身高!' },
+        { required: true, validator: isNum },
         { max: 3, min: 0, message: '身高输入错误' },
       ],
       render: <Input addonAfter="CM" type="number" />,
@@ -70,7 +68,7 @@ const PersonForm = ({ form }) => {
       label: '体重',
       name: 'weight',
       rules: [
-        { required: true, message: '请输入体重!' },
+        { required: true, validator: isNum },
         { max: 3, min: 0, message: '体重输入错误' },
       ],
       render: <Input addonAfter="KG" type="number" />,

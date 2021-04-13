@@ -275,3 +275,17 @@ export const checkEmail = (rule, value, callback) => {
     callback();
   }
 };
+/**
+ * 数字校验
+ * @param {*} rule
+ * @param {*} value 需校验的值
+ * @param {*} callback form回调函数
+ */
+export const isNum = (rule, value, callback) => {
+  const reg = /^[0-9]*$/;
+  if (value && !reg.test(value)) {
+    callback('只能输入正整数数字');
+  } else {
+    callback();
+  }
+};

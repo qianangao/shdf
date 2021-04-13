@@ -12,7 +12,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       new Promise(resolve => {
         dispatch({
           type: 'userMgt/getUserDetail',
-          payload: { userIds },
+          payload: { userId: userIds },
           resolve,
         });
       }).then(res => {
@@ -53,6 +53,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
     form
       .validateFields()
       .then(values => {
+        values.orgId = values.orgObj[0].id;
         return new Promise(resolve => {
           dispatch({
             type: `userMgt/${userId ? 'updateUser' : 'addUser'}`,

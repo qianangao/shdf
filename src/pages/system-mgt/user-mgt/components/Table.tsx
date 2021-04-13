@@ -3,6 +3,7 @@ import { Button, Popconfirm } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import { getSecrecyRowClassName } from '@/utils/secrecy';
+import { checkAuthority } from '@/utils/authority';
 
 const Table = ({
   userMgt,
@@ -44,10 +45,18 @@ const Table = ({
       width: 300,
       fixed: 'right',
       render: (dom, data) => [
-        <a key={`${data.userId}detail`} onClick={() => openDetailModal(data.userId)}>
+        <a
+          key={`${data.userId}detail`}
+          onClick={() => openDetailModal(data.userId)}
+          hidden={!checkAuthority('sm/um/detail')}
+        >
           查看
         </a>,
-        <a key={`${data.userId}up`} onClick={() => openModifyModal(data.userId)}>
+        <a
+          key={`${data.userId}up`}
+          onClick={() => openModifyModal(data.userId)}
+          hidden={!checkAuthority('sm/um/detail')}
+        >
           编辑
         </a>,
         <Popconfirm
@@ -56,9 +65,13 @@ const Table = ({
           placement="topRight"
           onConfirm={() => deleteUser(data.userId)}
         >
-          <a>删除</a>
+          <a hidden={!checkAuthority('sm/um/delete')}>删除</a>
         </Popconfirm>,
-        <a key={`${data.userId}up`} onClick={() => openRoleTableModal(data.userId)}>
+        <a
+          key={`${data.userId}up`}
+          onClick={() => openRoleTableModal(data.userId)}
+          hidden={!checkAuthority('sm/um/role')}
+        >
           角色
         </a>,
       ],
@@ -86,7 +99,11 @@ const Table = ({
         scroll={{ x: 'max-content' }}
         request={async params => getUserList(params)}
         toolBarRender={_ => [
-          <Button type="primary" onClick={() => openModifyModal()}>
+          <Button
+            type="primary"
+            onClick={() => openModifyModal()}
+            hidden={!checkAuthority('sm/um/add')}
+          >
             新增
           </Button>,
           // <Button type="primary" onClick={() => openAddRoleModal()}>

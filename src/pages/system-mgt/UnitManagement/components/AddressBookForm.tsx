@@ -1,6 +1,6 @@
 import React from 'react';
 import AdvancedForm from '@/components/AdvancedForm';
-// import { checkPhone, checkEmail, checkTelephone } from '@/utils/validators';
+import { isNum } from '@/utils/validators';
 
 const AddressBookForm = ({ form }) => {
   const formItems = [
@@ -25,12 +25,13 @@ const AddressBookForm = ({ form }) => {
       label: '机构代号',
       name: 'orgCode',
       span: 1.5,
-      rules: [{ required: true, message: '请输入当前职务!' }],
+      rules: [{ required: true, message: '请输入机构代号!' }],
     },
     {
       label: '机构类型',
       name: 'orgKind',
       span: 1.5,
+      rules: [{ required: true, message: '请输入机构类型!' }],
     },
 
     {
@@ -46,31 +47,36 @@ const AddressBookForm = ({ form }) => {
       label: '机构简称',
       name: 'orgSimpleName',
       span: 1.5,
-      rules: [{ required: true, message: '请输入当前职务!' }],
+      rules: [{ required: true, message: '请输入机构简称!' }],
     },
     {
       label: '主管人员',
       name: 'chargePerson',
       span: 1.5,
-      rules: [{ required: true, message: '请输入机构名称!' }],
+      rules: [{ required: true, message: '请输入主管人员!' }],
     },
     {
       label: '职能描述',
       name: 'functionDesc',
       span: 1.5,
-      rules: [{ required: true, message: '请输入机构名称!' }],
+      rules: [{ required: true, message: '请输入职能描述!' }],
     },
     {
       label: '机构分类',
       name: 'orgType',
       span: 1.5,
-      rules: [{ required: true, message: '请输入机构名称!' }],
+      rules: [{ required: true, message: '请输入机构分类!' }],
     },
     {
-      label: '机构命令',
+      label: '机构命令代号',
       name: 'orgOrder',
       span: 1.5,
-      rules: [{ required: true, message: '请输入机构名称!' }],
+      rules: [
+        {
+          validator: isNum,
+        },
+        { max: 10, message: '序号长度请小于10位!' },
+      ],
     },
 
     // {
