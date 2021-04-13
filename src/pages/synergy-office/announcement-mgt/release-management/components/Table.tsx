@@ -3,6 +3,7 @@ import { Button, Modal, Popconfirm } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { getSecrecyRowClassName } from '@/utils/secrecy';
 import { connect } from 'umi';
+import { checkAuthority } from '@/utils/authority';
 
 const Table = ({
   soAnnouncementMgt,
@@ -20,12 +21,17 @@ const Table = ({
       <a
         key={`${data.noticeId}detail`}
         onClick={() => detailModal(data.noticeId, data.noticeStatus, 'publish')}
+        hidden={!checkAuthority('so/am/rm/detail')}
       >
         查看
       </a>
     );
     const EDIT = (
-      <a key={`${data.noticeId}up`} onClick={() => openModifyModal(data.noticeId)}>
+      <a
+        key={`${data.noticeId}up`}
+        onClick={() => openModifyModal(data.noticeId)}
+        hidden={!checkAuthority('so/am/rm/update')}
+      >
         编辑
       </a>
     );
@@ -35,6 +41,7 @@ const Table = ({
         title="确认发布该公告信息吗？"
         placement="topRight"
         onConfirm={() => publishAnnouncement(data.noticeId)}
+        hidden={!checkAuthority('so/am/rm')}
       >
         <a>发布</a>
       </Popconfirm>
@@ -45,12 +52,17 @@ const Table = ({
         title="确认删除该公告信息吗？"
         placement="topRight"
         onConfirm={() => deleteAnnouncement(data.noticeId)}
+        hidden={!checkAuthority('so/am/rm/delete')}
       >
         <a>删除</a>
       </Popconfirm>
     );
     const COMMIT_EXAMINE = (
-      <a key={`${data.noticeId}commit`} onClick={() => commitExamineModal(data.noticeId)}>
+      <a
+        key={`${data.noticeId}commit`}
+        onClick={() => commitExamineModal(data.noticeId)}
+        hidden={!checkAuthority('so/am/rm/Submit')}
+      >
         提交审核
       </a>
     );
@@ -58,12 +70,17 @@ const Table = ({
       <a
         key={`${data.noticeId}examine`}
         onClick={() => detailModal(data.noticeId, data.noticeStatus, 'examine')}
+        hidden={!checkAuthority('so/am/rm/audit')}
       >
         审核
       </a>
     );
     const TREATMENT = (
-      <a key={`${data.noticeId}treatment`} onClick={() => handleSituationModal(data.noticeId)}>
+      <a
+        key={`${data.noticeId}treatment`}
+        onClick={() => handleSituationModal(data.noticeId)}
+        hidden={!checkAuthority('so/am/rm/dispose')}
+      >
         处理情况
       </a>
     );
@@ -73,6 +90,7 @@ const Table = ({
         title="确认撤回该公告信息吗？"
         placement="topRight"
         onConfirm={() => rollbackOrCloseAnnouncement(data.noticeId, 0)}
+        hidden={!checkAuthority('so/am/rm/withdraw')}
       >
         <a>撤回</a>
       </Popconfirm>
@@ -83,6 +101,7 @@ const Table = ({
         title="确认关闭该公告信息吗？"
         placement="topRight"
         onConfirm={() => rollbackOrCloseAnnouncement(data.noticeId, 1)}
+        hidden={!checkAuthority('so/am/rm/close')}
       >
         <a>关闭</a>
       </Popconfirm>

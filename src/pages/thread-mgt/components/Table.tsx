@@ -5,6 +5,7 @@ import { connect } from 'umi';
 import CueAssociation from '@/components/CueAssociation';
 import { getSecrecyRowClassName } from '@/utils/secrecy';
 import AssociationDesc from './AssociationDesc';
+import { checkAuthority } from '@/utils/authority';
 
 let tempSelectData = [];
 const Table = ({
@@ -48,47 +49,80 @@ const Table = ({
       <a
         key={`${data.clueId}detail`}
         onClick={() => openDetailModal(data.clueId, data.sourceClueId)}
+        hidden={!checkAuthority('tm/examine')}
       >
         查看
       </a>
     );
     const EDIT = (
-      <a key={`${data.clueId}update`} onClick={() => openModifyModal(data.clueId)}>
+      <a
+        key={`${data.clueId}update`}
+        onClick={() => openModifyModal(data.clueId)}
+        hidden={!checkAuthority('tm/update')}
+      >
         修改
       </a>
     );
     const AUTH = (
-      <a key={`${data.clueId}auth`} onClick={() => openAuthModal(data.clueId)}>
+      <a
+        key={`${data.clueId}auth`}
+        onClick={() => openAuthModal(data.clueId)}
+        hidden={!checkAuthority('tm/authorize')}
+      >
         授权
       </a>
     );
     const TRANSFER = (
-      <a key={`${data.clueId}transfer`} onClick={() => transferModal(data)}>
+      <a
+        key={`${data.clueId}transfer`}
+        onClick={() => transferModal(data)}
+        hidden={!checkAuthority('tm/transfer')}
+      >
         转办
       </a>
     );
     const HOST = (
-      <a key={`${data.clueId}host`} onClick={() => hostRefModal(data)}>
+      <a
+        key={`${data.clueId}host`}
+        onClick={() => hostRefModal(data)}
+        hidden={!checkAuthority('tm/host')}
+      >
         主办
       </a>
     );
     const FEEDBACK = (
-      <a key={`${data.clueId}feedback`} onClick={() => processRefModal(data, 'feedback')}>
+      <a
+        key={`${data.clueId}feedback`}
+        onClick={() => processRefModal(data, 'feedback')}
+        hidden={!checkAuthority('tm/feedback')}
+      >
         反馈
       </a>
     );
     const SUBMIT = (
-      <a key={`${data.clueId}submit`} onClick={() => processRefModal(data, 'submit')}>
+      <a
+        key={`${data.clueId}submit`}
+        onClick={() => processRefModal(data, 'submit')}
+        hidden={!checkAuthority('tm/conclude')}
+      >
         办结
       </a>
     );
     const APPROVAL = (
-      <a key={`${data.clueId}approval`} onClick={() => processRefModal(data, 'approval')}>
+      <a
+        key={`${data.clueId}approval`}
+        onClick={() => processRefModal(data, 'approval')}
+        hidden={!checkAuthority('tm/check')}
+      >
         审核
       </a>
     );
     const LOG = (
-      <a key={`${data.clueId}log`} onClick={() => openLogModal(data.clueId)}>
+      <a
+        key={`${data.clueId}log`}
+        onClick={() => openLogModal(data.clueId)}
+        hidden={!checkAuthority('tm/log')}
+      >
         日志
       </a>
     );
@@ -98,6 +132,7 @@ const Table = ({
         title="确认结束该线索吗？"
         placement="topRight"
         onConfirm={() => finishClue(data.clueId)}
+        hidden={!checkAuthority('tm/finish')}
       >
         <a>结束</a>
       </Popconfirm>
@@ -108,6 +143,7 @@ const Table = ({
         title="确认删除该线索吗？"
         placement="topRight"
         onConfirm={() => deleteClue(data.clueId)}
+        hidden={!checkAuthority('tm/delete')}
       >
         <a>删除</a>
       </Popconfirm>

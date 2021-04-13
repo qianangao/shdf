@@ -53,7 +53,7 @@ const TransferClueForm = ({ form }) => {
     {
       label: '相关附件',
       name: 'files',
-      type: 'upload',
+      type: 'uploadSecrecy',
     },
     {
       name: 'line1',
