@@ -1,26 +1,8 @@
 import React from 'react';
 import AdvancedForm from '@/components/AdvancedForm';
-// import { checkPhone, checkEmail, checkTelephone } from '@/utils/validators';
+import { isNum } from '@/utils/validators';
 
 const AddressBookForm = ({ form }) => {
-  // const isInteger = (rule, value, callback) => {
-  //   if (!value) {
-  //     return callback(new Error('输入不可以为空'));
-  //   }
-  //   setTimeout(() => {
-  //     if (!Number(value)) {
-  //       callback(new Error('请输入正整数'));
-  //     } else {
-  //       const re = /^[0-9]*[1-9][0-9]*$/;
-  //       const rsCheck = re.test(value);
-  //       if (!rsCheck) {
-  //         callback(new Error('请输入正整数'));
-  //       } else {
-  //         callback();
-  //       }
-  //     }
-  //   }, 0);
-  // };
   const formItems = [
     { label: 'id', name: 'orgId', hidden: true, span: 2 },
     // {
@@ -91,9 +73,9 @@ const AddressBookForm = ({ form }) => {
       span: 1.5,
       rules: [
         {
-          required: true,
-          // validator: isInteger
+          validator: isNum,
         },
+        { max: 10, message: '序号长度请小于10位!' },
       ],
     },
 

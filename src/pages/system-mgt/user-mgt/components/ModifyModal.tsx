@@ -12,7 +12,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       new Promise(resolve => {
         dispatch({
           type: 'userMgt/getUserDetail',
-          payload: { userIds },
+          payload: { userId: userIds },
           resolve,
         });
       }).then(res => {

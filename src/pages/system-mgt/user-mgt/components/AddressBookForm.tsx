@@ -1,26 +1,31 @@
 import React from 'react';
 import AdvancedForm from '@/components/AdvancedForm';
-import { checkPhone, checkEmail } from '@/utils/validators';
+import { checkPhone, checkEmail, isNum } from '@/utils/validators';
 import OrgMultiSelectInput from '@/components/OrgMultiSelectInput/index';
 
 const AddressBookForm = ({ form }) => {
-  // const validate = (value, callback) => {
+  // const isNum = (value, callback) => {
   //   if (!value) {
-  //     return callback(new Error('请输入数字'));
-  //   }
-  //   setTimeout(() => {
-  //     if (!Number(value)) {
+  //     return callback(new Error('输入不可以为空'));
+  //   } else if (!Number(value)) {
+  //     callback(new Error('请输入正整数'));
+  //   } else {
+  //     const re = /^[0-9]*[1-9][0-9]*$/;
+  //     const rsCheck = re.test(value);
+  //     if (!rsCheck) {
   //       callback(new Error('请输入正整数'));
   //     } else {
-  //       const re = /^[0-9]*[1-9][0-9]*$/;
-  //       const rsCheck = re.test(value);
-  //       if (!rsCheck) {
-  //         callback(new Error('请输入正整数'));
-  //       } else {
-  //         callback();
-  //       }
+  //       callback();
   //     }
-  //   }, 0);
+  //   }
+  // };
+  // const isNum = (rule, value, callback) => {
+  //   const age = /^[0-9]*$/;
+  //   if (!age.test(value)) {
+  //     callback(new Error('年龄只能为数字'));
+  //   } else {
+  //     callback();
+  //   }
   // };
   const formItems = [
     { label: 'id', name: 'userId', hidden: true },
@@ -105,10 +110,7 @@ const AddressBookForm = ({ form }) => {
       label: '序号',
       name: 'orderNum',
       span: 1,
-      rules: [
-        // { required: true, validator: validate },
-        { max: 10, message: '序号长度请小于10位!' },
-      ],
+      rules: [{ validator: isNum }, { max: 10, message: '序号长度请小于10位!' }],
     },
     {
       label: '用户类型',
