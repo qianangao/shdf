@@ -50,7 +50,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       .then(() => {
         const event = new CustomEvent('changeLanguage', {
           detail: {
-            data: '11111',
+            data: 'SmallModal',
           },
           bubbles: true, // 是否冒泡
           cancelable: false, // 是否取消默认事件

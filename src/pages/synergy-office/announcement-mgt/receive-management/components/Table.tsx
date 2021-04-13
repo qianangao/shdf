@@ -2,6 +2,7 @@ import React from 'react';
 import { getSecrecyRowClassName } from '@/utils/secrecy';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
+import { checkAuthority } from '@/utils/authority';
 
 const Table = ({ soAnnouncementMgt, openDetailModal, replyModal, dispatch, enums }) => {
   const { tableRef } = soAnnouncementMgt;
@@ -49,11 +50,16 @@ const Table = ({ soAnnouncementMgt, openDetailModal, replyModal, dispatch, enums
         <a
           key={`${data.noticeId}detail`}
           onClick={() => openDetailModal(data.readingId, data.readingState, 'receive')}
+          hidden={!checkAuthority('so/am/rem/det')}
         >
           查看
         </a>,
         data && data.readingState === 0 && (
-          <a key={`${data.noticeId}reply`} onClick={() => replyModal(data.readingId)}>
+          <a
+            key={`${data.noticeId}reply`}
+            onClick={() => replyModal(data.readingId)}
+            hidden={!checkAuthority('so/am/rem/reply')}
+          >
             回复
           </a>
         ),
