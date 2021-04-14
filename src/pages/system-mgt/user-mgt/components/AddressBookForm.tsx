@@ -1,7 +1,8 @@
 import React from 'react';
 import AdvancedForm from '@/components/AdvancedForm';
 import { checkPhone, checkEmail, isNum } from '@/utils/validators';
-import OrgMultiSelectInput from '@/components/OrgMultiSelectInput/index';
+// import OrgMultiSelectInput from '@/components/OrgMultiSelectInput/index';
+import OrgSelectInput from '@/components/OrgMultiSelectInput/SelectSingleInput';
 
 const AddressBookForm = ({ form }) => {
   // const isNum = (value, callback) => {
@@ -63,7 +64,7 @@ const AddressBookForm = ({ form }) => {
       name: 'orgObj',
       span: 1,
       rules: [{ required: true, message: '请选择所在机构!' }],
-      render: <OrgMultiSelectInput />,
+      render: <OrgSelectInput />,
     },
 
     {
@@ -110,7 +111,10 @@ const AddressBookForm = ({ form }) => {
       label: '序号',
       name: 'orderNum',
       span: 1,
-      rules: [{ validator: isNum }, { max: 10, message: '序号长度请小于10位!' }],
+      rules: [
+        { required: true, validator: isNum },
+        { max: 10, message: '序号长度请小于10位!' },
+      ],
     },
     {
       label: '用户类型',

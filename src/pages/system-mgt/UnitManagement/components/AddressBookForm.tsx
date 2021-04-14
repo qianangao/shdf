@@ -18,26 +18,32 @@ const AddressBookForm = ({ form }) => {
     {
       label: '机构名称',
       name: 'orgName',
-      span: 1.5,
+      span: 1,
       rules: [{ required: true, message: '请输入机构名称!' }],
     },
+    // {
+    //   label: '上级机构',
+    //   name: 'orgId',
+    //   span: 1,
+    //   rules: [{ required: true, message: '请输入上级机构!' }],
+    // },
     {
       label: '机构代号',
       name: 'orgCode',
-      span: 1.5,
+      span: 1,
       rules: [{ required: true, message: '请输入机构代号!' }],
     },
     {
       label: '机构类型',
       name: 'orgKind',
-      span: 1.5,
+      span: 1,
       rules: [{ required: true, message: '请输入机构类型!' }],
     },
 
     {
       label: '机构性质',
       name: 'orgNature',
-      span: 1.5,
+      span: 1,
       // extraProps: {
       //   placeholder: '010-88888888',
       // },
@@ -46,31 +52,31 @@ const AddressBookForm = ({ form }) => {
     {
       label: '机构简称',
       name: 'orgSimpleName',
-      span: 1.5,
+      span: 1,
       rules: [{ required: true, message: '请输入机构简称!' }],
     },
     {
       label: '主管人员',
       name: 'chargePerson',
-      span: 1.5,
+      span: 1,
       rules: [{ required: true, message: '请输入主管人员!' }],
     },
     {
       label: '职能描述',
       name: 'functionDesc',
-      span: 1.5,
+      span: 1,
       rules: [{ required: true, message: '请输入职能描述!' }],
     },
     {
       label: '机构分类',
       name: 'orgType',
-      span: 1.5,
+      span: 1,
       rules: [{ required: true, message: '请输入机构分类!' }],
     },
     {
       label: '机构命令代号',
       name: 'orgOrder',
-      span: 1.5,
+      span: 1,
       rules: [
         {
           validator: isNum,

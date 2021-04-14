@@ -18,7 +18,7 @@ const routes = {
       component: './system-mgt/UnitManagement',
       icon: 'setting',
       remark: '组织管理',
-      authority: 'sm/um',
+      authority: 'sm/unm',
     },
     {
       path: '/system-mgt/user-mgt',
