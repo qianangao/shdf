@@ -57,7 +57,7 @@ const ModifyDictModal = ({ dispatch, actionRef, loading }) => {
 
   return (
     <Modal
-      title={`${detailDictData ? '修改类型' : '新增类型'}`}
+      title={`${detailDictData ? '修改字典类型' : '新增字典类型'}`}
       centered
       style={{ paddingBottom: 0 }}
       bodyStyle={{

@@ -34,7 +34,7 @@ const CaseHandleForm = ({ form, formData }) => {
       label: '附件列表',
       name: 'transmitFiles',
       span: 4,
-      type: 'upload',
+      type: 'uploadSecrecy',
     },
   ];
 

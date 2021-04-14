@@ -110,40 +110,98 @@ const CaseForm = ({ form, orgInfoData, specialList, id, caseType, onFieldsChange
     {
       label: '涉案数量',
       name: 'caseNumber',
+      rules: [
+        {
+          required: true,
+          pattern: new RegExp(/^[1-9]\d*$/, 'g'),
+          message: '请输入正确的涉案数量',
+        },
+      ],
     },
     {
       label: '涉案金额',
       name: 'caseMoney',
+      rules: [
+        {
+          pattern: new RegExp(/^[1-9]\d*$/, 'g'),
+          message: '请输入正确的涉案金额',
+        },
+      ],
+    },
+    {
+      label: '罪名',
+      name: 'charge',
+      enumsLabel: 'charge',
+      visible: caseType !== '1',
+      extraProps: {
+        mode: 'multiple',
+      },
     },
     {
       label: '抓获人数',
       name: 'capturePersonNum',
       visible: caseType !== '1',
+      rules: [
+        {
+          pattern: new RegExp(/^[1-9]\d*$/, 'g'),
+          message: '请输入正确的抓获人数',
+        },
+      ],
     },
     {
       label: '刑事拘留人数',
       name: 'detainPersonNum',
       visible: caseType !== '1',
+      rules: [
+        {
+          pattern: new RegExp(/^[1-9]\d*$/, 'g'),
+          message: '请输入正确的刑事拘留人数',
+        },
+      ],
     },
     {
       label: '逮捕人数',
       name: 'arrestPersonNum',
       visible: caseType !== '1',
+      rules: [
+        {
+          pattern: new RegExp(/^[1-9]\d*$/, 'g'),
+          message: '请输入正确的逮捕人数',
+        },
+      ],
     },
     {
       label: '判处被告人数量',
       name: 'defendantPersonNum',
       visible: caseType !== '1',
+      rules: [
+        {
+          pattern: new RegExp(/^[1-9]\d*$/, 'g'),
+          message: '请输入正确的判处被告人数量',
+        },
+      ],
     },
     {
       label: '判处被告单位数量',
       name: 'defendantUnitNum',
       visible: caseType !== '1',
+      rules: [
+        {
+          pattern: new RegExp(/^[1-9]\d*$/, 'g'),
+          message: '请输入正确的判处被告单位数量',
+        },
+      ],
     },
     {
       label: '最高刑期',
       name: 'highestPrisonTerm',
       visible: caseType !== '1',
+      rules: [
+        {
+          pattern: new RegExp(/^[1-9]\d*$/, 'g'),
+          message: '请输入正确的最高刑期',
+        },
+      ],
     },
     {
       label: '发生地域',
@@ -178,7 +236,7 @@ const CaseForm = ({ form, orgInfoData, specialList, id, caseType, onFieldsChange
       label: '相关附件',
       name: 'fileList',
       span: 4,
-      type: 'upload',
+      type: 'uploadSecrecy',
     },
   ];
 

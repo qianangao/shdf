@@ -204,7 +204,7 @@ const Model = {
         response.regionObj = { label: response.region, value: response.regionCode };
         response.platformType = response.platformType && response.platformType.split(',');
         response.spreadWay = response.spreadWay && response.spreadWay.split(',');
-
+        response.charge = response.charge && response.charge.split(',');
         if (response.specialActionIds) {
           response.specialActionIds = response.specialActionIds.join(',').split(',');
         }
@@ -225,7 +225,7 @@ const Model = {
       const response = yield call(updateCase, payload);
       if (!response.error) {
         resolve && resolve(response);
-        message.success('案件修改成功！');
+        message.success('敏感事件编辑成功！');
         yield put({
           type: 'tableReload',
         });
@@ -271,7 +271,7 @@ const Model = {
       const response = yield call(add, payload);
       if (!response.error) {
         resolve && resolve(response);
-        message.success('新增案件成功！');
+        message.success('新增敏感事件成功！');
         yield put({
           type: 'tableReload',
         });
@@ -282,7 +282,7 @@ const Model = {
       const response = yield call(addCaseHandle, payload);
       if (!response.error) {
         resolve && resolve(response);
-        message.success('新增案件办理成功！');
+        message.success('新增事件办理成功！');
         yield put({
           type: 'tableHandleReload',
         });

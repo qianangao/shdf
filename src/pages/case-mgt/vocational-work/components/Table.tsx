@@ -63,7 +63,7 @@ const Table = ({
       <a
         key={`${caseData.caseId}cat`}
         onClick={() => openDetailModal(caseData)}
-        hidden={!checkAuthority('cm/detail')}
+        hidden={!checkAuthority('cm/cm/detail')}
       >
         查看
       </a>
@@ -72,7 +72,7 @@ const Table = ({
       <a
         key={`${caseData.caseId}up`}
         onClick={() => openModifyModal(caseData)}
-        hidden={!checkAuthority('cm/update')}
+        hidden={!checkAuthority('cm/cm/update')}
       >
         编辑
       </a>
@@ -84,14 +84,14 @@ const Table = ({
         placement="topRight"
         onConfirm={() => del(caseData.caseId)}
       >
-        <a hidden={!checkAuthority('cm/delete')}>删除</a>
+        <a hidden={!checkAuthority('cm/cm/delete')}>删除</a>
       </Popconfirm>
     );
     const Auth = (
       <a
         key={`${caseData.caseId}role`}
         onClick={() => openAuthorizeModal(caseData)}
-        hidden={!checkAuthority('cm/auth')}
+        hidden={!checkAuthority('cm/cm/auth')}
       >
         授权
       </a>
@@ -103,7 +103,7 @@ const Table = ({
         placement="topRight"
         onConfirm={() => completed(caseData.caseId)}
       >
-        <a hidden={!checkAuthority('cm/finish')}>办结</a>
+        <a hidden={!checkAuthority('cm/cm/finish')}>办结</a>
       </Popconfirm>
     );
 
@@ -111,7 +111,7 @@ const Table = ({
       <a
         key={`${caseData.caseId}eval`}
         onClick={() => openEvaluateModal(caseData)}
-        hidden={!checkAuthority('cm/comment')}
+        hidden={!checkAuthority('cm/cm/comment')}
       >
         评价
       </a>
@@ -121,7 +121,7 @@ const Table = ({
       <a
         key={`${caseData.caseId}ev_ba`}
         onClick={() => openEvaluateFeedbackModal(caseData)}
-        hidden={!checkAuthority('cm/commentFeedback')}
+        hidden={!checkAuthority('cm/cm/commentFeedback')}
       >
         评价反馈
       </a>
@@ -152,7 +152,7 @@ const Table = ({
       <a
         key={`${caseData.caseId}app_re`}
         onClick={() => openApplyCaseModal(caseData)}
-        hidden={!checkAuthority('cm/applyRecord')}
+        hidden={!checkAuthority('cm/cm/applyRecord')}
       >
         申请备案
       </a>
@@ -164,14 +164,14 @@ const Table = ({
         placement="topRight"
         onConfirm={() => recall(caseData.caseId)}
       >
-        <a hidden={!checkAuthority('cm/recallRecord')}>撤回备案</a>
+        <a hidden={!checkAuthority('cm/cm/recallRecord')}>撤回备案</a>
       </Popconfirm>
     );
     const RecordApproval = (
       <a
         key={`${caseData.caseId}re_app`}
         onClick={() => openRecordApprovalModifyModal(caseData)}
-        hidden={!checkAuthority('cm/approvalRecord')}
+        hidden={!checkAuthority('cm/cm/approvalRecord')}
       >
         备案审批
       </a>
@@ -180,7 +180,7 @@ const Table = ({
       <a
         key={`${caseData.caseId}in_re`}
         onClick={() => openRecordDetailModal(caseData)}
-        hidden={!checkAuthority('cm/infoRecord')}
+        hidden={!checkAuthority('cm/cm/infoRecord')}
       >
         备案信息
       </a>
@@ -205,7 +205,7 @@ const Table = ({
       <a
         key={`${caseData.caseId}app_do`}
         onClick={() => openApplySuperviseModal(caseData)}
-        hidden={!checkAuthority('cm/applySupervise')}
+        hidden={!checkAuthority('cm/cm/applySupervise')}
       >
         申请督办
       </a>
@@ -214,7 +214,7 @@ const Table = ({
       <a
         key={`${caseData.caseId}do`}
         onClick={() => openSuperviseModal(caseData)}
-        hidden={!checkAuthority('cm/supervise')}
+        hidden={!checkAuthority('cm/cm/supervise')}
       >
         督办
       </a>
@@ -223,7 +223,7 @@ const Table = ({
       <a
         key={`${caseData.caseId}pa_do`}
         onClick={() => openSuperviseApprovalModal(caseData)}
-        hidden={!checkAuthority('cm/approvalSupervise')}
+        hidden={!checkAuthority('cm/cm/approvalSupervise')}
       >
         督办审批
       </a>
@@ -235,14 +235,14 @@ const Table = ({
         placement="topRight"
         onConfirm={() => recallSupervise(caseData.caseId)}
       >
-        <a hidden={!checkAuthority('cm/recallSupervise')}>撤回督办</a>
+        <a hidden={!checkAuthority('cm/cm/recallSupervise')}>撤回督办</a>
       </Popconfirm>
     );
     const SuperviseDetail = (
       <a
         key={`${caseData.caseId}in_do`}
         onClick={() => openSuperviseDetailModal(caseData)}
-        hidden={!checkAuthority('cm/infoSupervise')}
+        hidden={!checkAuthority('cm/cm/infoSupervise')}
       >
         督办信息
       </a>
@@ -397,27 +397,31 @@ const Table = ({
       scroll={{ x: 'max-content' }}
       request={async params => getReceivingList(params)}
       toolBarRender={(_, { selectedRowKeys }) => [
-        <Button hidden={!checkAuthority('cm/add')} type="primary" onClick={() => openModifyModal()}>
+        <Button
+          hidden={!checkAuthority('cm/cm/add')}
+          type="primary"
+          onClick={() => openModifyModal()}
+        >
           新增
         </Button>,
         <Button
           type="primary"
           onClick={() => templateDownload()}
-          hidden={!checkAuthority('cm/download')}
+          hidden={!checkAuthority('cm/cm/download')}
         >
           模板下载
         </Button>,
         <>
           <input
             type="file"
-            hidden={!checkAuthority('cm/inport')}
+            hidden={!checkAuthority('cm/cm/inport')}
             name="file"
             onChange={importCase}
             style={{ display: 'none' }}
             ref={uploadLgbListRef}
           />
           <Button
-            hidden={!checkAuthority('cm/inport')}
+            hidden={!checkAuthority('cm/cm/inport')}
             type="primary"
             onClick={() => {
               uploadLgbListRef.current.click();
@@ -427,7 +431,7 @@ const Table = ({
           </Button>
         </>,
         <Button
-          hidden={!checkAuthority('cm/export')}
+          hidden={!checkAuthority('cm/cm/export')}
           type="primary"
           onClick={() => {
             exportCase(selectedRowKeys);
