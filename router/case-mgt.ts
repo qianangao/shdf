@@ -10,7 +10,7 @@ const routes = {
       component: './case-mgt/vocational-work',
       icon: 'aim',
       remark: '案件管理',
-      authority: 'cm',
+      authority: 'cm/cm',
     },
     {
       path: '/case-mgt',
