@@ -160,7 +160,7 @@ const SelectInput = ({ value, OrganizationTree, onChange, dispatch }) => {
         readOnly
         value={valueName}
         placeholder="请选择单位"
-        autoSize={{ minRows: 3, maxRows: 5 }}
+        autoSize={{ minRows: 1, maxRows: 5 }}
         onClick={showModal}
       />
       <Modal
