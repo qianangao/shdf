@@ -4,8 +4,8 @@ import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import CueAssociation from '@/components/CueAssociation';
 import { getSecrecyRowClassName } from '@/utils/secrecy';
-import AssociationDesc from './AssociationDesc';
 import { checkAuthority } from '@/utils/authority';
+import AssociationDesc from './AssociationDesc';
 
 let tempSelectData = [];
 const Table = ({
@@ -149,7 +149,7 @@ const Table = ({
       </Popconfirm>
     );
 
-    if (data.isCreateUser !== 0) {
+    if (data.isCreateUser !== false) {
       // 创建人
       switch (data.status) {
         case -1: // 已结束
@@ -167,7 +167,7 @@ const Table = ({
         default:
           return [CHECK];
       }
-    } else if (data.isTransferUser !== 0) {
+    } else if (data.isTransferUser !== false) {
       // 转办人
       switch (data.status) {
         case -1:
@@ -186,7 +186,7 @@ const Table = ({
         default:
           return [CHECK];
       }
-    } else if (data.isApprovalUser !== 0) {
+    } else if (data.isApprovalUser !== false) {
       // 审批人
       if (data.status === 5)
         // 待审核，有审核按钮
