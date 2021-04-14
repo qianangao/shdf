@@ -161,11 +161,15 @@ const CaresDetailModal = ({ dispatch, caseMgt, actionRef, enums }) => {
       </Descriptions>
 
       <Descriptions size="middle" column={1}>
-        <Descriptions.Item label="案件简要">{caseDetailData.brieflyCase}</Descriptions.Item>
+        <Descriptions.Item label="案件简要" style={{ whiteSpace: 'pre-wrap' }}>
+          {caseDetailData.brieflyCase}
+        </Descriptions.Item>
         {caseDetailData.caseType === 1 ? (
-          <Descriptions.Item label="行政处理结果">{caseDetailData.punishResult}</Descriptions.Item>
+          <Descriptions.Item label="行政处理结果" style={{ whiteSpace: 'pre-wrap' }}>
+            {caseDetailData.punishResult}
+          </Descriptions.Item>
         ) : (
-          <Descriptions.Item label="案件办理结果">
+          <Descriptions.Item label="案件办理结果" style={{ whiteSpace: 'pre-wrap' }}>
             {caseDetailData.sentenceResult}
           </Descriptions.Item>
         )}

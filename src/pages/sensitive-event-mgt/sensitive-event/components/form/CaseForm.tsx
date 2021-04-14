@@ -129,6 +129,15 @@ const CaseForm = ({ form, orgInfoData, specialList, id, caseType, onFieldsChange
       ],
     },
     {
+      label: '罪名',
+      name: 'charge',
+      enumsLabel: 'charge',
+      visible: caseType !== '1',
+      extraProps: {
+        mode: 'multiple',
+      },
+    },
+    {
       label: '抓获人数',
       name: 'capturePersonNum',
       visible: caseType !== '1',

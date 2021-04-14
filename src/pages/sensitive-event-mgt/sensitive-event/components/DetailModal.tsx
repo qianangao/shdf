@@ -67,6 +67,7 @@ const CaresDetailModal = ({ dispatch, sensitiveMgt, caseMgt, actionRef, enums })
     return <div style={{ marginBottom: 20 }} />;
   };
 
+  // @ts-ignore
   return (
     <Modal
       title="敏感事件详情"
@@ -134,6 +135,13 @@ const CaresDetailModal = ({ dispatch, sensitiveMgt, caseMgt, actionRef, enums })
         <Descriptions.Item label="涉案金额">{detailData.caseMoney}</Descriptions.Item>
         {detailData.eventType === 1 ? null : (
           <>
+            <Descriptions.Item label="罪名">
+              {enums.charge &&
+                detailData.charge &&
+                detailData.charge.map(id => {
+                  return `${enums.charge[id]} `;
+                })}
+            </Descriptions.Item>
             <Descriptions.Item label="抓获人数">{detailData.capturePersonNum}</Descriptions.Item>
             <Descriptions.Item label="刑事拘留人数">{detailData.detainPersonNum}</Descriptions.Item>
             <Descriptions.Item label="逮捕人数">{detailData.arrestPersonNum}</Descriptions.Item>
@@ -149,11 +157,18 @@ const CaresDetailModal = ({ dispatch, sensitiveMgt, caseMgt, actionRef, enums })
         <Descriptions.Item label="发生地域">{detailData.region}</Descriptions.Item>
       </Descriptions>
       <Descriptions size="middle" column={1}>
-        <Descriptions.Item label="简要案情">{detailData.briefCase}</Descriptions.Item>
+        <Descriptions.Item label="简要案情" style={{ whiteSpace: 'pre-wrap' }}>
+          {detailData.briefCase}
+        </Descriptions.Item>
+
         {detailData.eventType === 1 ? (
-          <Descriptions.Item label="具体判决结果">{detailData.punishResult}</Descriptions.Item>
+          <Descriptions.Item label="具体判决结果" style={{ whiteSpace: 'pre-wrap' }}>
+            {detailData.punishResult}
+          </Descriptions.Item>
         ) : (
-          <Descriptions.Item label="具体判决结果">{detailData.convictionsResult}</Descriptions.Item>
+          <Descriptions.Item label="具体判决结果" style={{ whiteSpace: 'pre-wrap' }}>
+            {detailData.convictionsResult}
+          </Descriptions.Item>
         )}
         {fileList(detailData.fileList)}
       </Descriptions>
