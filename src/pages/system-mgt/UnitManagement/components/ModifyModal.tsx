@@ -86,7 +86,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',
-        height: 'calc(75vh - 108px)',
+        height: 'calc(85vh - 108px)',
         overflow: 'auto',
       }}
       visible={modalVisible}

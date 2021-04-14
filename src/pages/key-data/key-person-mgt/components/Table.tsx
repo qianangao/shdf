@@ -3,6 +3,7 @@ import { Button, message, Popconfirm } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import { getSecrecyRowClassName } from '@/utils/secrecy';
+import { checkAuthority } from '@/utils/authority';
 
 const Table = ({
   kdKeyPersonMgt,
@@ -25,13 +26,13 @@ const Table = ({
       width: 64,
     },
     { title: '姓名', align: 'center', dataIndex: 'personName' },
-    { title: '证件号码', align: 'center', dataIndex: 'idCard' },
     {
       title: '性别',
       align: 'center',
       dataIndex: 'sex',
       valueEnum: enums.dict_sex,
     },
+    { title: '证件号码', align: 'center', dataIndex: 'idCard' },
     { title: '年龄', align: 'center', dataIndex: 'age' },
     {
       title: '出生地',
@@ -59,10 +60,18 @@ const Table = ({
       width: 180,
       fixed: 'right',
       render: (dom: any, data: { personId: any }) => [
-        <a key={`${data.personId}up`} onClick={() => openModifyModal(data.personId)}>
+        <a
+          key={`${data.personId}up`}
+          onClick={() => openModifyModal(data.personId)}
+          hidden={!checkAuthority('kd/kpm/update')}
+        >
           编辑
         </a>,
-        <a key={`${data.personId}detail`} onClick={() => openDetailModal(data.personId)}>
+        <a
+          key={`${data.personId}detail`}
+          onClick={() => openDetailModal(data.personId)}
+          hidden={!checkAuthority('kd/kpm/detail')}
+        >
           查看
         </a>,
         <Popconfirm
@@ -71,9 +80,13 @@ const Table = ({
           placement="topRight"
           onConfirm={() => deleteKeyPerson(data.personId)}
         >
-          <a>删除</a>
+          <a hidden={!checkAuthority('kd/kpm/delete')}>删除</a>
         </Popconfirm>,
-        <a key={`${data.personId}auth`} onClick={() => openAuthModal(data.personId)}>
+        <a
+          key={`${data.personId}auth`}
+          onClick={() => openAuthModal(data.personId)}
+          hidden={!checkAuthority('kd/kpm/authUser')}
+        >
           授权
         </a>,
       ],
@@ -152,10 +165,18 @@ const Table = ({
       scroll={{ x: 'max-content' }}
       request={async params => getKeyPerson(params)}
       toolBarRender={(_, { selectedRowKeys }) => [
-        <Button type="primary" onClick={() => openModifyModal()}>
+        <Button
+          type="primary"
+          onClick={() => openModifyModal()}
+          hidden={!checkAuthority('kd/kpm/add')}
+        >
           新增
         </Button>,
-        <Button type="primary" onClick={() => templateDownload()}>
+        <Button
+          type="primary"
+          onClick={() => templateDownload()}
+          hidden={!checkAuthority('kd/kpm/download')}
+        >
           模板下载
         </Button>,
         <>
@@ -171,6 +192,7 @@ const Table = ({
             onClick={() => {
               uploadRef.current.click();
             }}
+            hidden={!checkAuthority('kd/kpm/import')}
           >
             导入
           </Button>
@@ -180,6 +202,7 @@ const Table = ({
           onClick={() => {
             exportPerson(selectedRowKeys);
           }}
+          hidden={!checkAuthority('kd/kpm/export')}
         >
           导出
         </Button>,
