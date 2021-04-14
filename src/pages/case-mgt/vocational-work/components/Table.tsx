@@ -5,7 +5,6 @@ import { connect } from 'umi';
 import { getSecrecyRowClassName } from '@/utils/secrecy';
 import { checkAuthority } from '@/utils/authority';
 
-
 const Table = ({
   caseMgt,
   openAuthorizeModal,

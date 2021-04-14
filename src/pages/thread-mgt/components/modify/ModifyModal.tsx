@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect, useLocation } from 'umi';
 import { Modal, Spin } from 'antd';
 import AddThreadForm from './AddThreadForm';
+// import { LocalCache } from '@/utils/storage';
 
 const useQuery = () => new URLSearchParams(useLocation().search);
 
@@ -45,6 +46,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, emClueManagement }) => {
                   secrecyLevel: item.secrecyLevel,
                 };
               }),
+            involvingLocalCode: data.involvingLocalCode,
             regionObj: { label: data.region, value: data.regionCode },
           };
           form.setFieldsValue(fields);
@@ -99,9 +101,13 @@ const ModifyModal = ({ dispatch, actionRef, loading, emClueManagement }) => {
           message.error('附件密级不能大于该数据密级！');
           return '';
         }
+        // const arr1 = LocalCache.get('areaInfo');
+        // let involvingLocal = arr1.fliter(item => {
+        //   return item.value === values.involvingLocalCode;
+        // });
+        // involvingLocal = involvingLocal.label;
         const regionCode = values.regionObj && values.regionObj.value;
         const region = values.regionObj && values.regionObj.label;
-
         return new Promise(resolve => {
           dispatch({
             type: `emClueManagement/${clueId ? 'editClue' : 'addClues'}`,
@@ -111,6 +117,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, emClueManagement }) => {
               fileIds,
               regionCode,
               region,
+              // involvingLocal,
             },
             resolve,
           });
