@@ -1,5 +1,6 @@
 import React from 'react';
 import AdvancedForm from '@/components/AdvancedForm';
+// import { DatePicker } from 'antd';
 // import { connect } from 'umi';
 // import { checkPhone } from '@/utils/validators';
 
@@ -14,6 +15,7 @@ const TempProvinceForm = ({ form }) => {
       label: '年份',
       name: 'year',
       span: 2,
+      // render: <DatePicker picker="year" />,
     },
     {
       label: '联络人',

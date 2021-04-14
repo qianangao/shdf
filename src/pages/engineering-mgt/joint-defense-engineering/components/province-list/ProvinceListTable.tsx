@@ -34,17 +34,32 @@ const ProvinceListTable = ({
 
   const confirmDelete = ele => {
     const data = dataSource;
-    data.forEach(item => {
-      if (item.id === ele.id || item.provinceId === ele.provinceId) {
-        for (let i = 0; i < data.length; i++) {
-          if (data[i].feedbackId === ele.feedbackId) {
-            data.splice(i, 1);
-          }
-        }
+    // let arr1 = [];
+    // arr1 = data.map(item => {
+    //   if (item.id !== ele.id) {
+    //     return item;
+    //   }
+    for (let i = 0; i < dataSource.length; i++) {
+      const element = dataSource[i];
+      if (element.id === ele.id) {
+        data.splice(i, 1);
         setDataSource([...data]);
         onChange && onChange([...data]);
+        break;
       }
-    });
+    }
+
+    // data.forEach(item => {
+    //   if (item.id === ele.id || item.provinceId === ele.provinceId) {
+    //     for (let i = 0; i < data.length; i++) {
+    //       if (data[i].feedbackId === ele.feedbackId) {
+    //         data.splice(i, 1);
+    //       }
+    //     }
+    //     setDataSource([...data]);
+    //     onChange && onChange([...data]);
+    //   }
+    // });
   };
 
   const addFeedback = () => {
@@ -58,7 +73,8 @@ const ProvinceListTable = ({
 
   const handleOk = () => {
     form.validateFields().then(values => {
-      setId(id + 1);
+      const timestamp = new Date().valueOf();
+      setId(timestamp);
       values.id = id;
       const arr = [];
       arr.push(values);
@@ -118,10 +134,10 @@ const ProvinceListTable = ({
       title: '操作',
       dataIndex: 'action',
       key: 'action',
-      render: (dom, data, index) => [
+      render: (dom, data) => [
         <Popconfirm
           title="你确定要删除该成员省份吗？"
-          onConfirm={() => confirmDelete({ id: index + 1, provinceId: data.provinceId })}
+          onConfirm={() => confirmDelete(data)}
           okText="是"
           cancelText="否"
         >

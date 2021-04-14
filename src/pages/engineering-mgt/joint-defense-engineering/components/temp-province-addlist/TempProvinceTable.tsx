@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Table, Popconfirm, Modal } from 'antd';
+import { Button, Table, Popconfirm, Modal, DatePicker } from 'antd';
 import { connect } from 'umi';
 import AdvancedForm from '@/components/AdvancedForm';
 import { checkPhone } from '@/utils/validators';
@@ -34,17 +34,26 @@ const ProvinceListTable = ({
 
   const confirmDelete = ele => {
     const data = dataSource;
-    data.forEach(item => {
-      if (item.id === ele.id || item.provinceId === ele.provinceId) {
-        for (let i = 0; i < data.length; i++) {
-          if (data[i].feedbackId === ele.feedbackId) {
-            data.splice(i, 1);
-          }
-        }
+    for (let i = 0; i < dataSource.length; i++) {
+      const element = dataSource[i];
+      if (element.id === ele.id) {
+        data.splice(i, 1);
         setDataSource([...data]);
         onChange && onChange([...data]);
+        break;
       }
-    });
+    }
+    // data.forEach(item => {
+    //   if (item.id === ele.id || item.provinceId === ele.provinceId) {
+    //     for (let i = 0; i < data.length; i++) {
+    //       if (data[i].feedbackId === ele.feedbackId) {
+    //         data.splice(i, 1);
+    //       }
+    //     }
+    //     setDataSource([...data]);
+    //     onChange && onChange([...data]);
+    //   }
+    // });
   };
 
   const addFeedback = () => {
@@ -58,14 +67,16 @@ const ProvinceListTable = ({
 
   const handleOk = () => {
     form.validateFields().then(values => {
-      setId(id + 1);
+      const timestamp = new Date().valueOf();
+      setId(timestamp);
       values.id = id;
+      values.year = values.year.format('YYYY');
       const arr = [];
       arr.push(values);
       setDataSource([...dataSource, ...arr]);
       onChange && onChange([...dataSource, ...arr]);
+      handleCancel();
     });
-    handleCancel();
   };
 
   const formItems = [
@@ -79,6 +90,8 @@ const ProvinceListTable = ({
       label: '年份',
       name: 'year',
       span: 2,
+      render: <DatePicker picker="year" style={{ width: '100%' }} />,
+      rules: [{ required: true, message: '请输入年份!' }],
     },
     {
       label: '联络人',
@@ -123,10 +136,10 @@ const ProvinceListTable = ({
       title: '操作',
       dataIndex: 'action',
       key: 'action',
-      render: (dom, data, index) => [
+      render: (dom, data) => [
         <Popconfirm
           title="你确定要删除该成员省份吗？"
-          onConfirm={() => confirmDelete({ id: index + 1, provinceId: data.provinceId })}
+          onConfirm={() => confirmDelete(data)}
           okText="是"
           cancelText="否"
         >
