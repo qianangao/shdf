@@ -82,7 +82,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
     <Modal
       title={orgId ? '编辑' : '新增'}
       centered
-      width="680px"
+      width="90vw"
       style={{ paddingBottom: 0 }}
       bodyStyle={{
         padding: '30px 60px',

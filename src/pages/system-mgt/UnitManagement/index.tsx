@@ -19,8 +19,15 @@ const AddressBook = ({ dispatch }) => {
     });
   }, []);
 
-  const orgChangeHander = id => {
-    setOrgPid(id);
+  // const orgChangeHander = id => {
+
+  // };
+  const orgChangeHander = orgId => {
+    setOrgPid(orgId);
+    dispatch({
+      type: 'guanli/getListTable',
+      payload: { orgId },
+    });
   };
 
   const openModifyModal = item => {

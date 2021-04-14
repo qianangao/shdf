@@ -8,11 +8,25 @@ const Model = {
     tableRef: {},
     addressListData: {},
     OrgListDetailData: {},
+    orgId: '',
   },
   effects: {
-    *getOrgList({ payload, resolve }, { call, put }) {
+    *getListTable({ payload }, { put }) {
+      yield put({
+        type: 'save',
+        payload: {
+          orgId: payload.orgId,
+        },
+      });
+      yield put({
+        type: 'tableReload',
+      });
+    },
+    *getOrgList({ payload, resolve }, { call, put, select }) {
+      const orgId = yield select(state => state.guanli.orgId);
       const params = {
         ...payload,
+        orgId,
         pageNum: payload.current ? payload.current : 1,
         pageSize: payload.pageSize ? payload.pageSize : 20,
       };
