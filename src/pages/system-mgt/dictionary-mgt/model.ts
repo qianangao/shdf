@@ -24,7 +24,7 @@ const Model = {
       const response = yield call(addDict, payload);
       if (!response.error) {
         resolve && resolve(response);
-        message.success('字典信息新增成功！');
+        message.success('字典新增成功！');
 
         yield put({
           type: 'fieldTableReload',
@@ -35,7 +35,7 @@ const Model = {
       const response = yield call(updateDict, payload);
       if (!response.error) {
         resolve && resolve(response);
-        message.success('字段信息修改成功！');
+        message.success('字段修改成功！');
 
         yield put({
           type: 'fieldTableReload',
@@ -46,7 +46,7 @@ const Model = {
       const response = yield call(deleteDicts, payload);
       if (!response.error) {
         resolve && resolve(response);
-        message.success('字典信息删除成功！');
+        message.success('字典删除成功！');
 
         yield put({
           type: 'fieldTableReload',
@@ -86,7 +86,7 @@ const Model = {
       const response = yield call(addType, payload);
       if (!response.error) {
         resolve && resolve(response);
-        message.success('字段信息新增成功！');
+        message.success('字典类型新增成功！');
 
         yield put({
           type: 'tableReload',
@@ -97,7 +97,7 @@ const Model = {
       const response = yield call(updateType, payload);
       if (!response.error) {
         resolve && resolve(response);
-        message.success('字段信息修改成功！');
+        message.success('字典类型修改成功！');
 
         yield put({
           type: 'tableReload',
@@ -108,7 +108,7 @@ const Model = {
       const response = yield call(deleteTypes, payload);
       if (!response.error) {
         resolve && resolve(response);
-        message.success('字段信息删除成功！');
+        message.success('字典类型删除成功！');
 
         yield put({
           type: 'tableReload',

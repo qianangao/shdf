@@ -60,7 +60,7 @@ const FieldTable = ({ smDictionaryMgt, openDictModifyModal, dictTypeId, dispatch
   return (
     <ProTable
       rowKey="code"
-      headerTitle="字段信息"
+      headerTitle="字典列表"
       rowClassName={getSecrecyRowClassName}
       actionRef={fieldTableRef}
       search={false}

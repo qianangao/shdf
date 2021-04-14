@@ -27,7 +27,10 @@ const Table = ({ smDictionaryMgt, openModifyModal, changeTypeId, dispatch }) => 
       render: (dom: any, receivingData: { dictTypeId: any }) => [
         <a
           key={`${receivingData.dictTypeId}up`}
-          onClick={() => openModifyModal(receivingData)}
+          onClick={e => {
+            openModifyModal(receivingData);
+            e.stopPropagation();
+          }}
           hidden={!checkAuthority('sm/dim/updateType')}
         >
           修改
@@ -36,9 +39,12 @@ const Table = ({ smDictionaryMgt, openModifyModal, changeTypeId, dispatch }) => 
           key={`${receivingData.dictTypeId}del`}
           title="确认删除？"
           placement="topRight"
-          onConfirm={() => deleteTypes([receivingData.dictTypeId])}
+          onConfirm={e => deleteTypes([receivingData.dictTypeId], e)}
+          onCancel={e => e.stopPropagation()}
         >
-          <a hidden={!checkAuthority('sm/dim/deleteType')}>删除</a>
+          <a hidden={!checkAuthority('sm/dim/deleteType')} onClick={e => e.stopPropagation()}>
+            删除
+          </a>
         </Popconfirm>,
       ],
     },
@@ -53,17 +59,18 @@ const Table = ({ smDictionaryMgt, openModifyModal, changeTypeId, dispatch }) => 
       });
     });
 
-  const deleteTypes = ids => {
+  const deleteTypes = (ids, e) => {
     dispatch({
       type: 'smDictionaryMgt/deleteTypes',
       payload: { ids },
     });
+    e.stopPropagation();
   };
 
   return (
     <ProTable
       rowKey="dictTypeId"
-      headerTitle="字典信息"
+      headerTitle="字典类型列表"
       actionRef={tableRef}
       rowClassName={getSecrecyRowClassName}
       columnsStyle={{ cursor: 'pointer' }}

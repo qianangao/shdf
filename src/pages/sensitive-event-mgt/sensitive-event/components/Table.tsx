@@ -49,7 +49,7 @@ const Table = ({
       <a
         key={`${caseData.eventId}cat`}
         onClick={() => openDetailModal(caseData)}
-        hidden={!checkAuthority('sem/detail')}
+        hidden={!checkAuthority('sem/sem/detail')}
       >
         查看
       </a>
@@ -58,7 +58,7 @@ const Table = ({
       <a
         key={`${caseData.eventId}up`}
         onClick={() => openModifyModal(caseData)}
-        hidden={!checkAuthority('sem/update')}
+        hidden={!checkAuthority('sem/sem/update')}
       >
         编辑
       </a>
@@ -70,14 +70,14 @@ const Table = ({
         placement="topRight"
         onConfirm={() => del(caseData.eventId)}
       >
-        <a hidden={!checkAuthority('sem/delete')}>删除</a>
+        <a hidden={!checkAuthority('sem/sem/delete')}>删除</a>
       </Popconfirm>
     );
     const Auth = (
       <a
         key={`${caseData.eventId}role`}
         onClick={() => openAuthorizeModal(caseData)}
-        hidden={!checkAuthority('sem/auth')}
+        hidden={!checkAuthority('sem/sem/auth')}
       >
         授权
       </a>
@@ -89,7 +89,7 @@ const Table = ({
         placement="topRight"
         onConfirm={() => completed(caseData.eventId)}
       >
-        <a hidden={!checkAuthority('sem/finish')}>办结</a>
+        <a hidden={!checkAuthority('sem/sem/finish')}>办结</a>
       </Popconfirm>
     );
 
@@ -110,7 +110,7 @@ const Table = ({
       <a
         key={`${caseData.eventId}app_re`}
         onClick={() => openApplyCaseModal(caseData)}
-        hidden={!checkAuthority('sem/applyRecord')}
+        hidden={!checkAuthority('sem/sem/applyRecord')}
       >
         申请备案
       </a>
@@ -122,14 +122,14 @@ const Table = ({
         placement="topRight"
         onConfirm={() => recall(caseData.eventId)}
       >
-        <a hidden={!checkAuthority('sem/recallRecord')}>撤回备案</a>
+        <a hidden={!checkAuthority('sem/sem/recallRecord')}>撤回备案</a>
       </Popconfirm>
     );
     const RecordApproval = (
       <a
         key={`${caseData.eventId}re_app`}
         onClick={() => openRecordApprovalModifyModal(caseData)}
-        hidden={!checkAuthority('sem/approvalRecord')}
+        hidden={!checkAuthority('sem/sem/approvalRecord')}
       >
         备案审批
       </a>
@@ -138,7 +138,7 @@ const Table = ({
       <a
         key={`${caseData.eventId}in_re`}
         onClick={() => openRecordDetailModal(caseData)}
-        hidden={!checkAuthority('sem/infoRecord')}
+        hidden={!checkAuthority('sem/sem/infoRecord')}
       >
         备案信息
       </a>
@@ -279,20 +279,20 @@ const Table = ({
         <Button
           type="primary"
           onClick={() => openModifyModal()}
-          hidden={!checkAuthority('sem/add')}
+          hidden={!checkAuthority('sem/sem/add')}
         >
           新增
         </Button>,
         <Button
           type="primary"
           onClick={() => templateDownload()}
-          hidden={!checkAuthority('sem/download')}
+          hidden={!checkAuthority('sem/sem/download')}
         >
           模板下载
         </Button>,
         <>
           <input
-            hidden={!checkAuthority('sem/inport')}
+            hidden={!checkAuthority('sem/sem/inport')}
             type="file"
             name="file"
             onChange={importCase}
@@ -300,7 +300,7 @@ const Table = ({
             ref={uploadLgbListRef}
           />
           <Button
-            hidden={!checkAuthority('sem/inport')}
+            hidden={!checkAuthority('sem/sem/inport')}
             type="primary"
             onClick={() => {
               uploadLgbListRef.current.click();
@@ -310,7 +310,7 @@ const Table = ({
           </Button>
         </>,
         <Button
-          hidden={!checkAuthority('sem/export')}
+          hidden={!checkAuthority('sem/sem/export')}
           type="primary"
           onClick={() => {
             exportSensitive(selectedRowKeys);
