@@ -55,14 +55,14 @@ const Table = ({ guanli, openModifyModal, openDetailModal, dispatch }) => {
         <a
           key={`${data.orgId}detail`}
           onClick={() => openDetailModal(data.orgId)}
-          hidden={!checkAuthority('sm/um/detail')}
+          hidden={!checkAuthority('sm/unm/detail')}
         >
           查看
         </a>,
         <a
           key={`${data.orgId}up`}
           onClick={() => openModifyModal(data.orgId)}
-          hidden={!checkAuthority('sm/um/update')}
+          hidden={!checkAuthority('sm/unm/update')}
         >
           修改
         </a>,
@@ -72,7 +72,7 @@ const Table = ({ guanli, openModifyModal, openDetailModal, dispatch }) => {
           placement="topRight"
           onConfirm={() => deleteOrgList(data.orgId)}
         >
-          <a hidden={!checkAuthority('sm/um/detail')}>删除</a>
+          <a hidden={!checkAuthority('sm/unm/detail')}>删除</a>
         </Popconfirm>,
       ],
     },
@@ -153,7 +153,7 @@ const Table = ({ guanli, openModifyModal, openDetailModal, dispatch }) => {
           <Button
             type="primary"
             onClick={() => openModifyModal()}
-            hidden={!checkAuthority('sm/um/add')}
+            hidden={!checkAuthority('sm/unm/add')}
           >
             新增
           </Button>,

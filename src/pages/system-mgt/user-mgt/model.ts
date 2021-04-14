@@ -25,11 +25,26 @@ const Model = {
     usetListData: {},
     getAddroleData: {},
     getRoleData: {},
+    orgId: '',
   },
   effects: {
-    *getUserList({ payload, resolve }, { call }) {
+    *getListTable({ payload }, { put }) {
+      yield put({
+        type: 'save',
+        payload: {
+          orgId: payload.orgId,
+        },
+      });
+      yield put({
+        type: 'tableReload',
+      });
+    },
+
+    *getUserList({ payload, resolve }, { call, select }) {
+      const orgId = yield select(state => state.userMgt.orgId);
       const params = {
         ...payload,
+        orgId,
         pageNum: payload.current ? payload.current : 1,
         pageSize: payload.pageSize ? payload.pageSize : 20,
       };

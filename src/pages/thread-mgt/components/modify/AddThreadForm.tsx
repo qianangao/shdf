@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Descriptions, AutoComplete, Select } from 'antd';
 import AdvancedForm from '@/components/AdvancedForm';
 import ProvinceCascaderInput from '@/components/ProvinceCascaderInput';
@@ -10,6 +10,10 @@ const { Option } = Select;
 
 const AddThreadForm = ({ form, dispatch }) => {
   const [options, setOptions] = React.useState<{ value: string }[]>([]);
+  const [actionData, setActionData] = useState([]);
+  useEffect(() => {
+    setActionData(LocalCache.get('areaInfo'));
+  }, []);
   const onSearch = () => {
     // searchText: string
     // console.log(searchText);
@@ -90,12 +94,11 @@ const AddThreadForm = ({ form, dispatch }) => {
     },
     {
       label: '涉及地方',
-      name: 'regionObj',
+      name: 'involvingLocalCode',
       rules: [{ required: true, message: '请选择涉及地方!' }],
       render: (
-        // onChange={selecthandleChange}
         <Select>
-          {LocalCache.get('areaInfo').map(item => (
+          {actionData.map(item => (
             <Option key={item.value}>{item.label}</Option>
           ))}
         </Select>
@@ -127,7 +130,7 @@ const AddThreadForm = ({ form, dispatch }) => {
     },
     {
       label: '发生地域',
-      name: 'region',
+      name: 'regionObj',
       render: <ProvinceCascaderInput />,
       rules: [{ required: true, message: '请选择发生地域!' }],
     },

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { connect } from 'umi';
-// import OrgTreeLayout from '@/layouts/OrgTreeLayout';
+import OrgTreeLayout from '@/layouts/OrgTreeLayout';
 import Table from './components/Table';
 import ModifyModal from './components/ModifyModal';
 import DetailModal from './components/DetailModal';
@@ -23,12 +23,12 @@ const AddUser = ({ dispatch }) => {
     });
   }, []);
 
-  // const orgChangeHander = userId => {
-  //   dispatch({
-  //     type: 'userMgt/getUserList',
-  //     payload: { userId },
-  //   });
-  // };
+  const orgChangeHander = orgId => {
+    dispatch({
+      type: 'userMgt/getListTable',
+      payload: { orgId },
+    });
+  };
   const openDetailModal = (personId: any) => {
     detailRef.current.showModal(personId);
   };
@@ -45,21 +45,21 @@ const AddUser = ({ dispatch }) => {
   //   tableModifyRef.current.showModal(item);
   // };
   return (
-    // <OrgTreeLayout onOrgSelect={orgChangeHander}>
-    <div>
-      <Table
-        openModifyModal={openModifyModal}
-        openDetailModal={openDetailModal}
-        openRoleTableModal={openRoleTableModal}
-        openAddRoleModal={openAddRoleModal}
-      />
-      <ModifyModal actionRef={modifyRef} />
-      <DetailModal actionRef={detailRef} />
-      <RoleTableModal actionRef={roleTableRef} />
-      <AddRoleModal actionRef={addRoleRef} />
-      {/* <TableModifyModal actionRef={tableModifyRef} /> */}
-    </div>
-    // </OrgTreeLayout>
+    <OrgTreeLayout onOrgSelect={orgChangeHander}>
+      <div>
+        <Table
+          openModifyModal={openModifyModal}
+          openDetailModal={openDetailModal}
+          openRoleTableModal={openRoleTableModal}
+          openAddRoleModal={openAddRoleModal}
+        />
+        <ModifyModal actionRef={modifyRef} />
+        <DetailModal actionRef={detailRef} />
+        <RoleTableModal actionRef={roleTableRef} />
+        <AddRoleModal actionRef={addRoleRef} />
+        {/* <TableModifyModal actionRef={tableModifyRef} /> */}
+      </div>
+    </OrgTreeLayout>
   );
 };
 
