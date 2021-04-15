@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { connect, useLocation } from 'umi';
-import { Modal, Spin } from 'antd';
+import { Modal } from 'antd';
 import AddThreadForm from './AddThreadForm';
-// import { LocalCache } from '@/utils/storage';
 
 const useQuery = () => new URLSearchParams(useLocation().search);
 
-const ModifyModal = ({ dispatch, actionRef, loading, emClueManagement }) => {
+const ModifyModal = ({ dispatch, actionRef, addLoading, edirLoading, emClueManagement }) => {
   const query = useQuery();
   const { code } = emClueManagement;
   const [form] = AddThreadForm.useForm();
@@ -144,16 +143,15 @@ const ModifyModal = ({ dispatch, actionRef, loading, emClueManagement }) => {
       }}
       visible={modalVisible}
       onOk={handleOk}
-      confirmLoading={loading}
+      confirmLoading={addLoading || edirLoading}
       onCancel={hideModal}
     >
-      <Spin spinning={loading}>
-        <AddThreadForm form={form} />
-      </Spin>
+      <AddThreadForm form={form} />
     </Modal>
   );
 };
 export default connect(({ loading, emClueManagement }) => ({
-  loading: loading.models.emClueManagement,
+  addLoading: loading.effects['emClueManagement/addClues'],
+  edirLoading: loading.effects['emClueManagement/editClue'],
   emClueManagement,
 }))(ModifyModal);
