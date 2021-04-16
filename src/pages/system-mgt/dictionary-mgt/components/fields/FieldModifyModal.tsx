@@ -62,7 +62,7 @@ const DictionaryModifyModal = ({ dispatch, actionRef, dictTypeId, loading }) => 
 
   return (
     <Modal
-      title="编辑字段信息"
+      title={id ? '编辑字典' : '新增字典'}
       centered
       style={{ paddingBottom: 0 }}
       bodyStyle={{

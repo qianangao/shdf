@@ -4,23 +4,30 @@ import AdvancedForm from '@/components/AdvancedForm';
 import ProvinceCascaderInput from '@/components/ProvinceCascaderInput';
 import { connect } from 'umi';
 import { checkEmail, checkPhoneOrTelephone, checkPost } from '@/utils/validators';
-import { LocalCache } from '@/utils/storage';
 
-const { Option } = Select;
+let keyWordTimeFlag: any = 0;
 
-const AddThreadForm = ({ form, dispatch }) => {
+const AddThreadForm = ({ form, provinceData, dispatch }) => {
   const [options, setOptions] = React.useState<{ value: string }[]>([]);
-  const onSearch = () => {
-    // searchText: string
-    // console.log(searchText);
-  };
-  const onSelect = () => {
-    // data: string
-    // console.log('onSelect', data);
-  };
+
   useEffect(() => {
-    getList({ pageSize: 1000 });
+    dispatch({
+      type: 'globalProvince/getData',
+    });
   }, []);
+
+  const keyWordSearchHandler = searchText => {
+    if (keyWordTimeFlag > 0) {
+      clearTimeout(keyWordTimeFlag);
+    }
+
+    keyWordTimeFlag = setTimeout(() => {
+      getList({ pageSize: 10, keyWord: searchText });
+      clearTimeout(keyWordTimeFlag);
+      keyWordTimeFlag = 0;
+    }, 200);
+  };
+
   const getList = params => {
     new Promise(resolve => {
       dispatch({
@@ -29,17 +36,10 @@ const AddThreadForm = ({ form, dispatch }) => {
         resolve,
       });
     }).then(res => {
-      const keys = [];
-      res.data.map(item => {
-        return keys.push({ value: item.keyWord });
-      });
-      setOptions(keys);
+      setOptions(res.data.map(item => ({ value: item.keyWord })));
     });
   };
 
-  // function selecthandleChange(value) {
-  //   console.log(`selected ${value}`);
-  // }
   const formItems = [
     {
       name: '',
@@ -59,17 +59,7 @@ const AddThreadForm = ({ form, dispatch }) => {
         { min: 0, max: 100, message: '线索名称长度最多100字!' },
       ],
     },
-    // {
-    //   label: '发文时间',
-    //   name: 'createTime',
-    //   type: 'date',
-    //   rules: [{ required: true, message: '请选择发文时间!' }],
-    // },
-    // {
-    //   label: '摘要',
-    //   name: 'clueRemarks',
-    //   rules: [{ required: true, message: '请选择摘要' }],
-    // },
+
     {
       label: '线索类型',
       name: 'clueType',
@@ -90,13 +80,14 @@ const AddThreadForm = ({ form, dispatch }) => {
     },
     {
       label: '涉及地方',
-      name: 'regionObj',
+      name: 'involvingLocalCode',
       rules: [{ required: true, message: '请选择涉及地方!' }],
       render: (
-        // onChange={selecthandleChange}
         <Select>
-          {LocalCache.get('areaInfo').map(item => (
-            <Option key={item.value}>{item.label}</Option>
+          {provinceData.map(item => (
+            <Select.Option key={item.value} value={item.value}>
+              {item.label}
+            </Select.Option>
           ))}
         </Select>
       ),
@@ -127,7 +118,7 @@ const AddThreadForm = ({ form, dispatch }) => {
     },
     {
       label: '发生地域',
-      name: 'region',
+      name: 'regionObj',
       render: <ProvinceCascaderInput />,
       rules: [{ required: true, message: '请选择发生地域!' }],
     },
@@ -141,15 +132,10 @@ const AddThreadForm = ({ form, dispatch }) => {
       render: (
         <AutoComplete
           options={options}
-          onSelect={onSelect}
-          onSearch={onSearch}
-          placeholder="请输入关键词!"
+          onSearch={keyWordSearchHandler}
+          placeholder="请输入关键词"
         />
       ),
-      // enumsItems: {
-      //   '1': '交办',
-      //   '2': '协办',
-      // }
     },
     {
       label: '相关出版物',
@@ -272,7 +258,8 @@ const AddThreadForm = ({ form, dispatch }) => {
 };
 AddThreadForm.useForm = AdvancedForm.useForm;
 // export default AddThreadForm;
-export default connect(({ emClueManagement, global }) => ({
+export default connect(({ emClueManagement, globalProvince, global }) => ({
   emClueManagement,
   enums: global.enums,
+  provinceData: globalProvince.provinceData,
 }))(AddThreadForm);

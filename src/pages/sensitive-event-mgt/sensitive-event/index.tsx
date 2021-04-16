@@ -33,6 +33,7 @@ const CaseMgt = ({ dispatch }) => {
           'spread_form',
           'involved_platform_type',
           'case_type',
+          'charge',
           'case_nature',
           'case_source',
           'is_network_case',

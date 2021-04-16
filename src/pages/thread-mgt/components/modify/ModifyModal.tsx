@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { connect, useLocation } from 'umi';
-import { Modal, Spin } from 'antd';
+import { Modal } from 'antd';
 import AddThreadForm from './AddThreadForm';
 
 const useQuery = () => new URLSearchParams(useLocation().search);
 
-const ModifyModal = ({ dispatch, actionRef, loading, emClueManagement }) => {
+const ModifyModal = ({ dispatch, actionRef, addLoading, edirLoading, emClueManagement }) => {
   const query = useQuery();
   const { code } = emClueManagement;
   const [form] = AddThreadForm.useForm();
@@ -45,6 +45,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, emClueManagement }) => {
                   secrecyLevel: item.secrecyLevel,
                 };
               }),
+            involvingLocalCode: data.involvingLocalCode,
             regionObj: { label: data.region, value: data.regionCode },
           };
           form.setFieldsValue(fields);
@@ -99,9 +100,13 @@ const ModifyModal = ({ dispatch, actionRef, loading, emClueManagement }) => {
           message.error('附件密级不能大于该数据密级！');
           return '';
         }
+        // const arr1 = LocalCache.get('areaInfo');
+        // let involvingLocal = arr1.fliter(item => {
+        //   return item.value === values.involvingLocalCode;
+        // });
+        // involvingLocal = involvingLocal.label;
         const regionCode = values.regionObj && values.regionObj.value;
         const region = values.regionObj && values.regionObj.label;
-
         return new Promise(resolve => {
           dispatch({
             type: `emClueManagement/${clueId ? 'editClue' : 'addClues'}`,
@@ -111,6 +116,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, emClueManagement }) => {
               fileIds,
               regionCode,
               region,
+              // involvingLocal,
             },
             resolve,
           });
@@ -137,16 +143,15 @@ const ModifyModal = ({ dispatch, actionRef, loading, emClueManagement }) => {
       }}
       visible={modalVisible}
       onOk={handleOk}
-      confirmLoading={loading}
+      confirmLoading={addLoading || edirLoading}
       onCancel={hideModal}
     >
-      <Spin spinning={loading}>
-        <AddThreadForm form={form} />
-      </Spin>
+      <AddThreadForm form={form} />
     </Modal>
   );
 };
 export default connect(({ loading, emClueManagement }) => ({
-  loading: loading.models.emClueManagement,
+  addLoading: loading.effects['emClueManagement/addClues'],
+  edirLoading: loading.effects['emClueManagement/editClue'],
   emClueManagement,
 }))(ModifyModal);

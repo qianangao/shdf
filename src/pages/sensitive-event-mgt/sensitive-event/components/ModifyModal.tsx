@@ -75,6 +75,7 @@ const ModifyModal = ({ dispatch, actionRef, loading, sensitiveMgt, caseMgt }) =>
       .then(values => {
         let tempLevel = '';
         // values.specialActionIds = values.specialActionIds ? [values.specialActionIds] : [];
+        values.charge = Array.isArray(values.charge) ? values.charge.join(',') : values.charge;
         values.platformType = Array.isArray(values.platformType)
           ? values.platformType.join(',')
           : values.platformType;

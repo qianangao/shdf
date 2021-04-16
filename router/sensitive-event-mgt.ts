@@ -15,7 +15,7 @@ const routes = {
       component: './sensitive-event-mgt/sensitive-event',
       icon: 'setting',
       remark: '敏感事件管理',
-      authority: 'sem',
+      authority: 'sem/sem',
     },
   ],
 };

@@ -1,7 +1,6 @@
 import { connect } from 'umi';
 import { Cascader } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { LocalCache } from '@/utils/storage';
 
 const ProvinceCascaderInput = ({ provinceData, value, onChange, disabled, dispatch }) => {
   const [selectData, setSelectData] = useState({});
@@ -9,7 +8,6 @@ const ProvinceCascaderInput = ({ provinceData, value, onChange, disabled, dispat
     // 初始状态无areaPid
     dispatch({
       type: 'globalProvince/getData',
-      payload: { areaInfo: LocalCache.get('areaInfo') },
     });
   }, []);
 
