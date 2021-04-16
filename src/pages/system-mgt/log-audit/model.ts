@@ -1,4 +1,5 @@
 import { downloadXlsFile } from '@/utils';
+import moment from 'moment';
 import { exportLog, getList } from './service';
 
 const Model = {
@@ -14,7 +15,7 @@ const Model = {
     *exportLog({ _ }, { call }) {
       const response = yield call(exportLog);
       if (!response.error) {
-        yield downloadXlsFile(response, `案件管理列表${moment().format('MM-DD HH:mm:ss')}`);
+        yield downloadXlsFile(response, `日志列表${moment().format('MM-DD HH:mm:ss')}`);
       }
     },
     *getList({ payload, resolve }, { call }) {

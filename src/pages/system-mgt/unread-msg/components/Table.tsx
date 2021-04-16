@@ -3,13 +3,18 @@ import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import moment from 'moment';
 
-const Table = ({ logAudit, dispatch, openDetailModal , enums}) => {
+const Table = ({ logAudit, dispatch, openDetailModal, enums }) => {
   const { tableRef } = logAudit;
 
   const formatterTime = val => {
     return val ? moment(val).format('YYYY-MM-DD HH:mm:ss') : '';
   };
+  // const messageTypeEnums = {'value':[
+  //   {dictCode: "0",dictName: "传播物品牟利",dictTypeCode: "messageType"},
+  // ]}
 
+  // const B=[];
+  // B.push({dictCode: "0",dictName: "传播物品牟利",dictTypeCode: "messageType"})
   const columns = [
     {
       title: '消息ID',
@@ -17,7 +22,13 @@ const Table = ({ logAudit, dispatch, openDetailModal , enums}) => {
       hideInSearch: true,
       align: 'center',
     },
-    { title: '类型', align: 'center', dataIndex: 'messageType' ,  hideInSearch: true,},
+    {
+      title: '类型',
+      align: 'center',
+      dataIndex: 'messageType',
+      hideInSearch: true,
+      // valueEnum: B,
+    },
     { title: '名称', align: 'center', dataIndex: 'sendUserName', hideInSearch: true },
     // { title: '操作内容', align: 'center', dataIndex: 'sketch', hideInSearch: true },
     {
@@ -30,13 +41,7 @@ const Table = ({ logAudit, dispatch, openDetailModal , enums}) => {
     {
       title: '状态',
       align: 'center',
-      dataIndex: 'businessType',
-      hideInSearch: true,
-    },
-    {
-      title: '标记',
-      align: 'center',
-      dataIndex: 'businessType',
+      dataIndex: 'readStatus',
       valueEnum: enums.reading_state,
     },
     {
