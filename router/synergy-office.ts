@@ -5,6 +5,14 @@ const routes = {
   authority: 'so',
   routes: [
     {
+      path: '/synergy-office/dispatch-mgt',
+      name: 'synergy-office-dispatch-mgt',
+      component: './synergy-office/dispatch-mgt',
+      icon: 'read',
+      // authority:'so/ab',
+      remark: '发文管理',
+    },
+    {
       path: '/synergy-office/document-mgt',
       name: 'synergy-office-document-mgt',
       icon: 'reconciliation',

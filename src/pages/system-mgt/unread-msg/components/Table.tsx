@@ -9,12 +9,7 @@ const Table = ({ logAudit, dispatch, openDetailModal, enums }) => {
   const formatterTime = val => {
     return val ? moment(val).format('YYYY-MM-DD HH:mm:ss') : '';
   };
-  // const messageTypeEnums = {'value':[
-  //   {dictCode: "0",dictName: "传播物品牟利",dictTypeCode: "messageType"},
-  // ]}
 
-  // const B=[];
-  // B.push({dictCode: "0",dictName: "传播物品牟利",dictTypeCode: "messageType"})
   const columns = [
     {
       title: '消息ID',
@@ -27,7 +22,7 @@ const Table = ({ logAudit, dispatch, openDetailModal, enums }) => {
       align: 'center',
       dataIndex: 'messageType',
       hideInSearch: true,
-      // valueEnum: B,
+      valueEnum: enums.un_read_type,
     },
     { title: '名称', align: 'center', dataIndex: 'sendUserName', hideInSearch: true },
     // { title: '操作内容', align: 'center', dataIndex: 'sketch', hideInSearch: true },
