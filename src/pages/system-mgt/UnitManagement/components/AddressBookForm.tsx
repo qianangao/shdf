@@ -1,6 +1,7 @@
 import React from 'react';
 import AdvancedForm from '@/components/AdvancedForm';
 import { isNum } from '@/utils/validators';
+import OrgSelectInput from '@/components/OrgMultiSelectInput/SelectSingleInput';
 
 const AddressBookForm = ({ form }) => {
   const formItems = [
@@ -21,12 +22,13 @@ const AddressBookForm = ({ form }) => {
       span: 1,
       rules: [{ required: true, message: '请输入机构名称!' }],
     },
-    // {
-    //   label: '上级机构',
-    //   name: 'orgId',
-    //   span: 1,
-    //   rules: [{ required: true, message: '请输入上级机构!' }],
-    // },
+    {
+      label: '上级机构',
+      name: 'orgObj',
+      span: 1,
+      // rules: [{ required: true, message: '请输入上级机构!' }],
+      render: <OrgSelectInput />,
+    },
     {
       label: '机构代号',
       name: 'orgCode',
@@ -79,9 +81,10 @@ const AddressBookForm = ({ form }) => {
       span: 1,
       rules: [
         {
+          required: true,
           validator: isNum,
         },
-        { max: 10, message: '序号长度请小于10位!' },
+        // { max: 10, message: '序号长度请小于10位!' },
       ],
     },
 

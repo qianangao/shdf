@@ -113,7 +113,7 @@ const AddressBookForm = ({ form }) => {
       span: 1,
       rules: [
         { required: true, validator: isNum },
-        { max: 10, message: '序号长度请小于10位!' },
+        // { required: false, min: 0, max: 10, message: '序号长度请小于10位!' },
       ],
     },
     {
