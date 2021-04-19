@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Button, Modal, Popconfirm, message } from 'antd';
+import { Button, Popconfirm, message } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import { getSecrecyRowClassName } from '@/utils/secrecy';
@@ -378,11 +378,13 @@ const Table = ({
     e.target.value = '';
   };
 
-  const exportCase = () => {
-    // const bookIds = selectedRowKeys.join(',');
+  const exportCase = caseIds => {
+    // console.log(selectedRowKeys);return;
+    // const caseIds = selectedRowKeys.join(',');
     message.loading({ content: '文件导出，请稍后……', key: 'exportCase' });
     dispatch({
       type: 'caseMgt/exportCase',
+      payload: { caseIds },
     });
     message.destroy('error++');
   };
@@ -439,20 +441,20 @@ const Table = ({
         >
           导出
         </Button>,
-        selectedRowKeys && selectedRowKeys.length && (
-          <Button
-            onClick={() => {
-              Modal.confirm({
-                title: '确认删除所选择单位？该操作不可恢复',
-                onOk: () => {
-                  del(selectedRowKeys);
-                },
-              });
-            }}
-          >
-            批量删除
-          </Button>
-        ),
+        // selectedRowKeys && selectedRowKeys.length && (
+        //   <Button
+        //     onClick={() => {
+        //       Modal.confirm({
+        //         title: '确认删除所选择单位？该操作不可恢复',
+        //         onOk: () => {
+        //           del(selectedRowKeys);
+        //         },
+        //       });
+        //     }}
+        //   >
+        //     批量删除
+        //   </Button>
+        // ),
       ]}
       columns={columns}
     />

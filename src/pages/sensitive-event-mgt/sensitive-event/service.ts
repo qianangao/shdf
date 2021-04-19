@@ -259,8 +259,8 @@ export async function importCase(params) {
  */
 export async function exportCase(params) {
   return noErrorRequest(`/sensitiveEvent/excel/export`, {
-    method: 'GET',
+    method: 'POST',
+    data: params,
     responseType: 'blob',
-    params,
   });
 }

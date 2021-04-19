@@ -496,8 +496,8 @@ const Model = {
         yield downloadXlsFile(response, `案件管理模板`);
       }
     },
-    *exportCase({ _ }, { call }) {
-      const response = yield call(exportCase);
+    *exportCase({ payload }, { call }) {
+      const response = yield call(exportCase, payload);
       if (!response.error) {
         yield downloadXlsFile(response, `案件管理列表${moment().format('MM-DD HH:mm:ss')}`);
       }

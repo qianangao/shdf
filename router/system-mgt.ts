@@ -73,7 +73,7 @@ const routes = {
       name: 'system-mgt-unread-msg',
       component: './system-mgt/unread-msg',
       icon: 'setting',
-      remark: '未读消息',
+      remark: '消息列表',
     },
     {
       path: '/system-mgt',

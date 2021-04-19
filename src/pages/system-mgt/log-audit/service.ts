@@ -1,4 +1,4 @@
-import request from '@/utils/request';
+import request, { noErrorRequest } from '@/utils/request';
 // 查询字典信息  queryType: dict
 export async function getList(params) {
   return request(`/log-audit`, {
