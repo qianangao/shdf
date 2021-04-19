@@ -9,25 +9,6 @@ let keyWordTimeFlag: any = 0;
 
 const AddThreadForm = ({ form, provinceData, dispatch }) => {
   const [options, setOptions] = React.useState<{ value: string }[]>([]);
-
-  useEffect(() => {
-    dispatch({
-      type: 'globalProvince/getData',
-    });
-  }, []);
-
-  const keyWordSearchHandler = searchText => {
-    if (keyWordTimeFlag > 0) {
-      clearTimeout(keyWordTimeFlag);
-    }
-
-    keyWordTimeFlag = setTimeout(() => {
-      getList({ pageSize: 10, keyWord: searchText });
-      clearTimeout(keyWordTimeFlag);
-      keyWordTimeFlag = 0;
-    }, 200);
-  };
-
   const getList = params => {
     new Promise(resolve => {
       dispatch({
@@ -39,7 +20,17 @@ const AddThreadForm = ({ form, provinceData, dispatch }) => {
       setOptions(res.data.map(item => ({ value: item.keyWord })));
     });
   };
+  const keyWordSearchHandler = searchText => {
+    if (keyWordTimeFlag > 0) {
+      clearTimeout(keyWordTimeFlag);
+    }
 
+    keyWordTimeFlag = setTimeout(() => {
+      getList({ pageSize: 10, keyWord: searchText });
+      clearTimeout(keyWordTimeFlag);
+      keyWordTimeFlag = 0;
+    }, 200);
+  };
   const formItems = [
     {
       name: '',
@@ -254,6 +245,40 @@ const AddThreadForm = ({ form, provinceData, dispatch }) => {
       type: 'uploadSecrecy',
     },
   ];
+  // if (editObj && editObj.isCreateUser !== false && editObj.status === -1) {
+  //   const eidtItem = [
+  //     {
+  //       label: ' 是否满足立案条件',
+  //       name: 'satisfyCase',
+  //       render: (
+  //         <Radio.Group>
+  //           <Radio value={1}>是</Radio>
+  //           <Radio value={0}>否</Radio>
+  //         </Radio.Group>
+  //       ),
+  //       rules: [{ required: true, message: '请选择是否满足立案条件!' }],
+  //     },
+  //     {
+  //       label: '是否涉及敏感事件',
+  //       name: 'involveSensitive',
+  //       render: (
+  //         <Radio.Group>
+  //           <Radio value={1}>是</Radio>
+  //           <Radio value={0}>否</Radio>
+  //         </Radio.Group>
+  //       ),
+  //       rules: [{ required: true, message: '请选择是否涉及敏感事件!' }],
+  //     },
+  //   ];
+  //   formItems.concat(eidtItem);
+  // }
+
+  useEffect(() => {
+    dispatch({
+      type: 'globalProvince/getData',
+    });
+  }, []);
+
   return <AdvancedForm form={form} fields={formItems} />;
 };
 AddThreadForm.useForm = AdvancedForm.useForm;
