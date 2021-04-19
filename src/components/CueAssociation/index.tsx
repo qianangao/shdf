@@ -182,7 +182,7 @@ const CueAssociation = ({
   return (
     <>
       <Modal
-        title="串并联线索"
+        title="线索串并联"
         centered
         width="90vw"
         style={{ paddingBottom: 0 }}
@@ -199,7 +199,7 @@ const CueAssociation = ({
       >
         {views}
         <Button type="primary" onClick={() => setChildVisible(true)} disabled={loading}>
-          选择串并联线索
+          查找待串并联线索
         </Button>
         <ProTable
           search={false}
@@ -220,7 +220,7 @@ const CueAssociation = ({
           ]}
           pagination={false}
           rowKey="clueId"
-          headerTitle="待串并联线索"
+          headerTitle="待串并线索列表"
           actionRef={tableRef}
           scroll={{ x: 'max-content' }}
           rowSelection={{

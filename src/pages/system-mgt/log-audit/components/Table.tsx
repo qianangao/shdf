@@ -3,7 +3,7 @@ import { Button, message } from 'antd';
 import ProTable from '@ant-design/pro-table';
 import { connect } from 'umi';
 import moment from 'moment';
-import {getSecrecyRowClassName} from "@/utils/secrecy";
+import { getSecrecyRowClassName } from '@/utils/secrecy';
 
 const Table = ({ logAudit, dispatch, openDetailModal }) => {
   const { tableRef } = logAudit;
@@ -59,7 +59,7 @@ const Table = ({ logAudit, dispatch, openDetailModal }) => {
     // const bookIds = selectedRowKeys.join(',');
     message.loading({ content: '文件导出，请稍后……', key: 'importsAddressBook' });
     dispatch({
-      type: 'sensitiveMgt/exportLog',
+      type: 'logAudit/exportLog',
     });
     message.destroy('error++');
   };
