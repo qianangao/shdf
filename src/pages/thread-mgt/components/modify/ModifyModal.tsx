@@ -11,6 +11,7 @@ const ModifyModal = ({ dispatch, actionRef, addLoading, edirLoading, emClueManag
   const [form] = AddThreadForm.useForm();
   const [clueId, setClueId] = useState(undefined);
   const [modalVisible, setModalVisible] = useState(false);
+  const [eidtInfo, setEidtInfo] = useState('');
 
   const showModal = id => {
     setClueId(id);
@@ -49,6 +50,7 @@ const ModifyModal = ({ dispatch, actionRef, addLoading, edirLoading, emClueManag
             regionObj: { label: data.region, value: data.regionCode },
           };
           form.setFieldsValue(fields);
+          setEidtInfo(fields);
         }
       })
       .catch(_ => {});
@@ -146,7 +148,7 @@ const ModifyModal = ({ dispatch, actionRef, addLoading, edirLoading, emClueManag
       confirmLoading={addLoading || edirLoading}
       onCancel={hideModal}
     >
-      <AddThreadForm form={form} />
+      <AddThreadForm form={form} editObj={eidtInfo} />
     </Modal>
   );
 };

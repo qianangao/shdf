@@ -153,7 +153,7 @@ const Table = ({
       // 创建人
       switch (data.status) {
         case -1: // 已结束
-          return [CHECK, AUTH, LOG];
+          return [CHECK, AUTH, LOG, EDIT];
         case 0: // 已录入
         case 1: // 待办理
           return [CHECK, EDIT, AUTH, TRANSFER, HOST, FINISH, LOG, DELETE];
@@ -173,15 +173,15 @@ const Table = ({
         case -1:
           return [CHECK];
         case 0:
-          return [];
+          return [CHECK];
         case 1:
           return [CHECK, TRANSFER, HOST];
         case 3:
-          return [];
+          return [CHECK];
         case 4:
           return [CHECK, FEEDBACK];
         case 5:
-          return [];
+          return [CHECK];
         case 11:
         default:
           return [CHECK];
@@ -215,6 +215,22 @@ const Table = ({
       align: 'center',
       dataIndex: 'createTime',
       valueType: 'date',
+      hideInSearch: true,
+    },
+    {
+      title: '线索时间',
+      align: 'center',
+      dataIndex: 'createTime',
+      valueType: 'dateRange',
+      hideInTable: true,
+      search: {
+        transform: value => {
+          return {
+            reportDateStart: value[0].format('YYYY-MM-DD'),
+            reportDateEnd: value[1].format('YYYY-MM-DD'),
+          };
+        },
+      },
     },
     {
       title: '线索类型',

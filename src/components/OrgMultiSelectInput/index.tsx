@@ -129,7 +129,6 @@ const OrgMultiSelectInput = ({ value, OrganizationTree, onChange, dispatch }) =>
     const nameArr = [];
     checkedKeys.checked.forEach(id => {
       const name = treeItems.get(`${id}`);
-
       nameArr.push(name);
       orgArr.push({
         id,

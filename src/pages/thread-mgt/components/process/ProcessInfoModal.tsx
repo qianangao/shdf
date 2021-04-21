@@ -13,6 +13,24 @@ const ProcessInfoModal = ({ dispatch, actionRef, loading, transferModal, conclud
   const [approvalType, setApprovalType] = useState(0);
   const [clueData, setClueData] = useState({ clueId: undefined, sourceClueId: undefined });
 
+  const showModal = (item: any, type: string) => {
+    setClueData(item);
+    setCategory(type);
+    setModalVisible(true);
+  };
+  const handleModal = () => {
+    setModalVisible(false);
+  };
+  const hideModal = () => {
+    dispatch({
+      type: 'emClueManagement/removeProcessDetail',
+    });
+    setModalVisible(false);
+    setClueData({ clueId: undefined, sourceClueId: undefined });
+    setCategory('');
+    setApprovalType(0);
+    form.resetFields();
+  };
   const showCommitExamine = () => {
     commitModelRef.current.showModal(clueData.clueId, clueData.sourceClueId);
   };
@@ -24,7 +42,7 @@ const ProcessInfoModal = ({ dispatch, actionRef, loading, transferModal, conclud
   useEffect(() => {
     window.addEventListener(
       'changeLanguage',
-      function () {
+      () => {
         handleModal();
       },
       false,
@@ -38,23 +56,6 @@ const ProcessInfoModal = ({ dispatch, actionRef, loading, transferModal, conclud
     }
   }, []);
 
-  const showModal = (item: any, type: string) => {
-    setClueData(item);
-    setCategory(type);
-    setModalVisible(true);
-  };
-
-  const hideModal = () => {
-    dispatch({
-      type: 'emClueManagement/removeProcessDetail',
-    });
-    setModalVisible(false);
-    setClueData({ clueId: undefined, sourceClueId: undefined });
-    setCategory('');
-    setApprovalType(0);
-    form.resetFields();
-  };
-
   const feedbackClue = () => {
     form
       .validateFields()
@@ -67,7 +68,7 @@ const ProcessInfoModal = ({ dispatch, actionRef, loading, transferModal, conclud
                 ? JSON.parse(getUseInfo(USER_INFO)).orgName
                 : 'SHDF办公室',
               clueId: clueData.clueId,
-              // circulationId: clueData.sourceClueId,
+              circulationId: clueData.sourceClueId,
               ...values,
             },
             resolve,
@@ -144,23 +145,23 @@ const ProcessInfoModal = ({ dispatch, actionRef, loading, transferModal, conclud
   };
 
   const completed = () => {
-    return new Promise(resolve => {
-      dispatch({
-        type: 'emClueManagement/concludeTheMatter',
-        payload: {
-          clueId: clueData.clueId,
-          circulationId: clueData.sourceClueId,
-          processingResults: 1,
-        },
-        resolve,
+    if (category === 'feedback') {
+      handleModal();
+    } else {
+      new Promise(resolve => {
+        dispatch({
+          type: 'emClueManagement/concludeTheMatter',
+          payload: {
+            clueId: clueData.clueId,
+            circulationId: clueData.sourceClueId,
+            processingResults: 1,
+          },
+          resolve,
+        });
+      }).then(() => {
+        handleModal();
       });
-    });
-    // .then(res => {
-    //   handleModal();
-    // });
-  };
-  const handleModal = () => {
-    setModalVisible(false);
+    }
   };
 
   return (
@@ -178,15 +179,15 @@ const ProcessInfoModal = ({ dispatch, actionRef, loading, transferModal, conclud
       }}
       footer={[
         <Button key="back" onClick={completed} style={{ margin: '0 auto' }}>
-          办结
+          {category === 'feedback' ? '取消' : '办结'}
         </Button>,
         <Button
           key="submit"
           type="primary"
           loading={loading}
-          onClick={() => concludeRefModal(clueData)}
+          onClick={() => (category === 'feedback' ? feedbackClue() : concludeRefModal(clueData))}
         >
-          继续办理
+          {category === 'feedback' ? '保存' : '继续办理'}
         </Button>,
       ]}
       confirmLoading={loading}

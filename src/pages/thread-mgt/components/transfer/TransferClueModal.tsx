@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'umi';
-import { Modal } from 'antd';
+import { message, Modal } from 'antd';
 import TransferClueForm from './TransferClueForm';
 
 const ModifyModal = ({ dispatch, actionRef, loading }) => {
@@ -43,7 +43,15 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
     form
       .validateFields()
       .then((values: any) => {
-        return new Promise(resolve => {
+        const choosetime = new Date(Date.parse(values.deadline.replace(/-/g, '/'))).getTime();
+        const timeline = new Date().getTime();
+        if (timeline > choosetime) {
+          message.warning('选择时间必须大于当前时间');
+          return;
+        }
+        hideModal();
+        /* eslint-disable no-new */
+        new Promise(resolve => {
           dispatch({
             type: `emClueManagement/transferAssociation`,
             payload: {
@@ -56,9 +64,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
           });
         });
       })
-      .then(() => {
-        hideModal();
-      })
+      // .then(() => {})
       .catch((info: any) => {
         console.error('Validate Failed:', info);
       });
