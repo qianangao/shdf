@@ -173,15 +173,15 @@ const Table = ({
         case -1:
           return [CHECK];
         case 0:
-          return [];
+          return [CHECK];
         case 1:
           return [CHECK, TRANSFER, HOST];
         case 3:
-          return [];
+          return [CHECK];
         case 4:
           return [CHECK, FEEDBACK];
         case 5:
-          return [];
+          return [CHECK];
         case 11:
         default:
           return [CHECK];

@@ -68,7 +68,7 @@ const ProcessInfoModal = ({ dispatch, actionRef, loading, transferModal, conclud
                 ? JSON.parse(getUseInfo(USER_INFO)).orgName
                 : 'SHDF办公室',
               clueId: clueData.clueId,
-              // circulationId: clueData.sourceClueId,
+              circulationId: clueData.sourceClueId,
               ...values,
             },
             resolve,

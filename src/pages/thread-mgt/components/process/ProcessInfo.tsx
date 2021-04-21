@@ -10,7 +10,31 @@ const ProcessInfo = ({ dispatch, clueId, circulationId, processListData, enums, 
       payload: { clueId, circulationId },
     });
   }, [clueId]);
+  const fileList = (files: any[]) => {
+    if (files && files.length > 0) {
+      const views = files.map(item => {
+        return (
+          <div style={{ display: 'block', whiteSpace: 'nowrap', width: '60%' }}>
+            {' '}
+            <a
+              href={item.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ display: 'inline-block', width: '70%', paddingBottom: 5 }}
+            >
+              {item.fileName}
+            </a>
+            <div style={{ width: '30%', display: 'inline-block', textAlign: 'center' }}>
+              {formatDateStr(item.createTime, 'YYYY年MM月DD日 HH:mm')}
+            </div>
+          </div>
+        );
+      });
 
+      return <div style={{ marginBottom: 10, marginTop: 10 }}>{views}</div>;
+    }
+    return <div style={{ marginBottom: 10, marginTop: 10 }} />;
+  };
   const createDiv = (item: any) => {
     switch (item.circulationType) {
       case 1:
@@ -20,11 +44,12 @@ const ProcessInfo = ({ dispatch, clueId, circulationId, processListData, enums, 
             <div style={{ width: '100%', justifyContent: 'start', display: 'flex', marginTop: 15 }}>
               <span style={{ marginTop: 5, whiteSpace: 'nowrap' }}>转办单位：</span>
               <span style={{ border: '1px solid #f2f2f2', padding: '5px 20px', width: '100%' }}>
-                {item.targetUnit
+                {/* {item.targetUnit
                   .map((unit: string) => {
                     return JSON.parse(unit).name;
                   })
-                  .join(' ,  ')}
+                  .join(' ,  ')} */}
+                {item.targetUnit.join(', ')}
               </span>
             </div>
             <div style={{ width: '100%', justifyContent: 'start', display: 'flex', marginTop: 15 }}>
@@ -95,32 +120,6 @@ const ProcessInfo = ({ dispatch, clueId, circulationId, processListData, enums, 
       default:
         return '';
     }
-  };
-
-  const fileList = (files: any[]) => {
-    if (files && files.length > 0) {
-      const views = files.map(item => {
-        return (
-          <div style={{ display: 'block', whiteSpace: 'nowrap', width: '60%' }}>
-            {' '}
-            <a
-              href={item.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ display: 'inline-block', width: '70%', paddingBottom: 5 }}
-            >
-              {item.fileName}
-            </a>
-            <div style={{ width: '30%', display: 'inline-block', textAlign: 'center' }}>
-              {formatDateStr(item.createTime, 'YYYY年MM月DD日 HH:mm')}
-            </div>
-          </div>
-        );
-      });
-
-      return <div style={{ marginBottom: 10, marginTop: 10 }}>{views}</div>;
-    }
-    return <div style={{ marginBottom: 10, marginTop: 10 }} />;
   };
 
   return (

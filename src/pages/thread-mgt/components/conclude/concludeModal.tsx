@@ -80,6 +80,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
       onOk={handleOk}
       confirmLoading={loading}
       onCancel={hideModal}
+      zIndex={10000}
     >
       <ConcludeBookForm form={form} />
     </Modal>
