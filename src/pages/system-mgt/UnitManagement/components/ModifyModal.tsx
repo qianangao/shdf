@@ -7,11 +7,11 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
   const [form] = AddressBookForm.useForm();
   const [orgId, setOrgId] = useState(undefined);
   const [modalVisible, setModalVisible] = useState(false);
-  const [orgPid, setOrgPid] = useState(undefined);
+  // const [orgPid, setOrgPid] = useState(undefined);
 
-  const showModal = (id: any, pid: any) => {
+  const showModal = (id: any) => {
     setOrgId(id || undefined);
-    setOrgPid(pid || undefined);
+    // setOrgPid(pid || undefined);
     setModalVisible(true);
   };
 
@@ -22,6 +22,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
   }, [orgId]);
 
   useEffect(() => {
+    form.setFieldsValue((form.orgName = 1));
     if (actionRef && typeof actionRef === 'function') {
       actionRef({ showModal });
     }
@@ -33,7 +34,7 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
 
   const hideModal = () => {
     setOrgId(undefined);
-    setOrgPid(undefined);
+    // setOrgPid(undefined);
     setModalVisible(false);
     form.resetFields();
   };
@@ -48,7 +49,13 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
     })
       .then(data => {
         if (data) {
-          form.setFieldsValue(data);
+          form.setFieldsValue({
+            ...data,
+            orgObj: {
+              name: data.orgName,
+              id: data.orgPid,
+            },
+          });
         }
       })
       .catch(_ => {});
@@ -58,13 +65,16 @@ const ModifyModal = ({ dispatch, actionRef, loading }) => {
     form
       .validateFields()
       .then((values: any) => {
+        values.orgPid = values.orgObj.id;
         // values.orgOrder = parseInt(values.orgOrder)
         return new Promise(resolve => {
           dispatch({
             type: `guanli/${orgId ? 'updateOrgList' : 'addOrgList'}`,
             payload: {
               ...values,
-              orgPid,
+              // orgPid,
+              orgPid: values.orgObj.id,
+              // orgName: values.orgId.name,
             },
             resolve,
           });

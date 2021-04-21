@@ -299,8 +299,8 @@ export async function importCase(params) {
  */
 export async function exportCase(params) {
   return noErrorRequest(`/case/excel/export`, {
-    method: 'GET',
     responseType: 'blob',
-    params,
+    method: 'POST',
+    data: params,
   });
 }

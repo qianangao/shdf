@@ -6,7 +6,7 @@ import ModifyModal from './components/ModifyModal';
 import DetailModal from './components/DetailModal';
 
 const AddressBook = ({ dispatch }) => {
-  const [orgPid, setOrgPid] = useState(undefined);
+  const [orgPid] = useState(undefined);
   const modifyRef = useRef({});
   const detailRef = useRef({});
   // 字符串转义
@@ -23,7 +23,7 @@ const AddressBook = ({ dispatch }) => {
 
   // };
   const orgChangeHander = orgId => {
-    setOrgPid(orgId);
+    // setOrgPid(orgId);
     dispatch({
       type: 'guanli/getListTable',
       payload: { orgId },

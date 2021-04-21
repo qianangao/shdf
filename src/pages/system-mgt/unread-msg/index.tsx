@@ -10,7 +10,7 @@ const UnReadMsg = ({ dispatch }) => {
     dispatch({
       type: 'global/getEnums',
       payload: {
-        names: [ 'reading_state'],
+        names: ['reading_state', 'un_read_type'],
       },
     });
   }, []);
