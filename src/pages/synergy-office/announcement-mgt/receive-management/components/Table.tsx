@@ -81,7 +81,7 @@ const Table = ({ soAnnouncementMgt, openDetailModal, replyModal, dispatch, enums
 
   return (
     <ProTable
-      rowKey="noticeId"
+      rowKey="readingId"
       headerTitle="公告列表"
       actionRef={tableRef}
       scroll={{ x: 'max-content' }}
